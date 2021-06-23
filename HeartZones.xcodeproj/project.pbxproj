@@ -1,0 +1,804 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 50;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		B615E0272683BD1800B5DC91 /* HeartZones WatchKit App.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = B615E0262683BD1800B5DC91 /* HeartZones WatchKit App.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		B615E02C2683BD1900B5DC91 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B615E02B2683BD1900B5DC91 /* Assets.xcassets */; };
+		B615E0332683BD1900B5DC91 /* HeartZones WatchKit Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = B615E0322683BD1900B5DC91 /* HeartZones WatchKit Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		B615E0382683BD1900B5DC91 /* HeartZonesApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B615E0372683BD1900B5DC91 /* HeartZonesApp.swift */; };
+		B615E03A2683BD1900B5DC91 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B615E0392683BD1900B5DC91 /* ContentView.swift */; };
+		B615E03C2683BD1900B5DC91 /* NotificationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B615E03B2683BD1900B5DC91 /* NotificationController.swift */; };
+		B615E03E2683BD1900B5DC91 /* NotificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B615E03D2683BD1900B5DC91 /* NotificationView.swift */; };
+		B615E0402683BD1900B5DC91 /* ComplicationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B615E03F2683BD1900B5DC91 /* ComplicationController.swift */; };
+		B615E0422683BD1900B5DC91 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B615E0412683BD1900B5DC91 /* Assets.xcassets */; };
+		B615E0452683BD1900B5DC91 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B615E0442683BD1900B5DC91 /* Preview Assets.xcassets */; };
+		B615E0512683BD1900B5DC91 /* HeartZonesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B615E0502683BD1900B5DC91 /* HeartZonesTests.swift */; };
+		B615E05C2683BD1900B5DC91 /* HeartZonesUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B615E05B2683BD1900B5DC91 /* HeartZonesUITests.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		B615E0282683BD1800B5DC91 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = B615E01C2683BD1800B5DC91 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = B615E0252683BD1800B5DC91;
+			remoteInfo = "HeartZones WatchKit App";
+		};
+		B615E0342683BD1900B5DC91 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = B615E01C2683BD1800B5DC91 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = B615E0312683BD1900B5DC91;
+			remoteInfo = "HeartZones WatchKit Extension";
+		};
+		B615E04D2683BD1900B5DC91 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = B615E01C2683BD1800B5DC91 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = B615E0312683BD1900B5DC91;
+			remoteInfo = "HeartZones WatchKit Extension";
+		};
+		B615E0582683BD1900B5DC91 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = B615E01C2683BD1800B5DC91 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = B615E0252683BD1800B5DC91;
+			remoteInfo = "HeartZones WatchKit App";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		B615E0632683BD1900B5DC91 /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				B615E0332683BD1900B5DC91 /* HeartZones WatchKit Extension.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B615E0672683BD1900B5DC91 /* Embed Watch Content */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "$(CONTENTS_FOLDER_PATH)/Watch";
+			dstSubfolderSpec = 16;
+			files = (
+				B615E0272683BD1800B5DC91 /* HeartZones WatchKit App.app in Embed Watch Content */,
+			);
+			name = "Embed Watch Content";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		B615E0222683BD1800B5DC91 /* HeartZones.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HeartZones.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		B615E0262683BD1800B5DC91 /* HeartZones WatchKit App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "HeartZones WatchKit App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		B615E02B2683BD1900B5DC91 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		B615E02D2683BD1900B5DC91 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B615E0322683BD1900B5DC91 /* HeartZones WatchKit Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "HeartZones WatchKit Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
+		B615E0372683BD1900B5DC91 /* HeartZonesApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeartZonesApp.swift; sourceTree = "<group>"; };
+		B615E0392683BD1900B5DC91 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		B615E03B2683BD1900B5DC91 /* NotificationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationController.swift; sourceTree = "<group>"; };
+		B615E03D2683BD1900B5DC91 /* NotificationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationView.swift; sourceTree = "<group>"; };
+		B615E03F2683BD1900B5DC91 /* ComplicationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComplicationController.swift; sourceTree = "<group>"; };
+		B615E0412683BD1900B5DC91 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		B615E0442683BD1900B5DC91 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		B615E0462683BD1900B5DC91 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B615E0472683BD1900B5DC91 /* PushNotificationPayload.apns */ = {isa = PBXFileReference; lastKnownFileType = text; path = PushNotificationPayload.apns; sourceTree = "<group>"; };
+		B615E04C2683BD1900B5DC91 /* HeartZonesTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HeartZonesTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		B615E0502683BD1900B5DC91 /* HeartZonesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeartZonesTests.swift; sourceTree = "<group>"; };
+		B615E0522683BD1900B5DC91 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B615E0572683BD1900B5DC91 /* HeartZonesUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HeartZonesUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		B615E05B2683BD1900B5DC91 /* HeartZonesUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeartZonesUITests.swift; sourceTree = "<group>"; };
+		B615E05D2683BD1900B5DC91 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		B615E02F2683BD1900B5DC91 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B615E0492683BD1900B5DC91 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B615E0542683BD1900B5DC91 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		B615E01B2683BD1800B5DC91 = {
+			isa = PBXGroup;
+			children = (
+				B615E02A2683BD1800B5DC91 /* HeartZones WatchKit App */,
+				B615E0362683BD1900B5DC91 /* HeartZones WatchKit Extension */,
+				B615E04F2683BD1900B5DC91 /* HeartZonesTests */,
+				B615E05A2683BD1900B5DC91 /* HeartZonesUITests */,
+				B615E0232683BD1800B5DC91 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		B615E0232683BD1800B5DC91 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				B615E0222683BD1800B5DC91 /* HeartZones.app */,
+				B615E0262683BD1800B5DC91 /* HeartZones WatchKit App.app */,
+				B615E0322683BD1900B5DC91 /* HeartZones WatchKit Extension.appex */,
+				B615E04C2683BD1900B5DC91 /* HeartZonesTests.xctest */,
+				B615E0572683BD1900B5DC91 /* HeartZonesUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		B615E02A2683BD1800B5DC91 /* HeartZones WatchKit App */ = {
+			isa = PBXGroup;
+			children = (
+				B615E02B2683BD1900B5DC91 /* Assets.xcassets */,
+				B615E02D2683BD1900B5DC91 /* Info.plist */,
+			);
+			path = "HeartZones WatchKit App";
+			sourceTree = "<group>";
+		};
+		B615E0362683BD1900B5DC91 /* HeartZones WatchKit Extension */ = {
+			isa = PBXGroup;
+			children = (
+				B615E0372683BD1900B5DC91 /* HeartZonesApp.swift */,
+				B615E0392683BD1900B5DC91 /* ContentView.swift */,
+				B615E03B2683BD1900B5DC91 /* NotificationController.swift */,
+				B615E03D2683BD1900B5DC91 /* NotificationView.swift */,
+				B615E03F2683BD1900B5DC91 /* ComplicationController.swift */,
+				B615E0412683BD1900B5DC91 /* Assets.xcassets */,
+				B615E0462683BD1900B5DC91 /* Info.plist */,
+				B615E0472683BD1900B5DC91 /* PushNotificationPayload.apns */,
+				B615E0432683BD1900B5DC91 /* Preview Content */,
+			);
+			path = "HeartZones WatchKit Extension";
+			sourceTree = "<group>";
+		};
+		B615E0432683BD1900B5DC91 /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				B615E0442683BD1900B5DC91 /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		B615E04F2683BD1900B5DC91 /* HeartZonesTests */ = {
+			isa = PBXGroup;
+			children = (
+				B615E0502683BD1900B5DC91 /* HeartZonesTests.swift */,
+				B615E0522683BD1900B5DC91 /* Info.plist */,
+			);
+			path = HeartZonesTests;
+			sourceTree = "<group>";
+		};
+		B615E05A2683BD1900B5DC91 /* HeartZonesUITests */ = {
+			isa = PBXGroup;
+			children = (
+				B615E05B2683BD1900B5DC91 /* HeartZonesUITests.swift */,
+				B615E05D2683BD1900B5DC91 /* Info.plist */,
+			);
+			path = HeartZonesUITests;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		B615E0212683BD1800B5DC91 /* HeartZones */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B615E0682683BD1900B5DC91 /* Build configuration list for PBXNativeTarget "HeartZones" */;
+			buildPhases = (
+				B615E0202683BD1800B5DC91 /* Resources */,
+				B615E0672683BD1900B5DC91 /* Embed Watch Content */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				B615E0292683BD1800B5DC91 /* PBXTargetDependency */,
+			);
+			name = HeartZones;
+			productName = HeartZones;
+			productReference = B615E0222683BD1800B5DC91 /* HeartZones.app */;
+			productType = "com.apple.product-type.application.watchapp2-container";
+		};
+		B615E0252683BD1800B5DC91 /* HeartZones WatchKit App */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B615E0642683BD1900B5DC91 /* Build configuration list for PBXNativeTarget "HeartZones WatchKit App" */;
+			buildPhases = (
+				B615E0242683BD1800B5DC91 /* Resources */,
+				B615E0632683BD1900B5DC91 /* Embed App Extensions */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				B615E0352683BD1900B5DC91 /* PBXTargetDependency */,
+			);
+			name = "HeartZones WatchKit App";
+			productName = "HeartZones WatchKit App";
+			productReference = B615E0262683BD1800B5DC91 /* HeartZones WatchKit App.app */;
+			productType = "com.apple.product-type.application.watchapp2";
+		};
+		B615E0312683BD1900B5DC91 /* HeartZones WatchKit Extension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B615E0602683BD1900B5DC91 /* Build configuration list for PBXNativeTarget "HeartZones WatchKit Extension" */;
+			buildPhases = (
+				B615E02E2683BD1900B5DC91 /* Sources */,
+				B615E02F2683BD1900B5DC91 /* Frameworks */,
+				B615E0302683BD1900B5DC91 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "HeartZones WatchKit Extension";
+			productName = "HeartZones WatchKit Extension";
+			productReference = B615E0322683BD1900B5DC91 /* HeartZones WatchKit Extension.appex */;
+			productType = "com.apple.product-type.watchkit2-extension";
+		};
+		B615E04B2683BD1900B5DC91 /* HeartZonesTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B615E06B2683BD1900B5DC91 /* Build configuration list for PBXNativeTarget "HeartZonesTests" */;
+			buildPhases = (
+				B615E0482683BD1900B5DC91 /* Sources */,
+				B615E0492683BD1900B5DC91 /* Frameworks */,
+				B615E04A2683BD1900B5DC91 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				B615E04E2683BD1900B5DC91 /* PBXTargetDependency */,
+			);
+			name = HeartZonesTests;
+			productName = HeartZonesTests;
+			productReference = B615E04C2683BD1900B5DC91 /* HeartZonesTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		B615E0562683BD1900B5DC91 /* HeartZonesUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B615E06E2683BD1900B5DC91 /* Build configuration list for PBXNativeTarget "HeartZonesUITests" */;
+			buildPhases = (
+				B615E0532683BD1900B5DC91 /* Sources */,
+				B615E0542683BD1900B5DC91 /* Frameworks */,
+				B615E0552683BD1900B5DC91 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				B615E0592683BD1900B5DC91 /* PBXTargetDependency */,
+			);
+			name = HeartZonesUITests;
+			productName = HeartZonesUITests;
+			productReference = B615E0572683BD1900B5DC91 /* HeartZonesUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		B615E01C2683BD1800B5DC91 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 1250;
+				LastUpgradeCheck = 1250;
+				TargetAttributes = {
+					B615E0212683BD1800B5DC91 = {
+						CreatedOnToolsVersion = 12.5;
+					};
+					B615E0252683BD1800B5DC91 = {
+						CreatedOnToolsVersion = 12.5;
+					};
+					B615E0312683BD1900B5DC91 = {
+						CreatedOnToolsVersion = 12.5;
+					};
+					B615E04B2683BD1900B5DC91 = {
+						CreatedOnToolsVersion = 12.5;
+						TestTargetID = B615E0312683BD1900B5DC91;
+					};
+					B615E0562683BD1900B5DC91 = {
+						CreatedOnToolsVersion = 12.5;
+						TestTargetID = B615E0252683BD1800B5DC91;
+					};
+				};
+			};
+			buildConfigurationList = B615E01F2683BD1800B5DC91 /* Build configuration list for PBXProject "HeartZones" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = B615E01B2683BD1800B5DC91;
+			productRefGroup = B615E0232683BD1800B5DC91 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				B615E0212683BD1800B5DC91 /* HeartZones */,
+				B615E0252683BD1800B5DC91 /* HeartZones WatchKit App */,
+				B615E0312683BD1900B5DC91 /* HeartZones WatchKit Extension */,
+				B615E04B2683BD1900B5DC91 /* HeartZonesTests */,
+				B615E0562683BD1900B5DC91 /* HeartZonesUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		B615E0202683BD1800B5DC91 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B615E0242683BD1800B5DC91 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B615E02C2683BD1900B5DC91 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B615E0302683BD1900B5DC91 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B615E0452683BD1900B5DC91 /* Preview Assets.xcassets in Resources */,
+				B615E0422683BD1900B5DC91 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B615E04A2683BD1900B5DC91 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B615E0552683BD1900B5DC91 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		B615E02E2683BD1900B5DC91 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B615E03C2683BD1900B5DC91 /* NotificationController.swift in Sources */,
+				B615E03A2683BD1900B5DC91 /* ContentView.swift in Sources */,
+				B615E0402683BD1900B5DC91 /* ComplicationController.swift in Sources */,
+				B615E0382683BD1900B5DC91 /* HeartZonesApp.swift in Sources */,
+				B615E03E2683BD1900B5DC91 /* NotificationView.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B615E0482683BD1900B5DC91 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B615E0512683BD1900B5DC91 /* HeartZonesTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B615E0532683BD1900B5DC91 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B615E05C2683BD1900B5DC91 /* HeartZonesUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		B615E0292683BD1800B5DC91 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = B615E0252683BD1800B5DC91 /* HeartZones WatchKit App */;
+			targetProxy = B615E0282683BD1800B5DC91 /* PBXContainerItemProxy */;
+		};
+		B615E0352683BD1900B5DC91 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = B615E0312683BD1900B5DC91 /* HeartZones WatchKit Extension */;
+			targetProxy = B615E0342683BD1900B5DC91 /* PBXContainerItemProxy */;
+		};
+		B615E04E2683BD1900B5DC91 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = B615E0312683BD1900B5DC91 /* HeartZones WatchKit Extension */;
+			targetProxy = B615E04D2683BD1900B5DC91 /* PBXContainerItemProxy */;
+		};
+		B615E0592683BD1900B5DC91 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = B615E0252683BD1800B5DC91 /* HeartZones WatchKit App */;
+			targetProxy = B615E0582683BD1900B5DC91 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		B615E05E2683BD1900B5DC91 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		B615E05F2683BD1900B5DC91 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		B615E0612683BD1900B5DC91 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_COMPLICATION_NAME = Complication;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_ASSET_PATHS = "\"HeartZones WatchKit Extension/Preview Content\"";
+				ENABLE_PREVIEWS = YES;
+				INFOPLIST_FILE = "HeartZones WatchKit Extension/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = online.trender.heartzones.HeartZones.watchkitapp.watchkitextension;
+				PRODUCT_NAME = "${TARGET_NAME}";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 7.4;
+			};
+			name = Debug;
+		};
+		B615E0622683BD1900B5DC91 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_COMPLICATION_NAME = Complication;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_ASSET_PATHS = "\"HeartZones WatchKit Extension/Preview Content\"";
+				ENABLE_PREVIEWS = YES;
+				INFOPLIST_FILE = "HeartZones WatchKit Extension/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = online.trender.heartzones.HeartZones.watchkitapp.watchkitextension;
+				PRODUCT_NAME = "${TARGET_NAME}";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 7.4;
+			};
+			name = Release;
+		};
+		B615E0652683BD1900B5DC91 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				IBSC_MODULE = HeartZones_WatchKit_Extension;
+				INFOPLIST_FILE = "HeartZones WatchKit App/Info.plist";
+				PRODUCT_BUNDLE_IDENTIFIER = online.trender.heartzones.HeartZones.watchkitapp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 7.4;
+			};
+			name = Debug;
+		};
+		B615E0662683BD1900B5DC91 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				IBSC_MODULE = HeartZones_WatchKit_Extension;
+				INFOPLIST_FILE = "HeartZones WatchKit App/Info.plist";
+				PRODUCT_BUNDLE_IDENTIFIER = online.trender.heartzones.HeartZones.watchkitapp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 7.4;
+			};
+			name = Release;
+		};
+		B615E0692683BD1900B5DC91 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = online.trender.heartzones.HeartZones;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		B615E06A2683BD1900B5DC91 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = online.trender.heartzones.HeartZones;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		B615E06C2683BD1900B5DC91 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = HeartZonesTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = online.trender.heartzones.HeartZonesTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/HeartZones WatchKit Extension.appex/HeartZones WatchKit Extension";
+				WATCHOS_DEPLOYMENT_TARGET = 7.4;
+			};
+			name = Debug;
+		};
+		B615E06D2683BD1900B5DC91 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = HeartZonesTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = online.trender.heartzones.HeartZonesTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/HeartZones WatchKit Extension.appex/HeartZones WatchKit Extension";
+				WATCHOS_DEPLOYMENT_TARGET = 7.4;
+			};
+			name = Release;
+		};
+		B615E06F2683BD1900B5DC91 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = HeartZonesUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = online.trender.heartzones.HeartZonesUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				TEST_TARGET_NAME = "HeartZones WatchKit App";
+				WATCHOS_DEPLOYMENT_TARGET = 7.4;
+			};
+			name = Debug;
+		};
+		B615E0702683BD1900B5DC91 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = HeartZonesUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = online.trender.heartzones.HeartZonesUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				TEST_TARGET_NAME = "HeartZones WatchKit App";
+				WATCHOS_DEPLOYMENT_TARGET = 7.4;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		B615E01F2683BD1800B5DC91 /* Build configuration list for PBXProject "HeartZones" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B615E05E2683BD1900B5DC91 /* Debug */,
+				B615E05F2683BD1900B5DC91 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		B615E0602683BD1900B5DC91 /* Build configuration list for PBXNativeTarget "HeartZones WatchKit Extension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B615E0612683BD1900B5DC91 /* Debug */,
+				B615E0622683BD1900B5DC91 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		B615E0642683BD1900B5DC91 /* Build configuration list for PBXNativeTarget "HeartZones WatchKit App" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B615E0652683BD1900B5DC91 /* Debug */,
+				B615E0662683BD1900B5DC91 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		B615E0682683BD1900B5DC91 /* Build configuration list for PBXNativeTarget "HeartZones" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B615E0692683BD1900B5DC91 /* Debug */,
+				B615E06A2683BD1900B5DC91 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		B615E06B2683BD1900B5DC91 /* Build configuration list for PBXNativeTarget "HeartZonesTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B615E06C2683BD1900B5DC91 /* Debug */,
+				B615E06D2683BD1900B5DC91 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		B615E06E2683BD1900B5DC91 /* Build configuration list for PBXNativeTarget "HeartZonesUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B615E06F2683BD1900B5DC91 /* Debug */,
+				B615E0702683BD1900B5DC91 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = B615E01C2683BD1800B5DC91 /* Project object */;
+}
