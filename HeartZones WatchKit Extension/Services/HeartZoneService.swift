@@ -19,19 +19,14 @@ class HeartZoneService {
         self.defaultHeartZone = HeartZonesSetting.getDefaultHeartZonesSetting(age: age)
     }
     
-    func evaluateHeartZone(bpm: Int) -> (Color, Double) {
+    func evaluateHeartZone(bpm: Int) -> HeartZone? {
         // TODO: Add logic to evaluate correct heart zone. Now we are using default zones only.
         let activeZone = defaultHeartZone.zones.first { $0.bpmRange.contains(bpm) }
         guard let activeZone = activeZone else {
-            logger.info("Evaluated bpm of value \(bpm) is not in active zone")
-            return (Color.gray, 0.0)
+            logger.info("Evaluated bpm of value \(bpm) is not in of evaluated zones")
+            return nil
         }
-        let bpmRatio = activeZone.getBpmRatio(bpm: bpm)
-        guard let bpmRatio = bpmRatio else {
-            logger.error("No ratio of active zone while evaluating bpm of \(bpm) in range \(activeZone.bpmRange)")
-            return (Color.gray, 0.0)
-        }
-        return (activeZone.color, bpmRatio)
+        return activeZone
     }
     
 }
