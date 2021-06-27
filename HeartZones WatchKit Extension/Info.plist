@@ -27,11 +27,15 @@
 		<key>NSExtensionAttributes</key>
 		<dict>
 			<key>WKAppBundleIdentifier</key>
-			<string>online.trender.heartzones.HeartZones.watchkitapp</string>
+			<string>online.trender.heartzones.watchkitapp</string>
 		</dict>
 		<key>NSExtensionPointIdentifier</key>
 		<string>com.apple.watchkit</string>
 	</dict>
+	<key>NSHealthShareUsageDescription</key>
+	<string>We need to know your health data</string>
+	<key>NSHealthUpdateUsageDescription</key>
+	<string>We need to know your health data</string>
 	<key>WKWatchOnly</key>
 	<true/>
 </dict>
