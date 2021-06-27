@@ -20,6 +20,9 @@
 		B650A95F26878E1F0042B33D /* WorkoutViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B650A95E26878E1F0042B33D /* WorkoutViewModel.swift */; };
 		B650A962268799C60042B33D /* WorkoutService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B650A961268799C60042B33D /* WorkoutService.swift */; };
 		B650A96626879E5B0042B33D /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B650A96526879E5B0042B33D /* HealthKit.framework */; };
+		B650A9692688853A0042B33D /* WorkoutType.swift in Sources */ = {isa = PBXBuildFile; fileRef = B650A9682688853A0042B33D /* WorkoutType.swift */; };
+		B650A96B2688857E0042B33D /* WorkoutSelectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B650A96A2688857E0042B33D /* WorkoutSelectionViewModel.swift */; };
+		B650A96D26888AD10042B33D /* Workout.swift in Sources */ = {isa = PBXBuildFile; fileRef = B650A96C26888AD10042B33D /* Workout.swift */; };
 		B6E30C3C26850F73007CCA38 /* WorkoutSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6E30C3B26850F73007CCA38 /* WorkoutSelectionView.swift */; };
 		B6E30C3F268517C2007CCA38 /* WorkoutMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6E30C3E268517C2007CCA38 /* WorkoutMainView.swift */; };
 		B6E30C4126851996007CCA38 /* WorkoutControlsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6E30C4026851996007CCA38 /* WorkoutControlsView.swift */; };
@@ -105,6 +108,9 @@
 		B650A961268799C60042B33D /* WorkoutService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutService.swift; sourceTree = "<group>"; };
 		B650A96326879E5B0042B33D /* HeartZones WatchKit Extension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "HeartZones WatchKit Extension.entitlements"; sourceTree = "<group>"; };
 		B650A96526879E5B0042B33D /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = Platforms/WatchOS.platform/Developer/SDKs/WatchOS7.4.sdk/System/Library/Frameworks/HealthKit.framework; sourceTree = DEVELOPER_DIR; };
+		B650A9682688853A0042B33D /* WorkoutType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutType.swift; sourceTree = "<group>"; };
+		B650A96A2688857E0042B33D /* WorkoutSelectionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutSelectionViewModel.swift; sourceTree = "<group>"; };
+		B650A96C26888AD10042B33D /* Workout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Workout.swift; sourceTree = "<group>"; };
 		B6E30C3B26850F73007CCA38 /* WorkoutSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutSelectionView.swift; sourceTree = "<group>"; };
 		B6E30C3E268517C2007CCA38 /* WorkoutMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutMainView.swift; sourceTree = "<group>"; };
 		B6E30C4026851996007CCA38 /* WorkoutControlsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutControlsView.swift; sourceTree = "<group>"; };
@@ -174,6 +180,7 @@
 			isa = PBXGroup;
 			children = (
 				B650A96326879E5B0042B33D /* HeartZones WatchKit Extension.entitlements */,
+				B650A967268885220042B33D /* Models */,
 				B650A960268799B40042B33D /* Services */,
 				B6E30C3D26851739007CCA38 /* Views */,
 				B650A95D26878E0C0042B33D /* ViewModels */,
@@ -225,6 +232,7 @@
 			isa = PBXGroup;
 			children = (
 				B650A95E26878E1F0042B33D /* WorkoutViewModel.swift */,
+				B650A96A2688857E0042B33D /* WorkoutSelectionViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -243,6 +251,15 @@
 				B650A96526879E5B0042B33D /* HealthKit.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		B650A967268885220042B33D /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				B650A9682688853A0042B33D /* WorkoutType.swift */,
+				B650A96C26888AD10042B33D /* Workout.swift */,
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 		B6E30C3D26851739007CCA38 /* Views */ = {
@@ -446,12 +463,15 @@
 				B650A95F26878E1F0042B33D /* WorkoutViewModel.swift in Sources */,
 				B6E30C43268519B8007CCA38 /* WorkoutRunningView.swift in Sources */,
 				B6E30C4126851996007CCA38 /* WorkoutControlsView.swift in Sources */,
+				B650A9692688853A0042B33D /* WorkoutType.swift in Sources */,
 				B615E0402683BD1900B5DC91 /* ComplicationController.swift in Sources */,
 				B615E0382683BD1900B5DC91 /* HeartZonesApp.swift in Sources */,
 				B6E30C3C26850F73007CCA38 /* WorkoutSelectionView.swift in Sources */,
 				B650A962268799C60042B33D /* WorkoutService.swift in Sources */,
 				B6E30C3F268517C2007CCA38 /* WorkoutMainView.swift in Sources */,
 				B650A95B26878DAD0042B33D /* PieSegmentView.swift in Sources */,
+				B650A96B2688857E0042B33D /* WorkoutSelectionViewModel.swift in Sources */,
+				B650A96D26888AD10042B33D /* Workout.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

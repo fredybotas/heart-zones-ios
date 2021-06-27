@@ -13,6 +13,7 @@ struct WorkoutMainView: View {
         case controls, workout, playing
     }
 
+    let workoutType: WorkoutType
     @State private var selection: Tab = .workout
 
     var body: some View {
@@ -22,11 +23,12 @@ struct WorkoutMainView: View {
             NowPlayingView().tag(Tab.playing)
         }
         .navigationBarBackButtonHidden(true)
+        .environmentObject(WorkoutViewModel(workoutType: workoutType))
     }
 }
 
 struct WorkoutMainView_Previews: PreviewProvider {
     static var previews: some View {
-        WorkoutMainView()
+        WorkoutMainView(workoutType: WorkoutType(name: "Running", id: 1))
     }
 }

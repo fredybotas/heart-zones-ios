@@ -10,8 +10,6 @@ import HealthKit
 
 @main
 struct HeartZonesApp: App {
-    var workoutViewModel: WorkoutViewModel
-    
     init() {
         HeartZonesApp.authorizeHealthKitAccess(toRead: [
             HKQuantityType.quantityType(forIdentifier: .heartRate)!,
@@ -22,8 +20,6 @@ struct HeartZonesApp: App {
         ], completion: { (result, code) in
             print(result)
         })
-        workoutViewModel = WorkoutViewModel()
-        
     }
     
     
@@ -51,9 +47,8 @@ struct HeartZonesApp: App {
     @SceneBuilder var body: some Scene {
         WindowGroup {
             NavigationView {
-                WorkoutSelectionView()
+                WorkoutSelectionView(workoutSelectionViewModel: WorkoutSelectionViewModel())
             }
-            .environmentObject(workoutViewModel)
         }
     }
 }

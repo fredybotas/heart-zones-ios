@@ -16,16 +16,16 @@ struct WorkoutRunningView: View {
             Text(workoutViewModel.time).font(Font.system(size: 32, weight: .semibold, design: .default))
             Spacer()
             HStack(alignment: .center, spacing: 20) {
-                Text(String(workoutViewModel.bpm) + " bpm").font(Font.system(size: 25, weight: .regular, design: .default))
+                Text(workoutViewModel.bpm).font(Font.system(size: 25, weight: .regular, design: .default))
                 PieSegment(ratio: 0.5)
                     .fill(Color.red)
                     .frame(width: 22, height: 22, alignment: .center)
             }
             .padding([.bottom, .top], -5)
             
-            Text(String(workoutViewModel.energy) + " kcal").font(Font.system(size: 25, weight: .regular, design: .default))
+            Text(workoutViewModel.energy).font(Font.system(size: 25, weight: .regular, design: .default))
                 .padding([.bottom, .top], -5)
-            Text(String(workoutViewModel.distance) + " km").font(Font.system(size: 25, weight: .regular, design: .default))
+            Text(workoutViewModel.distance).font(Font.system(size: 25, weight: .regular, design: .default))
                 .padding([.bottom, .top], -5)
             Spacer()
             HStack {

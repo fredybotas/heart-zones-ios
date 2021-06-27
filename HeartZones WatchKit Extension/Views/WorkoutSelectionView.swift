@@ -8,17 +8,12 @@
 import SwiftUI
 import HealthKit
 
-struct WorkoutType: Identifiable {
-    var name: String
-    var id: Int
-}
-
 struct WorkoutSelectionView: View {
-    var workoutTypes: [WorkoutType] = [WorkoutType(name: "Outdoor Running", id: 1)]
+    @ObservedObject var workoutSelectionViewModel: WorkoutSelectionViewModel
     
     var body: some View {
-        List(workoutTypes){ workoutType in
-            NavigationLink(workoutType.name, destination: WorkoutMainView())
+        List(workoutSelectionViewModel.workoutTypes){ workoutType in
+            NavigationLink(workoutType.name, destination: WorkoutMainView(workoutType: workoutType))
                 .padding(EdgeInsets(top: 10, leading: 5, bottom: 10, trailing: 5))
         }
         .listStyle(CarouselListStyle())
@@ -28,6 +23,6 @@ struct WorkoutSelectionView: View {
 
 struct WorkoutSelectionView_Previews: PreviewProvider {
     static var previews: some View {
-        WorkoutSelectionView()
+        WorkoutSelectionView(workoutSelectionViewModel: WorkoutSelectionViewModel())
     }
 }

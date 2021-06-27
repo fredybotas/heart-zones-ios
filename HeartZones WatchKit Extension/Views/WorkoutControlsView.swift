@@ -33,7 +33,7 @@ struct WorkoutControlsView: View {
                     Text("Pause")
                 } else {
                     Button{
-                        workoutViewModel.startWorkout()
+                        workoutViewModel.resumeWorkout()
                     } label: {
                         Image(systemName: "play")
                     }

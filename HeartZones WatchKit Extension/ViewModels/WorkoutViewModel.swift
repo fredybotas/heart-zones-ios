@@ -10,30 +10,34 @@ import SwiftUI
 
 class WorkoutViewModel: ObservableObject {
 
-    @Published var isRunning: Bool = false
-    @Published var bpm: Int = 0
+    @Published var isRunning: Bool = true
     
-    @Published var time: String = "1.2"
-    
-    @Published var energy: Int = 120
-    @Published var distance: Double = 1.24
+    @Published var bpm: String = "-- bpm"
+    @Published var time: String = "--:--,--"
+    @Published var energy: String = "-- kcal"
+    @Published var distance: String = "-- km"
+    @Published var currentPace: String = "--'--''"
+    @Published var averagePace: String = "--'--''"
 
-    @Published var currentPace: String = "2'34''"
-    @Published var averagePace: String = "1'24''"
 
-    
     let workoutService = WorkoutService()
-    
-    func startWorkout() {
-        isRunning = true
-        workoutService.startWorkout()
+
+    init(workoutType: WorkoutType) {
+        workoutService.startWorkout(workoutType: workoutType)
     }
     
     func pauseWorkout() {
+        workoutService.pauseActiveWorkout()
         isRunning = false
     }
     
+    func resumeWorkout() {
+        workoutService.resumeActiveWorkout()
+        isRunning = true
+    }
+    
     func stopWorkout() {
+        workoutService.stopActiveWorkout()
         isRunning = false
     }
     
