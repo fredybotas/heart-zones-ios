@@ -20,7 +20,7 @@ class WorkoutViewModel: ObservableObject {
     @Published var averagePace: String = "--'--''"
 
 
-    let workoutService = WorkoutService()
+    let workoutService: IWorkoutService = WorkoutService()
 
     init(workoutType: WorkoutType) {
         workoutService.startWorkout(workoutType: workoutType)

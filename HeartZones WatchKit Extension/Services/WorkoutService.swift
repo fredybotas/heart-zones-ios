@@ -7,15 +7,23 @@
 
 import Foundation
 import HealthKit
+import os
 
-class WorkoutService {
+protocol IWorkoutService {
+    func startWorkout(workoutType: WorkoutType)
+    func stopActiveWorkout()
+    func pauseActiveWorkout()
+    func resumeActiveWorkout()
+}
 
-    let healthKit: HKHealthStore = HKHealthStore()
-    var activeWorkout: Workout?
+class WorkoutService: IWorkoutService {
+    private let healthKit: HKHealthStore = HKHealthStore()
+    private let logger = Logger(subsystem: Bundle.main.bundleIdentifier!, category: "workout_service")
+    private var activeWorkout: Workout?
     
     func startWorkout(workoutType: WorkoutType) {
         if (activeWorkout != nil) {
-            NSLog("Workout already exists")
+            logger.info("Workout already exists")
             return
         }
         activeWorkout = Workout(healthKit: healthKit, type: workoutType)
@@ -23,7 +31,7 @@ class WorkoutService {
     
     func stopActiveWorkout() {
         guard let activeWorkout = activeWorkout else {
-            NSLog("There is not running workout")
+            logger.info("There is not running workout")
             return
         }
         activeWorkout.stop()
