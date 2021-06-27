@@ -27,4 +27,15 @@ struct HeartZone {
     let name: String
     let bpmRange: ClosedRange<Int>
     let color: Color
+    
+    func getBpmRatio(bpm: Int) -> Double? {
+        guard let first = bpmRange.first, let last = bpmRange.last else {
+            return nil
+        }
+        let result = Double(bpm - first) / Double(last - first)
+        if result < 0 || result > 1 {
+            return nil
+        }
+        return result
+    }
 }
