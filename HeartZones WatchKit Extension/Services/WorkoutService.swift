@@ -7,6 +7,7 @@
 
 import Foundation
 import HealthKit
+import Combine
 import os
 
 protocol IWorkoutService {
@@ -14,11 +15,13 @@ protocol IWorkoutService {
     func stopActiveWorkout()
     func pauseActiveWorkout()
     func resumeActiveWorkout()
+    func getActiveWorkoutElapsedTime() -> TimeInterval?
 }
 
 class WorkoutService: IWorkoutService {
     private let healthKit: HKHealthStore = HKHealthStore()
     private let logger = Logger(subsystem: Bundle.main.bundleIdentifier!, category: "workout_service")
+    
     private var activeWorkout: Workout?
     
     func startWorkout(workoutType: WorkoutType) {
@@ -43,5 +46,13 @@ class WorkoutService: IWorkoutService {
     
     func resumeActiveWorkout() {
         activeWorkout?.resume()
+    }
+    
+    func getActiveWorkoutElapsedTime() -> TimeInterval? {
+        guard let activeWorkout = activeWorkout else {
+            logger.info("There is not active workout while fetching elapsed time")
+            return nil
+        }
+        return activeWorkout.getElapsedTime()
     }
 }

@@ -115,6 +115,7 @@
 		B650A96C26888AD10042B33D /* Workout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Workout.swift; sourceTree = "<group>"; };
 		B650A96E2688955F0042B33D /* HeartZone.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeartZone.swift; sourceTree = "<group>"; };
 		B650A970268895800042B33D /* HeartZoneService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeartZoneService.swift; sourceTree = "<group>"; };
+		B650A9722688C3A80042B33D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = Platforms/WatchOS.platform/Developer/SDKs/WatchOS7.4.sdk/System/Library/Frameworks/CoreGraphics.framework; sourceTree = DEVELOPER_DIR; };
 		B6E30C3B26850F73007CCA38 /* WorkoutSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutSelectionView.swift; sourceTree = "<group>"; };
 		B6E30C3E268517C2007CCA38 /* WorkoutMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutMainView.swift; sourceTree = "<group>"; };
 		B6E30C4026851996007CCA38 /* WorkoutControlsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutControlsView.swift; sourceTree = "<group>"; };
@@ -253,6 +254,7 @@
 		B650A96426879E5B0042B33D /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				B650A9722688C3A80042B33D /* CoreGraphics.framework */,
 				B650A96526879E5B0042B33D /* HealthKit.framework */,
 			);
 			name = Frameworks;

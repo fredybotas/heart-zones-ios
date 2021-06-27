@@ -51,6 +51,14 @@ class Workout: NSObject, HKLiveWorkoutBuilderDelegate, HKWorkoutSessionDelegate 
         activeWorkoutSession?.stopActivity(with: Date())
     }
     
+    func getElapsedTime() -> TimeInterval {
+        guard let activeWorkoutSession = activeWorkoutSession else {
+            logger.debug("Workout session is not running")
+            return 0.0
+        }
+        return activeWorkoutSession.associatedWorkoutBuilder().elapsedTime
+    }
+    
     func workoutSession(_ workoutSession: HKWorkoutSession, didFailWithError error: Error) {
         print("State changed")
     }
