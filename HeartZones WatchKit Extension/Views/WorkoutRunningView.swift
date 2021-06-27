@@ -17,8 +17,8 @@ struct WorkoutRunningView: View {
             Spacer()
             HStack(alignment: .center, spacing: 20) {
                 Text(workoutViewModel.bpm).font(Font.system(size: 25, weight: .regular, design: .default))
-                PieSegment(ratio: 0.5)
-                    .fill(Color.red)
+                PieSegment(ratio: workoutViewModel.bpmCircleRatio)
+                    .fill(workoutViewModel.bpmCircleColor)
                     .frame(width: 22, height: 22, alignment: .center)
             }
             .padding([.bottom, .top], -5)

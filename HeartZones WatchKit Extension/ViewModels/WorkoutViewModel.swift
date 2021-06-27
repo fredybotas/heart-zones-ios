@@ -12,7 +12,10 @@ class WorkoutViewModel: ObservableObject {
 
     @Published var isRunning: Bool = true
     
-    @Published var bpm: String = "-- bpm"
+    @Published var bpm: String = "-- bpm"    
+    @Published var bpmCircleColor = Color.green
+    @Published var bpmCircleRatio = 0.25
+    
     @Published var time: String = "--:--,--"
     @Published var energy: String = "-- kcal"
     @Published var distance: String = "-- km"
@@ -21,7 +24,9 @@ class WorkoutViewModel: ObservableObject {
 
 
     let workoutService: IWorkoutService = WorkoutService()
-
+    //TODO: Get correct age
+    let heartZoneService: HeartZoneService = HeartZoneService(age: 25)
+    
     init(workoutType: WorkoutType) {
         workoutService.startWorkout(workoutType: workoutType)
     }
