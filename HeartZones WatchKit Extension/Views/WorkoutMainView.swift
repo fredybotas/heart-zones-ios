@@ -17,11 +17,13 @@ struct WorkoutMainView: View {
     @State private var selection: Tab = .workout
 
     var body: some View {
-        TabView(selection: $selection) {
-            WorkoutControlsView().tag(Tab.controls)
-            WorkoutRunningView().tag(Tab.workout)
-            NowPlayingView().tag(Tab.playing)
-        }
+        // TODO: Fix tabview for watchOS 6
+        //TabView(selection: $selection) {
+       //     WorkoutControlsView().tag(Tab.controls)
+            WorkoutRunningView()
+                //.tag(Tab.workout)
+            //NowPlayingView().tag(Tab.playing)
+      //  }
         .navigationBarBackButtonHidden(true)
         .environmentObject(WorkoutViewModel(workoutType: workoutType))
     }

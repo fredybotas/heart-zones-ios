@@ -10,8 +10,6 @@
 		B615E0272683BD1800B5DC91 /* HeartZones WatchKit App.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = B615E0262683BD1800B5DC91 /* HeartZones WatchKit App.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		B615E02C2683BD1900B5DC91 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B615E02B2683BD1900B5DC91 /* Assets.xcassets */; };
 		B615E0332683BD1900B5DC91 /* HeartZones WatchKit Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = B615E0322683BD1900B5DC91 /* HeartZones WatchKit Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		B615E0382683BD1900B5DC91 /* HeartZonesApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B615E0372683BD1900B5DC91 /* HeartZonesApp.swift */; };
-		B615E0402683BD1900B5DC91 /* ComplicationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B615E03F2683BD1900B5DC91 /* ComplicationController.swift */; };
 		B615E0422683BD1900B5DC91 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B615E0412683BD1900B5DC91 /* Assets.xcassets */; };
 		B615E0452683BD1900B5DC91 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B615E0442683BD1900B5DC91 /* Preview Assets.xcassets */; };
 		B615E0512683BD1900B5DC91 /* HeartZonesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B615E0502683BD1900B5DC91 /* HeartZonesTests.swift */; };
@@ -25,6 +23,9 @@
 		B650A96D26888AD10042B33D /* Workout.swift in Sources */ = {isa = PBXBuildFile; fileRef = B650A96C26888AD10042B33D /* Workout.swift */; };
 		B650A96F2688955F0042B33D /* HeartZone.swift in Sources */ = {isa = PBXBuildFile; fileRef = B650A96E2688955F0042B33D /* HeartZone.swift */; };
 		B650A971268895800042B33D /* HeartZoneService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B650A970268895800042B33D /* HeartZoneService.swift */; };
+		B6628A71268A538300901D17 /* HostingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6628A6F268A538300901D17 /* HostingController.swift */; };
+		B6628A72268A538300901D17 /* ExtensionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6628A70268A538300901D17 /* ExtensionDelegate.swift */; };
+		B6628A76268A56CB00901D17 /* Interface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B6628A74268A56CB00901D17 /* Interface.storyboard */; };
 		B6E30C3C26850F73007CCA38 /* WorkoutSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6E30C3B26850F73007CCA38 /* WorkoutSelectionView.swift */; };
 		B6E30C3F268517C2007CCA38 /* WorkoutMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6E30C3E268517C2007CCA38 /* WorkoutMainView.swift */; };
 		B6E30C4126851996007CCA38 /* WorkoutControlsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6E30C4026851996007CCA38 /* WorkoutControlsView.swift */; };
@@ -94,7 +95,6 @@
 		B615E02D2683BD1900B5DC91 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B615E0322683BD1900B5DC91 /* HeartZones WatchKit Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "HeartZones WatchKit Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B615E0372683BD1900B5DC91 /* HeartZonesApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeartZonesApp.swift; sourceTree = "<group>"; };
-		B615E03F2683BD1900B5DC91 /* ComplicationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComplicationController.swift; sourceTree = "<group>"; };
 		B615E0412683BD1900B5DC91 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B615E0442683BD1900B5DC91 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		B615E0462683BD1900B5DC91 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -116,6 +116,9 @@
 		B650A96E2688955F0042B33D /* HeartZone.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeartZone.swift; sourceTree = "<group>"; };
 		B650A970268895800042B33D /* HeartZoneService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeartZoneService.swift; sourceTree = "<group>"; };
 		B650A9722688C3A80042B33D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = Platforms/WatchOS.platform/Developer/SDKs/WatchOS7.4.sdk/System/Library/Frameworks/CoreGraphics.framework; sourceTree = DEVELOPER_DIR; };
+		B6628A6F268A538300901D17 /* HostingController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HostingController.swift; sourceTree = "<group>"; };
+		B6628A70268A538300901D17 /* ExtensionDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExtensionDelegate.swift; sourceTree = "<group>"; };
+		B6628A75268A56CB00901D17 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Interface.storyboard; sourceTree = "<group>"; };
 		B6E30C3B26850F73007CCA38 /* WorkoutSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutSelectionView.swift; sourceTree = "<group>"; };
 		B6E30C3E268517C2007CCA38 /* WorkoutMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutMainView.swift; sourceTree = "<group>"; };
 		B6E30C4026851996007CCA38 /* WorkoutControlsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutControlsView.swift; sourceTree = "<group>"; };
@@ -175,6 +178,7 @@
 		B615E02A2683BD1800B5DC91 /* HeartZones WatchKit App */ = {
 			isa = PBXGroup;
 			children = (
+				B6628A74268A56CB00901D17 /* Interface.storyboard */,
 				B615E02B2683BD1900B5DC91 /* Assets.xcassets */,
 				B615E02D2683BD1900B5DC91 /* Info.plist */,
 			);
@@ -190,7 +194,8 @@
 				B6E30C3D26851739007CCA38 /* Views */,
 				B650A95D26878E0C0042B33D /* ViewModels */,
 				B615E0372683BD1900B5DC91 /* HeartZonesApp.swift */,
-				B615E03F2683BD1900B5DC91 /* ComplicationController.swift */,
+				B6628A70268A538300901D17 /* ExtensionDelegate.swift */,
+				B6628A6F268A538300901D17 /* HostingController.swift */,
 				B615E0412683BD1900B5DC91 /* Assets.xcassets */,
 				B615E0462683BD1900B5DC91 /* Info.plist */,
 				B615E0472683BD1900B5DC91 /* PushNotificationPayload.apns */,
@@ -434,6 +439,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B6628A76268A56CB00901D17 /* Interface.storyboard in Resources */,
 				B615E02C2683BD1900B5DC91 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -472,9 +478,9 @@
 				B6E30C43268519B8007CCA38 /* WorkoutRunningView.swift in Sources */,
 				B6E30C4126851996007CCA38 /* WorkoutControlsView.swift in Sources */,
 				B650A9692688853A0042B33D /* WorkoutType.swift in Sources */,
-				B615E0402683BD1900B5DC91 /* ComplicationController.swift in Sources */,
+				B6628A71268A538300901D17 /* HostingController.swift in Sources */,
+				B6628A72268A538300901D17 /* ExtensionDelegate.swift in Sources */,
 				B650A96F2688955F0042B33D /* HeartZone.swift in Sources */,
-				B615E0382683BD1900B5DC91 /* HeartZonesApp.swift in Sources */,
 				B6E30C3C26850F73007CCA38 /* WorkoutSelectionView.swift in Sources */,
 				B650A962268799C60042B33D /* WorkoutService.swift in Sources */,
 				B6E30C3F268517C2007CCA38 /* WorkoutMainView.swift in Sources */,
@@ -525,6 +531,17 @@
 			targetProxy = B615E0582683BD1900B5DC91 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		B6628A74268A56CB00901D17 /* Interface.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				B6628A75268A56CB00901D17 /* Base */,
+			);
+			name = Interface.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		B615E05E2683BD1900B5DC91 /* Debug */ = {
@@ -662,7 +679,7 @@
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 4;
-				WATCHOS_DEPLOYMENT_TARGET = 7.4;
+				WATCHOS_DEPLOYMENT_TARGET = 6.0;
 			};
 			name = Debug;
 		};
@@ -687,7 +704,7 @@
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 4;
-				WATCHOS_DEPLOYMENT_TARGET = 7.4;
+				WATCHOS_DEPLOYMENT_TARGET = 6.0;
 			};
 			name = Release;
 		};
@@ -707,7 +724,7 @@
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 4;
-				WATCHOS_DEPLOYMENT_TARGET = 7.4;
+				WATCHOS_DEPLOYMENT_TARGET = 6.0;
 			};
 			name = Debug;
 		};
@@ -727,7 +744,7 @@
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 4;
-				WATCHOS_DEPLOYMENT_TARGET = 7.4;
+				WATCHOS_DEPLOYMENT_TARGET = 6.0;
 			};
 			name = Release;
 		};

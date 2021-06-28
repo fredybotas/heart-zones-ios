@@ -10,7 +10,6 @@ import SwiftUI
 import os
 
 class HeartZoneService {
-    private let logger = Logger(subsystem: Bundle.main.bundleIdentifier!, category: "heart_zone_service")
     private let defaultHeartZone: HeartZonesSetting
     private let age: Int
     
@@ -23,7 +22,7 @@ class HeartZoneService {
         // TODO: Add logic to evaluate correct heart zone. Now we are using default zones only.
         let activeZone = defaultHeartZone.zones.first { $0.bpmRange.contains(bpm) }
         guard let activeZone = activeZone else {
-            logger.info("Evaluated bpm of value \(bpm) is not in of evaluated zones")
+            print("Evaluated bpm of value \(bpm) is not in of evaluated zones")
             return nil
         }
         return activeZone

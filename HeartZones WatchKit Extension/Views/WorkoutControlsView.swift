@@ -19,7 +19,7 @@ struct WorkoutControlsView: View {
                 } label: {
                     Image(systemName: "xmark")
                 }
-                .font(.title2)
+                .font(Font.system(size: 25, weight: .regular, design: .default))
                 Text("End")
             }
             VStack {
@@ -29,7 +29,7 @@ struct WorkoutControlsView: View {
                     } label: {
                         Image(systemName: "pause")
                     }
-                    .font(.title2)
+                    .font(Font.system(size: 25, weight: .regular, design: .default))
                     Text("Pause")
                 } else {
                     Button{
@@ -37,7 +37,7 @@ struct WorkoutControlsView: View {
                     } label: {
                         Image(systemName: "play")
                     }
-                    .font(.title2)
+                    .font(Font.system(size: 25, weight: .regular, design: .default))
                     Text("Continue")
                 }
             }

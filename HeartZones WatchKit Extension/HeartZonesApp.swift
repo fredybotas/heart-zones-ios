@@ -22,7 +22,6 @@ struct HeartZonesApp: App {
         })
     }
     
-    
     static func authorizeHealthKitAccess(toRead readable: Set<HKObjectType>?, toWrite writable: Set<HKSampleType>?, completion: @escaping (Bool, HKError.Code?) -> Void)
     {
         guard HKHealthStore.isHealthDataAvailable() else {

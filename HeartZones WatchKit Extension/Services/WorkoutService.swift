@@ -20,13 +20,11 @@ protocol IWorkoutService {
 
 class WorkoutService: IWorkoutService {
     private let healthKit: HKHealthStore = HKHealthStore()
-    private let logger = Logger(subsystem: Bundle.main.bundleIdentifier!, category: "workout_service")
-    
     private var activeWorkout: Workout?
     
     func startWorkout(workoutType: WorkoutType) {
         if (activeWorkout != nil) {
-            logger.info("Workout already exists")
+            print("Workout already exists")
             return
         }
         activeWorkout = Workout(healthKit: healthKit, type: workoutType)
@@ -34,7 +32,7 @@ class WorkoutService: IWorkoutService {
     
     func stopActiveWorkout() {
         guard let activeWorkout = activeWorkout else {
-            logger.info("There is not running workout")
+            print("There is not running workout")
             return
         }
         activeWorkout.stop()
@@ -50,7 +48,7 @@ class WorkoutService: IWorkoutService {
     
     func getActiveWorkoutElapsedTime() -> TimeInterval? {
         guard let activeWorkout = activeWorkout else {
-            logger.info("There is not active workout while fetching elapsed time")
+            print("There is not active workout while fetching elapsed time")
             return nil
         }
         return activeWorkout.getElapsedTime()

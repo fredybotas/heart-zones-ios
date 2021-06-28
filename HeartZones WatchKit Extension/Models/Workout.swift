@@ -12,7 +12,6 @@ import os
 class Workout: NSObject, HKLiveWorkoutBuilderDelegate, HKWorkoutSessionDelegate {
     private let workoutType: WorkoutType
     private let healthKit: HKHealthStore
-    private let logger = Logger(subsystem: Bundle.main.bundleIdentifier!, category: "workout")
     
     private var activeWorkoutSession: HKWorkoutSession?
 
@@ -30,12 +29,8 @@ class Workout: NSObject, HKLiveWorkoutBuilderDelegate, HKWorkoutSessionDelegate 
         activeWorkoutSession?.delegate = self
 
         activeWorkoutSession?.startActivity(with: Date.init())
-        builder?.beginCollection(withStart: Date()) { [weak self] (success, error) in
-            guard let error = error else {
-                self?.logger.info("Collection of workout data started with success: \(success), error: nil")
-                return
-            }
-            self?.logger.error("Collection of workout data started with success: \(success), error: \(error.localizedDescription)")
+        builder?.beginCollection(withStart: Date()) { (success, error) in
+
         }
     }
     
@@ -53,7 +48,7 @@ class Workout: NSObject, HKLiveWorkoutBuilderDelegate, HKWorkoutSessionDelegate 
     
     func getElapsedTime() -> TimeInterval {
         guard let activeWorkoutSession = activeWorkoutSession else {
-            logger.debug("Workout session is not running")
+            print("Workout session is not running")
             return 0.0
         }
         return activeWorkoutSession.associatedWorkoutBuilder().elapsedTime

@@ -46,6 +46,7 @@ class WorkoutViewModel: ObservableObject {
     
     private func stopTimer() {
         timer?.cancel()
+        timer = nil
     }
     
     func pauseWorkout() {
