@@ -21,6 +21,7 @@ class Workout: NSObject, HKLiveWorkoutBuilderDelegate, HKWorkoutSessionDelegate 
 
         super.init()
 
+        
         let configuration = workoutType.getConfiguration()
         activeWorkoutSession = try? HKWorkoutSession(healthStore: healthKit, configuration: configuration)
         let builder = activeWorkoutSession?.associatedWorkoutBuilder()
@@ -75,13 +76,11 @@ class Workout: NSObject, HKLiveWorkoutBuilderDelegate, HKWorkoutSessionDelegate 
     }
     
     func workoutBuilder(_ workoutBuilder: HKLiveWorkoutBuilder, didCollectDataOf collectedTypes: Set<HKSampleType>) {
-        print("AA")
         for type in collectedTypes {
-            guard let quantityType = type as? HKQuantityType else {
-                        return // Nothing to do.
-                    }
+            guard let quantityType = type as? HKQuantityType else { return }
                     
-                    // Calculate statistics for the type.
+            // Calculate statistics for the type.
+            
             let statistics = workoutBuilder.statistics(for: quantityType)
             //statistics!.mostRecentQuantity()
             

@@ -49,6 +49,6 @@ struct WorkoutRunningView: View {
 
 struct WorkoutRunningView_Previews: PreviewProvider {
     static var previews: some View {
-        WorkoutRunningView(workoutViewModel: WorkoutViewModel(workoutType: WorkoutType(name: "Running", id: 1), workoutService: WorkoutService(), heartZoneService: HeartZoneService()))
+        WorkoutRunningView(workoutViewModel: WorkoutViewModel(workoutType: WorkoutType(type: .outdoorRunning), workoutService: WorkoutService(), heartZoneService: HeartZoneService()))
     }
 }

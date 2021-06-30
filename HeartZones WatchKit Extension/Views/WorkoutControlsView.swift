@@ -35,6 +35,7 @@ struct WorkoutControlsView: View {
                 } else {
                     Button{
                         workoutControlsViewModel.resumeWorkout()
+                        controller?.setPageToRunningWorkout()
                     } label: {
                         Image(systemName: "play")
                     }
