@@ -8,14 +8,15 @@
 import SwiftUI
 
 struct WorkoutControlsView: View {
-    
-    @EnvironmentObject var workoutViewModel: WorkoutViewModel
-    
+    @ObservedObject var workoutControlsViewModel: WorkoutControlsViewModel
+    var controller: HostingControllerWorkoutControls?
+
     var body: some View {
         HStack {
             VStack {
                 Button{
-                    workoutViewModel.stopWorkout()
+                    workoutControlsViewModel.stopWorkout()
+                    controller?.popControllers()
                 } label: {
                     Image(systemName: "xmark")
                 }
@@ -23,9 +24,9 @@ struct WorkoutControlsView: View {
                 Text("End")
             }
             VStack {
-                if workoutViewModel.isRunning {
+                if workoutControlsViewModel.isRunning {
                     Button{
-                        workoutViewModel.pauseWorkout()
+                        workoutControlsViewModel.pauseWorkout()
                     } label: {
                         Image(systemName: "pause")
                     }
@@ -33,7 +34,7 @@ struct WorkoutControlsView: View {
                     Text("Pause")
                 } else {
                     Button{
-                        workoutViewModel.resumeWorkout()
+                        workoutControlsViewModel.resumeWorkout()
                     } label: {
                         Image(systemName: "play")
                     }
@@ -47,6 +48,6 @@ struct WorkoutControlsView: View {
 
 struct WorkoutControlsView_Previews: PreviewProvider {
     static var previews: some View {
-        WorkoutControlsView()
+        WorkoutControlsView(workoutControlsViewModel: WorkoutControlsViewModel(workoutService: WorkoutService()))
     }
 }

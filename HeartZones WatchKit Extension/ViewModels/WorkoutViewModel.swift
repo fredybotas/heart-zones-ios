@@ -22,25 +22,35 @@ class WorkoutViewModel: ObservableObject {
     @Published var currentPace: String = "--'--''"
     @Published var averagePace: String = "--'--''"
 
-    private let workoutService: IWorkoutService = WorkoutService()
-    //TODO: Get correct age
-    private let heartZoneService: HeartZoneService = HeartZoneService(age: 25)
+    private let workoutService: IWorkoutService
+    private let heartZoneService: HeartZoneService
+    private let workoutType: WorkoutType
     private var timer: AnyCancellable?
     
-    init(workoutType: WorkoutType) {
+    init(workoutType: WorkoutType, workoutService: IWorkoutService, heartZoneService: HeartZoneService) {
+        self.workoutService = workoutService
+        self.heartZoneService = heartZoneService
+        self.workoutType = workoutType
+    }
+    
+    deinit {
+        stopTimer()
+    }
+    
+    func startWorkout() {
         workoutService.startWorkout(workoutType: workoutType)
         startTimer()
     }
-
+    
     private func startTimer() {
         timer?.cancel()
         timer = Timer.publish(every: 0.05, on: .main, in: .common)
             .autoconnect()
-            .sink() { _ in
-                guard let newTimeInterval = self.workoutService.getActiveWorkoutElapsedTime() else {
+            .sink() { [weak self] _ in
+                guard let newTimeInterval = self?.workoutService.getActiveWorkoutElapsedTime() else {
                     return
                 }
-                self.time = newTimeInterval.stringFromTimeInterval()
+                self?.time = newTimeInterval.stringFromTimeInterval()
             }
     }
     
@@ -48,25 +58,6 @@ class WorkoutViewModel: ObservableObject {
         timer?.cancel()
         timer = nil
     }
-    
-    func pauseWorkout() {
-        workoutService.pauseActiveWorkout()
-        stopTimer()
-        isRunning = false
-    }
-    
-    func resumeWorkout() {
-        workoutService.resumeActiveWorkout()
-        startTimer()
-        isRunning = true
-    }
-    
-    func stopWorkout() {
-        workoutService.stopActiveWorkout()
-        stopTimer()
-        isRunning = false
-    }
-    
 }
 
 fileprivate extension TimeInterval{

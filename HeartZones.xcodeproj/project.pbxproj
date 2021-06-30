@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -14,6 +14,7 @@
 		B615E0452683BD1900B5DC91 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B615E0442683BD1900B5DC91 /* Preview Assets.xcassets */; };
 		B615E0512683BD1900B5DC91 /* HeartZonesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B615E0502683BD1900B5DC91 /* HeartZonesTests.swift */; };
 		B615E05C2683BD1900B5DC91 /* HeartZonesUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B615E05B2683BD1900B5DC91 /* HeartZonesUITests.swift */; };
+		B63E638A268B5962006593AA /* Interface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B6628A75268A56CB00901D17 /* Interface.storyboard */; };
 		B650A95B26878DAD0042B33D /* PieSegmentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B650A95A26878DAD0042B33D /* PieSegmentView.swift */; };
 		B650A95F26878E1F0042B33D /* WorkoutViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B650A95E26878E1F0042B33D /* WorkoutViewModel.swift */; };
 		B650A962268799C60042B33D /* WorkoutService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B650A961268799C60042B33D /* WorkoutService.swift */; };
@@ -25,9 +26,9 @@
 		B650A971268895800042B33D /* HeartZoneService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B650A970268895800042B33D /* HeartZoneService.swift */; };
 		B6628A71268A538300901D17 /* HostingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6628A6F268A538300901D17 /* HostingController.swift */; };
 		B6628A72268A538300901D17 /* ExtensionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6628A70268A538300901D17 /* ExtensionDelegate.swift */; };
-		B6628A76268A56CB00901D17 /* Interface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B6628A74268A56CB00901D17 /* Interface.storyboard */; };
+		B697B4FE268B9A77003558C8 /* Swinject in Frameworks */ = {isa = PBXBuildFile; productRef = B697B4FD268B9A77003558C8 /* Swinject */; };
+		B697B500268BBD6E003558C8 /* WorkoutControlsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B697B4FF268BBD6E003558C8 /* WorkoutControlsViewModel.swift */; };
 		B6E30C3C26850F73007CCA38 /* WorkoutSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6E30C3B26850F73007CCA38 /* WorkoutSelectionView.swift */; };
-		B6E30C3F268517C2007CCA38 /* WorkoutMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6E30C3E268517C2007CCA38 /* WorkoutMainView.swift */; };
 		B6E30C4126851996007CCA38 /* WorkoutControlsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6E30C4026851996007CCA38 /* WorkoutControlsView.swift */; };
 		B6E30C43268519B8007CCA38 /* WorkoutRunningView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6E30C42268519B8007CCA38 /* WorkoutRunningView.swift */; };
 /* End PBXBuildFile section */
@@ -118,9 +119,9 @@
 		B650A9722688C3A80042B33D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = Platforms/WatchOS.platform/Developer/SDKs/WatchOS7.4.sdk/System/Library/Frameworks/CoreGraphics.framework; sourceTree = DEVELOPER_DIR; };
 		B6628A6F268A538300901D17 /* HostingController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HostingController.swift; sourceTree = "<group>"; };
 		B6628A70268A538300901D17 /* ExtensionDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExtensionDelegate.swift; sourceTree = "<group>"; };
-		B6628A75268A56CB00901D17 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Interface.storyboard; sourceTree = "<group>"; };
+		B6628A75268A56CB00901D17 /* Interface.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Interface.storyboard; sourceTree = "<group>"; };
+		B697B4FF268BBD6E003558C8 /* WorkoutControlsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutControlsViewModel.swift; sourceTree = "<group>"; };
 		B6E30C3B26850F73007CCA38 /* WorkoutSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutSelectionView.swift; sourceTree = "<group>"; };
-		B6E30C3E268517C2007CCA38 /* WorkoutMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutMainView.swift; sourceTree = "<group>"; };
 		B6E30C4026851996007CCA38 /* WorkoutControlsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutControlsView.swift; sourceTree = "<group>"; };
 		B6E30C42268519B8007CCA38 /* WorkoutRunningView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutRunningView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -131,6 +132,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B650A96626879E5B0042B33D /* HealthKit.framework in Frameworks */,
+				B697B4FE268B9A77003558C8 /* Swinject in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -178,7 +180,7 @@
 		B615E02A2683BD1800B5DC91 /* HeartZones WatchKit App */ = {
 			isa = PBXGroup;
 			children = (
-				B6628A74268A56CB00901D17 /* Interface.storyboard */,
+				B6628A75268A56CB00901D17 /* Interface.storyboard */,
 				B615E02B2683BD1900B5DC91 /* Assets.xcassets */,
 				B615E02D2683BD1900B5DC91 /* Info.plist */,
 			);
@@ -243,6 +245,7 @@
 			children = (
 				B650A95E26878E1F0042B33D /* WorkoutViewModel.swift */,
 				B650A96A2688857E0042B33D /* WorkoutSelectionViewModel.swift */,
+				B697B4FF268BBD6E003558C8 /* WorkoutControlsViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -280,7 +283,6 @@
 			children = (
 				B650A95C26878DB40042B33D /* Helpers */,
 				B6E30C3B26850F73007CCA38 /* WorkoutSelectionView.swift */,
-				B6E30C3E268517C2007CCA38 /* WorkoutMainView.swift */,
 				B6E30C4026851996007CCA38 /* WorkoutControlsView.swift */,
 				B6E30C42268519B8007CCA38 /* WorkoutRunningView.swift */,
 			);
@@ -303,6 +305,9 @@
 				B615E0292683BD1800B5DC91 /* PBXTargetDependency */,
 			);
 			name = HeartZones;
+			packageProductDependencies = (
+				B697B4FC268B9A70003558C8 /* Swinject */,
+			);
 			productName = HeartZones;
 			productReference = B615E0222683BD1800B5DC91 /* HeartZones.app */;
 			productType = "com.apple.product-type.application.watchapp2-container";
@@ -337,6 +342,9 @@
 			dependencies = (
 			);
 			name = "HeartZones WatchKit Extension";
+			packageProductDependencies = (
+				B697B4FD268B9A77003558C8 /* Swinject */,
+			);
 			productName = "HeartZones WatchKit Extension";
 			productReference = B615E0322683BD1900B5DC91 /* HeartZones WatchKit Extension.appex */;
 			productType = "com.apple.product-type.watchkit2-extension";
@@ -414,6 +422,9 @@
 				Base,
 			);
 			mainGroup = B615E01B2683BD1800B5DC91;
+			packageReferences = (
+				B697B4FB268B9A70003558C8 /* XCRemoteSwiftPackageReference "Swinject" */,
+			);
 			productRefGroup = B615E0232683BD1800B5DC91 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -439,7 +450,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B6628A76268A56CB00901D17 /* Interface.storyboard in Resources */,
+				B63E638A268B5962006593AA /* Interface.storyboard in Resources */,
 				B615E02C2683BD1900B5DC91 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -483,7 +494,7 @@
 				B650A96F2688955F0042B33D /* HeartZone.swift in Sources */,
 				B6E30C3C26850F73007CCA38 /* WorkoutSelectionView.swift in Sources */,
 				B650A962268799C60042B33D /* WorkoutService.swift in Sources */,
-				B6E30C3F268517C2007CCA38 /* WorkoutMainView.swift in Sources */,
+				B697B500268BBD6E003558C8 /* WorkoutControlsViewModel.swift in Sources */,
 				B650A971268895800042B33D /* HeartZoneService.swift in Sources */,
 				B650A95B26878DAD0042B33D /* PieSegmentView.swift in Sources */,
 				B650A96B2688857E0042B33D /* WorkoutSelectionViewModel.swift in Sources */,
@@ -531,17 +542,6 @@
 			targetProxy = B615E0582683BD1900B5DC91 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
-
-/* Begin PBXVariantGroup section */
-		B6628A74268A56CB00901D17 /* Interface.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				B6628A75268A56CB00901D17 /* Base */,
-			);
-			name = Interface.storyboard;
-			sourceTree = "<group>";
-		};
-/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		B615E05E2683BD1900B5DC91 /* Debug */ = {
@@ -920,6 +920,30 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		B697B4FB268B9A70003558C8 /* XCRemoteSwiftPackageReference "Swinject" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Swinject/Swinject.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.7.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		B697B4FC268B9A70003558C8 /* Swinject */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B697B4FB268B9A70003558C8 /* XCRemoteSwiftPackageReference "Swinject" */;
+			productName = Swinject;
+		};
+		B697B4FD268B9A77003558C8 /* Swinject */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B697B4FB268B9A70003558C8 /* XCRemoteSwiftPackageReference "Swinject" */;
+			productName = Swinject;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = B615E01C2683BD1800B5DC91 /* Project object */;
 }

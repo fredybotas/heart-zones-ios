@@ -43,7 +43,19 @@ class Workout: NSObject, HKLiveWorkoutBuilderDelegate, HKWorkoutSessionDelegate 
     }
     
     func stop() {
-        activeWorkoutSession?.stopActivity(with: Date())
+        let currentDate = Date()
+        activeWorkoutSession?.stopActivity(with: currentDate)
+        activeWorkoutSession?.end()
+        activeWorkoutSession?.associatedWorkoutBuilder().endCollection(withEnd: currentDate){ [weak self] (success, error) in
+            guard success else {
+                return
+            }
+            self?.activeWorkoutSession?.associatedWorkoutBuilder().finishWorkout { (workout, error) in
+                guard workout != nil else {
+                   return
+                }
+            }
+        }
     }
     
     func getElapsedTime() -> TimeInterval {

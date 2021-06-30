@@ -9,12 +9,17 @@ import SwiftUI
 import HealthKit
 
 struct WorkoutSelectionView: View {
+    
     @ObservedObject var workoutSelectionViewModel: WorkoutSelectionViewModel
     
+    var controller: HostingControllerWorkoutSelection?
+    
     var body: some View {
-        List(workoutSelectionViewModel.workoutTypes){ workoutType in
-            NavigationLink(workoutType.name, destination: WorkoutMainView(workoutType: workoutType))
-                .padding(EdgeInsets(top: 10, leading: 5, bottom: 10, trailing: 5))
+        List(workoutSelectionViewModel.workoutTypes){ workoutType in            
+            Button(workoutType.name, action: {
+                controller?.presentRunningWorkoutController(workoutType: workoutType)
+            })
+            .padding(EdgeInsets(top: 10, leading: 5, bottom: 10, trailing: 5))
         }
         .listStyle(CarouselListStyle())
         .navigationBarTitle("Workouts")

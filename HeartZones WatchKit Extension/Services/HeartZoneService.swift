@@ -11,10 +11,10 @@ import os
 
 class HeartZoneService {
     private let defaultHeartZone: HeartZonesSetting
-    private let age: Int
+    //TODO: Set correct age
+    private let age: Int = 25
     
-    init (age: Int) {
-        self.age = age
+    init () {
         self.defaultHeartZone = HeartZonesSetting.getDefaultHeartZonesSetting(age: age)
     }
     

@@ -7,9 +7,36 @@
 
 import WatchKit
 import HealthKit
+import Swinject
 
 class ExtensionDelegate: NSObject, WKExtensionDelegate {
 
+    let container: Container = {
+        let container = Container()
+        container.register(WorkoutService.self, factory: { resolver in
+            return WorkoutService()
+        }).inObjectScope(.container)
+        container.register(HeartZoneService.self, factory: { resolver in
+            return HeartZoneService()
+        }).inObjectScope(.container)
+        
+        container.register(WorkoutSelectionViewModel.self, factory: { resolver in
+            return WorkoutSelectionViewModel()
+        })
+        container.register(WorkoutViewModel.self, factory: { (resolver, workoutType: WorkoutType) in
+            let workoutService = resolver.resolve(WorkoutService.self)!
+            let heartZoneService = resolver.resolve(HeartZoneService.self)!
+
+            return WorkoutViewModel(workoutType: workoutType, workoutService: workoutService, heartZoneService: heartZoneService)
+        })
+        container.register(WorkoutControlsViewModel.self, factory: { resolver in
+            let workoutService = resolver.resolve(WorkoutService.self)!
+            return WorkoutControlsViewModel(workoutService: workoutService)
+        })
+        
+        return container
+    }()
+    
     func authorizeHealthKitAccess(toRead readable: Set<HKObjectType>?, toWrite writable: Set<HKSampleType>?, completion: @escaping (Bool, HKError.Code?) -> Void)
     {
         guard HKHealthStore.isHealthDataAvailable() else {
@@ -41,6 +68,7 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
         ], completion: { (result, code) in
             print(result)
         })
+        
     }
 
     func applicationDidBecomeActive() {

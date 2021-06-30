@@ -1,18 +1,43 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder.WatchKit.Storyboard" version="3.0" toolsVersion="14815" targetRuntime="watchKit" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="NBu-mt-KyX">
+<document type="com.apple.InterfaceBuilder.WatchKit.Storyboard" version="3.0" toolsVersion="18122" targetRuntime="watchKit" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="NBu-mt-KyX">
     <device id="watch38"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14770"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBWatchKitPlugin" version="14621"/>
+        <deployment identifier="watchOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBWatchKitPlugin" version="18022"/>
     </dependencies>
     <scenes>
-        <!--Hosting Controller-->
+        <!--HostingControllerWorkoutSelection-->
         <scene sceneID="RUd-og-cv4">
             <objects>
-                <hostingController id="NBu-mt-KyX" customClass="HostingController" 
-                customModuleProvider="target"/>                
+                <hostingController identifier="HostingControllerWorkoutSelection" title="HostingControllerWorkoutSelection" id="NBu-mt-KyX" customClass="HostingControllerWorkoutSelection" customModule="HeartZones_WatchKit_Extension"/>
             </objects>
-            <point key="canvasLocation" x="187" y="141"/>
+            <point key="canvasLocation" x="106" y="-126"/>
+        </scene>
+        <!--HostingControllerWorkoutControls-->
+        <scene sceneID="Hzx-pJ-R5N">
+            <objects>
+                <hostingController identifier="HostingControllerWorkoutControls" id="qyC-4j-AWB" customClass="HostingControllerWorkoutControls" customModule="HeartZones_WatchKit_Extension"/>
+            </objects>
+            <point key="canvasLocation" x="394" y="-503"/>
+        </scene>
+        <!--HostingControllerRunningWorkout-->
+        <scene sceneID="Znu-3F-ZQw">
+            <objects>
+                <hostingController identifier="HostingControllerRunningWorkout" id="ZBv-Rv-aJF" customClass="HostingControllerRunningWorkout" customModule="HeartZones_WatchKit_Extension"/>
+            </objects>
+            <point key="canvasLocation" x="394" y="-126"/>
+        </scene>
+        <!--PlayingNowController-->
+        <scene sceneID="jTF-Tq-6Ys">
+            <objects>
+                <controller identifier="PlayingNowController" id="06r-QB-gzo" customClass="PlayingNowController" customModule="HeartZones_WatchKit_Extension">
+                    <items>
+                        <nowPlayingView alignment="left" id="i0c-MT-ifZ"/>
+                    </items>
+                </controller>
+            </objects>
+            <point key="canvasLocation" x="394" y="239"/>
         </scene>
         <!--Static Notification Interface Controller-->
         <scene sceneID="AEw-b0-oYE">
@@ -28,15 +53,14 @@
                     </connections>
                 </notificationController>
             </objects>
-            <point key="canvasLocation" x="187" y="462"/>
+            <point key="canvasLocation" x="142" y="544"/>
         </scene>
-        <!--Notification Hosting Controller-->
+        <!--Notification Controller-->
         <scene sceneID="Niz-AI-uX2">
             <objects>
-                <controller id="eXb-UN-Cd0" customClass="NotificationController"
-                customModuleProvider="target"/>
+                <controller id="eXb-UN-Cd0" customClass="NotificationController" customModule="HeartZones_WatchKit_App" customModuleProvider="target"/>
             </objects>
-            <point key="canvasLocation" x="488" y="462"/>
+            <point key="canvasLocation" x="514" y="544"/>
         </scene>
     </scenes>
 </document>

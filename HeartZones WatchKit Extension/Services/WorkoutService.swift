@@ -23,10 +23,11 @@ class WorkoutService: IWorkoutService {
     private var activeWorkout: Workout?
     
     func startWorkout(workoutType: WorkoutType) {
-        if (activeWorkout != nil) {
+        if activeWorkout != nil {
             print("Workout already exists")
             return
         }
+        
         activeWorkout = Workout(healthKit: healthKit, type: workoutType)
     }
     
@@ -36,6 +37,7 @@ class WorkoutService: IWorkoutService {
             return
         }
         activeWorkout.stop()
+        self.activeWorkout = nil
     }
     
     func pauseActiveWorkout() {
@@ -51,6 +53,7 @@ class WorkoutService: IWorkoutService {
             print("There is not active workout while fetching elapsed time")
             return nil
         }
+        
         return activeWorkout.getElapsedTime()
     }
 }
