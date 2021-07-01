@@ -71,15 +71,29 @@ class Workout: NSObject, HKLiveWorkoutBuilderDelegate, HKWorkoutSessionDelegate 
         activeWorkoutSession?.stopActivity(with: currentDate)
         activeWorkoutSession?.end()
         activeWorkoutSession?.associatedWorkoutBuilder().endCollection(withEnd: currentDate){ [weak self] (success, error) in
+            guard let self = self else { return }
             guard success else {
                 return
             }
-            self?.activeWorkoutSession?.associatedWorkoutBuilder().finishWorkout { (workout, error) in
-                guard workout != nil else {
-                   return
+            if self.shouldSaveWorkout() {
+                self.activeWorkoutSession?.associatedWorkoutBuilder().finishWorkout { (workout, error) in
+                    guard workout != nil else {
+                       return
+                    }
                 }
+            } else {
+                self.activeWorkoutSession?.associatedWorkoutBuilder().discardWorkout()
             }
         }
+    }
+    
+    private func shouldSaveWorkout() -> Bool {
+        let elapsedTime = getElapsedTime()
+        if elapsedTime > 60 * 5 {
+            // Only save workout if it lasted for 5min
+            return true
+        }
+        return false
     }
     
     private func finalizePublishers() {
