@@ -11,6 +11,13 @@ struct WorkoutRunningView: View {
     
     @ObservedObject var workoutViewModel: WorkoutViewModel
 
+    private func getBpmViewPadding() -> CGFloat {
+        if #available(watchOS 7, *) {
+            return -5
+        }
+        return -15
+    }
+    
     var body: some View {
         VStack(alignment: .leading, spacing: nil) {
             Text(workoutViewModel.time).font(Font.system(size: 32, weight: .semibold, design: .default))
@@ -22,7 +29,7 @@ struct WorkoutRunningView: View {
                     .fill(workoutViewModel.bpmCircleColor)
                     .frame(width: 22, height: 22, alignment: .center)
             }
-            .padding([.bottom, .top], -5)
+            .padding([.bottom, .top], getBpmViewPadding())
             
             Text(workoutViewModel.energy)
                 .font(Font.system(size: 23, weight: .light, design: .default))
@@ -33,10 +40,10 @@ struct WorkoutRunningView: View {
             Spacer()
             HStack {
                 Text(workoutViewModel.currentPace)
-                    .font(Font.system(size: 23, weight: .light, design: .default))
+                    .font(Font.system(size: 20, weight: .light, design: .default))
                 Spacer()
                 Text(workoutViewModel.averagePace)
-                    .font(Font.system(size: 23, weight: .light, design: .default))
+                    .font(Font.system(size: 20, weight: .light, design: .default))
             }
         }
         .onAppear(){
