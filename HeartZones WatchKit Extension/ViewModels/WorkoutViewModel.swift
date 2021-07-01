@@ -17,8 +17,8 @@ class WorkoutViewModel: ObservableObject {
     @Published var bpmCircleRatio = 0.0
     
     @Published var time: String = "00:00,00"
-    @Published var energy: String = "-- kcal"
-    @Published var distance: String = "-- km"
+    @Published var energy: String = "0 kcal"
+    @Published var distance: String = "0 km"
     @Published var currentPace: String = "--'--''"
     @Published var averagePace: String = "--'--''"
     
