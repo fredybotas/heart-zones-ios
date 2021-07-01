@@ -53,10 +53,17 @@ struct BpmContainer {
         }
         return array.reduce(0, { $0 + $1 }) / array.count
     }
-    
 }
 
-class Workout: NSObject, HKLiveWorkoutBuilderDelegate, HKWorkoutSessionDelegate {
+protocol IWorkout {
+    func pause()
+    func resume()
+    func stop()
+    func getElapsedTime() -> TimeInterval
+    func getDataPublishers() -> WorkoutDataChangePublishers
+}
+
+class Workout: NSObject, IWorkout, HKLiveWorkoutBuilderDelegate, HKWorkoutSessionDelegate {
     private let workoutType: WorkoutType
     private let healthKit: HKHealthStore
     
@@ -113,6 +120,18 @@ class Workout: NSObject, HKLiveWorkoutBuilderDelegate, HKWorkoutSessionDelegate 
         }
     }
     
+    func getElapsedTime() -> TimeInterval {
+        guard let activeWorkoutSession = activeWorkoutSession else {
+            print("Workout session is not running")
+            return 0.0
+        }
+        return activeWorkoutSession.associatedWorkoutBuilder().elapsedTime
+    }
+    
+    func getDataPublishers() -> WorkoutDataChangePublishers {
+        return dataPublishers
+    }
+    
     private func shouldSaveWorkout() -> Bool {
         let elapsedTime = getElapsedTime()
         if elapsedTime > 60 * 5 {
@@ -128,23 +147,15 @@ class Workout: NSObject, HKLiveWorkoutBuilderDelegate, HKWorkoutSessionDelegate 
         dataPublishers.energyPublisher.send(completion: .finished)
     }
     
-    func getElapsedTime() -> TimeInterval {
-        guard let activeWorkoutSession = activeWorkoutSession else {
-            print("Workout session is not running")
-            return 0.0
-        }
-        return activeWorkoutSession.associatedWorkoutBuilder().elapsedTime
-    }
-    
-    func workoutSession(_ workoutSession: HKWorkoutSession, didFailWithError error: Error) {
+    internal func workoutSession(_ workoutSession: HKWorkoutSession, didFailWithError error: Error) {
         print("State changed")
     }
     
-    func workoutSession(_ workoutSession: HKWorkoutSession, didChangeTo toState: HKWorkoutSessionState, from fromState: HKWorkoutSessionState, date: Date) {
+    internal func workoutSession(_ workoutSession: HKWorkoutSession, didChangeTo toState: HKWorkoutSessionState, from fromState: HKWorkoutSessionState, date: Date) {
         print("State changed to: " + String(toState.rawValue))
     }
     
-    func workoutBuilder(_ workoutBuilder: HKLiveWorkoutBuilder, didCollectDataOf collectedTypes: Set<HKSampleType>) {
+    internal func workoutBuilder(_ workoutBuilder: HKLiveWorkoutBuilder, didCollectDataOf collectedTypes: Set<HKSampleType>) {
         for type in collectedTypes {
             guard let quantityType = type as? HKQuantityType else { return }
             guard let statistics = workoutBuilder.statistics(for: quantityType) else { return }
@@ -154,10 +165,7 @@ class Workout: NSObject, HKLiveWorkoutBuilderDelegate, HKWorkoutSessionDelegate 
                 self.dataPublishers.distancePublisher.send(data)
             }
             if quantityType.isEqual(HKQuantityType.quantityType(forIdentifier: HKQuantityTypeIdentifier.heartRate)) {
-                guard let beats = statistics.mostRecentQuantity()?.doubleValue(for: HKUnit.hertz()) else { return }
-                bpm.insert(bpm: Int(beats * 60))
-                guard let bpmToSend = bpm.getActualBpm() else { return }
-                self.dataPublishers.bpmPublisher.send(bpmToSend)
+                handleBpmData(statistics: statistics)
             }
             if quantityType.isEqual(HKQuantityType.quantityType(forIdentifier: HKQuantityTypeIdentifier.activeEnergyBurned)) {
                 guard let energy = statistics.sumQuantity()?.doubleValue(for: HKUnit.kilocalorie()) else { return }
@@ -166,11 +174,14 @@ class Workout: NSObject, HKLiveWorkoutBuilderDelegate, HKWorkoutSessionDelegate 
         }
     }
     
-    func getDataPublishers() -> WorkoutDataChangePublishers {
-        return dataPublishers
+    private func handleBpmData(statistics: HKStatistics) {
+        guard let beats = statistics.mostRecentQuantity()?.doubleValue(for: HKUnit.hertz()) else { return }
+        bpm.insert(bpm: Int(beats * 60))
+        guard let bpmToSend = bpm.getActualBpm() else { return }
+        self.dataPublishers.bpmPublisher.send(bpmToSend)
     }
     
-    func workoutBuilderDidCollectEvent(_ workoutBuilder: HKLiveWorkoutBuilder) {
+    internal func workoutBuilderDidCollectEvent(_ workoutBuilder: HKLiveWorkoutBuilder) {
         print("BB")
     }
 }

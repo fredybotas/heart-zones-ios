@@ -21,7 +21,7 @@ protocol IWorkoutService {
 
 class WorkoutService: IWorkoutService {
     private let healthKit: HKHealthStore = HKHealthStore()
-    private var activeWorkout: Workout?
+    private var activeWorkout: IWorkout?
     
     func startWorkout(workoutType: WorkoutType) {
         if activeWorkout != nil {
