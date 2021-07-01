@@ -82,6 +82,12 @@ class Workout: NSObject, HKLiveWorkoutBuilderDelegate, HKWorkoutSessionDelegate 
         }
     }
     
+    private func finalizePublishers() {
+        dataPublishers.bpmPublisher.send(completion: .finished)
+        dataPublishers.distancePublisher.send(completion: .finished)
+        dataPublishers.energyPublisher.send(completion: .finished)
+    }
+    
     func getElapsedTime() -> TimeInterval {
         guard let activeWorkoutSession = activeWorkoutSession else {
             print("Workout session is not running")
