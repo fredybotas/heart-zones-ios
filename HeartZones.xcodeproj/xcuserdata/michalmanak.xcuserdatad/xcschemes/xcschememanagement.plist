@@ -12,12 +12,12 @@
 		<key>HeartZones WatchKit App (Notification).xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>1</integer>
+			<integer>2</integer>
 		</dict>
 		<key>HeartZones WatchKit App.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>0</integer>
+			<integer>1</integer>
 		</dict>
 		<key>Sample-iOS (Playground) 1.xcscheme</key>
 		<dict>
@@ -39,6 +39,29 @@
 			<false/>
 			<key>orderHint</key>
 			<integer>0</integer>
+		</dict>
+	</dict>
+	<key>SuppressBuildableAutocreation</key>
+	<dict>
+		<key>B615E0212683BD1800B5DC91</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>B615E0252683BD1800B5DC91</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>B615E04B2683BD1900B5DC91</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>B615E0562683BD1900B5DC91</key>
+		<dict>
+			<key>primary</key>
+			<true/>
 		</dict>
 	</dict>
 </dict>
