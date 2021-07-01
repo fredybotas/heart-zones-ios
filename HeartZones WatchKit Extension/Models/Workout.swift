@@ -7,20 +7,43 @@
 
 import Foundation
 import HealthKit
-import os
+import Combine
+
+struct DistanceData {
+    let distance: Measurement<UnitLength>
+    let currentSpeed: Measurement<UnitSpeed>
+    let averageSpeed: Measurement<UnitSpeed>
+    
+    init?(statistics: HKStatistics, elapsedTime: TimeInterval) {
+        guard let lastLength = statistics.mostRecentQuantity()?.doubleValue(for: HKUnit.meter()) else { return nil }
+        guard let lastDuration = statistics.mostRecentQuantityDateInterval()?.duration else { return nil } // seconds
+        
+        guard let totalLength = statistics.sumQuantity()?.doubleValue(for: HKUnit.meter()) else { return nil }
+
+        distance = Measurement.init(value: totalLength, unit: UnitLength.meters)
+        currentSpeed = Measurement.init(value: lastLength / lastDuration, unit: UnitSpeed.metersPerSecond)
+        averageSpeed = Measurement.init(value: totalLength / elapsedTime, unit: UnitSpeed.metersPerSecond)
+    }
+}
+
+struct WorkoutDataChangePublishers {
+    let bpmPublisher = PassthroughSubject<Int, Never>()
+    let distancePublisher = PassthroughSubject<DistanceData, Never>()
+    let energyPublisher = PassthroughSubject<Measurement<UnitEnergy>, Never>()
+}
 
 class Workout: NSObject, HKLiveWorkoutBuilderDelegate, HKWorkoutSessionDelegate {
     private let workoutType: WorkoutType
     private let healthKit: HKHealthStore
     
     private var activeWorkoutSession: HKWorkoutSession?
+    private let dataPublishers = WorkoutDataChangePublishers()
 
     init(healthKit: HKHealthStore, type: WorkoutType) {
         self.healthKit = healthKit
         self.workoutType = type
-
+    
         super.init()
-
         
         let configuration = workoutType.getConfiguration()
         activeWorkoutSession = try? HKWorkoutSession(healthStore: healthKit, configuration: configuration)
@@ -78,16 +101,25 @@ class Workout: NSObject, HKLiveWorkoutBuilderDelegate, HKWorkoutSessionDelegate 
     func workoutBuilder(_ workoutBuilder: HKLiveWorkoutBuilder, didCollectDataOf collectedTypes: Set<HKSampleType>) {
         for type in collectedTypes {
             guard let quantityType = type as? HKQuantityType else { return }
-                    
-            // Calculate statistics for the type.
+            guard let statistics = workoutBuilder.statistics(for: quantityType) else { return }
             
-            let statistics = workoutBuilder.statistics(for: quantityType)
-            //statistics!.mostRecentQuantity()
-            
-            print(statistics!.quantityType)
-            //print(statistics!.mostRecentQuantity()?.doubleValue(for: <#T##HKUnit#>))
-            print(statistics!.sumQuantity())
+            if quantityType.isEqual(HKQuantityType.quantityType(forIdentifier: HKQuantityTypeIdentifier.distanceWalkingRunning)) {
+                guard let data = DistanceData(statistics: statistics, elapsedTime: workoutBuilder.elapsedTime) else { return }
+                self.dataPublishers.distancePublisher.send(data)
+            }
+            if quantityType.isEqual(HKQuantityType.quantityType(forIdentifier: HKQuantityTypeIdentifier.heartRate)) {
+                guard let beats = statistics.mostRecentQuantity()?.doubleValue(for: HKUnit.hertz()) else { return }
+                self.dataPublishers.bpmPublisher.send(Int(beats * 60))
+            }
+            if quantityType.isEqual(HKQuantityType.quantityType(forIdentifier: HKQuantityTypeIdentifier.activeEnergyBurned)) {
+                guard let energy = statistics.sumQuantity()?.doubleValue(for: HKUnit.kilocalorie()) else { return }
+                self.dataPublishers.energyPublisher.send(Measurement(value: energy, unit: UnitEnergy.kilocalories))
+            }
         }
+    }
+    
+    func getDataPublishers() -> WorkoutDataChangePublishers {
+        return dataPublishers
     }
     
     func workoutBuilderDidCollectEvent(_ workoutBuilder: HKLiveWorkoutBuilder) {

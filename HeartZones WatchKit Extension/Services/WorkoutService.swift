@@ -16,6 +16,7 @@ protocol IWorkoutService {
     func pauseActiveWorkout()
     func resumeActiveWorkout()
     func getActiveWorkoutElapsedTime() -> TimeInterval?
+    func getActiveWorkoutDataPublisher() -> WorkoutDataChangePublishers?
 }
 
 class WorkoutService: IWorkoutService {
@@ -56,4 +57,14 @@ class WorkoutService: IWorkoutService {
         
         return activeWorkout.getElapsedTime()
     }
+    
+    func getActiveWorkoutDataPublisher() -> WorkoutDataChangePublishers? {
+        guard let activeWorkout = activeWorkout else {
+            print("There is not active workout while getting data publisher")
+            return nil
+        }
+        
+        return activeWorkout.getDataPublishers()
+    }
+
 }
