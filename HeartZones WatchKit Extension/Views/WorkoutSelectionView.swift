@@ -19,7 +19,8 @@ struct WorkoutSelectionView: View {
             Button(workoutType.name, action: {
                 controller?.presentRunningWorkoutController(workoutType: workoutType)
             })
-            .padding(EdgeInsets(top: 10, leading: 5, bottom: 10, trailing: 5))
+            .font(Font.system(size: 14, weight: .regular, design: .default))
+            .padding(EdgeInsets(top: 10, leading: 3, bottom: 10, trailing: 3))
         }
         .listStyle(CarouselListStyle())
         .navigationBarTitle("Workouts")
