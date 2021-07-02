@@ -62,13 +62,11 @@ class WorkoutViewModel: ObservableObject {
     }
     
     func setDistanceSubscriber() {
-        workoutDistanceDataSubscriber?.cancel()
         workoutDistanceDataSubscriber = workoutService
             .getActiveWorkoutDataPublisher()?
             .distancePublisher
             .receive(on: DispatchQueue.main)
             .sink(receiveCompletion: { [weak self] completion in
-                self?.workoutDistanceDataSubscriber?.cancel()
                 self?.workoutDistanceDataSubscriber = nil
             }, receiveValue: { [weak self] data in
                 self?.currentPace = data.currentSpeed.toPaceString()
@@ -79,13 +77,11 @@ class WorkoutViewModel: ObservableObject {
     }
     
     func setBpmSubscriber() {
-        workoutBpmDataSubscriber?.cancel()
         workoutBpmDataSubscriber = workoutService
             .getActiveWorkoutDataPublisher()?
             .bpmPublisher
             .receive(on: DispatchQueue.main)
             .sink(receiveCompletion: { [weak self] completion in
-                self?.workoutBpmDataSubscriber?.cancel()
                 self?.workoutBpmDataSubscriber = nil
             }, receiveValue: { [weak self] data in
                 self?.bpm = String(data) + " bpm"
@@ -97,13 +93,11 @@ class WorkoutViewModel: ObservableObject {
     }
     
     func setEnergySubscriber() {
-        workoutEnergyDataSubscriber?.cancel()
         workoutEnergyDataSubscriber = workoutService
             .getActiveWorkoutDataPublisher()?
             .energyPublisher
             .receive(on: DispatchQueue.main)
             .sink(receiveCompletion: { [weak self] completion in
-                self?.workoutEnergyDataSubscriber?.cancel()
                 self?.workoutEnergyDataSubscriber = nil
             }, receiveValue: { [weak self] data in
                 guard let energyString = self?.energyFormatter.string(from: data) else { return }
@@ -112,7 +106,6 @@ class WorkoutViewModel: ObservableObject {
     }
     
     private func startTimer() {
-        timer?.cancel()
         timer = Timer.publish(every: 0.05, on: .main, in: .common)
             .autoconnect()
             .sink() { [weak self] _ in
@@ -124,7 +117,6 @@ class WorkoutViewModel: ObservableObject {
     }
     
     private func stopTimer() {
-        timer?.cancel()
         timer = nil
     }
 }
