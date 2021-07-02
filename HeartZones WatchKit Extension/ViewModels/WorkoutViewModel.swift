@@ -62,6 +62,7 @@ class WorkoutViewModel: ObservableObject {
     }
     
     func setDistanceSubscriber() {
+        workoutDistanceDataSubscriber?.cancel()
         workoutDistanceDataSubscriber = workoutService
             .getActiveWorkoutDataPublisher()?
             .distancePublisher
@@ -78,6 +79,7 @@ class WorkoutViewModel: ObservableObject {
     }
     
     func setBpmSubscriber() {
+        workoutBpmDataSubscriber?.cancel()
         workoutBpmDataSubscriber = workoutService
             .getActiveWorkoutDataPublisher()?
             .bpmPublisher
@@ -95,6 +97,7 @@ class WorkoutViewModel: ObservableObject {
     }
     
     func setEnergySubscriber() {
+        workoutEnergyDataSubscriber?.cancel()
         workoutEnergyDataSubscriber = workoutService
             .getActiveWorkoutDataPublisher()?
             .energyPublisher
