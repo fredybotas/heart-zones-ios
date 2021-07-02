@@ -13,17 +13,6 @@ struct DistanceData {
     let distance: Measurement<UnitLength>
     let currentSpeed: Measurement<UnitSpeed>
     let averageSpeed: Measurement<UnitSpeed>
-    
-    init?(statistics: HKStatistics, elapsedTime: TimeInterval) {
-        guard let lastLength = statistics.mostRecentQuantity()?.doubleValue(for: HKUnit.meter()) else { return nil }
-        guard let lastDuration = statistics.mostRecentQuantityDateInterval()?.duration else { return nil } // seconds
-        
-        guard let totalLength = statistics.sumQuantity()?.doubleValue(for: HKUnit.meter()) else { return nil }
-
-        distance = Measurement.init(value: totalLength, unit: UnitLength.meters)
-        currentSpeed = Measurement.init(value: lastLength / lastDuration, unit: UnitSpeed.metersPerSecond)
-        averageSpeed = Measurement.init(value: totalLength / elapsedTime, unit: UnitSpeed.metersPerSecond)
-    }
 }
 
 struct WorkoutDataChangePublishers {
@@ -139,8 +128,7 @@ class Workout: NSObject, IWorkout, HKLiveWorkoutBuilderDelegate, HKWorkoutSessio
             guard let statistics = workoutBuilder.statistics(for: quantityType) else { return }
             
             if quantityType.isEqual(HKQuantityType.quantityType(forIdentifier: HKQuantityTypeIdentifier.distanceWalkingRunning)) {
-                guard let data = DistanceData(statistics: statistics, elapsedTime: workoutBuilder.elapsedTime) else { return }
-                self.dataPublishers.distancePublisher.send(data)
+                handleDistanceData(statistics: statistics)
             }
             if quantityType.isEqual(HKQuantityType.quantityType(forIdentifier: HKQuantityTypeIdentifier.heartRate)) {
                 handleBpmData(statistics: statistics)
@@ -157,6 +145,18 @@ class Workout: NSObject, IWorkout, HKLiveWorkoutBuilderDelegate, HKWorkoutSessio
         bpm.insert(bpm: Int(beats * 60))
         guard let bpmToSend = bpm.getActualBpm() else { return }
         self.dataPublishers.bpmPublisher.send(bpmToSend)
+    }
+    
+    private func handleDistanceData(statistics: HKStatistics) {
+        guard let lastLength = statistics.mostRecentQuantity()?.doubleValue(for: HKUnit.meter()) else { return }
+        guard let lastDuration = statistics.mostRecentQuantityDateInterval()?.duration else { return } // seconds
+        guard let totalLength = statistics.sumQuantity()?.doubleValue(for: HKUnit.meter()) else { return }
+        
+        distances.insert(distance: lastLength, timeInterval: lastDuration)
+        guard let currentSpeed = distances.getAverageSpeed() else { return }
+
+        let data = DistanceData(distance: Measurement.init(value: totalLength, unit: UnitLength.meters), currentSpeed: currentSpeed, averageSpeed: Measurement.init(value: totalLength / getElapsedTime(), unit: UnitSpeed.metersPerSecond))
+        self.dataPublishers.distancePublisher.send(data)
     }
     
     internal func workoutBuilderDidCollectEvent(_ workoutBuilder: HKLiveWorkoutBuilder) {
