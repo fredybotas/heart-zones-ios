@@ -65,9 +65,9 @@ class WorkoutViewModel: ObservableObject {
         workoutDistanceDataSubscriber = workoutService
             .getActiveWorkoutDataPublisher()?
             .distancePublisher
-            .receive(on: RunLoop.main)
+            .receive(on: DispatchQueue.main)
             .sink(receiveCompletion: { [weak self] completion in
-            self?.workoutDistanceDataSubscriber?.cancel()
+                self?.workoutDistanceDataSubscriber?.cancel()
                 self?.workoutDistanceDataSubscriber = nil
             }, receiveValue: { [weak self] data in
                 self?.currentPace = data.currentSpeed.toPaceString()
@@ -81,7 +81,7 @@ class WorkoutViewModel: ObservableObject {
         workoutBpmDataSubscriber = workoutService
             .getActiveWorkoutDataPublisher()?
             .bpmPublisher
-            .receive(on: RunLoop.main)
+            .receive(on: DispatchQueue.main)
             .sink(receiveCompletion: { [weak self] completion in
                 self?.workoutBpmDataSubscriber?.cancel()
                 self?.workoutBpmDataSubscriber = nil
@@ -98,7 +98,7 @@ class WorkoutViewModel: ObservableObject {
         workoutEnergyDataSubscriber = workoutService
             .getActiveWorkoutDataPublisher()?
             .energyPublisher
-            .receive(on: RunLoop.main)
+            .receive(on: DispatchQueue.main)
             .sink(receiveCompletion: { [weak self] completion in
                 self?.workoutEnergyDataSubscriber?.cancel()
                 self?.workoutEnergyDataSubscriber = nil
@@ -147,6 +147,9 @@ fileprivate extension TimeInterval {
 fileprivate extension Measurement where UnitType == UnitSpeed {
     func toPaceString() -> String {
         let metresPerSec = self.converted(to: UnitSpeed.metersPerSecond).value
+        if metresPerSec == 0 {
+            return "--'--''"
+        }
         let kilometresPerSec = metresPerSec / 1000
         let secsForKilometer = Int.init(1 / kilometresPerSec)
         return String(format: "%0.2d'%0.2d''", secsForKilometer / 60, secsForKilometer % 60)
