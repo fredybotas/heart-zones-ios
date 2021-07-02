@@ -81,11 +81,11 @@ class Workout: NSObject, IWorkout, HKLiveWorkoutBuilderDelegate, HKWorkoutSessio
         let currentDate = Date()
         activeWorkoutSession?.stopActivity(with: currentDate)
         activeWorkoutSession?.end()
-        activeWorkoutSession?.associatedWorkoutBuilder().endCollection(withEnd: currentDate){ [weak self] (success, error) in
-            guard let self = self else { return }
+        activeWorkoutSession?.associatedWorkoutBuilder().endCollection(withEnd: currentDate){ (success, error) in
             guard success else {
                 return
             }
+            
             if self.shouldSaveWorkout() {
                 self.activeWorkoutSession?.associatedWorkoutBuilder().finishWorkout { (workout, error) in
                     guard workout != nil else {
