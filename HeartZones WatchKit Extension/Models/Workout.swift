@@ -32,29 +32,6 @@ struct WorkoutDataChangePublishers {
     let energyPublisher = PassthroughSubject<Measurement<UnitEnergy>, Never>()
 }
 
-struct BpmContainer {
-    private var array = [Int]()
-    private let size: UInt
-    
-    init(size: UInt) {
-        self.size = size
-    }
-    
-    mutating func insert(bpm: Int) {
-        array.append(bpm)
-        if array.count > size {
-            array.remove(at: 0)
-        }
-    }
-    
-    func getActualBpm() -> Int? {
-        if array.count < size {
-            return nil
-        }
-        return array.reduce(0, { $0 + $1 }) / array.count
-    }
-}
-
 protocol IWorkout {
     func pause()
     func resume()
@@ -71,6 +48,7 @@ class Workout: NSObject, IWorkout, HKLiveWorkoutBuilderDelegate, HKWorkoutSessio
     private let dataPublishers = WorkoutDataChangePublishers()
     
     private var bpm = BpmContainer(size: 3)
+    private var distances = DistanceContainer(size: 3)
 
     init(healthKit: HKHealthStore, type: WorkoutType) {
         self.healthKit = healthKit
