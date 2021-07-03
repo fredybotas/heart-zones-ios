@@ -11,7 +11,7 @@ class WorkoutControlsViewModel: ObservableObject {
 
     private let workoutService: IWorkoutService
     
-    @Published var isRunning = true
+    @Published private(set) var isRunning = true
     
     init(workoutService: IWorkoutService) {
         self.workoutService = workoutService

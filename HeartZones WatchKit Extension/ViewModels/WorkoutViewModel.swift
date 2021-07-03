@@ -10,20 +10,20 @@ import SwiftUI
 import Combine
 
 class WorkoutViewModel: ObservableObject {
-    @Published var isRunning: Bool = true
+    @Published private(set) var isRunning: Bool = true
     
-    @Published var bpm: String = "-- bpm"    
-    @Published var bpmCircleColor = Color.black
-    @Published var bpmCircleRatio = 0.0
+    @Published private(set) var bpm: String = "-- bpm"
+    @Published private(set) var bpmCircleColor = Color.black
+    @Published private(set) var bpmCircleRatio = 0.0
     
-    @Published var time: String = "00:00,00"
-    @Published var energy: String = "0 kcal"
-    @Published var distance: String = "0 km"
-    @Published var currentPace: String = "--'--''"
-    @Published var averagePace: String = "--'--''"
+    @Published private(set) var time: String = "00:00,00"
+    @Published private(set) var energy: String = "0 kcal"
+    @Published private(set) var distance: String = "0 km"
+    @Published private(set) var currentPace: String = "--'--''"
+    @Published private(set) var averagePace: String = "--'--''"
     
-    let distanceFormatter = MeasurementFormatter()
-    let energyFormatter = MeasurementFormatter()
+    private let distanceFormatter = MeasurementFormatter()
+    private let energyFormatter = MeasurementFormatter()
 
     private let workoutService: IWorkoutService
     private let heartZoneService: HeartZoneService
