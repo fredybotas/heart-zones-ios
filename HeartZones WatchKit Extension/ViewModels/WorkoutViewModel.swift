@@ -16,6 +16,8 @@ class WorkoutViewModel: ObservableObject {
     @Published private(set) var bpmCircleColor = Color.black
     @Published private(set) var bpmCircleRatio = 0.0
     
+    @Published private(set) var sunVisibility = 0.0
+    
     @Published private(set) var time: String = "00:00,00"
     @Published private(set) var energy: String = "0 kcal"
     @Published private(set) var distance: String = "0 km"
@@ -150,3 +152,4 @@ fileprivate extension Measurement where UnitType == UnitSpeed {
         return String(format: "%0.2d'%0.2d''", secsForKilometer / 60, secsForKilometer % 60)
     }
 }
+

@@ -22,21 +22,31 @@ struct WorkoutRunningView: View {
         VStack(alignment: .leading, spacing: nil) {
             Text(workoutViewModel.time).font(Font.system(size: 32, weight: .semibold, design: .default))
             Spacer()
-            HStack(alignment: .center, spacing: 20) {
-                Text(workoutViewModel.bpm)
-                    .font(Font.system(size: 23, weight: .light, design: .default))
-                PieSegment(ratio: workoutViewModel.bpmCircleRatio)
-                    .fill(workoutViewModel.bpmCircleColor)
-                    .frame(width: 22, height: 22, alignment: .center)
+            HStack(alignment: .top, spacing: 40) {
+                VStack(alignment: .leading, spacing: nil) {
+                    Text(workoutViewModel.bpm)
+                        .font(Font.system(size: 23, weight: .light, design: .default))
+                        .padding([.bottom, .top], getBpmViewPadding())
+                    Text(workoutViewModel.energy)
+                        .font(Font.system(size: 23, weight: .light, design: .default))
+                        .padding([.bottom, .top], -5)
+                    Text(workoutViewModel.distance)
+                        .font(Font.system(size: 23, weight: .light, design: .default))
+                        .padding([.bottom, .top], -5)
+                }
+                VStack(alignment: .center, spacing: 16) {
+                    PieSegment(ratio: workoutViewModel.bpmCircleRatio)
+                        .fill(workoutViewModel.bpmCircleColor)
+                        .frame(width: 23, height: 23, alignment: .center)
+
+                    SunView(sunVisibility: workoutViewModel.sunVisibility)
+                        .frame(width: 20, height: 20, alignment: .center)
+                        .clipped()
+                }
+
+
             }
-            .padding([.bottom, .top], getBpmViewPadding())
-            
-            Text(workoutViewModel.energy)
-                .font(Font.system(size: 23, weight: .light, design: .default))
-                .padding([.bottom, .top], -5)
-            Text(workoutViewModel.distance)
-                .font(Font.system(size: 23, weight: .light, design: .default))
-                .padding([.bottom, .top], -5)
+
             Spacer()
             HStack {
                 Text(workoutViewModel.currentPace)
@@ -55,7 +65,10 @@ struct WorkoutRunningView: View {
 }
 
 struct WorkoutRunningView_Previews: PreviewProvider {
+    
+    static var viewModel = WorkoutViewModel(workoutType: WorkoutType(type: .outdoorRunning), workoutService: WorkoutService(), heartZoneService: HeartZoneService())
+    
     static var previews: some View {
-        WorkoutRunningView(workoutViewModel: WorkoutViewModel(workoutType: WorkoutType(type: .outdoorRunning), workoutService: WorkoutService(), heartZoneService: HeartZoneService()))
+        WorkoutRunningView(workoutViewModel: viewModel)
     }
 }
