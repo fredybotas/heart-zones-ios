@@ -10,29 +10,23 @@ import SwiftUI
 struct WorkoutRunningView: View {
     
     @ObservedObject var workoutViewModel: WorkoutViewModel
-
-    private func getBpmViewPadding() -> CGFloat {
-        if #available(watchOS 7, *) {
-            return -5
-        }
-        return -15
-    }
     
     var body: some View {
         VStack(alignment: .leading, spacing: nil) {
-            Text(workoutViewModel.time).font(Font.system(size: 32, weight: .semibold, design: .default))
+            Text(workoutViewModel.time)
+                .font(Font.system(size: 32, weight: .semibold, design: .default))
             Spacer()
-            HStack(alignment: .top, spacing: 40) {
+            HStack(alignment: .top, spacing: 20) {
                 VStack(alignment: .leading, spacing: nil) {
                     Text(workoutViewModel.bpm)
                         .font(Font.system(size: 23, weight: .light, design: .default))
-                        .padding([.bottom, .top], getBpmViewPadding())
+                        .padding([.bottom, .top], -4)
                     Text(workoutViewModel.energy)
                         .font(Font.system(size: 23, weight: .light, design: .default))
-                        .padding([.bottom, .top], -5)
+                        .padding([.bottom, .top], -4)
                     Text(workoutViewModel.distance)
                         .font(Font.system(size: 23, weight: .light, design: .default))
-                        .padding([.bottom, .top], -5)
+                        .padding([.bottom, .top], -4)
                 }
                 VStack(alignment: .center, spacing: 16) {
                     PieSegment(ratio: workoutViewModel.bpmCircleRatio)
@@ -41,12 +35,11 @@ struct WorkoutRunningView: View {
 
                     SunView(sunVisibility: workoutViewModel.sunVisibility)
                         .frame(width: 20, height: 20, alignment: .center)
+                        .contentShape(Rectangle())
+                        .clipShape(Rectangle())
                         .clipped()
                 }
-
-
             }
-
             Spacer()
             HStack {
                 Text(workoutViewModel.currentPace)

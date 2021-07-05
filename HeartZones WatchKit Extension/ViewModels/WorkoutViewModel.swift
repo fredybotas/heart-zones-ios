@@ -44,7 +44,8 @@ class WorkoutViewModel: ObservableObject {
         
         distanceFormatter.unitOptions = .providedUnit
         distanceFormatter.numberFormatter.maximumFractionDigits = 1
-        
+        distanceFormatter.numberFormatter.minimumFractionDigits = 1
+            
         energyFormatter.unitOptions = .providedUnit
         energyFormatter.numberFormatter.maximumFractionDigits = 0
     }
@@ -73,7 +74,13 @@ class WorkoutViewModel: ObservableObject {
             }, receiveValue: { [weak self] data in
                 self?.currentPace = data.currentSpeed.toPaceString()
                 self?.averagePace = data.averageSpeed.toPaceString()
-                guard let distanceString = self?.distanceFormatter.string(from: data.distance.converted(to: UnitLength.kilometers)) else { return }
+                var distanceString: String?
+                if data.distance < Measurement.init(value: 1, unit: UnitLength.kilometers) {
+                    distanceString = self?.distanceFormatter.string(from: data.distance.converted(to: UnitLength.meters))
+                } else {
+                    distanceString = self?.distanceFormatter.string(from: data.distance.converted(to: UnitLength.kilometers))
+                }
+                guard let distanceString = distanceString else { return }
                 self?.distance = distanceString
             })
     }

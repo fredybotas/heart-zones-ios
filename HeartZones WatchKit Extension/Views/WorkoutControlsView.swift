@@ -20,6 +20,7 @@ struct WorkoutControlsView: View {
                 } label: {
                     Image(systemName: "xmark")
                 }
+                .padding(8)
                 .font(Font.system(size: 25, weight: .regular, design: .default))
                 Text("End")
             }
@@ -30,6 +31,7 @@ struct WorkoutControlsView: View {
                     } label: {
                         Image(systemName: "pause")
                     }
+                    .padding(8)
                     .font(Font.system(size: 25, weight: .regular, design: .default))
                     Text("Pause")
                 } else {
@@ -39,6 +41,7 @@ struct WorkoutControlsView: View {
                     } label: {
                         Image(systemName: "play")
                     }
+                    .padding(8)
                     .font(Font.system(size: 25, weight: .regular, design: .default))
                     Text("Continue")
                 }
