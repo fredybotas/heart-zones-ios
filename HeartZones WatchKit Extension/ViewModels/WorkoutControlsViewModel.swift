@@ -11,6 +11,7 @@ class WorkoutControlsViewModel: ObservableObject {
 
     private let workoutService: IWorkoutService
     
+    //TODO: Connect to workoutService
     @Published private(set) var isRunning = true
     
     init(workoutService: IWorkoutService) {

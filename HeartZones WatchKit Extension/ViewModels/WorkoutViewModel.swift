@@ -36,6 +36,8 @@ class WorkoutViewModel: ObservableObject {
     private var workoutDistanceDataSubscriber: AnyCancellable?
     private var workoutBpmDataSubscriber: AnyCancellable?
     private var workoutEnergyDataSubscriber: AnyCancellable?
+    
+    private var appStateChangeSubscriber: AnyCancellable?
 
     init(workoutType: WorkoutType, workoutService: IWorkoutService, heartZoneService: HeartZoneService) {
         self.workoutService = workoutService
@@ -48,10 +50,20 @@ class WorkoutViewModel: ObservableObject {
             
         energyFormatter.unitOptions = .providedUnit
         energyFormatter.numberFormatter.maximumFractionDigits = 0
-    }
     
-    deinit {
-        stopTimer()
+        if let delegate = WKExtension.shared().delegate as? ExtensionDelegate {
+            appStateChangeSubscriber = delegate.appStateChangePublisher
+                .receive(on: DispatchQueue.main)
+                .sink(receiveValue: { [weak self] state in
+                    if state == .background {
+                        self?.startTimer(slow: true)
+                    } else {
+                        self?.startTimer(slow: false)
+                    }
+                })
+        } else {
+            startTimer(slow: false)
+        }
     }
     
     func startWorkout() {
@@ -60,8 +72,6 @@ class WorkoutViewModel: ObservableObject {
         setDistanceSubscriber()
         setBpmSubscriber()
         setEnergySubscriber()
-        
-        startTimer()
     }
     
     func setDistanceSubscriber() {
@@ -93,6 +103,7 @@ class WorkoutViewModel: ObservableObject {
             .sink(receiveCompletion: { [weak self] completion in
                 self?.workoutBpmDataSubscriber = nil
             }, receiveValue: { [weak self] data in
+                NSLog("Data received")
                 self?.bpm = String(data) + " bpm"
                 guard let zone = self?.heartZoneService.evaluateHeartZone(bpm: data) else { return }
                 self?.bpmCircleColor = zone.color
@@ -114,8 +125,8 @@ class WorkoutViewModel: ObservableObject {
             })
     }
     
-    private func startTimer() {
-        timer = Timer.publish(every: 0.05, on: .main, in: .common)
+    private func startTimer(slow: Bool) {
+        timer = Timer.publish(every: slow ? 0.5 : 0.05, on: .main, in: .common)
             .autoconnect()
             .sink() { [weak self] _ in
                 guard let newTimeInterval = self?.workoutService.getActiveWorkoutElapsedTime() else {
@@ -123,10 +134,6 @@ class WorkoutViewModel: ObservableObject {
                 }
                 self?.time = newTimeInterval.stringFromTimeInterval()
             }
-    }
-    
-    private func stopTimer() {
-        timer = nil
     }
 }
 

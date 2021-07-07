@@ -68,6 +68,7 @@ class Workout: NSObject, IWorkout, HKLiveWorkoutBuilderDelegate, HKWorkoutSessio
     
     func stop() {
         let currentDate = Date()
+        finalizePublishers()
         activeWorkoutSession?.stopActivity(with: currentDate)
         activeWorkoutSession?.end()
         activeWorkoutSession?.associatedWorkoutBuilder().endCollection(withEnd: currentDate){ (success, error) in
