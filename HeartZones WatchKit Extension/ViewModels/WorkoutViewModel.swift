@@ -10,8 +10,6 @@ import SwiftUI
 import Combine
 
 class WorkoutViewModel: ObservableObject {
-    @Published private(set) var isRunning: Bool = true
-    
     @Published private(set) var bpm: String = "-- bpm"
     @Published private(set) var bpmCircleColor = Color.black
     @Published private(set) var bpmCircleRatio = 0.0
@@ -103,7 +101,6 @@ class WorkoutViewModel: ObservableObject {
             .sink(receiveCompletion: { [weak self] completion in
                 self?.workoutBpmDataSubscriber = nil
             }, receiveValue: { [weak self] data in
-                NSLog("Data received")
                 self?.bpm = String(data) + " bpm"
                 guard let zone = self?.heartZoneService.evaluateHeartZone(bpm: data) else { return }
                 self?.bpmCircleColor = zone.color

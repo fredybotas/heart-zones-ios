@@ -17,12 +17,19 @@ protocol IWorkoutService {
     func resumeActiveWorkout()
     func getActiveWorkoutElapsedTime() -> TimeInterval?
     func getActiveWorkoutDataPublisher() -> WorkoutDataChangePublishers?
+    func getWorkoutStatePublisher() -> AnyPublisher<WorkoutState, Never>
+}
+
+enum WorkoutState {
+    case notPresent, running, paused
 }
 
 class WorkoutService: IWorkoutService {
     private let healthKit: HKHealthStore = HKHealthStore()
-    private var activeWorkout: IWorkout?
     
+    private var activeWorkout: IWorkout?
+    @Published private var workoutState: WorkoutState = .notPresent
+        
     func startWorkout(workoutType: WorkoutType) {
         if activeWorkout != nil {
             print("Workout already exists")
@@ -30,6 +37,11 @@ class WorkoutService: IWorkoutService {
         }
         
         activeWorkout = Workout(healthKit: healthKit, type: workoutType)
+        workoutState = .running
+    }
+    
+    func getWorkoutStatePublisher() -> AnyPublisher<WorkoutState, Never> {
+        return $workoutState.eraseToAnyPublisher()
     }
     
     func stopActiveWorkout() {
@@ -38,15 +50,19 @@ class WorkoutService: IWorkoutService {
             return
         }
         activeWorkout.stop()
+        
         self.activeWorkout = nil
+        workoutState = .notPresent
     }
     
     func pauseActiveWorkout() {
         activeWorkout?.pause()
+        workoutState = .paused
     }
     
     func resumeActiveWorkout() {
         activeWorkout?.resume()
+        workoutState = .running
     }
     
     func getActiveWorkoutElapsedTime() -> TimeInterval? {

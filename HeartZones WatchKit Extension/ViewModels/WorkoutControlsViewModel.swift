@@ -6,31 +6,42 @@
 //
 
 import Foundation
+import Combine
 
 class WorkoutControlsViewModel: ObservableObject {
 
+    @Published var isRunning: Bool = false
+    
     private let workoutService: IWorkoutService
     
-    //TODO: Connect to workoutService
-    @Published private(set) var isRunning = true
-    
+    private var disposables = Set<AnyCancellable>()
+        
     init(workoutService: IWorkoutService) {
         self.workoutService = workoutService
+        
+        workoutService
+            .getWorkoutStatePublisher()
+            .map({ $0 != .paused})
+            .sink { [weak self] val in
+                self?.isRunning = val
+            }
+            .store(in: &disposables)
+    }
+    
+    deinit {
+        disposables.removeAll()
     }
     
     func pauseWorkout() {
         workoutService.pauseActiveWorkout()
-        isRunning = false
     }
     
     func resumeWorkout() {
         workoutService.resumeActiveWorkout()
-        isRunning = true
     }
     
     func stopWorkout() {
         workoutService.stopActiveWorkout()
-        isRunning = false
     }
 
 }
