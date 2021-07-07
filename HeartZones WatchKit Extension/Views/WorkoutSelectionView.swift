@@ -12,7 +12,7 @@ struct WorkoutSelectionView: View {
     
     @ObservedObject var workoutSelectionViewModel: WorkoutSelectionViewModel
     
-    var controller: HostingControllerWorkoutSelection?
+    weak var controller: HostingControllerWorkoutSelection?
     
     var body: some View {
         List(workoutSelectionViewModel.workoutTypes){ workoutType in            

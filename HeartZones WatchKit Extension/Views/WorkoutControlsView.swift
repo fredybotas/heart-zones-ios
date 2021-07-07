@@ -9,7 +9,7 @@ import SwiftUI
 
 struct WorkoutControlsView: View {
     @ObservedObject var workoutControlsViewModel: WorkoutControlsViewModel
-    var controller: HostingControllerWorkoutControls?
+    weak var controller: HostingControllerWorkoutControls?
 
     var body: some View {
         HStack {
