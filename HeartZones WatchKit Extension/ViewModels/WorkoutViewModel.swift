@@ -22,22 +22,23 @@ class WorkoutViewModel: ObservableObject {
     @Published private(set) var currentPace: String = "--'--''"
     @Published private(set) var averagePace: String = "--'--''"
     
+    
     private let distanceFormatter = MeasurementFormatter()
     private let energyFormatter = MeasurementFormatter()
 
     private let workoutService: IWorkoutService
-    private let heartZoneService: HeartZoneService
+    private let heartZoneService: IHeartZoneService
     private let workoutType: WorkoutType
     
     private var timer: AnyCancellable?
 
     private var workoutDistanceDataSubscriber: AnyCancellable?
-    private var workoutBpmDataSubscriber: AnyCancellable?
+    private var workoutHeartDataSubscriber: AnyCancellable?
     private var workoutEnergyDataSubscriber: AnyCancellable?
-    
+
     private var appStateChangeSubscriber: AnyCancellable?
 
-    init(workoutType: WorkoutType, workoutService: IWorkoutService, heartZoneService: HeartZoneService) {
+    init(workoutType: WorkoutType, workoutService: IWorkoutService, heartZoneService: IHeartZoneService) {
         self.workoutService = workoutService
         self.heartZoneService = heartZoneService
         self.workoutType = workoutType
@@ -67,8 +68,9 @@ class WorkoutViewModel: ObservableObject {
     func startWorkout() {
         workoutService.startWorkout(workoutType: workoutType)
         
+        // TODO: Connect to workout state. Add workout state listener first
         setDistanceSubscriber()
-        setBpmSubscriber()
+        setHeartDataSubscriber()
         setEnergySubscriber()
     }
     
@@ -93,18 +95,19 @@ class WorkoutViewModel: ObservableObject {
             })
     }
     
-    func setBpmSubscriber() {
-        workoutBpmDataSubscriber = workoutService
+    func setHeartDataSubscriber() {
+        workoutHeartDataSubscriber = workoutService
             .getActiveWorkoutDataPublisher()?
             .bpmPublisher
+            .combineLatest(heartZoneService
+                            .getHeartZonePublisher())
             .receive(on: DispatchQueue.main)
             .sink(receiveCompletion: { [weak self] completion in
-                self?.workoutBpmDataSubscriber = nil
+                self?.workoutHeartDataSubscriber = nil
             }, receiveValue: { [weak self] data in
-                self?.bpm = String(data) + " bpm"
-                guard let zone = self?.heartZoneService.evaluateHeartZone(bpm: data) else { return }
-                self?.bpmCircleColor = zone.color
-                guard let ratio = zone.getBpmRatio(bpm: data) else { return }
+                self?.bpm = String(data.0) + " bpm"
+                self?.bpmCircleColor = data.1.color
+                guard let ratio = data.1.getBpmRatio(bpm: data.0) else { return }
                 self?.bpmCircleRatio = ratio
             })
     }

@@ -15,6 +15,7 @@
 		B615E0332683BD1900B5DC91 /* HeartZones WatchKit Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = B615E0322683BD1900B5DC91 /* HeartZones WatchKit Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		B615E0422683BD1900B5DC91 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B615E0412683BD1900B5DC91 /* Assets.xcassets */; };
 		B615E0452683BD1900B5DC91 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B615E0442683BD1900B5DC91 /* Preview Assets.xcassets */; };
+		B63AB83D269780FA007E07E9 /* DeviceBeeper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B63AB83C269780FA007E07E9 /* DeviceBeeper.swift */; };
 		B63E638A268B5962006593AA /* Interface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B6628A75268A56CB00901D17 /* Interface.storyboard */; };
 		B650A95B26878DAD0042B33D /* PieSegmentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B650A95A26878DAD0042B33D /* PieSegmentView.swift */; };
 		B650A95F26878E1F0042B33D /* WorkoutViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B650A95E26878E1F0042B33D /* WorkoutViewModel.swift */; };
@@ -109,6 +110,7 @@
 		B615E0572683BD1900B5DC91 /* HeartZonesUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HeartZonesUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B615E05B2683BD1900B5DC91 /* HeartZonesUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeartZonesUITests.swift; sourceTree = "<group>"; };
 		B615E05D2683BD1900B5DC91 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B63AB83C269780FA007E07E9 /* DeviceBeeper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceBeeper.swift; sourceTree = "<group>"; };
 		B650A95A26878DAD0042B33D /* PieSegmentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PieSegmentView.swift; sourceTree = "<group>"; };
 		B650A95E26878E1F0042B33D /* WorkoutViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutViewModel.swift; sourceTree = "<group>"; };
 		B650A961268799C60042B33D /* WorkoutService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutService.swift; sourceTree = "<group>"; };
@@ -259,6 +261,7 @@
 		B650A960268799B40042B33D /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				B63AB83C269780FA007E07E9 /* DeviceBeeper.swift */,
 				B650A961268799C60042B33D /* WorkoutService.swift */,
 				B650A970268895800042B33D /* HeartZoneService.swift */,
 			);
@@ -504,6 +507,7 @@
 				B6E30C4126851996007CCA38 /* WorkoutControlsView.swift in Sources */,
 				B650A9692688853A0042B33D /* WorkoutType.swift in Sources */,
 				B6628A71268A538300901D17 /* HostingController.swift in Sources */,
+				B63AB83D269780FA007E07E9 /* DeviceBeeper.swift in Sources */,
 				B6B6EC9A268E465800170E39 /* Containers.swift in Sources */,
 				B6628A72268A538300901D17 /* ExtensionDelegate.swift in Sources */,
 				B650A96F2688955F0042B33D /* HeartZone.swift in Sources */,

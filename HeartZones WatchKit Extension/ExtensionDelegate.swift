@@ -14,11 +14,17 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
 
     let container: Container = {
         let container = Container()
+        container.register(DeviceBeeper.self, factory: { resolver in
+            return DeviceBeeper()
+        }).inObjectScope(.container)
+        
         container.register(WorkoutService.self, factory: { resolver in
             return WorkoutService()
         }).inObjectScope(.container)
         container.register(HeartZoneService.self, factory: { resolver in
-            return HeartZoneService()
+            let workoutService = resolver.resolve(WorkoutService.self)!
+            let beeper = resolver.resolve(DeviceBeeper.self)!
+            return HeartZoneService(workoutService: workoutService, deviceBeeper: beeper)
         }).inObjectScope(.container)
         
         container.register(WorkoutSelectionViewModel.self, factory: { resolver in
