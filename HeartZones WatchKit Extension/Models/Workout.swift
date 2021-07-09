@@ -36,7 +36,7 @@ class Workout: NSObject, IWorkout, HKLiveWorkoutBuilderDelegate, HKWorkoutSessio
     private var activeWorkoutSession: HKWorkoutSession?
     private let dataPublishers = WorkoutDataChangePublishers()
     
-    private var bpm = BpmContainer(size: 3)
+    private var bpm = BpmContainer(size: 2)
     private var distances = DistanceContainer(size: 3)
 
     init(healthKit: HKHealthStore, type: WorkoutType) {
