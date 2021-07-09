@@ -16,7 +16,6 @@ protocol IHeartZoneService {
 class HeartZoneService: IHeartZoneService {
     private let workoutService: IWorkoutService
     private let deviceBeeper: Beeper
-    private let activeHeartZoneSetting: HeartZonesSetting
     //TODO: Set correct age
     private let age: Int = 25
     
@@ -24,7 +23,9 @@ class HeartZoneService: IHeartZoneService {
     private var bpmSubscriber: AnyCancellable?
     
     private var currentHeartZonePublisher = CurrentValueSubject<HeartZone?, Never>(nil)
-        
+    
+    let activeHeartZoneSetting: HeartZonesSetting
+    
     init (workoutService: IWorkoutService, deviceBeeper: Beeper) {
         self.workoutService = workoutService
         self.deviceBeeper = deviceBeeper
@@ -33,12 +34,25 @@ class HeartZoneService: IHeartZoneService {
         
         self.workoutStateSubscriber = self.workoutService
             .getWorkoutStatePublisher()
-            .filter({ $0 == .running})
             .sink { [weak self] val in
-                self?.connectBpmSubscriberIfNeeded()
+                self?.handleStateChange(state: val)
             }
     }
 
+    private func handleStateChange(state: WorkoutState) {
+        switch state {
+            case .notPresent:
+                self.currentHeartZonePublisher = CurrentValueSubject<HeartZone?, Never>(nil)
+            case .running:
+                self.connectBpmSubscriberIfNeeded()
+            case .finished:
+                self.currentHeartZonePublisher.send(completion: .finished)
+                self.deviceBeeper.stopAlertIfRunning()
+            default:
+                break
+        }
+    }
+    
     private func connectBpmSubscriberIfNeeded() {
         if bpmSubscriber != nil {
             return
@@ -53,19 +67,28 @@ class HeartZoneService: IHeartZoneService {
     }
     
     private func handleBpmChange(bpm: Int) {
-        let newZone = evaluateHeartZone(bpm: bpm)
-        if currentHeartZonePublisher.value != newZone {
+        let (movement, newZone) = activeHeartZoneSetting.evaluateBpmChange(currentZone: currentHeartZonePublisher.value, bpm: bpm)
+        if movement != .stay {
+            handleDeviceBeep(heartZoneMovement: movement, fromTargetZone: self.currentHeartZonePublisher.value?.target ?? false, enteredTargetZone: newZone?.target ?? false)
             self.currentHeartZonePublisher.send(newZone)
         }
     }
     
-    private func evaluateHeartZone(bpm: Int) -> HeartZone? {
-        let activeZone = activeHeartZoneSetting.zones.first { $0.bpmRange.contains(bpm) }
-        guard let activeZone = activeZone else {
-            print("Evaluated bpm of value \(bpm) is not in of evaluated zones")
-            return nil
+    private func handleDeviceBeep(heartZoneMovement: HeartZonesSetting.HeartZoneMovement, fromTargetZone: Bool, enteredTargetZone: Bool) {
+        if enteredTargetZone {
+            deviceBeeper.stopAlertIfRunning()
         }
-        return activeZone
+        
+        if fromTargetZone {
+            if heartZoneMovement == .up {
+                deviceBeeper.startHighRateAlert()
+            } else if heartZoneMovement == .down {
+                deviceBeeper.startLowRateAlert()
+            }
+        } else if heartZoneMovement != .undefined {
+            deviceBeeper.changeZoneAlert(movement: heartZoneMovement)
+        }
+        
     }
     
     func getHeartZonePublisher() -> AnyPublisher<HeartZone, Never> {

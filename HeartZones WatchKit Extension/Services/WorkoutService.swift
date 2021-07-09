@@ -21,13 +21,13 @@ protocol IWorkoutService {
 }
 
 enum WorkoutState {
-    case notPresent, running, paused
+    case notPresent, running, paused, finished
 }
 
 class WorkoutService: IWorkoutService {
     private let healthKit: HKHealthStore = HKHealthStore()
-    
     private var activeWorkout: IWorkout?
+    
     @Published private var workoutState: WorkoutState = .notPresent
         
     func startWorkout(workoutType: WorkoutType) {
@@ -50,6 +50,7 @@ class WorkoutService: IWorkoutService {
             return
         }
         activeWorkout.stop()
+        workoutState = .finished
         
         self.activeWorkout = nil
         workoutState = .notPresent

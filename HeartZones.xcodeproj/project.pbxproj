@@ -16,6 +16,9 @@
 		B615E0422683BD1900B5DC91 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B615E0412683BD1900B5DC91 /* Assets.xcassets */; };
 		B615E0452683BD1900B5DC91 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B615E0442683BD1900B5DC91 /* Preview Assets.xcassets */; };
 		B63AB83D269780FA007E07E9 /* DeviceBeeper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B63AB83C269780FA007E07E9 /* DeviceBeeper.swift */; };
+		B63AB83F26983C99007E07E9 /* HeartZoneServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B63AB83E26983C99007E07E9 /* HeartZoneServiceTests.swift */; };
+		B63AB84326983FB2007E07E9 /* WorkoutServiceFake.swift in Sources */ = {isa = PBXBuildFile; fileRef = B63AB84226983FB2007E07E9 /* WorkoutServiceFake.swift */; };
+		B63AB84526983FE2007E07E9 /* DeviceBeeperMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = B63AB84426983FE2007E07E9 /* DeviceBeeperMock.swift */; };
 		B63E638A268B5962006593AA /* Interface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B6628A75268A56CB00901D17 /* Interface.storyboard */; };
 		B650A95B26878DAD0042B33D /* PieSegmentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B650A95A26878DAD0042B33D /* PieSegmentView.swift */; };
 		B650A95F26878E1F0042B33D /* WorkoutViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B650A95E26878E1F0042B33D /* WorkoutViewModel.swift */; };
@@ -111,6 +114,9 @@
 		B615E05B2683BD1900B5DC91 /* HeartZonesUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeartZonesUITests.swift; sourceTree = "<group>"; };
 		B615E05D2683BD1900B5DC91 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B63AB83C269780FA007E07E9 /* DeviceBeeper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceBeeper.swift; sourceTree = "<group>"; };
+		B63AB83E26983C99007E07E9 /* HeartZoneServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeartZoneServiceTests.swift; sourceTree = "<group>"; };
+		B63AB84226983FB2007E07E9 /* WorkoutServiceFake.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutServiceFake.swift; sourceTree = "<group>"; };
+		B63AB84426983FE2007E07E9 /* DeviceBeeperMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceBeeperMock.swift; sourceTree = "<group>"; };
 		B650A95A26878DAD0042B33D /* PieSegmentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PieSegmentView.swift; sourceTree = "<group>"; };
 		B650A95E26878E1F0042B33D /* WorkoutViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutViewModel.swift; sourceTree = "<group>"; };
 		B650A961268799C60042B33D /* WorkoutService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutService.swift; sourceTree = "<group>"; };
@@ -224,8 +230,11 @@
 		B615E04F2683BD1900B5DC91 /* HeartZonesTests */ = {
 			isa = PBXGroup;
 			children = (
+				B63AB84126983F99007E07E9 /* Fakes */,
+				B63AB84026983F92007E07E9 /* Mocks */,
 				B615E0522683BD1900B5DC91 /* Info.plist */,
 				B607E15A268E1EA90069FEA4 /* BpmContainerTests.swift */,
+				B63AB83E26983C99007E07E9 /* HeartZoneServiceTests.swift */,
 			);
 			path = HeartZonesTests;
 			sourceTree = "<group>";
@@ -237,6 +246,22 @@
 				B615E05D2683BD1900B5DC91 /* Info.plist */,
 			);
 			path = HeartZonesUITests;
+			sourceTree = "<group>";
+		};
+		B63AB84026983F92007E07E9 /* Mocks */ = {
+			isa = PBXGroup;
+			children = (
+				B63AB84426983FE2007E07E9 /* DeviceBeeperMock.swift */,
+			);
+			path = Mocks;
+			sourceTree = "<group>";
+		};
+		B63AB84126983F99007E07E9 /* Fakes */ = {
+			isa = PBXGroup;
+			children = (
+				B63AB84226983FB2007E07E9 /* WorkoutServiceFake.swift */,
+			);
+			path = Fakes;
 			sourceTree = "<group>";
 		};
 		B650A95C26878DB40042B33D /* Helpers */ = {
@@ -526,6 +551,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B63AB84326983FB2007E07E9 /* WorkoutServiceFake.swift in Sources */,
+				B63AB83F26983C99007E07E9 /* HeartZoneServiceTests.swift in Sources */,
+				B63AB84526983FE2007E07E9 /* DeviceBeeperMock.swift in Sources */,
 				B607E15B268E1EA90069FEA4 /* BpmContainerTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

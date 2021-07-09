@@ -9,16 +9,39 @@ import Foundation
 import SwiftUI
 
 struct HeartZonesSetting {
+    
+    enum HeartZoneMovement {
+        case up, down, stay, undefined
+    }
+    
     let zones: [HeartZone]
+    
+    func evaluateBpmChange(currentZone: HeartZone?, bpm: Int) -> (HeartZoneMovement, HeartZone?) {
+        let newZone = zones.first { $0.bpmRange.contains(bpm) }
+        guard let newZone = newZone else {
+            return (.stay, nil)
+        }
+        guard let currentZone = currentZone else {
+            return (.undefined, newZone)
+        }
+        
+        if currentZone == newZone {
+            return (.stay, nil)
+        } else if currentZone.bpmRange.upperBound <= newZone.bpmRange.lowerBound {
+            return (.up, newZone)
+        } else {
+            return (.down, newZone)
+        }
+    }
     
     static func getDefaultHeartZonesSetting(age: Int) -> HeartZonesSetting {
         let maxBpm = Double(220 - age)
         
         return HeartZonesSetting(zones: [
-            HeartZone(name: "Peak", bpmRange: Int(0.85 * maxBpm)...Int(1.00 * maxBpm), color: Color.red, target: false),
-            HeartZone(name: "Cardio", bpmRange: Int(0.75 * maxBpm)...Int(0.85 * maxBpm), color: Color.orange, target: true),
-            HeartZone(name: "Fat Burn", bpmRange: Int(0.6 * maxBpm)...Int(0.75 * maxBpm), color: Color.yellow, target: false),
             HeartZone(name: "Warm Up", bpmRange: Int(0 * maxBpm)...Int(0.6 * maxBpm), color: Color.green, target: false),
+            HeartZone(name: "Fat Burn", bpmRange: Int(0.6 * maxBpm)...Int(0.75 * maxBpm), color: Color.yellow, target: false),
+            HeartZone(name: "Cardio", bpmRange: Int(0.75 * maxBpm)...Int(0.85 * maxBpm), color: Color.orange, target: true),
+            HeartZone(name: "Peak", bpmRange: Int(0.85 * maxBpm)...Int(1.00 * maxBpm), color: Color.red, target: false),
         ])
     }
 }
