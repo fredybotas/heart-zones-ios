@@ -58,12 +58,14 @@ class HeartZoneService: IHeartZoneService {
             return
         }
         
-        self.bpmSubscriber = self.workoutService
+        bpmSubscriber = self.workoutService
             .getActiveWorkoutDataPublisher()?
             .bpmPublisher
-            .sink{[weak self] bpm in
+            .sink(receiveCompletion: { [weak self] _ in
+                self?.bpmSubscriber = nil
+            }, receiveValue: { [weak self] bpm in
                 self?.handleBpmChange(bpm: bpm)
-            }
+            })
     }
     
     private func handleBpmChange(bpm: Int) {
