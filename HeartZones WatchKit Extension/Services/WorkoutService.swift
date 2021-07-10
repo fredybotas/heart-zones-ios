@@ -81,7 +81,7 @@ class WorkoutService: IWorkoutService {
             return nil
         }
         
-        return activeWorkout.getDataPublishers()
+        return activeWorkout.dataPublishers
     }
     
     static func authorizeHealthKitAccess(toRead readable: Set<HKObjectType>?, toWrite writable: Set<HKSampleType>?, completion: @escaping (Bool, HKError.Code?) -> Void)

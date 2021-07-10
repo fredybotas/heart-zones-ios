@@ -22,20 +22,20 @@ struct WorkoutDataChangePublishers {
 }
 
 protocol IWorkout {
+    var dataPublishers: WorkoutDataChangePublishers { get }
+
     func pause()
     func resume()
     func stop()
     func getElapsedTime() -> TimeInterval
-    func getDataPublishers() -> WorkoutDataChangePublishers
 }
 
 class Workout: NSObject, IWorkout, HKLiveWorkoutBuilderDelegate, HKWorkoutSessionDelegate {
+    let dataPublishers = WorkoutDataChangePublishers()
+
     private let workoutType: WorkoutType
     private let healthKit: HKHealthStore
-    
     private var activeWorkoutSession: HKWorkoutSession?
-    private let dataPublishers = WorkoutDataChangePublishers()
-    
     private var bpm = BpmContainer(size: 2)
     private var distances = DistanceContainer(size: 3)
 
@@ -94,10 +94,6 @@ class Workout: NSObject, IWorkout, HKLiveWorkoutBuilderDelegate, HKWorkoutSessio
             return 0.0
         }
         return activeWorkoutSession.associatedWorkoutBuilder().elapsedTime
-    }
-    
-    func getDataPublishers() -> WorkoutDataChangePublishers {
-        return dataPublishers
     }
     
     private func shouldSaveWorkout() -> Bool {
