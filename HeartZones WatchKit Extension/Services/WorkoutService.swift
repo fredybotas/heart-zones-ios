@@ -25,7 +25,7 @@ enum WorkoutState {
 }
 
 class WorkoutService: IWorkoutService {
-    private let healthKit: HKHealthStore = HKHealthStore()
+    private let healthKit = HKHealthStore()
     private var activeWorkout: IWorkout?
     
     @Published private var workoutState: WorkoutState = .notPresent
