@@ -11,7 +11,7 @@ import Combine
 
 class WorkoutServiceFake: IWorkoutService {
     
-    private let dataPublishers = WorkoutDataChangePublishers()
+    private var dataPublishers = WorkoutDataChangePublishers()
     private let statePublisher = PassthroughSubject<WorkoutState, Never>()
     
     func startWorkout(workoutType: WorkoutType) {}
@@ -22,6 +22,14 @@ class WorkoutServiceFake: IWorkoutService {
     
     func sendBpmChange(bpm: Int) {
         dataPublishers.bpmPublisher.send(bpm)
+    }
+    
+    func resetSubscribers() {
+        dataPublishers.bpmPublisher.send(completion: .finished)
+        dataPublishers.distancePublisher.send(completion: .finished)
+        dataPublishers.energyPublisher.send(completion: .finished)
+        
+        dataPublishers = WorkoutDataChangePublishers()
     }
     
     func changeState(state: WorkoutState) {

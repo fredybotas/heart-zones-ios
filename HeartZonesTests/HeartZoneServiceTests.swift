@@ -135,5 +135,35 @@ class HeartZoneServiceTests: XCTestCase {
         XCTAssertEqual(deviceBeeperMock.startHighRateAlertCalledCount, 1)
     }
     
+    func testContinousResubscriptionForZones() {
+        self.workoutServiceFake.changeState(state: .running)
+        var firstTimeCalled = false
+        var completed = false
+        self.sut
+            .getHeartZonePublisher()
+            .sink(receiveCompletion: { completion in
+            completed = true
+        }, receiveValue: { val in
+            firstTimeCalled = true
+        }).store(in: &cancellables)
+
+        self.workoutServiceFake.sendBpmChange(bpm: 10)
+        XCTAssert(firstTimeCalled)
+        self.workoutServiceFake.resetSubscribers()
+        self.workoutServiceFake.changeState(state: .finished)
+        XCTAssert(completed)
+
+        self.workoutServiceFake.changeState(state: .notPresent)
+        self.workoutServiceFake.changeState(state: .running)
+        
+        var secondTimeCalled = false
+        self.sut.getHeartZonePublisher().sink { val in
+            secondTimeCalled = true
+        }.store(in: &cancellables)
+        self.workoutServiceFake.sendBpmChange(bpm: 10)
+
+        XCTAssert(secondTimeCalled)
+    }
+    
     
 }
