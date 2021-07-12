@@ -17,9 +17,13 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
         container.register(DeviceBeeper.self, factory: { resolver in
             return DeviceBeeper()
         }).inObjectScope(.container)
-        
+        container.register(LocationManager.self, factory: { resolver in
+            return LocationManager()
+        }).inObjectScope(.container)
+
         container.register(WorkoutService.self, factory: { resolver in
-            return WorkoutService()
+            let locationManager = resolver.resolve(LocationManager.self)!
+            return WorkoutService(locationManager: locationManager)
         }).inObjectScope(.container)
         container.register(HeartZoneService.self, factory: { resolver in
             let workoutService = resolver.resolve(WorkoutService.self)!
@@ -57,11 +61,14 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
             HKQuantityType.quantityType(forIdentifier: .activeEnergyBurned)!,
             HKQuantityType.quantityType(forIdentifier: .distanceWalkingRunning)!
         ], toWrite: [
+            HKSeriesType.workoutRoute(),
             HKQuantityType.workoutType()
         ], completion: { (result, code) in
             print(result)
         })
         
+        let locationManager = container.resolve(LocationManager.self)!
+        locationManager.requestAuthorization()
     }
 
     func applicationDidBecomeActive() {

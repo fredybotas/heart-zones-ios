@@ -26,17 +26,23 @@ enum WorkoutState {
 
 class WorkoutService: IWorkoutService {
     private let healthKit = HKHealthStore()
-    private var activeWorkout: IWorkout?
+    private let locationManager: LocationManager
     
+    private var activeWorkout: IWorkout?
     @Published private var workoutState: WorkoutState = .notPresent
-        
+    
+    init(locationManager: LocationManager) {
+        self.locationManager = locationManager
+    }
+    
     func startWorkout(workoutType: WorkoutType) {
         if activeWorkout != nil {
             print("Workout already exists")
             return
         }
+        self.locationManager.startWorkoutLocationUpdates()
         
-        activeWorkout = Workout(healthKit: healthKit, type: workoutType)
+        activeWorkout = Workout(healthKit: healthKit, type: workoutType, locationPublisher: self.locationManager.getWorkoutLocationUpdatesPublisher())
         workoutState = .running
     }
     
@@ -54,6 +60,8 @@ class WorkoutService: IWorkoutService {
         
         self.activeWorkout = nil
         workoutState = .notPresent
+        
+        self.locationManager.stopWorkoutLocationUpdates()
     }
     
     func pauseActiveWorkout() {

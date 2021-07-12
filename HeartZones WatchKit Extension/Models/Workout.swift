@@ -8,6 +8,7 @@
 import Foundation
 import HealthKit
 import Combine
+import CoreLocation
 
 struct DistanceData {
     let distance: Measurement<UnitLength>
@@ -36,13 +37,19 @@ class Workout: NSObject, IWorkout, HKLiveWorkoutBuilderDelegate, HKWorkoutSessio
     private let workoutType: WorkoutType
     private let healthKit: HKHealthStore
     private var activeWorkoutSession: HKWorkoutSession?
+    
+    private var locationDataPublisher: AnyCancellable?
+    
+    private let routeBuilder: HKWorkoutRouteBuilder
+    
     private var bpm = BpmContainer(size: 2)
     private var distances = DistanceContainer(size: 3)
 
-    init(healthKit: HKHealthStore, type: WorkoutType) {
+    init(healthKit: HKHealthStore, type: WorkoutType, locationPublisher: AnyPublisher<CLLocation, Never>) {
         self.healthKit = healthKit
         self.workoutType = type
-    
+        self.routeBuilder = HKWorkoutRouteBuilder(healthStore: healthKit, device: nil)
+
         super.init()
         
         let configuration = workoutType.getConfiguration()
@@ -55,6 +62,14 @@ class Workout: NSObject, IWorkout, HKLiveWorkoutBuilderDelegate, HKWorkoutSessio
         activeWorkoutSession?.startActivity(with: Date.init())
         builder?.beginCollection(withStart: Date()) { (success, error) in
 
+        }
+        
+        locationDataPublisher = locationPublisher.sink { [weak self] location in
+            self?.routeBuilder.insertRouteData([location], completion: {
+                result, error in
+                guard result == true else { return }
+                //TODO: Handle error
+            })
         }
     }
     
@@ -69,6 +84,7 @@ class Workout: NSObject, IWorkout, HKLiveWorkoutBuilderDelegate, HKWorkoutSessio
     func stop() {
         let currentDate = Date()
         finalizePublishers()
+        locationDataPublisher = nil
         activeWorkoutSession?.stopActivity(with: currentDate)
         activeWorkoutSession?.end()
         activeWorkoutSession?.associatedWorkoutBuilder().endCollection(withEnd: currentDate){ (success, error) in
@@ -78,9 +94,10 @@ class Workout: NSObject, IWorkout, HKLiveWorkoutBuilderDelegate, HKWorkoutSessio
             
             if self.shouldSaveWorkout() {
                 self.activeWorkoutSession?.associatedWorkoutBuilder().finishWorkout { (workout, error) in
-                    guard workout != nil else {
-                       return
-                    }
+                    guard let workout = workout else { return }
+                    self.routeBuilder.finishRoute(with: workout, metadata: nil, completion: { (route, error) in
+                        guard success else { return }
+                    })
                 }
             } else {
                 self.activeWorkoutSession?.associatedWorkoutBuilder().discardWorkout()
@@ -98,8 +115,8 @@ class Workout: NSObject, IWorkout, HKLiveWorkoutBuilderDelegate, HKWorkoutSessio
     
     private func shouldSaveWorkout() -> Bool {
         let elapsedTime = getElapsedTime()
-        if elapsedTime > 60 * 5 {
-            // Only save workout if it lasted for 5min
+        if elapsedTime > 60 * 3 {
+            // Only save workout if it lasted for at least 3min
             return true
         }
         return false
