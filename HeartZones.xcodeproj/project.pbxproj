@@ -15,6 +15,8 @@
 		B615E0332683BD1900B5DC91 /* HeartZones WatchKit Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = B615E0322683BD1900B5DC91 /* HeartZones WatchKit Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		B615E0422683BD1900B5DC91 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B615E0412683BD1900B5DC91 /* Assets.xcassets */; };
 		B615E0452683BD1900B5DC91 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B615E0442683BD1900B5DC91 /* Preview Assets.xcassets */; };
+		B62EF908269E1FE40067E894 /* SunService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B62EF907269E1FE40067E894 /* SunService.swift */; };
+		B62EF90C269E211F0067E894 /* Solar in Frameworks */ = {isa = PBXBuildFile; productRef = B62EF90B269E211F0067E894 /* Solar */; };
 		B63AB83D269780FA007E07E9 /* DeviceBeeper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B63AB83C269780FA007E07E9 /* DeviceBeeper.swift */; };
 		B63AB83F26983C99007E07E9 /* HeartZoneServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B63AB83E26983C99007E07E9 /* HeartZoneServiceTests.swift */; };
 		B63AB84326983FB2007E07E9 /* WorkoutServiceFake.swift in Sources */ = {isa = PBXBuildFile; fileRef = B63AB84226983FB2007E07E9 /* WorkoutServiceFake.swift */; };
@@ -114,6 +116,7 @@
 		B615E0572683BD1900B5DC91 /* HeartZonesUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HeartZonesUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B615E05B2683BD1900B5DC91 /* HeartZonesUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeartZonesUITests.swift; sourceTree = "<group>"; };
 		B615E05D2683BD1900B5DC91 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B62EF907269E1FE40067E894 /* SunService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SunService.swift; sourceTree = "<group>"; };
 		B63AB83C269780FA007E07E9 /* DeviceBeeper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceBeeper.swift; sourceTree = "<group>"; };
 		B63AB83E26983C99007E07E9 /* HeartZoneServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeartZoneServiceTests.swift; sourceTree = "<group>"; };
 		B63AB84226983FB2007E07E9 /* WorkoutServiceFake.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutServiceFake.swift; sourceTree = "<group>"; };
@@ -145,6 +148,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B62EF90C269E211F0067E894 /* Solar in Frameworks */,
 				B650A96626879E5B0042B33D /* HealthKit.framework in Frameworks */,
 				B697B4FE268B9A77003558C8 /* Swinject in Frameworks */,
 			);
@@ -292,6 +296,7 @@
 				B650A961268799C60042B33D /* WorkoutService.swift */,
 				B650A970268895800042B33D /* HeartZoneService.swift */,
 				B63AB8462698DB56007E07E9 /* LocationManager.swift */,
+				B62EF907269E1FE40067E894 /* SunService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -352,6 +357,7 @@
 			name = HeartZones;
 			packageProductDependencies = (
 				B697B4FC268B9A70003558C8 /* Swinject */,
+				B62EF90A269E21150067E894 /* Solar */,
 			);
 			productName = HeartZones;
 			productReference = B615E0222683BD1800B5DC91 /* HeartZones.app */;
@@ -389,6 +395,7 @@
 			name = "HeartZones WatchKit Extension";
 			packageProductDependencies = (
 				B697B4FD268B9A77003558C8 /* Swinject */,
+				B62EF90B269E211F0067E894 /* Solar */,
 			);
 			productName = "HeartZones WatchKit Extension";
 			productReference = B615E0322683BD1900B5DC91 /* HeartZones WatchKit Extension.appex */;
@@ -469,6 +476,7 @@
 			mainGroup = B615E01B2683BD1800B5DC91;
 			packageReferences = (
 				B697B4FB268B9A70003558C8 /* XCRemoteSwiftPackageReference "Swinject" */,
+				B62EF909269E21150067E894 /* XCRemoteSwiftPackageReference "Solar" */,
 			);
 			productRefGroup = B615E0232683BD1800B5DC91 /* Products */;
 			projectDirPath = "";
@@ -532,6 +540,7 @@
 			files = (
 				B650A95F26878E1F0042B33D /* WorkoutViewModel.swift in Sources */,
 				B6E30C43268519B8007CCA38 /* WorkoutRunningView.swift in Sources */,
+				B62EF908269E1FE40067E894 /* SunService.swift in Sources */,
 				B6E30C4126851996007CCA38 /* WorkoutControlsView.swift in Sources */,
 				B650A9692688853A0042B33D /* WorkoutType.swift in Sources */,
 				B6628A71268A538300901D17 /* HostingController.swift in Sources */,
@@ -974,6 +983,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		B62EF909269E21150067E894 /* XCRemoteSwiftPackageReference "Solar" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/ceeK/Solar.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.2.0;
+			};
+		};
 		B697B4FB268B9A70003558C8 /* XCRemoteSwiftPackageReference "Swinject" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/Swinject/Swinject.git";
@@ -985,6 +1002,16 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		B62EF90A269E21150067E894 /* Solar */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B62EF909269E21150067E894 /* XCRemoteSwiftPackageReference "Solar" */;
+			productName = Solar;
+		};
+		B62EF90B269E211F0067E894 /* Solar */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B62EF909269E21150067E894 /* XCRemoteSwiftPackageReference "Solar" */;
+			productName = Solar;
+		};
 		B697B4FC268B9A70003558C8 /* Swinject */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = B697B4FB268B9A70003558C8 /* XCRemoteSwiftPackageReference "Swinject" */;
