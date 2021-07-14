@@ -24,7 +24,8 @@ struct WorkoutDataChangePublishers {
 
 protocol IWorkout {
     var dataPublishers: WorkoutDataChangePublishers { get }
-
+    var workoutType: WorkoutType { get }
+    
     func pause()
     func resume()
     func stop()
@@ -32,27 +33,29 @@ protocol IWorkout {
 }
 
 class Workout: NSObject, IWorkout, HKLiveWorkoutBuilderDelegate, HKWorkoutSessionDelegate {
-    let dataPublishers = WorkoutDataChangePublishers()
-
-    private let workoutType: WorkoutType
+    internal let dataPublishers = WorkoutDataChangePublishers()
+    internal let workoutType: WorkoutType
+    
+    private let locationManager: LocationManager
+    private let configuration: HKWorkoutConfiguration
+    
     private let healthKit: HKHealthStore
     private var activeWorkoutSession: HKWorkoutSession?
     
     private var locationDataPublisher: AnyCancellable?
-    
-    private let routeBuilder: HKWorkoutRouteBuilder
+    private var routeBuilder: HKWorkoutRouteBuilder?
     
     private var bpm = BpmContainer(size: 2)
     private var distances = DistanceContainer(size: 3)
 
-    init(healthKit: HKHealthStore, type: WorkoutType, locationPublisher: AnyPublisher<CLLocation, Never>) {
+    init(healthKit: HKHealthStore, type: WorkoutType, locationManager: LocationManager) {
         self.healthKit = healthKit
         self.workoutType = type
-        self.routeBuilder = HKWorkoutRouteBuilder(healthStore: healthKit, device: nil)
+        self.locationManager = locationManager
+        self.configuration = workoutType.getConfiguration()
 
         super.init()
         
-        let configuration = workoutType.getConfiguration()
         activeWorkoutSession = try? HKWorkoutSession(healthStore: healthKit, configuration: configuration)
         let builder = activeWorkoutSession?.associatedWorkoutBuilder()
         builder?.dataSource = HKLiveWorkoutDataSource(healthStore: healthKit, workoutConfiguration: configuration)
@@ -60,16 +63,23 @@ class Workout: NSObject, IWorkout, HKLiveWorkoutBuilderDelegate, HKWorkoutSessio
         activeWorkoutSession?.delegate = self
 
         activeWorkoutSession?.startActivity(with: Date.init())
-        builder?.beginCollection(withStart: Date()) { (success, error) in
-
-        }
+        builder?.beginCollection(withStart: Date()) { (success, error) in }
         
-        locationDataPublisher = locationPublisher.sink { [weak self] location in
-            self?.routeBuilder.insertRouteData([location], completion: {
-                result, error in
-                guard result == true else { return }
-                //TODO: Handle error
-            })
+        setLocationHarvesting()
+    }
+    
+    func setLocationHarvesting() {
+        if configuration.locationType == .outdoor {
+            locationManager.startWorkoutLocationUpdates()
+            self.routeBuilder = HKWorkoutRouteBuilder(healthStore: healthKit, device: nil)
+            
+            locationDataPublisher = locationManager.getWorkoutLocationUpdatesPublisher().sink { [weak self] location in
+                self?.routeBuilder?.insertRouteData([location], completion: {
+                    result, error in
+                    guard result == true else { return }
+                    //TODO: Handle error
+                })
+            }
         }
     }
     
@@ -85,6 +95,10 @@ class Workout: NSObject, IWorkout, HKLiveWorkoutBuilderDelegate, HKWorkoutSessio
         let currentDate = Date()
         finalizePublishers()
         locationDataPublisher = nil
+        if configuration.locationType == .outdoor {
+            locationManager.stopWorkoutLocationUpdates()
+        }
+        
         activeWorkoutSession?.stopActivity(with: currentDate)
         activeWorkoutSession?.end()
         activeWorkoutSession?.associatedWorkoutBuilder().endCollection(withEnd: currentDate){ (success, error) in
@@ -95,7 +109,7 @@ class Workout: NSObject, IWorkout, HKLiveWorkoutBuilderDelegate, HKWorkoutSessio
             if self.shouldSaveWorkout() {
                 self.activeWorkoutSession?.associatedWorkoutBuilder().finishWorkout { (workout, error) in
                     guard let workout = workout else { return }
-                    self.routeBuilder.finishRoute(with: workout, metadata: nil, completion: { (route, error) in
+                    self.routeBuilder?.finishRoute(with: workout, metadata: nil, completion: { (route, error) in
                         guard success else { return }
                     })
                 }

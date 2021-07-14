@@ -8,7 +8,7 @@
 import Foundation
 import HealthKit
 import Combine
-import os
+import CoreLocation
 
 protocol IWorkoutService {
     func startWorkout(workoutType: WorkoutType)
@@ -40,9 +40,8 @@ class WorkoutService: IWorkoutService {
             print("Workout already exists")
             return
         }
-        self.locationManager.startWorkoutLocationUpdates()
         
-        activeWorkout = Workout(healthKit: healthKit, type: workoutType, locationPublisher: self.locationManager.getWorkoutLocationUpdatesPublisher())
+        activeWorkout = Workout(healthKit: healthKit, type: workoutType, locationManager: locationManager)
         workoutState = .running
     }
     
@@ -55,13 +54,12 @@ class WorkoutService: IWorkoutService {
             print("There is not running workout")
             return
         }
+        
         activeWorkout.stop()
         workoutState = .finished
         
         self.activeWorkout = nil
         workoutState = .notPresent
-        
-        self.locationManager.stopWorkoutLocationUpdates()
     }
     
     func pauseActiveWorkout() {
