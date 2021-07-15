@@ -27,7 +27,7 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
             .filter({ location in
                 return location.horizontalAccuracy < 30
             })
-            .throttle(for: 3, scheduler: DispatchQueue.main, latest: true)
+            .throttle(for: 3, scheduler: RunLoop.main, latest: true)
             .eraseToAnyPublisher()
     }
     
