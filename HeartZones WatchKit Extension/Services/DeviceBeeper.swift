@@ -33,11 +33,11 @@ class DeviceBeeper: Beeper {
     }
     
     private func runHighRateAlert() {
-        WKInterfaceDevice().play(.directionUp)
+        WKInterfaceDevice().play(.retry)
     }
     
     private func runLowRateAlert() {
-        WKInterfaceDevice().play(.directionDown)
+        WKInterfaceDevice().play(.failure)
     }
     
     func startHighRateAlert() {
