@@ -36,7 +36,7 @@ class Workout: NSObject, IWorkout, HKLiveWorkoutBuilderDelegate, HKWorkoutSessio
     internal let dataPublishers = WorkoutDataChangePublishers()
     internal let workoutType: WorkoutType
     
-    private let locationManager: LocationManager
+    private let locationManager: WorkoutLocationFetcher
     private let configuration: HKWorkoutConfiguration
     
     private let healthKit: HKHealthStore
@@ -48,7 +48,7 @@ class Workout: NSObject, IWorkout, HKLiveWorkoutBuilderDelegate, HKWorkoutSessio
     private var bpm = BpmContainer(size: 2)
     private var distances = DistanceContainer(size: 3)
 
-    init(healthKit: HKHealthStore, type: WorkoutType, locationManager: LocationManager) {
+    init(healthKit: HKHealthStore, type: WorkoutType, locationManager: WorkoutLocationFetcher) {
         self.healthKit = healthKit
         self.workoutType = type
         self.locationManager = locationManager
@@ -94,8 +94,8 @@ class Workout: NSObject, IWorkout, HKLiveWorkoutBuilderDelegate, HKWorkoutSessio
     func stop() {
         let currentDate = Date()
         finalizePublishers()
-        locationDataPublisher = nil
         if configuration.locationType == .outdoor {
+            locationDataPublisher = nil
             locationManager.stopWorkoutLocationUpdates()
         }
         

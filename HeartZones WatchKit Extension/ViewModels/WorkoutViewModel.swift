@@ -9,6 +9,9 @@ import Foundation
 import SwiftUI
 import Combine
 
+fileprivate let kSecondsInHour = 3600.0
+fileprivate let kSecondsForThreeQuartersOfHour = (kSecondsInHour / 4.0) * 3.0
+
 class WorkoutViewModel: ObservableObject {
     @Published private(set) var bpm: String = "-- bpm"
     @Published private(set) var bpmCircleColor = Color.black
@@ -22,6 +25,7 @@ class WorkoutViewModel: ObservableObject {
     @Published private(set) var currentPace: String = "--'--''"
     @Published private(set) var averagePace: String = "--'--''"
     
+    private var sunset: Date?
     
     private let distanceFormatter = MeasurementFormatter()
     private let energyFormatter = MeasurementFormatter()
@@ -33,7 +37,9 @@ class WorkoutViewModel: ObservableObject {
     private let workoutType: WorkoutType
     
     private var timer: AnyCancellable?
-
+    private var sunsetTimer: AnyCancellable?
+    private var sunsetSubscription: AnyCancellable?
+    
     private var workoutDistanceDataSubscriber: AnyCancellable?
     private var workoutHeartDataSubscriber: AnyCancellable?
     private var workoutEnergyDataSubscriber: AnyCancellable?
@@ -66,6 +72,8 @@ class WorkoutViewModel: ObservableObject {
         } else {
             startTimer(slow: false)
         }
+        
+        setSunsetSubscriptions()
     }
     
     func startWorkout() {
@@ -136,6 +144,26 @@ class WorkoutViewModel: ObservableObject {
                     return
                 }
                 self?.time = newTimeInterval.stringFromTimeInterval()
+            }
+    }
+    
+    private func setSunsetSubscriptions() {
+        sunsetSubscription = self.sunService
+            .getSunset()
+            .sink { [weak self] sunset in
+                self?.sunset = sunset
+            }
+        sunsetTimer = Timer.publish(every: 10, on: .main, in: .common)
+            .autoconnect()
+            .sink() { [weak self] _ in
+                guard let sunset = self?.sunset else { return }
+                let date = Date()
+                let interval = sunset.timeIntervalSince(date)
+                if interval < kSecondsForThreeQuartersOfHour && interval >= 0 {
+                    self?.sunVisibility = (Double(interval) / kSecondsInHour)
+                } else {
+                    self?.sunVisibility = 0.0
+                }
             }
     }
 }

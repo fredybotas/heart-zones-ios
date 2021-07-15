@@ -9,21 +9,43 @@ import Foundation
 import CoreLocation
 import Combine
 
-class LocationManager: NSObject, CLLocationManagerDelegate {
-        
+protocol OnDemandLocationFetcher {
+    func getLocation() -> Future<CLLocation, Never>
+}
+
+protocol WorkoutLocationFetcher {
+    func getWorkoutLocationUpdatesPublisher() -> AnyPublisher<CLLocation, Never>
+    func startWorkoutLocationUpdates()
+    func stopWorkoutLocationUpdates()
+}
+
+class LocationManager: NSObject, WorkoutLocationFetcher, OnDemandLocationFetcher, CLLocationManagerDelegate {
+    
     let manager = CLLocationManager()
         
-    var locationPublisher = PassthroughSubject<CLLocation, Never>()
+    var workoutLocationPublisher = PassthroughSubject<CLLocation, Never>()
+    var startsRequested = 0
+    
+    var locationRequests = [(Result<CLLocation, Never>) -> Void]()
+    
     
     override init() {
         super.init()
         manager.desiredAccuracy = kCLLocationAccuracyBest
         manager.delegate = self
+        //TODO: Handle authorization correctly. Mainly errors when location was not authorized
+    }
+    
+    func getLocation() -> Future<CLLocation, Never> {
+        self.manager.requestLocation()
+        // TODO: Handle error when location cannot be acquired in reasonable time: CLError.Code.locationUnknown
+        return Future<CLLocation, Never>({ [weak self] promise in
+            self?.locationRequests.append(promise)
+        })
     }
     
     func getWorkoutLocationUpdatesPublisher() -> AnyPublisher<CLLocation, Never> {
-        // TODO: Fix to not force unwrap
-        return locationPublisher
+        return workoutLocationPublisher
             .filter({ location in
                 return location.horizontalAccuracy < 30
             })
@@ -32,13 +54,18 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
     }
     
     func startWorkoutLocationUpdates() {
+        startsRequested += 1
         manager.startUpdatingLocation()
     }
     
     func stopWorkoutLocationUpdates() {
+        startsRequested -= 1
+        if startsRequested > 0 {
+            return
+        }
         manager.stopUpdatingLocation()
-        locationPublisher.send(completion: .finished)
-        locationPublisher = PassthroughSubject<CLLocation, Never>()
+        workoutLocationPublisher.send(completion: .finished)
+        workoutLocationPublisher = PassthroughSubject<CLLocation, Never>()
     }
     
     func requestAuthorization() {
@@ -46,6 +73,17 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
     }
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        locations.forEach({ locationPublisher.send($0) })
+        locations.forEach({ workoutLocationPublisher.send($0) })
+        
+        guard let lastLocation = locations.last else { return }
+        
+        while !locationRequests.isEmpty {
+            guard let request = locationRequests.popLast() else { continue }
+            request(.success(lastLocation))
+        }
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        print(error)
     }
 }
