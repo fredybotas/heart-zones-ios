@@ -21,7 +21,7 @@ class WorkoutViewModel: ObservableObject {
     
     @Published private(set) var time: String = "00:00,00"
     @Published private(set) var energy: String = "0 kcal"
-    @Published private(set) var distance: String = "0 km"
+    @Published private(set) var distance: String = "0 m"
     @Published private(set) var currentPace: String = "--'--''"
     @Published private(set) var averagePace: String = "--'--''"
     

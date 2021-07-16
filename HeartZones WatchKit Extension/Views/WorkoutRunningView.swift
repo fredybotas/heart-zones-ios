@@ -16,25 +16,24 @@ struct WorkoutRunningView: View {
             Text(workoutViewModel.time)
                 .font(Font.system(size: 32, weight: .semibold, design: .default))
             Spacer()
-            HStack(alignment: .top, spacing: 20) {
+            HStack(alignment: .top, spacing: 0) {
                 VStack(alignment: .leading, spacing: nil) {
                     Text(workoutViewModel.bpm)
                         .font(Font.system(size: 23, weight: .light, design: .default))
-                        .padding([.bottom, .top], -4)
+                        .frame(width: 95, height: 23, alignment: .leading)
                     Text(workoutViewModel.energy)
                         .font(Font.system(size: 23, weight: .light, design: .default))
-                        .padding([.bottom, .top], -4)
+                        .frame(width: 95, height: 23, alignment: .leading)
                     Text(workoutViewModel.distance)
                         .font(Font.system(size: 23, weight: .light, design: .default))
-                        .padding([.bottom, .top], -4)
+                        .frame(width: 95, height: 23, alignment: .leading)
                 }
-                VStack(alignment: .center, spacing: 16) {
+                VStack(alignment: .center, spacing: 3) {
                     PieSegment(ratio: workoutViewModel.bpmCircleRatio)
                         .fill(workoutViewModel.bpmCircleColor)
                         .frame(width: 23, height: 23, alignment: .center)
-
                     SunView(sunVisibility: workoutViewModel.sunVisibility)
-                        .frame(width: 20, height: 20, alignment: .center)
+                        .frame(width: 18, height: 18, alignment: .center)
                         .contentShape(Rectangle())
                         .clipShape(Rectangle())
                         .clipped()
