@@ -19,21 +19,37 @@ struct WorkoutRunningView: View {
             HStack(alignment: .top, spacing: 0) {
                 VStack(alignment: .leading, spacing: nil) {
                     Text(workoutViewModel.bpm)
-                        .font(Font.system(size: 23, weight: .light, design: .default))
-                        .frame(width: 95, height: 23, alignment: .leading)
-                    Text(workoutViewModel.energy)
-                        .font(Font.system(size: 23, weight: .light, design: .default))
-                        .frame(width: 95, height: 23, alignment: .leading)
+                        .frame(width: 45, height: 23, alignment: .leading)
+                        .font(Font.system(size: 23, weight: .medium, design: .default))
+                    Text("")
+                        .frame(width: 45, height: 4, alignment: .center)
                     Text(workoutViewModel.distance)
-                        .font(Font.system(size: 23, weight: .light, design: .default))
-                        .frame(width: 95, height: 23, alignment: .leading)
+                        .frame(width: 45, height: 19, alignment: .leading)
+                        .font(Font.system(size: 19, weight: .medium, design: .default))
+                    Text(workoutViewModel.energy)
+                        .frame(width: 45, height: 19, alignment: .leading)
+                        .font(Font.system(size: 19, weight: .medium, design: .default))
                 }
-                VStack(alignment: .center, spacing: 3) {
+                VStack(alignment: .leading, spacing: 0) {
+                    Text(workoutViewModel.bpmUnit)
+                        .frame(width: 50, height: 23, alignment: .bottomLeading)
+                        .font(Font.system(size: 18, weight: .light, design: .default))
+                    Text("")
+                        .frame(width: 50, height: 4, alignment: .center)
+                    Text(workoutViewModel.distanceUnit)
+                        .frame(width: 50, height: 19, alignment: .bottomLeading)
+                        .font(Font.system(size: 14, weight: .light, design: .default))
+                    Text(workoutViewModel.energyUnit)
+                        .frame(width: 50, height: 19, alignment: .bottomLeading)
+                        .font(Font.system(size: 14, weight: .light, design: .default))
+                }
+                VStack(alignment: .center, spacing: 12) {
                     PieSegment(ratio: workoutViewModel.bpmCircleRatio)
                         .fill(workoutViewModel.bpmCircleColor)
-                        .frame(width: 23, height: 23, alignment: .center)
+                        .frame(width: 20, height: 20, alignment: .center)
+                        .padding(1.5)
                     SunView(sunVisibility: workoutViewModel.sunVisibility)
-                        .frame(width: 18, height: 18, alignment: .center)
+                        .frame(width: 15, height: 15, alignment: .center)
                         .contentShape(Rectangle())
                         .clipShape(Rectangle())
                         .clipped()
@@ -42,10 +58,10 @@ struct WorkoutRunningView: View {
             Spacer()
             HStack {
                 Text(workoutViewModel.currentPace)
-                    .font(Font.system(size: 20, weight: .light, design: .default))
+                    .font(Font.system(size: 18, weight: .medium, design: .default))
                 Spacer()
                 Text(workoutViewModel.averagePace)
-                    .font(Font.system(size: 20, weight: .light, design: .default))
+                    .font(Font.system(size: 18, weight: .medium, design: .default))
             }
         }
         .onAppear(){

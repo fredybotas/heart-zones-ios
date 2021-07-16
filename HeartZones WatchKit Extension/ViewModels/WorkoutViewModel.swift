@@ -13,15 +13,20 @@ fileprivate let kSecondsInHour = 3600.0
 fileprivate let kSecondsForThreeQuartersOfHour = (kSecondsInHour / 4.0) * 3.0
 
 class WorkoutViewModel: ObservableObject {
-    @Published private(set) var bpm: String = "-- bpm"
+    @Published private(set) var bpm: String = "--"
+    @Published private(set) var bpmUnit: String = "BPM"
     @Published private(set) var bpmCircleColor = Color.black
     @Published private(set) var bpmCircleRatio = 0.0
     
     @Published private(set) var sunVisibility = 0.0
     
     @Published private(set) var time: String = "00:00,00"
-    @Published private(set) var energy: String = "0 kcal"
-    @Published private(set) var distance: String = "0 m"
+    @Published private(set) var energy: String = "0"
+    @Published private(set) var energyUnit: String = "KCAL"
+
+    @Published private(set) var distance: String = "0"
+    @Published private(set) var distanceUnit: String = "M"
+
     @Published private(set) var currentPace: String = "--'--''"
     @Published private(set) var averagePace: String = "--'--''"
     
@@ -53,12 +58,12 @@ class WorkoutViewModel: ObservableObject {
         self.workoutType = workoutType
         
         distanceFormatter.unitOptions = .providedUnit
-        distanceFormatter.numberFormatter.maximumFractionDigits = 1
-        distanceFormatter.numberFormatter.minimumFractionDigits = 1
-            
+        distanceFormatter.unitStyle = .medium
+        
         energyFormatter.unitOptions = .providedUnit
+        energyFormatter.unitStyle = .medium
         energyFormatter.numberFormatter.maximumFractionDigits = 0
-    
+
         if let delegate = WKExtension.shared().delegate as? ExtensionDelegate {
             appStateChangeSubscriber = delegate.appStateChangePublisher
                 .receive(on: DispatchQueue.main)
@@ -95,14 +100,24 @@ class WorkoutViewModel: ObservableObject {
             }, receiveValue: { [weak self] data in
                 self?.currentPace = data.currentSpeed.toPaceString()
                 self?.averagePace = data.averageSpeed.toPaceString()
-                var distanceString: String?
+                // TODO: Change to optional without forcing
+                var unit: UnitLength!
                 if data.distance < Measurement.init(value: 1, unit: UnitLength.kilometers) {
-                    distanceString = self?.distanceFormatter.string(from: data.distance.converted(to: UnitLength.meters))
+                    self?.distanceFormatter.numberFormatter.maximumFractionDigits = 0
+                    unit = UnitLength.meters
                 } else {
-                    distanceString = self?.distanceFormatter.string(from: data.distance.converted(to: UnitLength.kilometers))
+                    self?.distanceFormatter.numberFormatter.maximumFractionDigits = 1
+                    unit = UnitLength.kilometers
                 }
+                let distanceString = self?.distanceFormatter.numberFormatter.string(from: NSNumber(value: data.distance.converted(to: unit).value))
+                // TODO: Fix this hack
+                let unitString = self?.distanceFormatter.string(from: data.distance.converted(to: unit)).split(separator: " ")[1]
+
                 guard let distanceString = distanceString else { return }
+                guard let unitString = unitString else { return }
+
                 self?.distance = distanceString
+                self?.distanceUnit = unitString.uppercased()
             })
     }
     
@@ -116,7 +131,7 @@ class WorkoutViewModel: ObservableObject {
             .sink(receiveCompletion: { [weak self] completion in
                 self?.workoutHeartDataSubscriber = nil
             }, receiveValue: { [weak self] data in
-                self?.bpm = String(data.0) + " bpm"
+                self?.bpm = String(data.0)
                 self?.bpmCircleColor = data.1.color
                 guard let ratio = data.1.getBpmRatio(bpm: data.0) else { return }
                 self?.bpmCircleRatio = ratio
@@ -131,8 +146,10 @@ class WorkoutViewModel: ObservableObject {
             .sink(receiveCompletion: { [weak self] completion in
                 self?.workoutEnergyDataSubscriber = nil
             }, receiveValue: { [weak self] data in
-                guard let energyString = self?.energyFormatter.string(from: data) else { return }
+                guard let energyString = self?.energyFormatter.numberFormatter.string(from: NSNumber(value: data.value)) else { return }
+                guard let energyUnit = self?.energyFormatter.string(from: data.unit) else { return }
                 self?.energy = energyString
+                self?.energyUnit = energyUnit.uppercased()
             })
     }
     
