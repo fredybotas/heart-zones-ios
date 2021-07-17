@@ -38,10 +38,11 @@ struct HeartZonesSetting {
         let maxBpm = Double(220 - age)
         
         return HeartZonesSetting(zones: [
-            HeartZone(name: "Warm Up", bpmRange: Int(0 * maxBpm)...Int(0.6 * maxBpm), color: Color.green, target: false),
-            HeartZone(name: "Fat Burn", bpmRange: Int(0.6 * maxBpm)...Int(0.75 * maxBpm), color: Color.yellow, target: false),
-            HeartZone(name: "Cardio", bpmRange: Int(0.75 * maxBpm)...Int(0.85 * maxBpm), color: Color.orange, target: true),
-            HeartZone(name: "Peak", bpmRange: Int(0.85 * maxBpm)...Int(1.00 * maxBpm), color: Color.red, target: false),
+            HeartZone(name: "Very Light", bpmRange: Int(0 * maxBpm)...Int(0.6 * maxBpm), color: Color.gray, target: false),
+            HeartZone(name: "Light", bpmRange: Int(0.6 * maxBpm)...Int(0.7 * maxBpm), color: Color.blue, target: false),
+            HeartZone(name: "Moderate", bpmRange: Int(0.7 * maxBpm)...Int(0.8 * maxBpm), color: Color.green, target: false),
+            HeartZone(name: "Hard", bpmRange: Int(0.8 * maxBpm)...Int(0.9 * maxBpm), color: Color.orange, target: true),
+            HeartZone(name: "Peak", bpmRange: Int(0.9 * maxBpm)...Int(1.0 * maxBpm), color: Color.red, target: false),
         ])
     }
 }

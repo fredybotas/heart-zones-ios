@@ -98,6 +98,7 @@ class WorkoutViewModel: ObservableObject {
             .sink(receiveCompletion: { [weak self] completion in
                 self?.workoutDistanceDataSubscriber = nil
             }, receiveValue: { [weak self] data in
+                // TODO: Refactor
                 self?.currentPace = data.currentSpeed.toPaceString()
                 self?.averagePace = data.averageSpeed.toPaceString()
                 // TODO: Change to optional without forcing
