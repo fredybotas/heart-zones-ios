@@ -18,8 +18,9 @@ class WorkoutViewModel: ObservableObject {
     @Published private(set) var bpmCircleColor = Color.black
     @Published private(set) var bpmCircleRatio = 0.0
     
+    @Published private(set) var sunsetLeft = 0
     @Published private(set) var sunVisibility = 0.0
-    
+
     @Published private(set) var time: String = "00:00,00"
     @Published private(set) var energy: String = "0"
     @Published private(set) var energyUnit: String = "KCAL"
@@ -174,7 +175,7 @@ class WorkoutViewModel: ObservableObject {
             .sink { [weak self] sunset in
                 self?.sunset = sunset
             }
-        sunsetTimer = Timer.publish(every: 10, on: .main, in: .common)
+        sunsetTimer = Timer.publish(every: 30, on: .main, in: .common)
             .autoconnect()
             .sink() { [weak self] _ in
                 guard let sunset = self?.sunset else { return }
@@ -182,8 +183,10 @@ class WorkoutViewModel: ObservableObject {
                 let interval = sunset.timeIntervalSince(date)
                 if interval < kSecondsForThreeQuartersOfHour && interval >= 0 {
                     self?.sunVisibility = (Double(interval) / kSecondsInHour)
+                    self?.sunsetLeft = Int((interval / 60.0).rounded(.up))
                 } else {
                     self?.sunVisibility = 0.0
+                    self?.sunsetLeft = 0
                 }
             }
     }

@@ -43,16 +43,13 @@ struct WorkoutRunningView: View {
                         .frame(width: 50, height: 22, alignment: .bottomLeading)
                         .font(Font.system(size: 14, weight: .light, design: .default))
                 }
-                VStack(alignment: .center, spacing: 12) {
+                VStack(alignment: .center, spacing: 8) {
                     PieSegment(ratio: workoutViewModel.bpmCircleRatio)
                         .fill(workoutViewModel.bpmCircleColor)
                         .frame(width: 20, height: 20, alignment: .center)
                         .padding(2.5)
-                    SunView(sunVisibility: workoutViewModel.sunVisibility)
-                        .frame(width: 17, height: 17, alignment: .center)
-                        .contentShape(Rectangle())
-                        .clipShape(Rectangle())
-                        .clipped()
+                    SunViewWithMinutes(minutesLeft: workoutViewModel.sunsetLeft, sunVisibility: workoutViewModel.sunVisibility)
+                        .frame(width: 20, height: 40, alignment: .center)
                 }
             }
             Spacer()
