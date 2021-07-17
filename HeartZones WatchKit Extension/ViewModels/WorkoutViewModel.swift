@@ -105,6 +105,9 @@ class WorkoutViewModel: ObservableObject {
                 if data.distance < Measurement.init(value: 1, unit: UnitLength.kilometers) {
                     self?.distanceFormatter.numberFormatter.maximumFractionDigits = 0
                     unit = UnitLength.meters
+                } else if data.distance >= Measurement.init(value: 100, unit: UnitLength.kilometers) {
+                    self?.distanceFormatter.numberFormatter.maximumFractionDigits = 0
+                    unit = UnitLength.kilometers
                 } else {
                     self?.distanceFormatter.numberFormatter.maximumFractionDigits = 1
                     unit = UnitLength.kilometers
