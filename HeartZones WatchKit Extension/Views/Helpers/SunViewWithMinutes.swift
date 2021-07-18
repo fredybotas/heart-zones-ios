@@ -12,7 +12,7 @@ struct SunViewWithMinutes: View {
     var sunVisibility: Double
     
     var body: some View {
-        VStack(alignment: .center, spacing: nil) {
+        VStack(alignment: .center, spacing: 0) {
             SunView(sunVisibility: sunVisibility)
                 .contentShape(Rectangle())
                 .clipShape(Rectangle())
