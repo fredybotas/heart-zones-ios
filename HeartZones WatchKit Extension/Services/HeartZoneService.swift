@@ -88,7 +88,7 @@ class HeartZoneService: IHeartZoneService {
                 deviceBeeper.startLowRateAlert()
             }
         } else if heartZoneMovement != .undefined {
-            deviceBeeper.changeZoneAlert(movement: heartZoneMovement)
+            deviceBeeper.runZoneChangeAlertIfNeeded(movement: heartZoneMovement)
         }
         
     }

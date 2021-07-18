@@ -28,7 +28,7 @@ class DeviceBeeperMock: Beeper {
         startLowRateAlertCalledCount += 1
     }
     
-    func changeZoneAlert(movement: HeartZonesSetting.HeartZoneMovement) {
+    func runZoneChangeAlertIfNeeded(movement: HeartZonesSetting.HeartZoneMovement) {
         changeZoneAlertCalledCount += 1
         changeZoneAlertCallSequence.append(movement)
     }
