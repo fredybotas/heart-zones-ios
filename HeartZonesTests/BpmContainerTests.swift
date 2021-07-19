@@ -9,14 +9,13 @@ import XCTest
 @testable import HeartZones_WatchKit_Extension
 
 class BpmContainerTests: XCTestCase {
-    var container: BpmContainer?
+    var container: BpmContainer!
 
-    override func setUpWithError() throws {
+    override func setUp() {
         container = BpmContainer(size: 3)
     }
 
     func testInsert() throws {
-        guard var container = container else { return }
         container.insert(bpm: 1)
         container.insert(bpm: 3)
         container.insert(bpm: 5)
@@ -25,7 +24,6 @@ class BpmContainerTests: XCTestCase {
     }
 
     func testCalculation() throws {
-        guard var container = container else { return }
         container.insert(bpm: 5)
         container.insert(bpm: 10)
         container.insert(bpm: 15)
