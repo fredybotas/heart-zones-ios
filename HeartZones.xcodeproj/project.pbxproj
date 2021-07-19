@@ -37,6 +37,9 @@
 		B6628A72268A538300901D17 /* ExtensionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6628A70268A538300901D17 /* ExtensionDelegate.swift */; };
 		B697B4FE268B9A77003558C8 /* Swinject in Frameworks */ = {isa = PBXBuildFile; productRef = B697B4FD268B9A77003558C8 /* Swinject */; };
 		B697B500268BBD6E003558C8 /* WorkoutControlsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B697B4FF268BBD6E003558C8 /* WorkoutControlsViewModel.swift */; };
+		B6AFC1A526A5917100616311 /* BeepingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6AFC1A426A5917100616311 /* BeepingService.swift */; };
+		B6AFC1AA26A59C4D00616311 /* BeepingServiceMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6AFC1A926A59C4D00616311 /* BeepingServiceMock.swift */; };
+		B6AFC1AB26A5A03E00616311 /* BeepingServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6AFC1A726A59BD100616311 /* BeepingServiceTests.swift */; };
 		B6B6EC9A268E465800170E39 /* Containers.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6B6EC99268E465800170E39 /* Containers.swift */; };
 		B6E30C3C26850F73007CCA38 /* WorkoutSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6E30C3B26850F73007CCA38 /* WorkoutSelectionView.swift */; };
 		B6E30C4126851996007CCA38 /* WorkoutControlsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6E30C4026851996007CCA38 /* WorkoutControlsView.swift */; };
@@ -139,6 +142,9 @@
 		B6628A70268A538300901D17 /* ExtensionDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExtensionDelegate.swift; sourceTree = "<group>"; };
 		B6628A75268A56CB00901D17 /* Interface.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Interface.storyboard; sourceTree = "<group>"; };
 		B697B4FF268BBD6E003558C8 /* WorkoutControlsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutControlsViewModel.swift; sourceTree = "<group>"; };
+		B6AFC1A426A5917100616311 /* BeepingService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeepingService.swift; sourceTree = "<group>"; };
+		B6AFC1A726A59BD100616311 /* BeepingServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeepingServiceTests.swift; sourceTree = "<group>"; };
+		B6AFC1A926A59C4D00616311 /* BeepingServiceMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeepingServiceMock.swift; sourceTree = "<group>"; };
 		B6B6EC99268E465800170E39 /* Containers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Containers.swift; sourceTree = "<group>"; };
 		B6E30C3B26850F73007CCA38 /* WorkoutSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutSelectionView.swift; sourceTree = "<group>"; };
 		B6E30C4026851996007CCA38 /* WorkoutControlsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutControlsView.swift; sourceTree = "<group>"; };
@@ -243,6 +249,7 @@
 				B615E0522683BD1900B5DC91 /* Info.plist */,
 				B607E15A268E1EA90069FEA4 /* BpmContainerTests.swift */,
 				B63AB83E26983C99007E07E9 /* HeartZoneServiceTests.swift */,
+				B6AFC1A726A59BD100616311 /* BeepingServiceTests.swift */,
 			);
 			path = HeartZonesTests;
 			sourceTree = "<group>";
@@ -260,6 +267,7 @@
 			isa = PBXGroup;
 			children = (
 				B63AB84426983FE2007E07E9 /* DeviceBeeperMock.swift */,
+				B6AFC1A926A59C4D00616311 /* BeepingServiceMock.swift */,
 			);
 			path = Mocks;
 			sourceTree = "<group>";
@@ -295,11 +303,11 @@
 		B650A960268799B40042B33D /* Services */ = {
 			isa = PBXGroup;
 			children = (
-				B63AB83C269780FA007E07E9 /* DeviceBeeper.swift */,
+				B6AFC1A626A5917B00616311 /* Utils */,
 				B650A961268799C60042B33D /* WorkoutService.swift */,
 				B650A970268895800042B33D /* HeartZoneService.swift */,
-				B63AB8462698DB56007E07E9 /* LocationManager.swift */,
 				B62EF907269E1FE40067E894 /* SunService.swift */,
+				B6AFC1A426A5917100616311 /* BeepingService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -321,6 +329,15 @@
 				B650A96C26888AD10042B33D /* Workout.swift */,
 			);
 			path = Models;
+			sourceTree = "<group>";
+		};
+		B6AFC1A626A5917B00616311 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				B63AB83C269780FA007E07E9 /* DeviceBeeper.swift */,
+				B63AB8462698DB56007E07E9 /* LocationManager.swift */,
+			);
+			path = Utils;
 			sourceTree = "<group>";
 		};
 		B6B6EC98268E464B00170E39 /* Helpers */ = {
@@ -558,6 +575,7 @@
 				B650A962268799C60042B33D /* WorkoutService.swift in Sources */,
 				B697B500268BBD6E003558C8 /* WorkoutControlsViewModel.swift in Sources */,
 				B650A971268895800042B33D /* HeartZoneService.swift in Sources */,
+				B6AFC1A526A5917100616311 /* BeepingService.swift in Sources */,
 				B650A95B26878DAD0042B33D /* PieSegmentView.swift in Sources */,
 				B650A96B2688857E0042B33D /* WorkoutSelectionViewModel.swift in Sources */,
 				B650A96D26888AD10042B33D /* Workout.swift in Sources */,
@@ -572,6 +590,8 @@
 				B63AB83F26983C99007E07E9 /* HeartZoneServiceTests.swift in Sources */,
 				B63AB84526983FE2007E07E9 /* DeviceBeeperMock.swift in Sources */,
 				B607E15B268E1EA90069FEA4 /* BpmContainerTests.swift in Sources */,
+				B6AFC1AB26A5A03E00616311 /* BeepingServiceTests.swift in Sources */,
+				B6AFC1AA26A59C4D00616311 /* BeepingServiceMock.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

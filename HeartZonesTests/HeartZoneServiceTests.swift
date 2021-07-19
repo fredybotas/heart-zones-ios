@@ -12,14 +12,14 @@ import Combine
 
 class HeartZoneServiceTests: XCTestCase {
     var workoutServiceFake: WorkoutServiceFake!
-    var deviceBeeperMock: DeviceBeeperMock!
+    var beepingServiceMock: BeepingServiceMock!
     var sut: HeartZoneService!
     var cancellables = Set<AnyCancellable>()
 
     override func setUp() {
         self.workoutServiceFake = WorkoutServiceFake()
-        self.deviceBeeperMock = DeviceBeeperMock()
-        self.sut = HeartZoneService(workoutService: workoutServiceFake, deviceBeeper: deviceBeeperMock)
+        self.beepingServiceMock = BeepingServiceMock()
+        self.sut = HeartZoneService(workoutService: workoutServiceFake, beepingService: beepingServiceMock)
         self.cancellables.removeAll()
     }
     
@@ -88,51 +88,12 @@ class HeartZoneServiceTests: XCTestCase {
         XCTAssertNotEqual(firstZone, lastZone)
     }
     
-    func testBeepingUp() {
+    func testZoneTransmissionDeviceBeepCall() {
         self.workoutServiceFake.changeState(state: .running)
-        
-        self.workoutServiceFake.sendBpmChange(bpm: getBpmSampleFromHeartZone(zone: self.sut.activeHeartZoneSetting.zones[0]))
-        self.workoutServiceFake.sendBpmChange(bpm: getBpmSampleFromHeartZone(zone: self.sut.activeHeartZoneSetting.zones[1]))
 
-        XCTAssertEqual(deviceBeeperMock.changeZoneAlertCalledCount, 1)
-        XCTAssertEqual(deviceBeeperMock.changeZoneAlertCallSequence[0], .up)
-    }
-    
-    func testBeepingDown() {
-        self.workoutServiceFake.changeState(state: .running)
+        self.workoutServiceFake.sendBpmChange(bpm: 10)
         
-        self.workoutServiceFake.sendBpmChange(bpm: getBpmSampleFromHeartZone(zone: self.sut.activeHeartZoneSetting.zones[1]))
-        self.workoutServiceFake.sendBpmChange(bpm: getBpmSampleFromHeartZone(zone: self.sut.activeHeartZoneSetting.zones[0]))
-
-        XCTAssertEqual(deviceBeeperMock.changeZoneAlertCalledCount, 1)
-        XCTAssertEqual(deviceBeeperMock.changeZoneAlertCallSequence[0], .down)
-    }
-    
-    func testEnteringActiveZone() {
-        self.workoutServiceFake.changeState(state: .running)
-        
-        self.workoutServiceFake.sendBpmChange(bpm: getBpmSampleFromHeartZone(zone: self.sut.activeHeartZoneSetting.zones[3]))
-
-        XCTAssertEqual(deviceBeeperMock.stopAlertingCalledCount, 1)
-    }
-    
-    func testLeavingActiveZoneDown() {
-        self.workoutServiceFake.changeState(state: .running)
-        
-        self.workoutServiceFake.sendBpmChange(bpm: getBpmSampleFromHeartZone(zone: self.sut.activeHeartZoneSetting.zones[3]))
-        self.workoutServiceFake.sendBpmChange(bpm: getBpmSampleFromHeartZone(zone: self.sut.activeHeartZoneSetting.zones[2]))
-        
-        XCTAssertEqual(deviceBeeperMock.startLowRateAlertCalledCount, 1)
-    }
-    
-    
-    func testLeavingActiveZoneUp() {
-        self.workoutServiceFake.changeState(state: .running)
-        
-        self.workoutServiceFake.sendBpmChange(bpm: getBpmSampleFromHeartZone(zone: self.sut.activeHeartZoneSetting.zones[3]))
-        self.workoutServiceFake.sendBpmChange(bpm: getBpmSampleFromHeartZone(zone: self.sut.activeHeartZoneSetting.zones[4]))
-        
-        XCTAssertEqual(deviceBeeperMock.startHighRateAlertCalledCount, 1)
+        XCTAssertNotEqual(self.beepingServiceMock.handleDeviceBeepCallSequence.count, 0)
     }
     
     func testContinousResubscriptionForZones() {

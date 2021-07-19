@@ -17,6 +17,11 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
         container.register(DeviceBeeper.self, factory: { resolver in
             return DeviceBeeper()
         }).inObjectScope(.container)
+        container.register(BeepingService.self, factory: { resolver in
+            let beeper = resolver.resolve(DeviceBeeper.self)!
+            return BeepingService(beeper: beeper)
+        }).inObjectScope(.container)
+        
         container.register(LocationManager.self, factory: { resolver in
             return LocationManager()
         }).inObjectScope(.container)
@@ -29,10 +34,11 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
             let locationManager = resolver.resolve(LocationManager.self)!
             return WorkoutService(locationManager: locationManager)
         }).inObjectScope(.container)
+        
         container.register(HeartZoneService.self, factory: { resolver in
             let workoutService = resolver.resolve(WorkoutService.self)!
-            let beeper = resolver.resolve(DeviceBeeper.self)!
-            return HeartZoneService(workoutService: workoutService, deviceBeeper: beeper)
+            let beepingService = resolver.resolve(BeepingService.self)!
+            return HeartZoneService(workoutService: workoutService, beepingService: beepingService)
         }).inObjectScope(.container)
         
         container.register(WorkoutSelectionViewModel.self, factory: { resolver in

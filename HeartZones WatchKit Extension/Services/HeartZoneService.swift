@@ -15,7 +15,7 @@ protocol IHeartZoneService {
 
 class HeartZoneService: IHeartZoneService {
     private let workoutService: IWorkoutService
-    private let deviceBeeper: Beeper
+    private let beepingService: IBeepingService
     //TODO: Set correct age
     private let age: Int = 25
     
@@ -26,9 +26,10 @@ class HeartZoneService: IHeartZoneService {
     
     let activeHeartZoneSetting: HeartZonesSetting
     
-    init (workoutService: IWorkoutService, deviceBeeper: Beeper) {
+    init (workoutService: IWorkoutService, beepingService: IBeepingService) {
         self.workoutService = workoutService
-        self.deviceBeeper = deviceBeeper
+        self.beepingService = beepingService
+
         // TODO: Add logic to evaluate correct heart zone. Now we are using default zones only.
         self.activeHeartZoneSetting = HeartZonesSetting.getDefaultHeartZonesSetting(age: age)
         
@@ -47,7 +48,7 @@ class HeartZoneService: IHeartZoneService {
                 self.connectBpmSubscriberIfNeeded()
             case .finished:
                 self.currentHeartZonePublisher.send(completion: .finished)
-                self.deviceBeeper.stopAlertIfRunning()
+                self.beepingService.stopAnyBeeping()
             default:
                 break
         }
@@ -71,26 +72,9 @@ class HeartZoneService: IHeartZoneService {
     private func handleBpmChange(bpm: Int) {
         let (movement, newZone) = activeHeartZoneSetting.evaluateBpmChange(currentZone: currentHeartZonePublisher.value, bpm: bpm)
         if movement != .stay {
-            handleDeviceBeep(heartZoneMovement: movement, fromTargetZone: self.currentHeartZonePublisher.value?.target ?? false, enteredTargetZone: newZone?.target ?? false)
+            beepingService.handleDeviceBeep(heartZoneMovement: movement, fromTargetZone: self.currentHeartZonePublisher.value?.target ?? false, enteredTargetZone: newZone?.target ?? false)
             self.currentHeartZonePublisher.send(newZone)
         }
-    }
-    
-    private func handleDeviceBeep(heartZoneMovement: HeartZonesSetting.HeartZoneMovement, fromTargetZone: Bool, enteredTargetZone: Bool) {
-        if enteredTargetZone {
-            deviceBeeper.stopAlertIfRunning()
-        }
-        
-        if fromTargetZone {
-            if heartZoneMovement == .up {
-                deviceBeeper.startHighRateAlert()
-            } else if heartZoneMovement == .down {
-                deviceBeeper.startLowRateAlert()
-            }
-        } else if heartZoneMovement != .undefined {
-            deviceBeeper.runZoneChangeAlertIfNeeded(movement: heartZoneMovement)
-        }
-        
     }
     
     func getHeartZonePublisher() -> AnyPublisher<HeartZone, Never> {
