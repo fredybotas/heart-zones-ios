@@ -30,29 +30,32 @@ struct BpmContainer {
     }
 }
 
+/*
+ @discussion    Calculation is not accurate now.
+                Lap average speed might be calculated from more than lapSize parameter.
+ */
 struct DistanceContainer {
-    private var distances = [Double]()
-    private var timeIntervals = [TimeInterval]()
+    private var distanceSum = 0.0
+    private var timeSum = 0.0
     
-    private let size: UInt
+    private let lapSize: Double
     
-    init(size: UInt) {
-        self.size = size
+    init(lapSize: Double) {
+        self.lapSize = lapSize
     }
     
     mutating func insert(distance: Double, timeInterval: TimeInterval) {
-        distances.append(distance)
-        timeIntervals.append(timeInterval)
-        if distances.count > size {
-            distances.remove(at: 0)
-            timeIntervals.remove(at: 0)
+        if distanceSum >= lapSize {
+            distanceSum = 0.0
+            timeSum = 0.0
         }
+        // TODO: Think of more accurate way to calculate average speed. Maybe interpolate last given distance and its interval to fill lapSize exactly
+        
+        distanceSum += distance
+        timeSum += timeInterval
     }
     
     func getAverageSpeed() -> Measurement<UnitSpeed>? {
-        if distances.count < size {
-            return nil
-        }
-        return Measurement(value: distances.reduce(0, { $0 + $1 }) / timeIntervals.reduce(0, { $0 + $1 }), unit: UnitSpeed.metersPerSecond)
+        return Measurement(value: distanceSum / timeSum, unit: UnitSpeed.metersPerSecond)
     }
 }
