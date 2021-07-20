@@ -23,7 +23,7 @@ struct BpmContainer {
     }
     
     func getActualBpm() -> Int? {
-        if array.count < size {
+        if array.count < size || array.count == 0 {
             return nil
         }
         return array.reduce(0, { $0 + $1 }) / array.count
@@ -56,6 +56,14 @@ struct DistanceContainer {
     }
     
     func getAverageSpeed() -> Measurement<UnitSpeed>? {
-        return Measurement(value: distanceSum / timeSum, unit: UnitSpeed.metersPerSecond)
+        if timeSum.isZero {
+            return nil
+        }
+        
+        let result = distanceSum / timeSum
+        if result.isNaN || result.isInfinite {
+            return nil
+        }
+        return Measurement(value: result, unit: UnitSpeed.metersPerSecond)
     }
 }
