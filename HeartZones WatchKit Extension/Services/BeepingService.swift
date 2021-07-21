@@ -62,7 +62,7 @@ class BeepingService: IBeepingService {
             if heartZoneMovement == .up {
                 self.beeper.runOnceHighRateAlert()
             } else if heartZoneMovement == .down {
-                    self.beeper.runOnceLowRateAlert()
+                self.beeper.runOnceLowRateAlert()
             }
         }
     }

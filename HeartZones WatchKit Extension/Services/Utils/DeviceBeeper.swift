@@ -22,7 +22,7 @@ protocol Beeper {
     func runOnceLowRateAlert()
 }
 
-fileprivate let kZoneALertInterval: TimeInterval = 4.0
+fileprivate let kZoneAlertInterval: TimeInterval = 4.0
 
 class DeviceBeeper: Beeper {
     
@@ -51,7 +51,8 @@ class DeviceBeeper: Beeper {
     }
     
     func startHighRateAlert() {
-        timerHighRate = Timer.TimerPublisher.init(interval: kZoneALertInterval, runLoop: .main, mode: .common)
+        self.runOnceHighRateAlert()
+        timerHighRate = Timer.TimerPublisher.init(interval: kZoneAlertInterval, runLoop: .main, mode: .common)
             .autoconnect()
             .sink { _ in
                 self.runOnceHighRateAlert()
@@ -59,7 +60,8 @@ class DeviceBeeper: Beeper {
     }
     
     func startLowRateAlert() {
-        timerLowRate = Timer.TimerPublisher.init(interval: kZoneALertInterval, runLoop: .main, mode: .common)
+        self.runOnceLowRateAlert()
+        timerLowRate = Timer.TimerPublisher.init(interval: kZoneAlertInterval, runLoop: .main, mode: .common)
             .autoconnect()
             .sink { _ in
                 self.runOnceLowRateAlert()
