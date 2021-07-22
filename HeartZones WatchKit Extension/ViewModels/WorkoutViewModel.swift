@@ -112,6 +112,7 @@ class WorkoutViewModel: ObservableObject {
                     unit = UnitLength.kilometers
                 } else {
                     self?.distanceFormatter.numberFormatter.maximumFractionDigits = 1
+                    self?.distanceFormatter.numberFormatter.minimumFractionDigits = 1
                     unit = UnitLength.kilometers
                 }
                 let distanceString = self?.distanceFormatter.numberFormatter.string(from: NSNumber(value: data.distance.converted(to: unit).value))
