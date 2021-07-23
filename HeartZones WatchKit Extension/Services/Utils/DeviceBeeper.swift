@@ -43,11 +43,11 @@ class DeviceBeeper: Beeper {
     private var appStateChangeSubscriber: AnyCancellable?
     
     func runOnceHighRateAlert() {
-        WKInterfaceDevice().play(.success)
+        WKInterfaceDevice().play(.failure)
     }
     
     func runOnceLowRateAlert() {
-        WKInterfaceDevice().play(.failure)
+        WKInterfaceDevice().play(.notification)
     }
     
     func startHighRateAlert() {
