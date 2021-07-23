@@ -45,7 +45,7 @@ class Workout: NSObject, IWorkout, HKLiveWorkoutBuilderDelegate, HKWorkoutSessio
     private var locationDataPublisher: AnyCancellable?
     private var routeBuilder: HKWorkoutRouteBuilder?
     
-    private var bpm = BpmContainer(size: 3)
+    private var bpm = BpmContainer(size: 1)
     private var distances = DistanceContainer(size: 3)
 
     init(healthKit: HKHealthStore, type: WorkoutType, locationManager: WorkoutLocationFetcher) {
