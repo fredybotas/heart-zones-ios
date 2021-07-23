@@ -53,6 +53,12 @@ struct DistanceContainer {
         if distances.count < size {
             return nil
         }
-        return Measurement(value: distances.reduce(0, { $0 + $1 }) / timeIntervals.reduce(0, { $0 + $1 }), unit: UnitSpeed.metersPerSecond)
+        let distance = distances.reduce(0, { $0 + $1 })
+        let time = timeIntervals.reduce(0, { $0 + $1 })
+        
+        if distance.isNaN || distance.isInfinite || time.isInfinite || time.isZero || time.isNaN {
+            return nil
+        }
+        return Measurement(value:  distance / time, unit: UnitSpeed.metersPerSecond)
     }
 }
