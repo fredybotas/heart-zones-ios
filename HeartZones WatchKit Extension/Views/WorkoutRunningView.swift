@@ -15,7 +15,7 @@ func widthToMaxSize(width: CGFloat) -> (Int, Int) {
     if width == 136 {
         return (136, 300)
     } else if width == 162 {
-        return (152, 190)
+        return (142, 190)
     } else if width == 156 {
         return (156, 300)
     } else if width == 184 {
@@ -41,7 +41,7 @@ struct WorkoutRunningView: View {
         VStack(alignment: .leading, spacing: nil) {
             Text(workoutViewModel.time)
                 .font(Font.system(size: 32 * getDeviceSizeMultiplier(), weight: .semibold, design: .default))
-            Spacer(minLength: 9 * getDeviceSizeMultiplier())
+            Spacer(minLength: 8 * getDeviceSizeMultiplier())
             HStack(alignment: .top, spacing: 0) {
                 VStack(alignment: .leading, spacing: nil) {
                     Text(workoutViewModel.bpm)
@@ -78,7 +78,7 @@ struct WorkoutRunningView: View {
                         .frame(width: 20 * getDeviceSizeMultiplier(), height: 40 * getDeviceSizeMultiplier(), alignment: .center)
                 }
             }
-            Spacer(minLength: 9 * getDeviceSizeMultiplier())
+            Spacer(minLength: 8 * getDeviceSizeMultiplier())
             HStack {
                 Text(workoutViewModel.currentPace)
                     .font(Font.system(size: 18 * getDeviceSizeMultiplier(), weight: .medium, design: .default))
