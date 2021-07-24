@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>App needs location data for workout route</string>
+	<string>App needs location data for collecting workout route</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
@@ -33,9 +33,9 @@
 		<string>com.apple.watchkit</string>
 	</dict>
 	<key>NSHealthShareUsageDescription</key>
-	<string>We need to know your health data</string>
+	<string>We need to read your health data to show them during workout</string>
 	<key>NSHealthUpdateUsageDescription</key>
-	<string>We need to know your health data</string>
+	<string>We need to update health data in order save your workouts into HealthKit</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>audio</string>
