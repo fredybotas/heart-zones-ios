@@ -202,11 +202,11 @@ fileprivate extension TimeInterval {
         let ms = Int((self.truncatingRemainder(dividingBy: 1)) * 1000)
         let seconds = time % 60
         let minutes = (time / 60) % 60
-
+        
         if minutes >= 100 {
-            return String(format: "%0.3d:%0.2d,%0.2d",minutes,seconds,ms / 10)
+            return String(format: "%0.3d:%0.2d,%0.1d", minutes, seconds, ms / 100)
         } else {
-            return String(format: "%0.2d:%0.2d,%0.2d",minutes,seconds,ms / 10)
+            return String(format: "%0.2d:%0.2d,%0.2d", minutes, seconds, ms / 10)
         }
     }
 }
