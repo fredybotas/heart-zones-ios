@@ -17,6 +17,7 @@
 		B615E0452683BD1900B5DC91 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B615E0442683BD1900B5DC91 /* Preview Assets.xcassets */; };
 		B62DDBDD26ABFC0D001D3D26 /* HealthKitService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B62DDBDC26ABFC0D001D3D26 /* HealthKitService.swift */; };
 		B62DDBDF26AC0DEA001D3D26 /* HealthKitServiceMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = B62DDBDE26AC0DEA001D3D26 /* HealthKitServiceMock.swift */; };
+		B62DDBE326AC2F06001D3D26 /* AuthorizationManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B62DDBE226AC2F06001D3D26 /* AuthorizationManagerTests.swift */; };
 		B62EF908269E1FE40067E894 /* SunService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B62EF907269E1FE40067E894 /* SunService.swift */; };
 		B62EF90C269E211F0067E894 /* Solar in Frameworks */ = {isa = PBXBuildFile; productRef = B62EF90B269E211F0067E894 /* Solar */; };
 		B63AB83D269780FA007E07E9 /* DeviceBeeper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B63AB83C269780FA007E07E9 /* DeviceBeeper.swift */; };
@@ -35,6 +36,8 @@
 		B650A96D26888AD10042B33D /* Workout.swift in Sources */ = {isa = PBXBuildFile; fileRef = B650A96C26888AD10042B33D /* Workout.swift */; };
 		B650A96F2688955F0042B33D /* HeartZone.swift in Sources */ = {isa = PBXBuildFile; fileRef = B650A96E2688955F0042B33D /* HeartZone.swift */; };
 		B650A971268895800042B33D /* HeartZoneService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B650A970268895800042B33D /* HeartZoneService.swift */; };
+		B6607B2526AC40C400C0C0EE /* AuthorizationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B62DDBE026AC22A5001D3D26 /* AuthorizationManager.swift */; };
+		B6607B2726AC4CB700C0C0EE /* AuthorizableFake.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6607B2626AC4CB700C0C0EE /* AuthorizableFake.swift */; };
 		B6628A71268A538300901D17 /* HostingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6628A6F268A538300901D17 /* HostingController.swift */; };
 		B6628A72268A538300901D17 /* ExtensionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6628A70268A538300901D17 /* ExtensionDelegate.swift */; };
 		B697B4FE268B9A77003558C8 /* Swinject in Frameworks */ = {isa = PBXBuildFile; productRef = B697B4FD268B9A77003558C8 /* Swinject */; };
@@ -126,6 +129,8 @@
 		B615E05D2683BD1900B5DC91 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B62DDBDC26ABFC0D001D3D26 /* HealthKitService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthKitService.swift; sourceTree = "<group>"; };
 		B62DDBDE26AC0DEA001D3D26 /* HealthKitServiceMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthKitServiceMock.swift; sourceTree = "<group>"; };
+		B62DDBE026AC22A5001D3D26 /* AuthorizationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizationManager.swift; sourceTree = "<group>"; };
+		B62DDBE226AC2F06001D3D26 /* AuthorizationManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizationManagerTests.swift; sourceTree = "<group>"; };
 		B62EF907269E1FE40067E894 /* SunService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SunService.swift; sourceTree = "<group>"; };
 		B63AB83C269780FA007E07E9 /* DeviceBeeper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceBeeper.swift; sourceTree = "<group>"; };
 		B63AB83E26983C99007E07E9 /* HeartZoneServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeartZoneServiceTests.swift; sourceTree = "<group>"; };
@@ -144,6 +149,7 @@
 		B650A96E2688955F0042B33D /* HeartZone.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeartZone.swift; sourceTree = "<group>"; };
 		B650A970268895800042B33D /* HeartZoneService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeartZoneService.swift; sourceTree = "<group>"; };
 		B650A9722688C3A80042B33D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = Platforms/WatchOS.platform/Developer/SDKs/WatchOS7.4.sdk/System/Library/Frameworks/CoreGraphics.framework; sourceTree = DEVELOPER_DIR; };
+		B6607B2626AC4CB700C0C0EE /* AuthorizableFake.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizableFake.swift; sourceTree = "<group>"; };
 		B6628A6F268A538300901D17 /* HostingController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HostingController.swift; sourceTree = "<group>"; };
 		B6628A70268A538300901D17 /* ExtensionDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExtensionDelegate.swift; sourceTree = "<group>"; };
 		B6628A75268A56CB00901D17 /* Interface.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Interface.storyboard; sourceTree = "<group>"; };
@@ -260,6 +266,7 @@
 				B6AFC1A726A59BD100616311 /* BeepingServiceTests.swift */,
 				B6AFC1AC26A5A33400616311 /* HeartZoneSettingsTests.swift */,
 				B6AFC1AE26A5A41800616311 /* DistanceContainerTests.swift */,
+				B62DDBE226AC2F06001D3D26 /* AuthorizationManagerTests.swift */,
 			);
 			path = HeartZonesTests;
 			sourceTree = "<group>";
@@ -287,6 +294,7 @@
 			isa = PBXGroup;
 			children = (
 				B63AB84226983FB2007E07E9 /* WorkoutServiceFake.swift */,
+				B6607B2626AC4CB700C0C0EE /* AuthorizableFake.swift */,
 			);
 			path = Fakes;
 			sourceTree = "<group>";
@@ -348,6 +356,7 @@
 				B63AB83C269780FA007E07E9 /* DeviceBeeper.swift */,
 				B63AB8462698DB56007E07E9 /* LocationManager.swift */,
 				B62DDBDC26ABFC0D001D3D26 /* HealthKitService.swift */,
+				B62DDBE026AC22A5001D3D26 /* AuthorizationManager.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -570,6 +579,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B6607B2526AC40C400C0C0EE /* AuthorizationManager.swift in Sources */,
 				B650A95F26878E1F0042B33D /* WorkoutViewModel.swift in Sources */,
 				B6E30C43268519B8007CCA38 /* WorkoutRunningView.swift in Sources */,
 				B62EF908269E1FE40067E894 /* SunService.swift in Sources */,
@@ -602,12 +612,14 @@
 				B6AFC1AF26A5A41800616311 /* DistanceContainerTests.swift in Sources */,
 				B63AB84326983FB2007E07E9 /* WorkoutServiceFake.swift in Sources */,
 				B62DDBDF26AC0DEA001D3D26 /* HealthKitServiceMock.swift in Sources */,
+				B6607B2726AC4CB700C0C0EE /* AuthorizableFake.swift in Sources */,
 				B63AB83F26983C99007E07E9 /* HeartZoneServiceTests.swift in Sources */,
 				B63AB84526983FE2007E07E9 /* DeviceBeeperMock.swift in Sources */,
 				B6AFC1AD26A5A33400616311 /* HeartZoneSettingsTests.swift in Sources */,
 				B607E15B268E1EA90069FEA4 /* BpmContainerTests.swift in Sources */,
 				B6AFC1AB26A5A03E00616311 /* BeepingServiceTests.swift in Sources */,
 				B6AFC1AA26A59C4D00616311 /* BeepingServiceMock.swift in Sources */,
+				B62DDBE326AC2F06001D3D26 /* AuthorizationManagerTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

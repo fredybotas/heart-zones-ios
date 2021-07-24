@@ -7,17 +7,16 @@
 
 import Foundation
 import HealthKit
+import Combine
 
 let kDefaultAge = 25
 
 protocol IHealthKitService {
     var healthStore: HKHealthStore { get }
     var age: Int { get }
-    
-    func authorizeHealthKitAccess(completion: @escaping (Bool, HKError.Code?) -> Void)
 }
 
-class HealthKitService: IHealthKitService {
+class HealthKitService: IHealthKitService, Authorizable {
     let healthStore = HKHealthStore()
     
     var age: Int {
@@ -46,24 +45,27 @@ class HealthKitService: IHealthKitService {
         HKSeriesType.workoutRoute(),
         HKQuantityType.workoutType()
     ]
-
-    func authorizeHealthKitAccess(completion: @escaping (Bool, HKError.Code?) -> Void)
-    {
-        guard HKHealthStore.isHealthDataAvailable() else {
-            completion(false, .errorHealthDataUnavailable)
-            return
-        }
-        healthStore.requestAuthorization(toShare: Set<HKSampleType>(writeMetrics), read: Set<HKObjectType>(readMetrics)) { (authorized, error) in
-            guard authorized else {
-                guard error != nil else {
-                    completion(false, .noError)
-                    return
-                }
-                completion(false, .errorAuthorizationDenied)
+    
+    func requestAuthorization() -> Future<Bool, Never> {
+        let writeMetrics = self.writeMetrics
+        let readMetrics = self.readMetrics
+        return Future<Bool, Never>({ [weak self] promise in
+            guard HKHealthStore.isHealthDataAvailable() else {
+                promise(.success(false))
                 return
             }
-            completion(true, nil)
-        }
+            self?.healthStore.requestAuthorization(toShare: Set<HKSampleType>(writeMetrics), read: Set<HKObjectType>(readMetrics)) { (authorized, error) in
+                guard authorized else {
+                    guard error != nil else {
+                        promise(.success(false))
+                        return
+                    }
+                    promise(.success(false))
+                    return
+                }
+                promise(.success(true))
+            }
+        })
     }
 }
 

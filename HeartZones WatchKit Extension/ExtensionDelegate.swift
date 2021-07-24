@@ -11,7 +11,7 @@ import Swinject
 import Combine
 
 class ExtensionDelegate: NSObject, WKExtensionDelegate {
-
+    
     let container: Container = {
         let container = Container()
         // Services should persist thtourhg whole app
@@ -25,7 +25,6 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
         container.register(HealthKitService.self, factory: { resolver in
             return HealthKitService()
         }).inObjectScope(.container)
-        
         container.register(LocationManager.self, factory: { resolver in
             return LocationManager()
         }).inObjectScope(.container)
@@ -45,6 +44,12 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
             let beepingService = resolver.resolve(BeepingService.self)!
             let healthKitService = resolver.resolve(HealthKitService.self)!
             return HeartZoneService(workoutService: workoutService, beepingService: beepingService, healthKitService: healthKitService)
+        }).inObjectScope(.container)
+        container.register(AuthorizationManager.self, factory: { resolver in
+            let healthKit = container.resolve(HealthKitService.self)!
+            // LocationManager needs to be last with current implementation
+            let locationManager = container.resolve(LocationManager.self)!
+            return AuthorizationManager(authorizables: [healthKit, locationManager])
         }).inObjectScope(.container)
         
         // Get new viewModel every time when requested
@@ -74,13 +79,8 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
 
     func applicationDidFinishLaunching() {
         // Perform any final initialization of your application.
-        let healthKitService = container.resolve(HealthKitService.self)!
-        healthKitService.authorizeHealthKitAccess(completion: { (result, code) in
-            print(result)
-        })
-        
-        let locationManager = container.resolve(LocationManager.self)!
-        locationManager.requestAuthorization()
+        let authorizationManager = container.resolve(AuthorizationManager.self)!
+        authorizationManager.startAuthorizationChain()
     }
 
     func applicationDidBecomeActive() {

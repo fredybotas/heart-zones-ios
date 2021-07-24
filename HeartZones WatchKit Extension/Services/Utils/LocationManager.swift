@@ -19,7 +19,7 @@ protocol WorkoutLocationFetcher {
     func stopWorkoutLocationUpdates()
 }
 
-class LocationManager: NSObject, WorkoutLocationFetcher, OnDemandLocationFetcher, CLLocationManagerDelegate {
+class LocationManager: NSObject, WorkoutLocationFetcher, OnDemandLocationFetcher, CLLocationManagerDelegate, Authorizable {
     
     let manager = CLLocationManager()
         
@@ -68,8 +68,12 @@ class LocationManager: NSObject, WorkoutLocationFetcher, OnDemandLocationFetcher
         workoutLocationPublisher = PassthroughSubject<CLLocation, Never>()
     }
     
-    func requestAuthorization() {
+    func requestAuthorization() -> Future<Bool, Never> {
         manager.requestWhenInUseAuthorization()
+        // TODO: Rework to return status correctly when watchos7 available
+        return Future<Bool, Never>({ promise in
+            promise(.success(true))
+        })
     }
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
