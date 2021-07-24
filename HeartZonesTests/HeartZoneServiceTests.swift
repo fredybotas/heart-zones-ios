@@ -13,13 +13,17 @@ import Combine
 class HeartZoneServiceTests: XCTestCase {
     var workoutServiceFake: WorkoutServiceFake!
     var beepingServiceMock: BeepingServiceMock!
+    var healthKitServiceMock: HealthKitServiceMock!
+    
     var sut: HeartZoneService!
     var cancellables = Set<AnyCancellable>()
 
     override func setUp() {
         self.workoutServiceFake = WorkoutServiceFake()
         self.beepingServiceMock = BeepingServiceMock()
-        self.sut = HeartZoneService(workoutService: workoutServiceFake, beepingService: beepingServiceMock)
+        self.healthKitServiceMock = HealthKitServiceMock()
+        
+        self.sut = HeartZoneService(workoutService: workoutServiceFake, beepingService: beepingServiceMock, healthKitService: healthKitServiceMock)
         self.cancellables.removeAll()
     }
     
@@ -63,6 +67,11 @@ class HeartZoneServiceTests: XCTestCase {
         XCTAssertEqual(zoneChangeCalledCount, 1)
     }
     
+    func testGetAgeBeingCalledWhenResolvingHeartZones() {
+        self.workoutServiceFake.changeState(state: .running)
+        XCTAssertEqual(self.healthKitServiceMock.getAgeCalledCount, 1)
+    }
+    
     func testZoneTransmission() {
         self.workoutServiceFake.changeState(state: .running)
 
@@ -77,8 +86,11 @@ class HeartZoneServiceTests: XCTestCase {
         }
         .store(in: &cancellables)
         
-        self.workoutServiceFake.sendBpmChange(bpm: getBpmSampleFromHeartZone(zone: self.sut.activeHeartZoneSetting.zones[0]))
-        self.workoutServiceFake.sendBpmChange(bpm: getBpmSampleFromHeartZone(zone: self.sut.activeHeartZoneSetting.zones[1]))
+        guard let sampleZone1 = self.sut.activeHeartZoneSetting?.zones[0] else { XCTAssert(false, "Zone should be available"); return }
+        guard let sampleZone2 = self.sut.activeHeartZoneSetting?.zones[1] else { XCTAssert(false, "Zone should be available"); return }
+        
+        self.workoutServiceFake.sendBpmChange(bpm: getBpmSampleFromHeartZone(zone: sampleZone1))
+        self.workoutServiceFake.sendBpmChange(bpm: getBpmSampleFromHeartZone(zone: sampleZone2))
 
         guard let firstZone = firstZone, let lastZone = lastZone else {
             XCTAssert(false, "Both zones should be received")

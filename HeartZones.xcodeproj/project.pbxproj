@@ -15,6 +15,8 @@
 		B615E0332683BD1900B5DC91 /* HeartZones WatchKit Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = B615E0322683BD1900B5DC91 /* HeartZones WatchKit Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		B615E0422683BD1900B5DC91 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B615E0412683BD1900B5DC91 /* Assets.xcassets */; };
 		B615E0452683BD1900B5DC91 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B615E0442683BD1900B5DC91 /* Preview Assets.xcassets */; };
+		B62DDBDD26ABFC0D001D3D26 /* HealthKitService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B62DDBDC26ABFC0D001D3D26 /* HealthKitService.swift */; };
+		B62DDBDF26AC0DEA001D3D26 /* HealthKitServiceMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = B62DDBDE26AC0DEA001D3D26 /* HealthKitServiceMock.swift */; };
 		B62EF908269E1FE40067E894 /* SunService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B62EF907269E1FE40067E894 /* SunService.swift */; };
 		B62EF90C269E211F0067E894 /* Solar in Frameworks */ = {isa = PBXBuildFile; productRef = B62EF90B269E211F0067E894 /* Solar */; };
 		B63AB83D269780FA007E07E9 /* DeviceBeeper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B63AB83C269780FA007E07E9 /* DeviceBeeper.swift */; };
@@ -122,6 +124,8 @@
 		B615E0572683BD1900B5DC91 /* HeartZonesUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HeartZonesUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B615E05B2683BD1900B5DC91 /* HeartZonesUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeartZonesUITests.swift; sourceTree = "<group>"; };
 		B615E05D2683BD1900B5DC91 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B62DDBDC26ABFC0D001D3D26 /* HealthKitService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthKitService.swift; sourceTree = "<group>"; };
+		B62DDBDE26AC0DEA001D3D26 /* HealthKitServiceMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthKitServiceMock.swift; sourceTree = "<group>"; };
 		B62EF907269E1FE40067E894 /* SunService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SunService.swift; sourceTree = "<group>"; };
 		B63AB83C269780FA007E07E9 /* DeviceBeeper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceBeeper.swift; sourceTree = "<group>"; };
 		B63AB83E26983C99007E07E9 /* HeartZoneServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeartZoneServiceTests.swift; sourceTree = "<group>"; };
@@ -274,6 +278,7 @@
 			children = (
 				B63AB84426983FE2007E07E9 /* DeviceBeeperMock.swift */,
 				B6AFC1A926A59C4D00616311 /* BeepingServiceMock.swift */,
+				B62DDBDE26AC0DEA001D3D26 /* HealthKitServiceMock.swift */,
 			);
 			path = Mocks;
 			sourceTree = "<group>";
@@ -342,6 +347,7 @@
 			children = (
 				B63AB83C269780FA007E07E9 /* DeviceBeeper.swift */,
 				B63AB8462698DB56007E07E9 /* LocationManager.swift */,
+				B62DDBDC26ABFC0D001D3D26 /* HealthKitService.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -576,6 +582,7 @@
 				B63AB8472698DB57007E07E9 /* LocationManager.swift in Sources */,
 				B650A96F2688955F0042B33D /* HeartZone.swift in Sources */,
 				B6E30C3C26850F73007CCA38 /* WorkoutSelectionView.swift in Sources */,
+				B62DDBDD26ABFC0D001D3D26 /* HealthKitService.swift in Sources */,
 				B610ABA726923FCC00DA3FA8 /* SunView.swift in Sources */,
 				B64D61EB26A342DC003E0737 /* SunViewWithMinutes.swift in Sources */,
 				B650A962268799C60042B33D /* WorkoutService.swift in Sources */,
@@ -594,6 +601,7 @@
 			files = (
 				B6AFC1AF26A5A41800616311 /* DistanceContainerTests.swift in Sources */,
 				B63AB84326983FB2007E07E9 /* WorkoutServiceFake.swift in Sources */,
+				B62DDBDF26AC0DEA001D3D26 /* HealthKitServiceMock.swift in Sources */,
 				B63AB83F26983C99007E07E9 /* HeartZoneServiceTests.swift in Sources */,
 				B63AB84526983FE2007E07E9 /* DeviceBeeperMock.swift in Sources */,
 				B6AFC1AD26A5A33400616311 /* HeartZoneSettingsTests.swift in Sources */,

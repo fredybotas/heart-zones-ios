@@ -25,14 +25,15 @@ enum WorkoutState {
 }
 
 class WorkoutService: IWorkoutService {
-    private let healthKit = HKHealthStore()
+    private let healthKitService: IHealthKitService
     private let locationManager: WorkoutLocationFetcher
     
     private var activeWorkout: IWorkout?
     @Published private var workoutState: WorkoutState = .notPresent
     
-    init(locationManager: LocationManager) {
+    init(locationManager: LocationManager, healthKitService: HealthKitService) {
         self.locationManager = locationManager
+        self.healthKitService = healthKitService
     }
     
     func startWorkout(workoutType: WorkoutType) {
@@ -41,7 +42,7 @@ class WorkoutService: IWorkoutService {
             return
         }
         
-        activeWorkout = Workout(healthKit: healthKit, type: workoutType, locationManager: locationManager)
+        activeWorkout = Workout(healthKit: healthKitService.healthStore, type: workoutType, locationManager: locationManager)
         workoutState = .running
     }
     
@@ -89,25 +90,4 @@ class WorkoutService: IWorkoutService {
         
         return activeWorkout.dataPublishers
     }
-    
-    static func authorizeHealthKitAccess(toRead readable: Set<HKObjectType>?, toWrite writable: Set<HKSampleType>?, completion: @escaping (Bool, HKError.Code?) -> Void)
-    {
-        guard HKHealthStore.isHealthDataAvailable() else {
-            completion(false, .errorHealthDataUnavailable)
-            return
-        }
-        HKHealthStore().requestAuthorization(toShare: writable, read: readable) { (authorized, error) in
-            guard authorized else {
-                guard error != nil else {
-                    completion(false, .noError)
-                    return
-                }
-                print("HealthKit Error:\n\(error!)") // Comment this out for release
-                completion(false, .errorAuthorizationDenied)
-                return
-            }
-            completion(true, nil)
-        }
-    }
-
 }

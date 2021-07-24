@@ -52,6 +52,6 @@ struct WorkoutControlsView: View {
 
 struct WorkoutControlsView_Previews: PreviewProvider {
     static var previews: some View {
-        WorkoutControlsView(workoutControlsViewModel: WorkoutControlsViewModel(workoutService: WorkoutService(locationManager: LocationManager())))
+        WorkoutControlsView(workoutControlsViewModel: WorkoutControlsViewModel(workoutService: WorkoutService(locationManager: LocationManager(), healthKitService: HealthKitService())))
     }
 }

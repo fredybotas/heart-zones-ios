@@ -14,12 +14,16 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
 
     let container: Container = {
         let container = Container()
+        // Services should persist thtourhg whole app
         container.register(DeviceBeeper.self, factory: { resolver in
             return DeviceBeeper()
         }).inObjectScope(.container)
         container.register(BeepingService.self, factory: { resolver in
             let beeper = resolver.resolve(DeviceBeeper.self)!
             return BeepingService(beeper: beeper)
+        }).inObjectScope(.container)
+        container.register(HealthKitService.self, factory: { resolver in
+            return HealthKitService()
         }).inObjectScope(.container)
         
         container.register(LocationManager.self, factory: { resolver in
@@ -32,15 +36,18 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
         
         container.register(WorkoutService.self, factory: { resolver in
             let locationManager = resolver.resolve(LocationManager.self)!
-            return WorkoutService(locationManager: locationManager)
+            let healthKitService = resolver.resolve(HealthKitService.self)!
+            return WorkoutService(locationManager: locationManager, healthKitService: healthKitService)
         }).inObjectScope(.container)
         
         container.register(HeartZoneService.self, factory: { resolver in
             let workoutService = resolver.resolve(WorkoutService.self)!
             let beepingService = resolver.resolve(BeepingService.self)!
-            return HeartZoneService(workoutService: workoutService, beepingService: beepingService)
+            let healthKitService = resolver.resolve(HealthKitService.self)!
+            return HeartZoneService(workoutService: workoutService, beepingService: beepingService, healthKitService: healthKitService)
         }).inObjectScope(.container)
         
+        // Get new viewModel every time when requested
         container.register(WorkoutSelectionViewModel.self, factory: { resolver in
             return WorkoutSelectionViewModel()
         })
@@ -67,14 +74,8 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
 
     func applicationDidFinishLaunching() {
         // Perform any final initialization of your application.
-        WorkoutService.authorizeHealthKitAccess(toRead: [
-            HKQuantityType.quantityType(forIdentifier: .heartRate)!,
-            HKQuantityType.quantityType(forIdentifier: .activeEnergyBurned)!,
-            HKQuantityType.quantityType(forIdentifier: .distanceWalkingRunning)!
-        ], toWrite: [
-            HKSeriesType.workoutRoute(),
-            HKQuantityType.workoutType()
-        ], completion: { (result, code) in
+        let healthKitService = container.resolve(HealthKitService.self)!
+        healthKitService.authorizeHealthKitAccess(completion: { (result, code) in
             print(result)
         })
         
