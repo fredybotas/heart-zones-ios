@@ -56,6 +56,12 @@ class Workout: NSObject, IWorkout, HKLiveWorkoutBuilderDelegate, HKWorkoutSessio
 
         super.init()
         
+        DispatchQueue.global(qos: .userInitiated).async {
+            self.initializeWorkout()
+        }
+    }
+    
+    private func initializeWorkout() {
         activeWorkoutSession = try? HKWorkoutSession(healthStore: healthKit, configuration: configuration)
         let builder = activeWorkoutSession?.associatedWorkoutBuilder()
         builder?.dataSource = HKLiveWorkoutDataSource(healthStore: healthKit, workoutConfiguration: configuration)
@@ -68,7 +74,7 @@ class Workout: NSObject, IWorkout, HKLiveWorkoutBuilderDelegate, HKWorkoutSessio
         setLocationHarvesting()
     }
     
-    func setLocationHarvesting() {
+    private func setLocationHarvesting() {
         if configuration.locationType == .outdoor {
             locationManager.startWorkoutLocationUpdates()
             self.routeBuilder = HKWorkoutRouteBuilder(healthStore: healthKit, device: nil)
@@ -92,13 +98,20 @@ class Workout: NSObject, IWorkout, HKLiveWorkoutBuilderDelegate, HKWorkoutSessio
     }
     
     func stop() {
-        let currentDate = Date()
         finalizePublishers()
+        
         if configuration.locationType == .outdoor {
             locationDataPublisher = nil
             locationManager.stopWorkoutLocationUpdates()
         }
         
+        DispatchQueue.global(qos: .userInitiated).async {
+            self.stopWorkoutInternal()
+        }
+    }
+    
+    private func stopWorkoutInternal() {
+        let currentDate = Date()
         activeWorkoutSession?.stopActivity(with: currentDate)
         activeWorkoutSession?.end()
         activeWorkoutSession?.associatedWorkoutBuilder().endCollection(withEnd: currentDate){ (success, error) in
