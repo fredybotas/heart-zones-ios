@@ -9,8 +9,8 @@ import Foundation
 import HealthKit
 
 let typeToString: [WorkoutType.type: String] = [
-    .outdoorRunning: "Outdoor Running",
-    .indoorRunning: "Indoor Running",
+    .outdoorRunning: "Outdoor Run",
+    .indoorRunning: "Indoor Run",
     .walking: "Walking",
 ]
 
