@@ -58,7 +58,7 @@
         <!--Notification Controller-->
         <scene sceneID="Niz-AI-uX2">
             <objects>
-                <controller id="eXb-UN-Cd0" customClass="NotificationController" customModule="HeartZones_WatchKit_App" customModuleProvider="target"/>
+                <controller id="eXb-UN-Cd0" customClass="NotificationController" customModule="HeartZonesKit" customModuleProvider="target"/>
             </objects>
             <point key="canvasLocation" x="514" y="544"/>
         </scene>
