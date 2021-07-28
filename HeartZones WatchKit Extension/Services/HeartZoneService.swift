@@ -13,7 +13,7 @@ protocol IHeartZoneService {
     func getHeartZonePublisher() -> AnyPublisher<HeartZone, Never>
 }
 
-class HeartZoneService: IHeartZoneService {
+class HeartZoneService: IHeartZoneService, ZoneStateManager {
     private let workoutService: IWorkoutService
     private let beepingService: IBeepingService
     private let healthKitService: IHealthKitService
@@ -26,11 +26,13 @@ class HeartZoneService: IHeartZoneService {
     // TODO: Add logic to evaluate correct heart zone. Now we are using default zones only.
     private(set) var activeHeartZoneSetting: HeartZonesSetting?
     
+    private var heartZoneState: BaseHeartZoneState?
+    
     init (workoutService: IWorkoutService, beepingService: IBeepingService, healthKitService: IHealthKitService) {
         self.workoutService = workoutService
         self.beepingService = beepingService
         self.healthKitService = healthKitService
-
+    
         self.workoutStateSubscriber = self.workoutService
             .getWorkoutStatePublisher()
             .sink { [weak self] val in
@@ -46,8 +48,10 @@ class HeartZoneService: IHeartZoneService {
     private func handleStateChange(state: WorkoutState) {
         switch state {
             case .notPresent:
+                self.heartZoneState = HeartZoneNotAvailableState(stateManager: self)
                 self.currentHeartZonePublisher = CurrentValueSubject<HeartZone?, Never>(nil)
             case .running:
+                self.heartZoneState = HeartZoneNotAvailableState(stateManager: self)
                 self.resolveHeartZoneSetting()
                 self.connectBpmSubscriberIfNeeded()
             case .finished:
@@ -74,12 +78,14 @@ class HeartZoneService: IHeartZoneService {
     }
     
     private func handleBpmChange(bpm: Int) {
-        guard let activeHeartZoneSetting = activeHeartZoneSetting else { return }
-        let (movement, newZone) = activeHeartZoneSetting.evaluateBpmChange(currentZone: currentHeartZonePublisher.value, bpm: bpm)
-        if movement != .stay {
-            beepingService.handleDeviceBeep(heartZoneMovement: movement, fromTargetZone: self.currentHeartZonePublisher.value?.target ?? false, enteredTargetZone: newZone?.target ?? false)
-            self.currentHeartZonePublisher.send(newZone)
-        }
+        self.heartZoneState?.bpmChanged(bpm: bpm)
+    }
+    
+    func setState(state: BaseHeartZoneState) {
+        self.heartZoneState = state
+        
+        self.beepingService.handleDeviceBeep(heartZoneMovement: state.movement, fromTargetZone: self.currentHeartZonePublisher.value?.target ?? false, enteredTargetZone: state.zone?.target ?? false)
+        self.currentHeartZonePublisher.send(state.zone)
     }
     
     func getHeartZonePublisher() -> AnyPublisher<HeartZone, Never> {

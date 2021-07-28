@@ -62,3 +62,27 @@ struct DistanceContainer {
         return Measurement(value:  distance / time, unit: UnitSpeed.metersPerSecond)
     }
 }
+
+struct SameElementsContainer<T: Equatable> {
+    private var elements = [T]()
+    
+    var count: Int {
+        get {
+            return self.elements.count
+        }
+    }
+    
+    mutating func RefreshAndInsert(element: T) {
+        if elements.allSatisfy({ $0 == element }) {
+            elements.append(element)
+        } else {
+            elements.removeAll()
+            elements.append(element)
+        }
+    }
+    
+    mutating func removeAll() {
+        elements.removeAll()
+    }
+}
+
