@@ -15,7 +15,7 @@ protocol IBeepingService {
 }
 
 class BeepingService: IBeepingService {
-    private let beeper: Beeper
+    private let beeper: BeepingManager
     private var isAnyAlertRunning: Bool {
         get {
             return beeper.isHighRateAlertRunning || beeper.isLowRateAlertRunning
@@ -24,7 +24,7 @@ class BeepingService: IBeepingService {
     
     private var appStateChangeSubscriber: AnyCancellable?
 
-    init(beeper: Beeper) {
+    init(beeper: BeepingManager) {
         self.beeper = beeper
         initializeAppStateSubscriber()
     }

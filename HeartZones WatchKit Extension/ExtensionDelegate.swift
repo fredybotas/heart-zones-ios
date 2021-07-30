@@ -15,11 +15,11 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
     let container: Container = {
         let container = Container()
         // Services should persist thtourhg whole app
-        container.register(DeviceBeeper.self, factory: { resolver in
-            return DeviceBeeper()
+        container.register(DeviceBeepingManager.self, factory: { resolver in
+            return DeviceBeepingManager(beeper: DeviceBeeperDelayProxy())
         }).inObjectScope(.container)
         container.register(BeepingService.self, factory: { resolver in
-            let beeper = resolver.resolve(DeviceBeeper.self)!
+            let beeper = resolver.resolve(DeviceBeepingManager.self)!
             return BeepingService(beeper: beeper)
         }).inObjectScope(.container)
         container.register(HealthKitService.self, factory: { resolver in

@@ -22,7 +22,7 @@
 		B62DDBE326AC2F06001D3D26 /* AuthorizationManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B62DDBE226AC2F06001D3D26 /* AuthorizationManagerTests.swift */; };
 		B62EF908269E1FE40067E894 /* SunService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B62EF907269E1FE40067E894 /* SunService.swift */; };
 		B62EF90C269E211F0067E894 /* Solar in Frameworks */ = {isa = PBXBuildFile; productRef = B62EF90B269E211F0067E894 /* Solar */; };
-		B63AB83D269780FA007E07E9 /* DeviceBeeper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B63AB83C269780FA007E07E9 /* DeviceBeeper.swift */; };
+		B63AB83D269780FA007E07E9 /* DeviceBeepingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B63AB83C269780FA007E07E9 /* DeviceBeepingManager.swift */; };
 		B63AB83F26983C99007E07E9 /* HeartZoneServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B63AB83E26983C99007E07E9 /* HeartZoneServiceTests.swift */; };
 		B63AB84326983FB2007E07E9 /* WorkoutServiceFake.swift in Sources */ = {isa = PBXBuildFile; fileRef = B63AB84226983FB2007E07E9 /* WorkoutServiceFake.swift */; };
 		B63AB84526983FE2007E07E9 /* DeviceBeeperMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = B63AB84426983FE2007E07E9 /* DeviceBeeperMock.swift */; };
@@ -52,6 +52,7 @@
 		B6AFC1AD26A5A33400616311 /* HeartZoneSettingsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6AFC1AC26A5A33400616311 /* HeartZoneSettingsTests.swift */; };
 		B6AFC1AF26A5A41800616311 /* DistanceContainerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6AFC1AE26A5A41800616311 /* DistanceContainerTests.swift */; };
 		B6B6EC9A268E465800170E39 /* Containers.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6B6EC99268E465800170E39 /* Containers.swift */; };
+		B6D1397F26B3105200396285 /* DeviceBeeper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6D1397E26B3105200396285 /* DeviceBeeper.swift */; };
 		B6E30C3C26850F73007CCA38 /* WorkoutSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6E30C3B26850F73007CCA38 /* WorkoutSelectionView.swift */; };
 		B6E30C4126851996007CCA38 /* WorkoutControlsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6E30C4026851996007CCA38 /* WorkoutControlsView.swift */; };
 		B6E30C43268519B8007CCA38 /* WorkoutRunningView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6E30C42268519B8007CCA38 /* WorkoutRunningView.swift */; };
@@ -139,7 +140,7 @@
 		B62DDBE226AC2F06001D3D26 /* AuthorizationManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizationManagerTests.swift; sourceTree = "<group>"; };
 		B62EF907269E1FE40067E894 /* SunService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SunService.swift; sourceTree = "<group>"; };
 		B634FC5626AF4A860082AE4E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		B63AB83C269780FA007E07E9 /* DeviceBeeper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceBeeper.swift; sourceTree = "<group>"; };
+		B63AB83C269780FA007E07E9 /* DeviceBeepingManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceBeepingManager.swift; sourceTree = "<group>"; };
 		B63AB83E26983C99007E07E9 /* HeartZoneServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeartZoneServiceTests.swift; sourceTree = "<group>"; };
 		B63AB84226983FB2007E07E9 /* WorkoutServiceFake.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutServiceFake.swift; sourceTree = "<group>"; };
 		B63AB84426983FE2007E07E9 /* DeviceBeeperMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceBeeperMock.swift; sourceTree = "<group>"; };
@@ -169,6 +170,7 @@
 		B6AFC1AC26A5A33400616311 /* HeartZoneSettingsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeartZoneSettingsTests.swift; sourceTree = "<group>"; };
 		B6AFC1AE26A5A41800616311 /* DistanceContainerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DistanceContainerTests.swift; sourceTree = "<group>"; };
 		B6B6EC99268E465800170E39 /* Containers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Containers.swift; sourceTree = "<group>"; };
+		B6D1397E26B3105200396285 /* DeviceBeeper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceBeeper.swift; sourceTree = "<group>"; };
 		B6E30C3B26850F73007CCA38 /* WorkoutSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutSelectionView.swift; sourceTree = "<group>"; };
 		B6E30C4026851996007CCA38 /* WorkoutControlsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutControlsView.swift; sourceTree = "<group>"; };
 		B6E30C42268519B8007CCA38 /* WorkoutRunningView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutRunningView.swift; sourceTree = "<group>"; };
@@ -375,10 +377,11 @@
 		B6AFC1A626A5917B00616311 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
-				B63AB83C269780FA007E07E9 /* DeviceBeeper.swift */,
+				B63AB83C269780FA007E07E9 /* DeviceBeepingManager.swift */,
 				B63AB8462698DB56007E07E9 /* LocationManager.swift */,
 				B62DDBDC26ABFC0D001D3D26 /* HealthKitService.swift */,
 				B62DDBE026AC22A5001D3D26 /* AuthorizationManager.swift */,
+				B6D1397E26B3105200396285 /* DeviceBeeper.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -608,7 +611,7 @@
 				B6E30C4126851996007CCA38 /* WorkoutControlsView.swift in Sources */,
 				B650A9692688853A0042B33D /* WorkoutType.swift in Sources */,
 				B6628A71268A538300901D17 /* HostingController.swift in Sources */,
-				B63AB83D269780FA007E07E9 /* DeviceBeeper.swift in Sources */,
+				B63AB83D269780FA007E07E9 /* DeviceBeepingManager.swift in Sources */,
 				B6B6EC9A268E465800170E39 /* Containers.swift in Sources */,
 				B6628A72268A538300901D17 /* ExtensionDelegate.swift in Sources */,
 				B63AB8472698DB57007E07E9 /* LocationManager.swift in Sources */,
@@ -625,6 +628,7 @@
 				B650A95B26878DAD0042B33D /* PieSegmentView.swift in Sources */,
 				B650A96B2688857E0042B33D /* WorkoutSelectionViewModel.swift in Sources */,
 				B650A96D26888AD10042B33D /* Workout.swift in Sources */,
+				B6D1397F26B3105200396285 /* DeviceBeeper.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -803,7 +807,7 @@
 				ASSETCATALOG_COMPILER_COMPLICATION_NAME = Complication;
 				CODE_SIGN_ENTITLEMENTS = "HeartZones WatchKit Extension/HeartZones WatchKit Extension.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 4;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_ASSET_PATHS = "\"HeartZones WatchKit Extension/Preview Content\"";
 				DEVELOPMENT_TEAM = DUTU9Q7M96;
@@ -831,7 +835,7 @@
 				ASSETCATALOG_COMPILER_COMPLICATION_NAME = Complication;
 				CODE_SIGN_ENTITLEMENTS = "HeartZones WatchKit Extension/HeartZones WatchKit Extension.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 4;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_ASSET_PATHS = "\"HeartZones WatchKit Extension/Preview Content\"";
 				DEVELOPMENT_TEAM = DUTU9Q7M96;
@@ -860,7 +864,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 4;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = DUTU9Q7M96;
 				IBSC_MODULE = HeartZones_WatchKit_Extension;
@@ -883,7 +887,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 4;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = DUTU9Q7M96;
 				IBSC_MODULE = HeartZones_WatchKit_Extension;
@@ -903,7 +907,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 4;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = DUTU9Q7M96;
 				INFOPLIST_FILE = HeartZones/Info.plist;
@@ -918,7 +922,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 4;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = DUTU9Q7M96;
 				INFOPLIST_FILE = HeartZones/Info.plist;

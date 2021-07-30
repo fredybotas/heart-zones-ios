@@ -2,80 +2,56 @@
 //  DeviceBeeper.swift
 //  HeartZones WatchKit Extension
 //
-//  Created by Michal Manak on 08/07/2021.
+//  Created by Michal Manak on 29/07/2021.
 //
 
 import Foundation
 import WatchKit
-import Combine
 
-protocol Beeper {
-    var isLowRateAlertRunning: Bool { get }
-    var isHighRateAlertRunning: Bool { get }
-    
-    func startHighRateAlert()
-    func startLowRateAlert()
-    func stopHighRateAlert()
-    func stopLowRateAlert()
-    
-    func runOnceHighRateAlert()
-    func runOnceLowRateAlert()
+protocol IDeviceBeeper {
+    func runHighRateAlert()
+    func runLowRateAlert()
 }
 
-fileprivate let kZoneAlertInterval: TimeInterval = 4.0
-
-class DeviceBeeper: Beeper {
-    
-    var isLowRateAlertRunning: Bool {
-        get {
-            return timerLowRate != nil
-        }
-    }
-    
-    var isHighRateAlertRunning: Bool {
-        get {
-            return timerHighRate != nil
-        }
-    }
-    
-    private var timerHighRate: AnyCancellable?
-    private var timerLowRate: AnyCancellable?
-    private var appStateChangeSubscriber: AnyCancellable?
-    
-    func runOnceHighRateAlert() {
+class DeviceBeeper: IDeviceBeeper {
+    func runHighRateAlert() {
         WKInterfaceDevice().play(.failure)
     }
     
-    func runOnceLowRateAlert() {
+    func runLowRateAlert() {
         WKInterfaceDevice().play(.notification)
     }
-    
-    func startHighRateAlert() {
-        self.runOnceHighRateAlert()
-        timerHighRate = Timer.TimerPublisher.init(interval: kZoneAlertInterval, runLoop: .main, mode: .common)
-            .autoconnect()
-            .sink { _ in
-                self.runOnceHighRateAlert()
-            }
-    }
-    
-    func startLowRateAlert() {
-        self.runOnceLowRateAlert()
-        timerLowRate = Timer.TimerPublisher.init(interval: kZoneAlertInterval, runLoop: .main, mode: .common)
-            .autoconnect()
-            .sink { _ in
-                self.runOnceLowRateAlert()
-            }
-    }
-    
-    func stopHighRateAlert() {
-        timerHighRate = nil
-    }
-    
-    func stopLowRateAlert() {
-        timerLowRate = nil
-    }
-    
+}
 
+fileprivate let kBeepMinimumDelay = 0.5
+
+class DeviceBeeperDelayProxy: IDeviceBeeper {
+    let deviceBeeper = DeviceBeeper()
+    let queue = DispatchQueue.main
+    
+    var lastBeep = DispatchTime.now()
+    
+    private func getNextRun() -> DispatchTime {
+        if DispatchTime.now() >= lastBeep + kBeepMinimumDelay {
+            self.lastBeep = .now()
+            return .now()
+        } else {
+            self.lastBeep = lastBeep + kBeepMinimumDelay
+            return lastBeep + kBeepMinimumDelay
+        }
+    }
+    
+    func runHighRateAlert() {
+        queue.asyncAfter(deadline: getNextRun()) {
+            self.deviceBeeper.runHighRateAlert()
+        }
+    }
+    
+    func runLowRateAlert() {
+        queue.asyncAfter(deadline: getNextRun()) {
+            self.deviceBeeper.runLowRateAlert()
+        }
+    }
+    
     
 }

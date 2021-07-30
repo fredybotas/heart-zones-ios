@@ -8,7 +8,7 @@
 import Foundation
 @testable import HeartZones_WatchKit_Extension
 
-class DeviceBeeperMock: Beeper {
+class DeviceBeeperMock: BeepingManager {
     var isLowRateAlertRunning: Bool {
         get {
             return startLowRateAlertCalledCount - stopLowRateAlertCalledCount > 0
