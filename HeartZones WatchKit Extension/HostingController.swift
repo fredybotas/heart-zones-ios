@@ -33,7 +33,7 @@ class HostingControllerWorkoutSelection: DIHostingController<WorkoutSelectionVie
 
 class HostingControllerRunningWorkout: DIHostingController<WorkoutRunningView> {
     static let identifier = "HostingControllerRunningWorkout"
-    var workoutType: WorkoutType?
+    var workoutType: WorkoutType!
     
     override func awake(withContext context: Any?) {
         super.awake(withContext: context)
@@ -41,7 +41,7 @@ class HostingControllerRunningWorkout: DIHostingController<WorkoutRunningView> {
     }
         
     override var body: WorkoutRunningView {
-        return WorkoutRunningView(workoutViewModel: container.resolve(WorkoutViewModel.self, argument: workoutType!)!)
+        return WorkoutRunningView(workoutViewModel: container.resolve(WorkoutViewModel.self, argument: workoutType)!)
     }
 }
 
@@ -51,11 +51,7 @@ class HostingControllerWorkoutControls: DIHostingController<WorkoutControlsView>
     func popControllers() {
         WKInterfaceController.reloadRootControllers(withNamesAndContexts: [(HostingControllerWorkoutSelection.identifier, self)])
     }
-    
-    func setPageToRunningWorkout() {
 
-    }
-    
     override var body: WorkoutControlsView {
         return WorkoutControlsView(workoutControlsViewModel: container.resolve(WorkoutControlsViewModel.self)!, controller: self)
     }

@@ -20,7 +20,8 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
         }).inObjectScope(.container)
         container.register(BeepingService.self, factory: { resolver in
             let beeper = resolver.resolve(DeviceBeepingManager.self)!
-            return BeepingService(beeper: beeper)
+            let settingsRepository = resolver.resolve(SettingsRepositoryCached.self)!
+            return BeepingService(beeper: beeper, settingsRepository: settingsRepository)
         }).inObjectScope(.container)
         container.register(HealthKitService.self, factory: { resolver in
             return HealthKitService()
@@ -43,7 +44,9 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
             let workoutService = resolver.resolve(WorkoutService.self)!
             let beepingService = resolver.resolve(BeepingService.self)!
             let healthKitService = resolver.resolve(HealthKitService.self)!
-            return HeartZoneService(workoutService: workoutService, beepingService: beepingService, healthKitService: healthKitService)
+            let settingsRepository = resolver.resolve(SettingsRepositoryCached.self)!
+
+            return HeartZoneService(workoutService: workoutService, beepingService: beepingService, healthKitService: healthKitService, settingsRepository: settingsRepository)
         }).inObjectScope(.container)
         container.register(AuthorizationManager.self, factory: { resolver in
             let healthKit = container.resolve(HealthKitService.self)!
@@ -52,11 +55,20 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
             return AuthorizationManager(authorizables: [healthKit, locationManager])
         }).inObjectScope(.container)
         
+        
+        container.register(SettingsRepositoryCached.self, factory: { resolver in
+            return SettingsRepositoryCached()
+        }).inObjectScope(.container)
+        
         // Get new viewModel every time when requested
         container.register(WorkoutSelectionViewModel.self, factory: { resolver in
             return WorkoutSelectionViewModel()
         })
-        container.register(WorkoutViewModel.self, factory: { (resolver, workoutType: WorkoutType) in
+        container.register(SettingsViewModel.self, factory: { resolver in
+            let repo = resolver.resolve(SettingsRepositoryCached.self)!
+            return SettingsViewModel(settingsRepository: repo)
+        })
+        container.register(WorkoutViewModel.self, factory: { (resolver, workoutType: WorkoutType!) in
             let workoutService = resolver.resolve(WorkoutService.self)!
             let heartZoneService = resolver.resolve(HeartZoneService.self)!
             let sunService = resolver.resolve(SunService.self)!

@@ -14,6 +14,7 @@ class HeartZoneServiceTests: XCTestCase {
     var workoutServiceFake: WorkoutServiceFake!
     var beepingServiceMock: BeepingServiceMock!
     var healthKitServiceMock: HealthKitServiceMock!
+    var settingsRepositoryFake: SettingsRepositoryFake!
     
     var sut: HeartZoneService!
     var cancellables = Set<AnyCancellable>()
@@ -22,8 +23,9 @@ class HeartZoneServiceTests: XCTestCase {
         self.workoutServiceFake = WorkoutServiceFake()
         self.beepingServiceMock = BeepingServiceMock()
         self.healthKitServiceMock = HealthKitServiceMock()
+        self.settingsRepositoryFake = SettingsRepositoryFake()
         
-        self.sut = HeartZoneService(workoutService: workoutServiceFake, beepingService: beepingServiceMock, healthKitService: healthKitServiceMock)
+        self.sut = HeartZoneService(workoutService: workoutServiceFake, beepingService: beepingServiceMock, healthKitService: healthKitServiceMock, settingsRepository: self.settingsRepositoryFake)
         self.cancellables.removeAll()
     }
     
@@ -57,7 +59,7 @@ class HeartZoneServiceTests: XCTestCase {
         
         guard let sampleZone1 = self.sut.activeHeartZoneSetting?.zones[0] else { XCTAssert(false, "Zone should be available"); return }
         
-        self.sut.setState(state: HeartZoneActiveState(zone: sampleZone1, stateManager: self.sut, movement: .up))
+        self.sut.setState(state: HeartZoneActiveState(zone: sampleZone1, stateManager: self.sut, movement: .up, settingsRepository: self.settingsRepositoryFake))
         
         guard let firstZone = firstZone else {
             XCTAssert(false, "zone should be received")
@@ -93,7 +95,7 @@ class HeartZoneServiceTests: XCTestCase {
 
         guard let sampleZone1 = self.sut.activeHeartZoneSetting?.zones[0] else { return }
         
-        self.sut.setState(state: HeartZoneActiveState(zone: sampleZone1, stateManager: self.sut, movement: .up))
+        self.sut.setState(state: HeartZoneActiveState(zone: sampleZone1, stateManager: self.sut, movement: .up, settingsRepository: self.settingsRepositoryFake))
 
         XCTAssertEqual(self.beepingServiceMock.handleDeviceBeepCallSequence.count, 1)
     }
@@ -104,8 +106,8 @@ class HeartZoneServiceTests: XCTestCase {
         guard let sampleZone1 = self.sut.activeHeartZoneSetting?.zones[0] else { return }
         guard let targetZone = self.sut.activeHeartZoneSetting?.zones[2] else { return }
 
-        self.sut.setState(state: HeartZoneActiveState(zone: sampleZone1, stateManager: self.sut, movement: .up))
-        self.sut.setState(state: HeartZoneActiveState(zone: targetZone, stateManager: self.sut, movement: .up))
+        self.sut.setState(state: HeartZoneActiveState(zone: sampleZone1, stateManager: self.sut, movement: .up, settingsRepository: self.settingsRepositoryFake))
+        self.sut.setState(state: HeartZoneActiveState(zone: targetZone, stateManager: self.sut, movement: .up, settingsRepository: self.settingsRepositoryFake))
 
         XCTAssertEqual(self.beepingServiceMock.handleDeviceBeepCallSequence[1].2, true)
     }
@@ -116,8 +118,8 @@ class HeartZoneServiceTests: XCTestCase {
         guard let sampleZone1 = self.sut.activeHeartZoneSetting?.zones[0] else { return }
         guard let targetZone = self.sut.activeHeartZoneSetting?.zones[2] else { return }
 
-        self.sut.setState(state: HeartZoneActiveState(zone: targetZone, stateManager: self.sut, movement: .down))
-        self.sut.setState(state: HeartZoneActiveState(zone: sampleZone1, stateManager: self.sut, movement: .down))
+        self.sut.setState(state: HeartZoneActiveState(zone: targetZone, stateManager: self.sut, movement: .down, settingsRepository: self.settingsRepositoryFake))
+        self.sut.setState(state: HeartZoneActiveState(zone: sampleZone1, stateManager: self.sut, movement: .down, settingsRepository: self.settingsRepositoryFake))
 
         XCTAssertEqual(self.beepingServiceMock.handleDeviceBeepCallSequence[1].1, true)
     }
@@ -127,7 +129,7 @@ class HeartZoneServiceTests: XCTestCase {
 
         guard let sampleZone1 = self.sut.activeHeartZoneSetting?.zones[0] else { return }
         
-        self.sut.setState(state: HeartZoneActiveState(zone: sampleZone1, stateManager: self.sut, movement: .down))
+        self.sut.setState(state: HeartZoneActiveState(zone: sampleZone1, stateManager: self.sut, movement: .down, settingsRepository: self.settingsRepositoryFake))
         
         XCTAssertEqual(self.beepingServiceMock.handleDeviceBeepCallSequence[0].0, .down)
     }

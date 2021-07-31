@@ -17,6 +17,7 @@ class HeartZoneService: IHeartZoneService, ZoneStateManager {
     private let workoutService: IWorkoutService
     private let beepingService: IBeepingService
     private let healthKitService: IHealthKitService
+    private var settingsRepository: ISettingsRepository
     
     private var workoutStateSubscriber: AnyCancellable?
     private var bpmSubscriber: AnyCancellable?
@@ -28,11 +29,12 @@ class HeartZoneService: IHeartZoneService, ZoneStateManager {
     
     private var heartZoneState: BaseHeartZoneState?
     
-    init (workoutService: IWorkoutService, beepingService: IBeepingService, healthKitService: IHealthKitService) {
+    init (workoutService: IWorkoutService, beepingService: IBeepingService, healthKitService: IHealthKitService, settingsRepository: ISettingsRepository) {
         self.workoutService = workoutService
         self.beepingService = beepingService
         self.healthKitService = healthKitService
-    
+        self.settingsRepository = settingsRepository
+
         self.workoutStateSubscriber = self.workoutService
             .getWorkoutStatePublisher()
             .sink { [weak self] val in
@@ -48,10 +50,10 @@ class HeartZoneService: IHeartZoneService, ZoneStateManager {
     private func handleStateChange(state: WorkoutState) {
         switch state {
             case .notPresent:
-                self.heartZoneState = HeartZoneNotAvailableState(stateManager: self)
+                self.heartZoneState = HeartZoneNotAvailableState(stateManager: self, settingsRepository: self.settingsRepository)
                 self.currentHeartZonePublisher = CurrentValueSubject<HeartZone?, Never>(nil)
             case .running:
-                self.heartZoneState = HeartZoneNotAvailableState(stateManager: self)
+                self.heartZoneState = HeartZoneNotAvailableState(stateManager: self, settingsRepository: self.settingsRepository)
                 self.resolveHeartZoneSetting()
                 self.connectBpmSubscriberIfNeeded()
             case .finished:
