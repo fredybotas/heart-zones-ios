@@ -14,13 +14,13 @@ import XCTest
 class BeepingServiceTests: XCTestCase {
     var sut: BeepingService!
     var deviceBeeperMock: DeviceBeeperMock!
-    var settingsRepositoryFake: SettingsRepositoryFake!
+    var settingsServiceFake: SettingsServiceFake!
     var cancellables = Set<AnyCancellable>()
 
     override func setUp() {
         self.deviceBeeperMock = DeviceBeeperMock()
-        self.settingsRepositoryFake = SettingsRepositoryFake()
-        self.sut = BeepingService(beeper: self.deviceBeeperMock, settingsRepository: self.settingsRepositoryFake)
+        self.settingsServiceFake = SettingsServiceFake()
+        self.sut = BeepingService(beeper: self.deviceBeeperMock, settingsService: self.settingsServiceFake)
         self.cancellables.removeAll()
     }
         
@@ -31,7 +31,7 @@ class BeepingServiceTests: XCTestCase {
     }
     
     func testBeepingUpWhenDisabled() {
-        self.settingsRepositoryFake.heartZonesAlertEnabled = false
+        self.settingsServiceFake.heartZonesAlertEnabled = false
         self.sut.handleDeviceBeep(heartZoneMovement: .up, fromTargetZone: false, enteredTargetZone: false)
         
         XCTAssertEqual(deviceBeeperMock.runOnceHighRateAlertCalledCount, 0)
@@ -44,7 +44,7 @@ class BeepingServiceTests: XCTestCase {
     }
     
     func testBeepingDownWhenDisabled() {
-        self.settingsRepositoryFake.heartZonesAlertEnabled = false
+        self.settingsServiceFake.heartZonesAlertEnabled = false
         self.sut.handleDeviceBeep(heartZoneMovement: .down, fromTargetZone: false, enteredTargetZone: false)
         
         XCTAssertEqual(deviceBeeperMock.runOnceLowRateAlertCalledCount, 0)
@@ -70,14 +70,14 @@ class BeepingServiceTests: XCTestCase {
     }
     
     func testLeavingTargetZoneDownWhenAlertDisabled() {
-        self.settingsRepositoryFake.targetHeartZoneAlertEnabled = false
+        self.settingsServiceFake.targetHeartZoneAlertEnabled = false
         self.sut.handleDeviceBeep(heartZoneMovement: .down, fromTargetZone: true, enteredTargetZone: false)
 
         XCTAssertEqual(deviceBeeperMock.startLowRateAlertCalledCount, 0)
     }
 
     func testLeavingTargetZoneUpWhenAlertDisabled() {
-        self.settingsRepositoryFake.targetHeartZoneAlertEnabled = false
+        self.settingsServiceFake.targetHeartZoneAlertEnabled = false
         self.sut.handleDeviceBeep(heartZoneMovement: .up, fromTargetZone: true, enteredTargetZone: false)
 
         XCTAssertEqual(deviceBeeperMock.startHighRateAlertCalledCount, 0)

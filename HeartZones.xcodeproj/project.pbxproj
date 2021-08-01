@@ -56,6 +56,9 @@
 		B6AFC1AB26A5A03E00616311 /* BeepingServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6AFC1A726A59BD100616311 /* BeepingServiceTests.swift */; };
 		B6AFC1AD26A5A33400616311 /* HeartZoneSettingsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6AFC1AC26A5A33400616311 /* HeartZoneSettingsTests.swift */; };
 		B6AFC1AF26A5A41800616311 /* DistanceContainerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6AFC1AE26A5A41800616311 /* DistanceContainerTests.swift */; };
+		B6B14A6F26B6865F003CAF97 /* SettingsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6B14A6E26B6865F003CAF97 /* SettingsService.swift */; };
+		B6B14A7126B68B65003CAF97 /* SettingsServiceFake.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6B14A7026B68B65003CAF97 /* SettingsServiceFake.swift */; };
+		B6B14A7326B6D08E003CAF97 /* Metrics.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6B14A7226B6D08E003CAF97 /* Metrics.swift */; };
 		B6B6EC9A268E465800170E39 /* Containers.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6B6EC99268E465800170E39 /* Containers.swift */; };
 		B6D1397F26B3105200396285 /* DeviceBeeper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6D1397E26B3105200396285 /* DeviceBeeper.swift */; };
 		B6E30C3C26850F73007CCA38 /* WorkoutSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6E30C3B26850F73007CCA38 /* WorkoutSelectionView.swift */; };
@@ -179,6 +182,9 @@
 		B6AFC1A926A59C4D00616311 /* BeepingServiceMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeepingServiceMock.swift; sourceTree = "<group>"; };
 		B6AFC1AC26A5A33400616311 /* HeartZoneSettingsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeartZoneSettingsTests.swift; sourceTree = "<group>"; };
 		B6AFC1AE26A5A41800616311 /* DistanceContainerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DistanceContainerTests.swift; sourceTree = "<group>"; };
+		B6B14A6E26B6865F003CAF97 /* SettingsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsService.swift; sourceTree = "<group>"; };
+		B6B14A7026B68B65003CAF97 /* SettingsServiceFake.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsServiceFake.swift; sourceTree = "<group>"; };
+		B6B14A7226B6D08E003CAF97 /* Metrics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Metrics.swift; sourceTree = "<group>"; };
 		B6B6EC99268E465800170E39 /* Containers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Containers.swift; sourceTree = "<group>"; };
 		B6D1397E26B3105200396285 /* DeviceBeeper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceBeeper.swift; sourceTree = "<group>"; };
 		B6E30C3B26850F73007CCA38 /* WorkoutSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutSelectionView.swift; sourceTree = "<group>"; };
@@ -330,6 +336,7 @@
 				B63AB84226983FB2007E07E9 /* WorkoutServiceFake.swift */,
 				B6607B2626AC4CB700C0C0EE /* AuthorizableFake.swift */,
 				B661A3F726B572D200E78D8E /* SettingsRepositoryFake.swift */,
+				B6B14A7026B68B65003CAF97 /* SettingsServiceFake.swift */,
 			);
 			path = Fakes;
 			sourceTree = "<group>";
@@ -365,6 +372,7 @@
 				B6046DF426B19E1900BD43C1 /* HeartZoneState.swift */,
 				B62EF907269E1FE40067E894 /* SunService.swift */,
 				B6AFC1A426A5917100616311 /* BeepingService.swift */,
+				B6B14A6E26B6865F003CAF97 /* SettingsService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -384,6 +392,7 @@
 				B650A96E2688955F0042B33D /* HeartZone.swift */,
 				B650A9682688853A0042B33D /* WorkoutType.swift */,
 				B650A96C26888AD10042B33D /* Workout.swift */,
+				B6B14A7226B6D08E003CAF97 /* Metrics.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -627,6 +636,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B6B14A6F26B6865F003CAF97 /* SettingsService.swift in Sources */,
 				B6607B2526AC40C400C0C0EE /* AuthorizationManager.swift in Sources */,
 				B650A95F26878E1F0042B33D /* WorkoutViewModel.swift in Sources */,
 				B6E30C43268519B8007CCA38 /* WorkoutRunningView.swift in Sources */,
@@ -641,6 +651,7 @@
 				B650A96F2688955F0042B33D /* HeartZone.swift in Sources */,
 				B6E30C3C26850F73007CCA38 /* WorkoutSelectionView.swift in Sources */,
 				B661A3F626B56D5300E78D8E /* LazyView.swift in Sources */,
+				B6B14A7326B6D08E003CAF97 /* Metrics.swift in Sources */,
 				B6046DF526B19E1900BD43C1 /* HeartZoneState.swift in Sources */,
 				B661A3F226B5622000E78D8E /* SettingsRepository.swift in Sources */,
 				B62DDBDD26ABFC0D001D3D26 /* HealthKitService.swift in Sources */,
@@ -676,6 +687,7 @@
 				B6AFC1AD26A5A33400616311 /* HeartZoneSettingsTests.swift in Sources */,
 				B607E15B268E1EA90069FEA4 /* BpmContainerTests.swift in Sources */,
 				B6AFC1AB26A5A03E00616311 /* BeepingServiceTests.swift in Sources */,
+				B6B14A7126B68B65003CAF97 /* SettingsServiceFake.swift in Sources */,
 				B6AFC1AA26A59C4D00616311 /* BeepingServiceMock.swift in Sources */,
 				B62DDBE326AC2F06001D3D26 /* AuthorizationManagerTests.swift in Sources */,
 			);

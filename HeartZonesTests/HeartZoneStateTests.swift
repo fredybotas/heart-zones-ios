@@ -12,21 +12,21 @@ import XCTest
 
 class HeartZoneStateTests: XCTestCase {
     var zoneStateManagerMock: ZoneStateManagerMock!
-    var settingsRepositoryFake: SettingsRepositoryFake!
+    var settingsServiceFake: SettingsServiceFake!
     var sut: BaseHeartZoneState!
     
     override func setUp() {
         self.zoneStateManagerMock = ZoneStateManagerMock()
-        self.settingsRepositoryFake = SettingsRepositoryFake()
+        self.settingsServiceFake = SettingsServiceFake()
     }
     
     func getNeighbourZones() -> (HeartZone, HeartZone, HeartZone) {
-        let setting = HeartZonesSetting.getDefaultHeartZonesSetting(age: 25)
+        let setting = HeartZonesSetting.getDefaultHeartZonesSetting(maximumBpm: 195)
         return (setting.zones[0], setting.zones[1], setting.zones[2])
     }
     
     func getTargetZone() -> HeartZone {
-        let setting = HeartZonesSetting.getDefaultHeartZonesSetting(age: 25)
+        let setting = HeartZonesSetting.getDefaultHeartZonesSetting(maximumBpm: 195)
         return setting.zones[2]
     }
     
@@ -35,7 +35,7 @@ class HeartZoneStateTests: XCTestCase {
     }
     
     func testHeartZoneStateWithoutActiveZoneSettings() {
-        sut = HeartZoneNotAvailableState(stateManager: zoneStateManagerMock, settingsRepository: self.settingsRepositoryFake)
+        sut = HeartZoneNotAvailableState(stateManager: zoneStateManagerMock, settingsService: self.settingsServiceFake)
         sut.bpmChanged(bpm: 20)
         
         XCTAssertEqual(zoneStateManagerMock.setStateCalledCount, 0)
@@ -44,7 +44,7 @@ class HeartZoneStateTests: XCTestCase {
     func testHeartZoneNotAvailableState() {
         zoneStateManagerMock.initializeActiveHeartZoneSetting()
 
-        sut = HeartZoneNotAvailableState(stateManager: zoneStateManagerMock, settingsRepository: self.settingsRepositoryFake)
+        sut = HeartZoneNotAvailableState(stateManager: zoneStateManagerMock, settingsService: self.settingsServiceFake)
         sut.bpmChanged(bpm: 20)
         
         XCTAssertEqual(zoneStateManagerMock.setStateCalledCount, 1)
@@ -54,7 +54,7 @@ class HeartZoneStateTests: XCTestCase {
     func testHeartZoneNotAvailableStateNotValidZone() {
         zoneStateManagerMock.initializeActiveHeartZoneSetting()
 
-        sut = HeartZoneNotAvailableState(stateManager: zoneStateManagerMock, settingsRepository: self.settingsRepositoryFake)
+        sut = HeartZoneNotAvailableState(stateManager: zoneStateManagerMock, settingsService: self.settingsServiceFake)
         sut.bpmChanged(bpm: -20)
         
         XCTAssertEqual(zoneStateManagerMock.setStateCalledCount, 0)
@@ -64,7 +64,7 @@ class HeartZoneStateTests: XCTestCase {
         zoneStateManagerMock.initializeActiveHeartZoneSetting()
 
         let (zone1, zone2, _) = getNeighbourZones()
-        sut = HeartZoneActiveState(zone: zone1, stateManager: zoneStateManagerMock, movement: .up, settingsRepository: self.settingsRepositoryFake)
+        sut = HeartZoneActiveState(zone: zone1, stateManager: zoneStateManagerMock, movement: .up, settingsService: self.settingsServiceFake)
         sut.bpmChanged(bpm: getBpmSampleFromHeartZone(zone: zone2))
 
         XCTAssertEqual(zoneStateManagerMock.setStateCalledCount, 1)
@@ -75,7 +75,7 @@ class HeartZoneStateTests: XCTestCase {
         zoneStateManagerMock.initializeActiveHeartZoneSetting()
 
         let (zone1, _, _) = getNeighbourZones()
-        sut = HeartZoneActiveState(zone: zone1, stateManager: zoneStateManagerMock, movement: .up, settingsRepository: self.settingsRepositoryFake)
+        sut = HeartZoneActiveState(zone: zone1, stateManager: zoneStateManagerMock, movement: .up, settingsService: self.settingsServiceFake)
         sut.bpmChanged(bpm: getBpmSampleFromHeartZone(zone: zone1))
         sut.bpmChanged(bpm: getBpmSampleFromHeartZone(zone: zone1))
 
@@ -87,7 +87,7 @@ class HeartZoneStateTests: XCTestCase {
 
         let targetZone = getTargetZone()
         let (zone1, _, _) = getNeighbourZones()
-        sut = HeartZoneActiveState(zone: targetZone, stateManager: zoneStateManagerMock, movement: .up, settingsRepository: self.settingsRepositoryFake)
+        sut = HeartZoneActiveState(zone: targetZone, stateManager: zoneStateManagerMock, movement: .up, settingsService: self.settingsServiceFake)
         sut.bpmChanged(bpm: getBpmSampleFromHeartZone(zone: zone1))
         sut.bpmChanged(bpm: getBpmSampleFromHeartZone(zone: zone1))
 
@@ -96,11 +96,11 @@ class HeartZoneStateTests: XCTestCase {
     
     func testHeartZoneActiveStateFromTargetZoneWhenAlertDisabled() {
         zoneStateManagerMock.initializeActiveHeartZoneSetting()
-        settingsRepositoryFake.targetHeartZoneAlertEnabled = false
+        settingsServiceFake.targetHeartZoneAlertEnabled = false
         
         let targetZone = getTargetZone()
         let (zone1, _, _) = getNeighbourZones()
-        sut = HeartZoneActiveState(zone: targetZone, stateManager: zoneStateManagerMock, movement: .up, settingsRepository: self.settingsRepositoryFake)
+        sut = HeartZoneActiveState(zone: targetZone, stateManager: zoneStateManagerMock, movement: .up, settingsService: self.settingsServiceFake)
         sut.bpmChanged(bpm: getBpmSampleFromHeartZone(zone: zone1))
 
         XCTAssertEqual(zoneStateManagerMock.setStateCalledCount, 1)
@@ -111,7 +111,7 @@ class HeartZoneStateTests: XCTestCase {
 
         let targetZone = getTargetZone()
         let (zone1, _, _) = getNeighbourZones()
-        sut = HeartZoneActiveState(zone: zone1, stateManager: zoneStateManagerMock, movement: .up, settingsRepository: self.settingsRepositoryFake)
+        sut = HeartZoneActiveState(zone: zone1, stateManager: zoneStateManagerMock, movement: .up, settingsService: self.settingsServiceFake)
         sut.bpmChanged(bpm: getBpmSampleFromHeartZone(zone: targetZone))
 
         XCTAssertEqual(zoneStateManagerMock.setStateCalledCount, 1)
@@ -119,11 +119,11 @@ class HeartZoneStateTests: XCTestCase {
     
     func testHeartZoneActiveStateToTargetZoneWhenAlertDisabled() {
         zoneStateManagerMock.initializeActiveHeartZoneSetting()
-        settingsRepositoryFake.targetHeartZoneAlertEnabled = false
+        settingsServiceFake.targetHeartZoneAlertEnabled = false
         
         let targetZone = getTargetZone()
         let (zone1, _, _) = getNeighbourZones()
-        sut = HeartZoneActiveState(zone: zone1, stateManager: zoneStateManagerMock, movement: .up, settingsRepository: self.settingsRepositoryFake)
+        sut = HeartZoneActiveState(zone: zone1, stateManager: zoneStateManagerMock, movement: .up, settingsService: self.settingsServiceFake)
         sut.bpmChanged(bpm: getBpmSampleFromHeartZone(zone: targetZone))
 
         XCTAssertEqual(zoneStateManagerMock.setStateCalledCount, 1)

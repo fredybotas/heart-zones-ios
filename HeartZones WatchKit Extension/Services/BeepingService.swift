@@ -16,7 +16,7 @@ protocol IBeepingService {
 
 class BeepingService: IBeepingService {
     private let beeper: BeepingManager
-    private var settingsRepository: ISettingsRepository
+    private var settingsService: ISettingsService
     
     private var isAnyAlertRunning: Bool {
         get {
@@ -26,9 +26,9 @@ class BeepingService: IBeepingService {
     
     private var appStateChangeSubscriber: AnyCancellable?
 
-    init(beeper: BeepingManager, settingsRepository: ISettingsRepository) {
+    init(beeper: BeepingManager, settingsService: ISettingsService) {
         self.beeper = beeper
-        self.settingsRepository = settingsRepository
+        self.settingsService = settingsService
         
         initializeAppStateSubscriber()
     }
@@ -55,14 +55,14 @@ class BeepingService: IBeepingService {
             self.stopAnyBeeping()
         }
         
-        if fromTargetZone && settingsRepository.targetHeartZoneAlertEnabled {
+        if fromTargetZone && settingsService.targetHeartZoneAlertEnabled {
             self.stopAnyBeeping()
             if heartZoneMovement == .up {
                 self.beeper.startHighRateAlert()
             } else if heartZoneMovement == .down {
                 self.beeper.startLowRateAlert()
             }
-        } else if !isAnyAlertRunning && settingsRepository.heartZonesAlertEnabled {
+        } else if !isAnyAlertRunning && settingsService.heartZonesAlertEnabled {
             if heartZoneMovement == .up {
                 self.beeper.runOnceHighRateAlert()
             } else if heartZoneMovement == .down {

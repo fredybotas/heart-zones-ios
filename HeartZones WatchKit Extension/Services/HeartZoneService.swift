@@ -17,7 +17,7 @@ class HeartZoneService: IHeartZoneService, ZoneStateManager {
     private let workoutService: IWorkoutService
     private let beepingService: IBeepingService
     private let healthKitService: IHealthKitService
-    private var settingsRepository: ISettingsRepository
+    private var settingsService: ISettingsService
     
     private var workoutStateSubscriber: AnyCancellable?
     private var bpmSubscriber: AnyCancellable?
@@ -29,11 +29,11 @@ class HeartZoneService: IHeartZoneService, ZoneStateManager {
     
     private var heartZoneState: BaseHeartZoneState?
     
-    init (workoutService: IWorkoutService, beepingService: IBeepingService, healthKitService: IHealthKitService, settingsRepository: ISettingsRepository) {
+    init (workoutService: IWorkoutService, beepingService: IBeepingService, healthKitService: IHealthKitService, settingsService: ISettingsService) {
         self.workoutService = workoutService
         self.beepingService = beepingService
         self.healthKitService = healthKitService
-        self.settingsRepository = settingsRepository
+        self.settingsService = settingsService
 
         self.workoutStateSubscriber = self.workoutService
             .getWorkoutStatePublisher()
@@ -44,16 +44,16 @@ class HeartZoneService: IHeartZoneService, ZoneStateManager {
     
     private func resolveHeartZoneSetting() {
         // Make sure that it is called after permissions were requested
-        self.activeHeartZoneSetting = HeartZonesSetting.getDefaultHeartZonesSetting(age: self.healthKitService.age)
+        self.activeHeartZoneSetting = HeartZonesSetting.getDefaultHeartZonesSetting(maximumBpm: self.settingsService.maximumBpm)
     }
 
     private func handleStateChange(state: WorkoutState) {
         switch state {
             case .notPresent:
-                self.heartZoneState = HeartZoneNotAvailableState(stateManager: self, settingsRepository: self.settingsRepository)
+                self.heartZoneState = HeartZoneNotAvailableState(stateManager: self, settingsService: self.settingsService)
                 self.currentHeartZonePublisher = CurrentValueSubject<HeartZone?, Never>(nil)
             case .running:
-                self.heartZoneState = HeartZoneNotAvailableState(stateManager: self, settingsRepository: self.settingsRepository)
+                self.heartZoneState = HeartZoneNotAvailableState(stateManager: self, settingsService: self.settingsService)
                 self.resolveHeartZoneSetting()
                 self.connectBpmSubscriberIfNeeded()
             case .finished:

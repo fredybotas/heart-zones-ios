@@ -8,59 +8,71 @@
 import Foundation
 
 protocol ISettingsRepository {
-    var heartZonesAlertEnabled: Bool { get set }
-    var targetHeartZoneAlertEnabled: Bool { get set }
+    var heartZonesAlertEnabled: Bool? { get set }
+    var targetHeartZoneAlertEnabled: Bool? { get set }
+    var maximumBpm: Int? { get set }
 }
 
 fileprivate let kHeartZonesAlertEnabledKey = "kHeartZonesAlertEnabledKey"
 fileprivate let kTargetHeartZoneAlertEnabledKey = "kTargetHeartZoneAlertEnabledKey"
+fileprivate let kMaximumBpm = "kMaximumBpm"
 
 class SettingsRepository: ISettingsRepository {
+    
     let defaults = UserDefaults.standard
     
     private func isKeyPresentInUserDefaults(key: String) -> Bool {
         return defaults.object(forKey: key) != nil
     }
     
-    var heartZonesAlertEnabled: Bool {
+    var heartZonesAlertEnabled: Bool? {
         get {
             if isKeyPresentInUserDefaults(key: kHeartZonesAlertEnabledKey) {
                 return defaults.bool(forKey: kHeartZonesAlertEnabledKey)
             }
-            return true
+            return nil
         }
-        
-        set {
-            defaults.set(newValue, forKey: kHeartZonesAlertEnabledKey)
-        }
+        set { defaults.set(newValue, forKey: kHeartZonesAlertEnabledKey) }
     }
     
-    var targetHeartZoneAlertEnabled: Bool {
+    var targetHeartZoneAlertEnabled: Bool? {
         get {
             if isKeyPresentInUserDefaults(key: kTargetHeartZoneAlertEnabledKey) {
                 return defaults.bool(forKey: kTargetHeartZoneAlertEnabledKey)
             }
-            return true
+            return nil
         }
         
         set {
             defaults.set(newValue, forKey: kTargetHeartZoneAlertEnabledKey)
         }
     }
+    
+    var maximumBpm: Int? {
+        get {
+            if isKeyPresentInUserDefaults(key: kMaximumBpm) {
+                return defaults.integer(forKey: kMaximumBpm)
+            }
+            return nil
+        }
+        set { defaults.set(newValue, forKey: kMaximumBpm) }
+    }
 }
 
 class SettingsRepositoryCached: ISettingsRepository {
     let settingsRepository = SettingsRepository()
     
-    private var heartZonesAlertEnabledInternal: Bool
-    private var targetHeartZoneAlertEnabledInternal: Bool
-
+    private var heartZonesAlertEnabledInternal: Bool?
+    private var targetHeartZoneAlertEnabledInternal: Bool?
+    private var maximumBpmInternal: Int?
+  
     init() {
         heartZonesAlertEnabledInternal = settingsRepository.heartZonesAlertEnabled
         targetHeartZoneAlertEnabledInternal = settingsRepository.targetHeartZoneAlertEnabled
+        maximumBpmInternal = settingsRepository.maximumBpm
     }
-    
-    var heartZonesAlertEnabled: Bool {
+        
+    var heartZonesAlertEnabled: Bool? {
         get {
             return heartZonesAlertEnabledInternal
         }
@@ -71,7 +83,7 @@ class SettingsRepositoryCached: ISettingsRepository {
         }
     }
     
-    var targetHeartZoneAlertEnabled: Bool {
+    var targetHeartZoneAlertEnabled: Bool? {
         get {
             return targetHeartZoneAlertEnabledInternal
         }
@@ -81,4 +93,16 @@ class SettingsRepositoryCached: ISettingsRepository {
             targetHeartZoneAlertEnabledInternal = newValue
         }
     }
+    
+    var maximumBpm: Int? {
+        get {
+            return maximumBpmInternal
+        }
+    
+        set {
+            settingsRepository.maximumBpm = newValue
+            maximumBpmInternal = newValue
+        }
+    }
+    
 }

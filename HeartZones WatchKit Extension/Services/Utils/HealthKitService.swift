@@ -19,20 +19,18 @@ protocol IHealthKitService {
 class HealthKitService: IHealthKitService, Authorizable {
     let healthStore = HKHealthStore()
     
-    var age: Int {
-        get {
-            var date: DateComponents?
-            do {
-                date = try healthStore.dateOfBirthComponents()
-            } catch {}
-            guard let dateComponents = date else { return kDefaultAge }
-            let calendar = Calendar.current
-            let ageComponents = calendar.dateComponents([.year], from: dateComponents, to: calendar.dateComponents([.year, .month, .day], from: Date()))
-            guard let age = ageComponents.year else { return kDefaultAge }
-            NSLog("Age received from healtkit: %d", age)
-            return age
-        }
-    }
+    lazy var age: Int = {
+        var date: DateComponents?
+        do {
+            date = try healthStore.dateOfBirthComponents()
+        } catch {}
+        guard let dateComponents = date else { return kDefaultAge }
+        let calendar = Calendar.current
+        let ageComponents = calendar.dateComponents([.year], from: dateComponents, to: calendar.dateComponents([.year, .month, .day], from: Date()))
+        guard let age = ageComponents.year else { return kDefaultAge }
+        NSLog("Age received from healtkit: %d", age)
+        return age
+    }()
     
     let readMetrics = [
         HKQuantityType.quantityType(forIdentifier: .heartRate)!,

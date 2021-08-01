@@ -14,7 +14,7 @@ class HeartZoneSettingsTests: XCTestCase {
     var sut: HeartZonesSetting!
 
     override func setUp() {
-        self.sut = HeartZonesSetting.getDefaultHeartZonesSetting(age: 25)
+        self.sut = HeartZonesSetting.getDefaultHeartZonesSetting(maximumBpm: 195)
     }
     
     func getBpmSampleFromHeartZone(zone: HeartZone) -> Int {

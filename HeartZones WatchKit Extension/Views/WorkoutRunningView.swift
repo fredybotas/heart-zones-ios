@@ -97,7 +97,7 @@ struct WorkoutRunningView: View {
 
 struct WorkoutRunningView_Previews: PreviewProvider {
     
-    static var viewModel = WorkoutViewModel(workoutType: WorkoutType(type: .outdoorRunning), workoutService: WorkoutService(locationManager: LocationManager(), healthKitService: HealthKitService()), heartZoneService: HeartZoneService(workoutService: WorkoutService(locationManager: LocationManager(), healthKitService: HealthKitService()), beepingService: BeepingService(beeper: DeviceBeepingManager(beeper: DeviceBeeper()), settingsRepository: SettingsRepository()), healthKitService: HealthKitService(), settingsRepository: SettingsRepository()), sunService: SunService(locationManager: LocationManager()))
+    static var viewModel = WorkoutViewModel(workoutType: WorkoutType(type: .outdoorRunning), workoutService: WorkoutService(locationManager: LocationManager(), healthKitService: HealthKitService()), heartZoneService: HeartZoneService(workoutService: WorkoutService(locationManager: LocationManager(), healthKitService: HealthKitService()), beepingService: BeepingService(beeper: DeviceBeepingManager(beeper: DeviceBeeper()), settingsService: SettingsService(settingsRepository: SettingsRepository(), healthKitService: HealthKitService())), healthKitService: HealthKitService(), settingsService: SettingsService(settingsRepository: SettingsRepository(), healthKitService: HealthKitService())), sunService: SunService(locationManager: LocationManager()))
     
     static var previews: some View {
         WorkoutRunningView(workoutViewModel: viewModel)

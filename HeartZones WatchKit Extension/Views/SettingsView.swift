@@ -7,24 +7,35 @@
 
 import SwiftUI
 
-struct SettingsListRow: View {
-    let title: String
-    @Binding var enabled: Bool
-    
-    var body: some View {
-        HStack {
-            Toggle(title, isOn: $enabled)
-        }
-    }
-}
-
 struct SettingsView: View {
     @ObservedObject var settingsViewModel: SettingsViewModel
     
     var body: some View {
         List {
-            SettingsListRow(title: "Target zone alert", enabled: $settingsViewModel.targetHeartZoneAlertEnabled)
-            SettingsListRow(title: "Zone pass alert", enabled: $settingsViewModel.heartZonesAlertEnabled)
+            Section(header: Text("Zones")) {
+                NavigationLink(destination: SettingsView(settingsViewModel: settingsViewModel)) {
+                    Text("Zones")
+                }
+                Picker("Max BPM", selection: $settingsViewModel.maxBpm) {
+                    ForEach(SettingsViewModel.kMinimumBpm..<SettingsViewModel.kMaximumBpm + 1) { bpm in
+                        Text(String(bpm))
+                    }
+                }
+                .pickerStyle(WheelPickerStyle())
+                .frame(height: 35)
+            }
+
+            Section(header: Text("Alert Settings")) {
+                Toggle("Target zone alert", isOn: $settingsViewModel.targetHeartZoneAlertEnabled)
+                Toggle("Zone pass alert", isOn: $settingsViewModel.heartZonesAlertEnabled)
+            }
+//            Section(header: Text("Units")) {
+//                Picker(selection: $settingsViewModel.distanceMetric, label: Text("Distance")) {
+//                    ForEach(settingsViewModel.distanceMetricOptions) { metric in
+//                        Text(metric)
+//                    }
+//                }
+//            }
         }
         .navigationBarTitle("Settings")
     }
@@ -32,6 +43,6 @@ struct SettingsView: View {
 
 struct SettingsView_Previews: PreviewProvider {
     static var previews: some View {
-        SettingsView(settingsViewModel: SettingsViewModel(settingsRepository: SettingsRepository()))
+        SettingsView(settingsViewModel: SettingsViewModel(settingsService: SettingsService(settingsRepository: SettingsRepository(), healthKitService: HealthKitService())))
     }
 }

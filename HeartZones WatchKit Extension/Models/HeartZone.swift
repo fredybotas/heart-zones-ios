@@ -34,13 +34,12 @@ struct HeartZonesSetting {
         }
     }
     
-    static func getDefaultHeartZonesSetting(age: Int) -> HeartZonesSetting {
-        var ageMutable = age
-        if ageMutable < 0 || ageMutable > 100 {
-            ageMutable = kDefaultAge
-        }
-        let maxBpm = Double(220 - ageMutable)
-        
+    static func getMaximumBpm(age: Int) -> Int {
+        return 220 - age
+    }
+    
+    static func getDefaultHeartZonesSetting(maximumBpm: Int) -> HeartZonesSetting {
+        let maxBpm = Double(maximumBpm)
         return HeartZonesSetting(zones: [
             HeartZone(name: "Light", bpmRange: Int(0 * maxBpm)...Int(0.6 * maxBpm), color: Color.green, target: false),
             HeartZone(name: "Moderate", bpmRange: Int(0.6 * maxBpm)...Int(0.75 * maxBpm), color: Color.yellow, target: false),

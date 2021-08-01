@@ -9,6 +9,7 @@ import Foundation
 @testable import HeartZones_WatchKit_Extension
 
 class SettingsRepositoryFake: ISettingsRepository {
-    var heartZonesAlertEnabled: Bool = true
-    var targetHeartZoneAlertEnabled: Bool = true
+    var maximumBpm: Int? = 195
+    var heartZonesAlertEnabled: Bool? = true
+    var targetHeartZoneAlertEnabled: Bool? = true
 }
