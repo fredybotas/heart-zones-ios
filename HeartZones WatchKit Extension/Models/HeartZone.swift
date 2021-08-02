@@ -60,8 +60,11 @@ struct HeartZone: Equatable {
             return nil
         }
         let result = Double(bpm - first) / Double(last - first)
-        if result < 0 || result > 1 {
-            return nil
+        if result < 0 {
+            return 0.0
+        }
+        if result > 1 {
+            return 1.0
         }
         return result
     }
