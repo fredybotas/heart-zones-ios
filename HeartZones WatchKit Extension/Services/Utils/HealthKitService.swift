@@ -9,25 +9,23 @@ import Foundation
 import HealthKit
 import Combine
 
-let kDefaultAge = 25
-
 protocol IHealthKitService {
     var healthStore: HKHealthStore { get }
-    var age: Int { get }
+    var age: Int? { get }
 }
 
 class HealthKitService: IHealthKitService, Authorizable {
     let healthStore = HKHealthStore()
     
-    lazy var age: Int = {
+    lazy var age: Int? = {
         var date: DateComponents?
         do {
             date = try healthStore.dateOfBirthComponents()
         } catch {}
-        guard let dateComponents = date else { return kDefaultAge }
+        guard let dateComponents = date else { return nil }
         let calendar = Calendar.current
         let ageComponents = calendar.dateComponents([.year], from: dateComponents, to: calendar.dateComponents([.year, .month, .day], from: Date()))
-        guard let age = ageComponents.year else { return kDefaultAge }
+        guard let age = ageComponents.year else { return nil }
         NSLog("Age received from healtkit: %d", age)
         return age
     }()

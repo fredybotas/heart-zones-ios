@@ -10,7 +10,6 @@
 		B6046DF526B19E1900BD43C1 /* HeartZoneState.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6046DF426B19E1900BD43C1 /* HeartZoneState.swift */; };
 		B6046DF726B1B26100BD43C1 /* SameElementsContainerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6046DF626B1B26100BD43C1 /* SameElementsContainerTests.swift */; };
 		B607E15B268E1EA90069FEA4 /* BpmContainerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B607E15A268E1EA90069FEA4 /* BpmContainerTests.swift */; };
-		B607E15C268E20430069FEA4 /* HeartZonesUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B615E05B2683BD1900B5DC91 /* HeartZonesUITests.swift */; };
 		B610ABA726923FCC00DA3FA8 /* SunView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B610ABA626923FCC00DA3FA8 /* SunView.swift */; };
 		B615E0272683BD1800B5DC91 /* HeartZonesKit.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = B615E0262683BD1800B5DC91 /* HeartZonesKit.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		B615E02C2683BD1900B5DC91 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B615E02B2683BD1900B5DC91 /* Assets.xcassets */; };
@@ -88,13 +87,6 @@
 			remoteGlobalIDString = B615E0312683BD1900B5DC91;
 			remoteInfo = "HeartZones WatchKit Extension";
 		};
-		B615E0582683BD1900B5DC91 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = B615E01C2683BD1800B5DC91 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = B615E0252683BD1800B5DC91;
-			remoteInfo = "HeartZones WatchKit App";
-		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -139,9 +131,6 @@
 		B615E0472683BD1900B5DC91 /* PushNotificationPayload.apns */ = {isa = PBXFileReference; lastKnownFileType = text; path = PushNotificationPayload.apns; sourceTree = "<group>"; };
 		B615E04C2683BD1900B5DC91 /* HeartZonesTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HeartZonesTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B615E0522683BD1900B5DC91 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		B615E0572683BD1900B5DC91 /* HeartZonesUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HeartZonesUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		B615E05B2683BD1900B5DC91 /* HeartZonesUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeartZonesUITests.swift; sourceTree = "<group>"; };
-		B615E05D2683BD1900B5DC91 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B62DDBDC26ABFC0D001D3D26 /* HealthKitService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthKitService.swift; sourceTree = "<group>"; };
 		B62DDBDE26AC0DEA001D3D26 /* HealthKitServiceMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthKitServiceMock.swift; sourceTree = "<group>"; };
 		B62DDBE026AC22A5001D3D26 /* AuthorizationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizationManager.swift; sourceTree = "<group>"; };
@@ -210,13 +199,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		B615E0542683BD1900B5DC91 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -227,7 +209,6 @@
 				B615E02A2683BD1800B5DC91 /* HeartZones WatchKit App */,
 				B615E0362683BD1900B5DC91 /* HeartZones WatchKit Extension */,
 				B615E04F2683BD1900B5DC91 /* HeartZonesTests */,
-				B615E05A2683BD1900B5DC91 /* HeartZonesUITests */,
 				B615E0232683BD1800B5DC91 /* Products */,
 				B650A96426879E5B0042B33D /* Frameworks */,
 			);
@@ -240,7 +221,6 @@
 				B615E0262683BD1800B5DC91 /* HeartZonesKit.app */,
 				B615E0322683BD1900B5DC91 /* HeartZones WatchKit Extension.appex */,
 				B615E04C2683BD1900B5DC91 /* HeartZonesTests.xctest */,
-				B615E0572683BD1900B5DC91 /* HeartZonesUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -300,15 +280,6 @@
 				B64E5CEE26B1EFBF0087F246 /* HeartZoneStateTests.swift */,
 			);
 			path = HeartZonesTests;
-			sourceTree = "<group>";
-		};
-		B615E05A2683BD1900B5DC91 /* HeartZonesUITests */ = {
-			isa = PBXGroup;
-			children = (
-				B615E05B2683BD1900B5DC91 /* HeartZonesUITests.swift */,
-				B615E05D2683BD1900B5DC91 /* Info.plist */,
-			);
-			path = HeartZonesUITests;
 			sourceTree = "<group>";
 		};
 		B634FC5526AF4A740082AE4E /* HeartZones */ = {
@@ -517,24 +488,6 @@
 			productReference = B615E04C2683BD1900B5DC91 /* HeartZonesTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		B615E0562683BD1900B5DC91 /* HeartZonesUITests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = B615E06E2683BD1900B5DC91 /* Build configuration list for PBXNativeTarget "HeartZonesUITests" */;
-			buildPhases = (
-				B615E0532683BD1900B5DC91 /* Sources */,
-				B615E0542683BD1900B5DC91 /* Frameworks */,
-				B615E0552683BD1900B5DC91 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				B615E0592683BD1900B5DC91 /* PBXTargetDependency */,
-			);
-			name = HeartZonesUITests;
-			productName = HeartZonesUITests;
-			productReference = B615E0572683BD1900B5DC91 /* HeartZonesUITests.xctest */;
-			productType = "com.apple.product-type.bundle.ui-testing";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -556,10 +509,6 @@
 					B615E04B2683BD1900B5DC91 = {
 						CreatedOnToolsVersion = 12.5;
 						TestTargetID = B615E0312683BD1900B5DC91;
-					};
-					B615E0562683BD1900B5DC91 = {
-						CreatedOnToolsVersion = 12.5;
-						TestTargetID = B615E0252683BD1800B5DC91;
 					};
 				};
 			};
@@ -584,7 +533,6 @@
 				B615E0252683BD1800B5DC91 /* HeartZonesKit */,
 				B615E0312683BD1900B5DC91 /* HeartZones WatchKit Extension */,
 				B615E04B2683BD1900B5DC91 /* HeartZonesTests */,
-				B615E0562683BD1900B5DC91 /* HeartZonesUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -616,13 +564,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		B615E04A2683BD1900B5DC91 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		B615E0552683BD1900B5DC91 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -693,14 +634,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		B615E0532683BD1900B5DC91 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				B607E15C268E20430069FEA4 /* HeartZonesUITests.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -718,11 +651,6 @@
 			isa = PBXTargetDependency;
 			target = B615E0312683BD1900B5DC91 /* HeartZones WatchKit Extension */;
 			targetProxy = B615E04D2683BD1900B5DC91 /* PBXContainerItemProxy */;
-		};
-		B615E0592683BD1900B5DC91 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = B615E0252683BD1800B5DC91 /* HeartZonesKit */;
-			targetProxy = B615E0582683BD1900B5DC91 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -853,6 +781,7 @@
 				DEVELOPMENT_TEAM = DUTU9Q7M96;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = "HeartZones WatchKit Extension/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -881,6 +810,7 @@
 				DEVELOPMENT_TEAM = DUTU9Q7M96;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = "HeartZones WatchKit Extension/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -909,6 +839,7 @@
 				DEVELOPMENT_TEAM = DUTU9Q7M96;
 				IBSC_MODULE = HeartZones_WatchKit_Extension;
 				INFOPLIST_FILE = "HeartZones WatchKit App/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MARKETING_VERSION = 1.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = online.trender.heartzones.watchkitapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -932,6 +863,7 @@
 				DEVELOPMENT_TEAM = DUTU9Q7M96;
 				IBSC_MODULE = HeartZones_WatchKit_Extension;
 				INFOPLIST_FILE = "HeartZones WatchKit App/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MARKETING_VERSION = 1.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = online.trender.heartzones.watchkitapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -955,6 +887,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = online.trender.heartzones;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
+				WATCHOS_DEPLOYMENT_TARGET = 6.0;
 			};
 			name = Debug;
 		};
@@ -970,6 +903,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = online.trender.heartzones;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
+				WATCHOS_DEPLOYMENT_TARGET = 6.0;
 			};
 			name = Release;
 		};
@@ -981,6 +915,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = DUTU9Q7M96;
 				INFOPLIST_FILE = HeartZonesTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -992,7 +927,7 @@
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 4;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/HeartZones WatchKit Extension.appex/HeartZones WatchKit Extension";
-				WATCHOS_DEPLOYMENT_TARGET = 7.4;
+				WATCHOS_DEPLOYMENT_TARGET = 6.0;
 			};
 			name = Debug;
 		};
@@ -1004,6 +939,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = DUTU9Q7M96;
 				INFOPLIST_FILE = HeartZonesTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1015,49 +951,7 @@
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 4;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/HeartZones WatchKit Extension.appex/HeartZones WatchKit Extension";
-				WATCHOS_DEPLOYMENT_TARGET = 7.4;
-			};
-			name = Release;
-		};
-		B615E06F2683BD1900B5DC91 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = DUTU9Q7M96;
-				INFOPLIST_FILE = HeartZonesUITests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = online.trender.heartzones.HeartZonesUITests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = watchos;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 4;
-				TEST_TARGET_NAME = "HeartZones WatchKit App";
-				WATCHOS_DEPLOYMENT_TARGET = 7.4;
-			};
-			name = Debug;
-		};
-		B615E0702683BD1900B5DC91 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = DUTU9Q7M96;
-				INFOPLIST_FILE = HeartZonesUITests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = online.trender.heartzones.HeartZonesUITests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = watchos;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 4;
-				TEST_TARGET_NAME = "HeartZones WatchKit App";
-				WATCHOS_DEPLOYMENT_TARGET = 7.4;
+				WATCHOS_DEPLOYMENT_TARGET = 6.0;
 			};
 			name = Release;
 		};
@@ -1105,15 +999,6 @@
 			buildConfigurations = (
 				B615E06C2683BD1900B5DC91 /* Debug */,
 				B615E06D2683BD1900B5DC91 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		B615E06E2683BD1900B5DC91 /* Build configuration list for PBXNativeTarget "HeartZonesUITests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				B615E06F2683BD1900B5DC91 /* Debug */,
-				B615E0702683BD1900B5DC91 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

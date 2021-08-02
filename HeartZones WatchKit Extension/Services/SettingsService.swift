@@ -13,6 +13,8 @@ protocol ISettingsService {
     var maximumBpm: Int { get set }
 }
 
+let kDefaultAge = 25
+
 class SettingsService: ISettingsService {
     var heartZonesAlertEnabled: Bool {
         get { self.settingsRepository.heartZonesAlertEnabled ?? true }
@@ -28,7 +30,8 @@ class SettingsService: ISettingsService {
             if let maxBpm = settingsRepository.maximumBpm {
                 return maxBpm
             } else {
-                return HeartZonesSetting.getMaximumBpm(age: healthKitService.age)
+                let age = healthKitService.age ?? kDefaultAge
+                return HeartZonesSetting.getMaximumBpm(age: age)
             }
         }
         
@@ -36,7 +39,6 @@ class SettingsService: ISettingsService {
             self.settingsRepository.maximumBpm = newValue
         }
     }
-    
     
     private var settingsRepository: ISettingsRepository
     private var healthKitService: IHealthKitService

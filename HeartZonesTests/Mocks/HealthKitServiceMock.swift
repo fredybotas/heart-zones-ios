@@ -12,7 +12,7 @@ import HealthKit
 class HealthKitServiceMock: IHealthKitService {
     var getAgeCalledCount = 0
     
-    var age: Int {
+    var age: Int? {
         getAgeCalledCount += 1
         return 50
     }
