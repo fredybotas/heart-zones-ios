@@ -70,10 +70,16 @@ struct WorkoutRunningView: View {
                         .font(Font.system(size: 14 * getDeviceSizeMultiplier(), weight: .light, design: .default))
                 }
                 VStack(alignment: .center, spacing: 8 * getDeviceSizeMultiplier()) {
-                    PieSegment(ratio: workoutViewModel.bpmCircleRatio)
-                        .fill(workoutViewModel.bpmCircleColor)
-                        .frame(width: 20 * getDeviceSizeMultiplier(), height: 20 * getDeviceSizeMultiplier(), alignment: .center)
-                        .padding(2.5 * getDeviceSizeMultiplier())
+                    ZStack {
+                        PieSegment(ratio: workoutViewModel.bpmCircleRatio)
+                            .fill(workoutViewModel.bpmCircleColor)
+                            .frame(width: 20 * getDeviceSizeMultiplier(), height: 20 * getDeviceSizeMultiplier(), alignment: .center)
+                            .padding(2.5 * getDeviceSizeMultiplier())
+                        PieSegment(ratio: workoutViewModel.bpmCircleRatio)
+                            .fill(Color.black)
+                            .frame(width: 14 * getDeviceSizeMultiplier(), height: 14 * getDeviceSizeMultiplier(), alignment: .center)
+                            .padding(2.5 * getDeviceSizeMultiplier())
+                    }
                     SunViewWithMinutes(minutesLeft: workoutViewModel.sunsetLeft, sunVisibility: workoutViewModel.sunVisibility)
                         .frame(width: 20 * getDeviceSizeMultiplier(), height: 40 * getDeviceSizeMultiplier(), alignment: .center)
                 }
