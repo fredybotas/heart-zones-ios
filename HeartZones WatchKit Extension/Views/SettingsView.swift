@@ -18,7 +18,7 @@ struct SettingsView: View {
                 }
                 Picker("Max BPM", selection: $settingsViewModel.maxBpm) {
                     ForEach(SettingsViewModel.kMinimumBpm..<SettingsViewModel.kMaximumBpm + 1) { bpm in
-                        Text(String(bpm))
+                        Text(String(bpm)).tag(bpm)
                     }
                 }
                 .pickerStyle(WheelPickerStyle())
@@ -29,13 +29,13 @@ struct SettingsView: View {
                 Toggle("Target zone alert", isOn: $settingsViewModel.targetHeartZoneAlertEnabled)
                 Toggle("Zone pass alert", isOn: $settingsViewModel.heartZonesAlertEnabled)
             }
-//            Section(header: Text("Units")) {
-//                Picker(selection: $settingsViewModel.distanceMetric, label: Text("Distance")) {
-//                    ForEach(settingsViewModel.distanceMetricOptions) { metric in
-//                        Text(metric)
-//                    }
-//                }
-//            }
+            Section(header: Text("Units")) {
+                Picker("Distance", selection: $settingsViewModel.selectedDistanceMetric) {
+                    ForEach(settingsViewModel.distanceMetricOptions) { metric in
+                        Text(metric.type.rawValue).tag(metric)
+                    }
+                }
+            }
         }
         .navigationBarTitle("Settings")
     }

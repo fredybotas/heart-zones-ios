@@ -39,6 +39,7 @@ class WorkoutViewModel: ObservableObject {
     private let workoutService: IWorkoutService
     private let heartZoneService: IHeartZoneService
     private let sunService: ISunService
+    private let settingsService: ISettingsService
 
     private let workoutType: WorkoutType
     
@@ -52,11 +53,12 @@ class WorkoutViewModel: ObservableObject {
 
     private var appStateChangeSubscriber: AnyCancellable?
 
-    init(workoutType: WorkoutType, workoutService: IWorkoutService, heartZoneService: IHeartZoneService, sunService: ISunService) {
+    init(workoutType: WorkoutType, workoutService: IWorkoutService, heartZoneService: IHeartZoneService, sunService: ISunService, settingsService: ISettingsService) {
         self.workoutService = workoutService
         self.heartZoneService = heartZoneService
         self.sunService = sunService
         self.workoutType = workoutType
+        self.settingsService = settingsService
         
         distanceFormatter.unitOptions = .providedUnit
         distanceFormatter.unitStyle = .medium

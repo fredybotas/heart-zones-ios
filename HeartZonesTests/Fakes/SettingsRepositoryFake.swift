@@ -12,4 +12,5 @@ class SettingsRepositoryFake: ISettingsRepository {
     var maximumBpm: Int? = 195
     var heartZonesAlertEnabled: Bool? = true
     var targetHeartZoneAlertEnabled: Bool? = true
+    var selectedDistanceMetric: DistanceMetric? = DistanceMetric.getPossibleMetrics()[0]
 }

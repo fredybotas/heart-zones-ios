@@ -11,11 +11,16 @@ protocol ISettingsService {
     var heartZonesAlertEnabled: Bool { get set }
     var targetHeartZoneAlertEnabled: Bool { get set }
     var maximumBpm: Int { get set }
+    var selectedDistanceMetric: DistanceMetric { get set }
 }
 
 let kDefaultAge = 25
-
 class SettingsService: ISettingsService {
+
+    var selectedDistanceMetric: DistanceMetric {
+        get { self.settingsRepository.selectedDistanceMetric ?? DistanceMetric.getDefault(metric: SettingsService.userPrefersMetric()) }
+        set { self.settingsRepository.selectedDistanceMetric = newValue }
+    }
     var heartZonesAlertEnabled: Bool {
         get { self.settingsRepository.heartZonesAlertEnabled ?? true }
         set { self.settingsRepository.heartZonesAlertEnabled = newValue }
@@ -46,5 +51,9 @@ class SettingsService: ISettingsService {
     init(settingsRepository: ISettingsRepository, healthKitService: IHealthKitService) {
         self.settingsRepository = settingsRepository
         self.healthKitService = healthKitService
+    }
+    
+    static func userPrefersMetric() -> Bool {
+        return ((Locale.current as NSLocale).object(forKey: NSLocale.Key.usesMetricSystem) as? Bool) ?? true
     }
 }

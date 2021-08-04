@@ -11,12 +11,13 @@ protocol ISettingsRepository {
     var heartZonesAlertEnabled: Bool? { get set }
     var targetHeartZoneAlertEnabled: Bool? { get set }
     var maximumBpm: Int? { get set }
+    var selectedDistanceMetric: DistanceMetric? { get set }
 }
 
 fileprivate let kHeartZonesAlertEnabledKey = "kHeartZonesAlertEnabledKey"
 fileprivate let kTargetHeartZoneAlertEnabledKey = "kTargetHeartZoneAlertEnabledKey"
 fileprivate let kMaximumBpm = "kMaximumBpm"
-
+fileprivate let kSelectedDistanceMetric = "kSelectedDistanceMetric"
 class SettingsRepository: ISettingsRepository {
     
     let defaults = UserDefaults.standard
@@ -57,6 +58,23 @@ class SettingsRepository: ISettingsRepository {
         }
         set { defaults.set(newValue, forKey: kMaximumBpm) }
     }
+    
+    var selectedDistanceMetric: DistanceMetric? {
+        get {
+            if isKeyPresentInUserDefaults(key: kSelectedDistanceMetric) {
+                guard let decoded = defaults.object(forKey: kSelectedDistanceMetric) as? Data else { return nil }
+                guard let decodedMetric = try? NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(decoded) as? DistanceMetric else { return nil }
+                return decodedMetric
+            }
+            return nil
+        }
+        set {
+            guard let metric = newValue else { return }
+            guard let encodedData = try? NSKeyedArchiver.archivedData(withRootObject: metric, requiringSecureCoding: false) else { return }
+            defaults.set(encodedData, forKey: kSelectedDistanceMetric)
+        }
+    }
+
 }
 
 class SettingsRepositoryCached: ISettingsRepository {
@@ -65,6 +83,7 @@ class SettingsRepositoryCached: ISettingsRepository {
     private var heartZonesAlertEnabledInternal: Bool?
     private var targetHeartZoneAlertEnabledInternal: Bool?
     private var maximumBpmInternal: Int?
+    private var selectedDistanceMetricInternal: DistanceMetric?
   
     init() {
         heartZonesAlertEnabledInternal = settingsRepository.heartZonesAlertEnabled
@@ -102,6 +121,17 @@ class SettingsRepositoryCached: ISettingsRepository {
         set {
             settingsRepository.maximumBpm = newValue
             maximumBpmInternal = newValue
+        }
+    }
+    
+    var selectedDistanceMetric: DistanceMetric? {
+        get {
+            return selectedDistanceMetricInternal
+        }
+        
+        set {
+            selectedDistanceMetricInternal = newValue
+            settingsRepository.selectedDistanceMetric = newValue
         }
     }
     

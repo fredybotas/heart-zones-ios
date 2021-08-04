@@ -78,8 +78,8 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
             let workoutService = resolver.resolve(WorkoutService.self)!
             let heartZoneService = resolver.resolve(HeartZoneService.self)!
             let sunService = resolver.resolve(SunService.self)!
-
-            return WorkoutViewModel(workoutType: workoutType, workoutService: workoutService, heartZoneService: heartZoneService, sunService: sunService)
+            let settingsService = resolver.resolve(SettingsService.self)!
+            return WorkoutViewModel(workoutType: workoutType, workoutService: workoutService, heartZoneService: heartZoneService, sunService: sunService, settingsService: settingsService)
         })
         container.register(WorkoutControlsViewModel.self, factory: { resolver in
             let workoutService = resolver.resolve(WorkoutService.self)!
