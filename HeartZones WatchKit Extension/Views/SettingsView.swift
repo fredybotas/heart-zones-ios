@@ -35,6 +35,12 @@ struct SettingsView: View {
                         Text(metric.type.rawValue).tag(metric)
                     }
                 }
+                
+                Picker("Energy", selection: $settingsViewModel.selectedEnergyMetric) {
+                    ForEach(settingsViewModel.energyMetricOptions) { metric in
+                        Text(metric.type.rawValue).tag(metric)
+                    }
+                }
             }
         }
         .navigationBarTitle("Settings")

@@ -12,12 +12,14 @@ import SwiftUI
 class SettingsViewModel: ObservableObject {
     
     let distanceMetricOptions = DistanceMetric.getPossibleMetrics()
-    
+    let energyMetricOptions = EnergyMetric.getPossibleMetrics()
+
     @Published var heartZonesAlertEnabled: Bool
     @Published var targetHeartZoneAlertEnabled: Bool
     @Published var maxBpm: Int
     @Published var selectedDistanceMetric: DistanceMetric
-    
+    @Published var selectedEnergyMetric: EnergyMetric
+
     static let kMinimumBpm = 60
     static let kMaximumBpm = 220
 
@@ -31,6 +33,7 @@ class SettingsViewModel: ObservableObject {
         self.targetHeartZoneAlertEnabled = settingsService.targetHeartZoneAlertEnabled
         self.maxBpm = settingsService.maximumBpm - SettingsViewModel.kMinimumBpm
         self.selectedDistanceMetric = settingsService.selectedDistanceMetric
+        self.selectedEnergyMetric = settingsService.selectedEnergyMetric
             
         self.$heartZonesAlertEnabled
             .dropFirst()
@@ -59,6 +62,13 @@ class SettingsViewModel: ObservableObject {
             .dropFirst()
             .sink { [weak self] value in
                 self?.settingsService.selectedDistanceMetric = value
+            }
+            .store(in: &cancellables)
+        
+        self.$selectedEnergyMetric
+            .dropFirst()
+            .sink { [weak self] value in
+                self?.settingsService.selectedEnergyMetric = value
             }
             .store(in: &cancellables)
     }

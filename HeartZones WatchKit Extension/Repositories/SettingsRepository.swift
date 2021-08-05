@@ -12,15 +12,20 @@ protocol ISettingsRepository {
     var targetHeartZoneAlertEnabled: Bool? { get set }
     var maximumBpm: Int? { get set }
     var selectedDistanceMetric: DistanceMetric? { get set }
+    var selectedEnergyMetric: EnergyMetric? { get set }
 }
 
 fileprivate let kHeartZonesAlertEnabledKey = "kHeartZonesAlertEnabledKey"
 fileprivate let kTargetHeartZoneAlertEnabledKey = "kTargetHeartZoneAlertEnabledKey"
 fileprivate let kMaximumBpm = "kMaximumBpm"
 fileprivate let kSelectedDistanceMetric = "kSelectedDistanceMetric"
+fileprivate let kSelectedEnergyMetric = "kSelectedEnergyMetric"
+
 class SettingsRepository: ISettingsRepository {
     
     let defaults = UserDefaults.standard
+    let decoder = JSONDecoder()
+    let encoder = JSONEncoder()
     
     private func isKeyPresentInUserDefaults(key: String) -> Bool {
         return defaults.object(forKey: key) != nil
@@ -62,16 +67,32 @@ class SettingsRepository: ISettingsRepository {
     var selectedDistanceMetric: DistanceMetric? {
         get {
             if isKeyPresentInUserDefaults(key: kSelectedDistanceMetric) {
-                guard let decoded = defaults.object(forKey: kSelectedDistanceMetric) as? Data else { return nil }
-                guard let decodedMetric = try? NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(decoded) as? DistanceMetric else { return nil }
-                return decodedMetric
+                guard let decodedJson = defaults.object(forKey: kSelectedDistanceMetric) as? Data else { return nil }
+                guard let distanceMetric = try? self.decoder.decode(DistanceMetric.self, from: decodedJson) else { return nil }
+                return distanceMetric
             }
             return nil
         }
         set {
             guard let metric = newValue else { return }
-            guard let encodedData = try? NSKeyedArchiver.archivedData(withRootObject: metric, requiringSecureCoding: false) else { return }
-            defaults.set(encodedData, forKey: kSelectedDistanceMetric)
+            guard let encodedMetric = try? encoder.encode(metric) else { return }
+            defaults.set(encodedMetric, forKey: kSelectedDistanceMetric)
+        }
+    }
+    
+    var selectedEnergyMetric: EnergyMetric? {
+        get {
+            if isKeyPresentInUserDefaults(key: kSelectedEnergyMetric) {
+                guard let decodedJson = defaults.object(forKey: kSelectedEnergyMetric) as? Data else { return nil }
+                guard let energyMetric = try? self.decoder.decode(EnergyMetric.self, from: decodedJson) else { return nil }
+                return energyMetric
+            }
+            return nil
+        }
+        set {
+            guard let metric = newValue else { return }
+            guard let encodedMetric = try? encoder.encode(metric) else { return }
+            defaults.set(encodedMetric, forKey: kSelectedEnergyMetric)
         }
     }
 
@@ -84,11 +105,14 @@ class SettingsRepositoryCached: ISettingsRepository {
     private var targetHeartZoneAlertEnabledInternal: Bool?
     private var maximumBpmInternal: Int?
     private var selectedDistanceMetricInternal: DistanceMetric?
-  
+    private var selectedEnergyMetricInternal: EnergyMetric?
+    
     init() {
         heartZonesAlertEnabledInternal = settingsRepository.heartZonesAlertEnabled
         targetHeartZoneAlertEnabledInternal = settingsRepository.targetHeartZoneAlertEnabled
         maximumBpmInternal = settingsRepository.maximumBpm
+        selectedDistanceMetricInternal = settingsRepository.selectedDistanceMetric
+        selectedEnergyMetricInternal = settingsRepository.selectedEnergyMetric
     }
         
     var heartZonesAlertEnabled: Bool? {
@@ -132,6 +156,17 @@ class SettingsRepositoryCached: ISettingsRepository {
         set {
             selectedDistanceMetricInternal = newValue
             settingsRepository.selectedDistanceMetric = newValue
+        }
+    }
+    
+    var selectedEnergyMetric: EnergyMetric? {
+        get {
+            return selectedEnergyMetricInternal
+        }
+        
+        set {
+            selectedEnergyMetricInternal = newValue
+            settingsRepository.selectedEnergyMetric = newValue
         }
     }
     

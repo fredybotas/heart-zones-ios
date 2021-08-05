@@ -12,6 +12,7 @@ protocol ISettingsService {
     var targetHeartZoneAlertEnabled: Bool { get set }
     var maximumBpm: Int { get set }
     var selectedDistanceMetric: DistanceMetric { get set }
+    var selectedEnergyMetric: EnergyMetric { get set }
 }
 
 let kDefaultAge = 25
@@ -20,6 +21,10 @@ class SettingsService: ISettingsService {
     var selectedDistanceMetric: DistanceMetric {
         get { self.settingsRepository.selectedDistanceMetric ?? DistanceMetric.getDefault(metric: SettingsService.userPrefersMetric()) }
         set { self.settingsRepository.selectedDistanceMetric = newValue }
+    }
+    var selectedEnergyMetric: EnergyMetric {
+        get { self.settingsRepository.selectedEnergyMetric ?? EnergyMetric.getDefault() }
+        set { self.settingsRepository.selectedEnergyMetric = newValue }
     }
     var heartZonesAlertEnabled: Bool {
         get { self.settingsRepository.heartZonesAlertEnabled ?? true }

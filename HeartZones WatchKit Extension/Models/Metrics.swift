@@ -25,5 +25,20 @@ struct DistanceMetric: Identifiable, Codable, Hashable {
             return getPossibleMetrics()[1]
         }
     }
+}
+
+struct EnergyMetric: Identifiable, Codable, Hashable {
+    enum MetricType: String, Codable, Hashable {
+        case kcal = "kcal", kj = "kJ"
+    }
+    let id: UInt
+    let type: MetricType
     
+    static func getPossibleMetrics() -> [EnergyMetric] {
+        return [EnergyMetric(id: 0, type: .kcal), EnergyMetric(id: 1, type: .kj)]
+    }
+    
+    static func getDefault() -> EnergyMetric {
+        return getPossibleMetrics()[0]
+    }
 }
