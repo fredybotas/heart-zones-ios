@@ -42,3 +42,19 @@ struct EnergyMetric: Identifiable, Codable, Hashable {
         return getPossibleMetrics()[0]
     }
 }
+
+struct SpeedMetric: Identifiable, Codable, Hashable {
+    enum MetricType: Int, Codable, Hashable {
+        case pace, speed
+    }
+    let id: UInt
+    let type: MetricType
+    
+    static func getPossibleMetrics() -> [SpeedMetric] {
+        return [SpeedMetric(id: 0, type: .pace), SpeedMetric(id: 1, type: .speed)]
+    }
+    
+    static func getDefault() -> SpeedMetric {
+        return getPossibleMetrics()[0]
+    }
+}

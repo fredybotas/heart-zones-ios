@@ -35,12 +35,22 @@ struct SettingsView: View {
                         Text(metric.type.rawValue).tag(metric)
                     }
                 }
-                
                 Picker("Energy", selection: $settingsViewModel.selectedEnergyMetric) {
                     ForEach(settingsViewModel.energyMetricOptions) { metric in
                         Text(metric.type.rawValue).tag(metric)
                     }
                 }
+                Picker("Speed", selection: $settingsViewModel.selectedSpeedMetric) {
+                    ForEach(settingsViewModel.speedMetricOptions) { metric in
+                        switch metric.type {
+                        case .pace:
+                            Text("min / " + settingsViewModel.selectedDistanceMetric.type.rawValue).tag(metric)
+                        case .speed:
+                            Text(settingsViewModel.selectedDistanceMetric.type.rawValue + " / h").tag(metric)
+                        }
+                    }
+                }
+                
             }
         }
         .navigationBarTitle("Settings")

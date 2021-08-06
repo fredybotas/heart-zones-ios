@@ -13,12 +13,14 @@ class SettingsViewModel: ObservableObject {
     
     let distanceMetricOptions = DistanceMetric.getPossibleMetrics()
     let energyMetricOptions = EnergyMetric.getPossibleMetrics()
+    let speedMetricOptions = SpeedMetric.getPossibleMetrics()
 
     @Published var heartZonesAlertEnabled: Bool
     @Published var targetHeartZoneAlertEnabled: Bool
     @Published var maxBpm: Int
     @Published var selectedDistanceMetric: DistanceMetric
     @Published var selectedEnergyMetric: EnergyMetric
+    @Published var selectedSpeedMetric: SpeedMetric
 
     static let kMinimumBpm = 60
     static let kMaximumBpm = 220
@@ -34,6 +36,7 @@ class SettingsViewModel: ObservableObject {
         self.maxBpm = settingsService.maximumBpm - SettingsViewModel.kMinimumBpm
         self.selectedDistanceMetric = settingsService.selectedDistanceMetric
         self.selectedEnergyMetric = settingsService.selectedEnergyMetric
+        self.selectedSpeedMetric = settingsService.selectedSpeedMetric
             
         self.$heartZonesAlertEnabled
             .dropFirst()
@@ -69,6 +72,13 @@ class SettingsViewModel: ObservableObject {
             .dropFirst()
             .sink { [weak self] value in
                 self?.settingsService.selectedEnergyMetric = value
+            }
+            .store(in: &cancellables)
+        
+        self.$selectedSpeedMetric
+            .dropFirst()
+            .sink { [weak self] value in
+                self?.settingsService.selectedSpeedMetric = value
             }
             .store(in: &cancellables)
     }

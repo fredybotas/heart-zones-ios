@@ -13,6 +13,7 @@ protocol ISettingsRepository {
     var maximumBpm: Int? { get set }
     var selectedDistanceMetric: DistanceMetric? { get set }
     var selectedEnergyMetric: EnergyMetric? { get set }
+    var selectedSpeedMetric: SpeedMetric? { get set }
 }
 
 fileprivate let kHeartZonesAlertEnabledKey = "kHeartZonesAlertEnabledKey"
@@ -20,6 +21,7 @@ fileprivate let kTargetHeartZoneAlertEnabledKey = "kTargetHeartZoneAlertEnabledK
 fileprivate let kMaximumBpm = "kMaximumBpm"
 fileprivate let kSelectedDistanceMetric = "kSelectedDistanceMetric"
 fileprivate let kSelectedEnergyMetric = "kSelectedEnergyMetric"
+fileprivate let kSelectedSpeedMetric = "kSelectedSpeedMetric"
 
 class SettingsRepository: ISettingsRepository {
     
@@ -95,6 +97,22 @@ class SettingsRepository: ISettingsRepository {
             defaults.set(encodedMetric, forKey: kSelectedEnergyMetric)
         }
     }
+    
+    var selectedSpeedMetric: SpeedMetric? {
+        get {
+            if isKeyPresentInUserDefaults(key: kSelectedSpeedMetric) {
+                guard let decodedJson = defaults.object(forKey: kSelectedSpeedMetric) as? Data else { return nil }
+                guard let speedMetric = try? self.decoder.decode(SpeedMetric.self, from: decodedJson) else { return nil }
+                return speedMetric
+            }
+            return nil
+        }
+        set {
+            guard let metric = newValue else { return }
+            guard let encodedMetric = try? encoder.encode(metric) else { return }
+            defaults.set(encodedMetric, forKey: kSelectedSpeedMetric)
+        }
+    }
 
 }
 
@@ -106,13 +124,15 @@ class SettingsRepositoryCached: ISettingsRepository {
     private var maximumBpmInternal: Int?
     private var selectedDistanceMetricInternal: DistanceMetric?
     private var selectedEnergyMetricInternal: EnergyMetric?
-    
+    private var selectedSpeedMetricInternal: SpeedMetric?
+
     init() {
         heartZonesAlertEnabledInternal = settingsRepository.heartZonesAlertEnabled
         targetHeartZoneAlertEnabledInternal = settingsRepository.targetHeartZoneAlertEnabled
         maximumBpmInternal = settingsRepository.maximumBpm
         selectedDistanceMetricInternal = settingsRepository.selectedDistanceMetric
         selectedEnergyMetricInternal = settingsRepository.selectedEnergyMetric
+        selectedSpeedMetricInternal = settingsRepository.selectedSpeedMetric
     }
         
     var heartZonesAlertEnabled: Bool? {
@@ -167,6 +187,17 @@ class SettingsRepositoryCached: ISettingsRepository {
         set {
             selectedEnergyMetricInternal = newValue
             settingsRepository.selectedEnergyMetric = newValue
+        }
+    }
+    
+    var selectedSpeedMetric: SpeedMetric? {
+        get {
+            return selectedSpeedMetricInternal
+        }
+        
+        set {
+            selectedSpeedMetricInternal = newValue
+            settingsRepository.selectedSpeedMetric = newValue
         }
     }
     

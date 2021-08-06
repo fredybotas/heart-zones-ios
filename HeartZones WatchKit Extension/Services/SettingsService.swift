@@ -13,6 +13,7 @@ protocol ISettingsService {
     var maximumBpm: Int { get set }
     var selectedDistanceMetric: DistanceMetric { get set }
     var selectedEnergyMetric: EnergyMetric { get set }
+    var selectedSpeedMetric: SpeedMetric { get set }
 }
 
 let kDefaultAge = 25
@@ -26,6 +27,10 @@ class SettingsService: ISettingsService {
         get { self.settingsRepository.selectedEnergyMetric ?? EnergyMetric.getDefault() }
         set { self.settingsRepository.selectedEnergyMetric = newValue }
     }
+    var selectedSpeedMetric: SpeedMetric {
+        get { self.settingsRepository.selectedSpeedMetric ?? SpeedMetric.getDefault() }
+        set { self.settingsRepository.selectedSpeedMetric = newValue }
+    }
     var heartZonesAlertEnabled: Bool {
         get { self.settingsRepository.heartZonesAlertEnabled ?? true }
         set { self.settingsRepository.heartZonesAlertEnabled = newValue }
@@ -34,7 +39,6 @@ class SettingsService: ISettingsService {
         get { self.settingsRepository.targetHeartZoneAlertEnabled ?? true }
         set { self.settingsRepository.targetHeartZoneAlertEnabled = newValue }
     }
-    
     var maximumBpm: Int {
         get {
             if let maxBpm = settingsRepository.maximumBpm {
