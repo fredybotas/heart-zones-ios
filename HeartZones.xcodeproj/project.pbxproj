@@ -21,6 +21,8 @@
 		B62DDBE326AC2F06001D3D26 /* AuthorizationManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B62DDBE226AC2F06001D3D26 /* AuthorizationManagerTests.swift */; };
 		B62EF908269E1FE40067E894 /* SunService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B62EF907269E1FE40067E894 /* SunService.swift */; };
 		B62EF90C269E211F0067E894 /* Solar in Frameworks */ = {isa = PBXBuildFile; productRef = B62EF90B269E211F0067E894 /* Solar */; };
+		B637F8D826BFC12A00D81AA6 /* EnergyShowingStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = B637F8D726BFC12A00D81AA6 /* EnergyShowingStrategy.swift */; };
+		B637F8DA26BFC8A400D81AA6 /* DistanceShowingStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = B637F8D926BFC8A400D81AA6 /* DistanceShowingStrategy.swift */; };
 		B63AB83D269780FA007E07E9 /* DeviceBeepingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B63AB83C269780FA007E07E9 /* DeviceBeepingManager.swift */; };
 		B63AB83F26983C99007E07E9 /* HeartZoneServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B63AB83E26983C99007E07E9 /* HeartZoneServiceTests.swift */; };
 		B63AB84326983FB2007E07E9 /* WorkoutServiceFake.swift in Sources */ = {isa = PBXBuildFile; fileRef = B63AB84226983FB2007E07E9 /* WorkoutServiceFake.swift */; };
@@ -290,6 +292,14 @@
 			path = HeartZones;
 			sourceTree = "<group>";
 		};
+		B637F8D626BFC08800D81AA6 /* Strategies */ = {
+			isa = PBXGroup;
+			children = (
+				B637F8D726BFC12A00D81AA6 /* EnergyShowingStrategy.swift */,
+			);
+			path = Strategies;
+			sourceTree = "<group>";
+		};
 		B63AB84026983F92007E07E9 /* Mocks */ = {
 			isa = PBXGroup;
 			children = (
@@ -326,6 +336,7 @@
 		B650A95D26878E0C0042B33D /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
+				B637F8D626BFC08800D81AA6 /* Strategies */,
 				B650A95E26878E1F0042B33D /* WorkoutViewModel.swift */,
 				B650A96A2688857E0042B33D /* WorkoutSelectionViewModel.swift */,
 				B697B4FF268BBD6E003558C8 /* WorkoutControlsViewModel.swift */,
@@ -595,6 +606,7 @@
 				B6B14A7326B6D08E003CAF97 /* Metrics.swift in Sources */,
 				B6046DF526B19E1900BD43C1 /* HeartZoneState.swift in Sources */,
 				B661A3F226B5622000E78D8E /* SettingsRepository.swift in Sources */,
+				B637F8D826BFC12A00D81AA6 /* EnergyShowingStrategy.swift in Sources */,
 				B62DDBDD26ABFC0D001D3D26 /* HealthKitService.swift in Sources */,
 				B610ABA726923FCC00DA3FA8 /* SunView.swift in Sources */,
 				B64D61EB26A342DC003E0737 /* SunViewWithMinutes.swift in Sources */,

@@ -16,7 +16,7 @@ class WorkoutViewModel: ObservableObject {
     @Published private(set) var time: String = "00:00,00"
     
     @Published private(set) var energy: String = "0"
-    @Published private(set) var energyUnit: String = "KCAL"
+    @Published private(set) var energyUnit: String
 
     @Published private(set) var distance: String = "0"
     @Published private(set) var distanceUnit: String = "M"
@@ -30,7 +30,6 @@ class WorkoutViewModel: ObservableObject {
     @Published private(set) var bpmCircleRatio = 0.0
     
     private let distanceFormatter = MeasurementFormatter()
-    private let energyFormatter = MeasurementFormatter()
     @Published private(set) var sunsetLeft = 0
     @Published private(set) var sunVisibility = 0.0
 
@@ -43,6 +42,7 @@ class WorkoutViewModel: ObservableObject {
 
     private let workoutType: WorkoutType
     
+    private let energyShowingStrategy: IEnergyShowingStrategy
     private var timer: AnyCancellable?
     private var sunsetTimer: AnyCancellable?
     private var sunsetSubscription: AnyCancellable?
@@ -62,10 +62,15 @@ class WorkoutViewModel: ObservableObject {
         
         distanceFormatter.unitOptions = .providedUnit
         distanceFormatter.unitStyle = .medium
+        switch self.settingsService.selectedEnergyMetric.type {
+        case .kj:
+            self.energyUnit = "KJ"
+            self.energyShowingStrategy = EnergyKJShowingStrategy()
+        case .kcal:
+            self.energyUnit = "KCAL"
+            self.energyShowingStrategy = EnergyKcalShowingStrategy()
+        }
         
-        energyFormatter.unitOptions = .providedUnit
-        energyFormatter.unitStyle = .medium
-        energyFormatter.numberFormatter.maximumFractionDigits = 0
 
         if let delegate = WKExtension.shared().delegate as? ExtensionDelegate {
             appStateChangeSubscriber = delegate.appStateChangePublisher
@@ -158,11 +163,13 @@ class WorkoutViewModel: ObservableObject {
             .sink(receiveCompletion: { [weak self] completion in
                 self?.workoutEnergyDataSubscriber = nil
             }, receiveValue: { [weak self] data in
-                guard let energyString = self?.energyFormatter.numberFormatter.string(from: NSNumber(value: data.value)) else { return }
-                guard let energyUnit = self?.energyFormatter.string(from: data.unit) else { return }
-                self?.energy = energyString
-                self?.energyUnit = energyUnit.uppercased()
+                self?.processEnergyData(data)
             })
+    }
+    
+    private func processEnergyData(_ data: Measurement<UnitEnergy>) {
+        energy = self.energyShowingStrategy.getEnergyValue(data) ?? energy
+        energyUnit = self.energyShowingStrategy.getEnergyMetric(data)
     }
     
     private func startTimer(slow: Bool) {
