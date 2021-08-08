@@ -13,15 +13,8 @@ fileprivate let kSecondsInHour = 3600.0
 fileprivate let kSecondsForThreeQuartersOfHour = (kSecondsInHour / 4.0) * 3.0
 
 class WorkoutViewModel: ObservableObject {
-    @Published private(set) var bpm: String = "--"
-    @Published private(set) var bpmUnit: String = "BPM"
-    @Published private(set) var bpmCircleColor = Color.black
-    @Published private(set) var bpmCircleRatio = 0.0
-    
-    @Published private(set) var sunsetLeft = 0
-    @Published private(set) var sunVisibility = 0.0
-
     @Published private(set) var time: String = "00:00,00"
+    
     @Published private(set) var energy: String = "0"
     @Published private(set) var energyUnit: String = "KCAL"
 
@@ -31,11 +24,18 @@ class WorkoutViewModel: ObservableObject {
     @Published private(set) var currentPace: String = "--'--''"
     @Published private(set) var averagePace: String = "--'--''"
     
-    private var sunset: Date?
+    @Published private(set) var bpm: String = "--"
+    @Published private(set) var bpmUnit: String = "BPM"
+    @Published private(set) var bpmCircleColor = Color.black
+    @Published private(set) var bpmCircleRatio = 0.0
     
     private let distanceFormatter = MeasurementFormatter()
     private let energyFormatter = MeasurementFormatter()
+    @Published private(set) var sunsetLeft = 0
+    @Published private(set) var sunVisibility = 0.0
 
+    private var sunset: Date?
+    
     private let workoutService: IWorkoutService
     private let heartZoneService: IHeartZoneService
     private let sunService: ISunService
@@ -81,7 +81,7 @@ class WorkoutViewModel: ObservableObject {
             startTimer(slow: false)
         }
         
-        setSunsetSubscriptions()
+        fetchSunsetDataAndSetSunsetSubscription()
     }
     
     func startWorkout() {
@@ -139,11 +139,15 @@ class WorkoutViewModel: ObservableObject {
             .sink(receiveCompletion: { [weak self] completion in
                 self?.workoutHeartDataSubscriber = nil
             }, receiveValue: { [weak self] data in
-                self?.bpm = String(data.0)
-                self?.bpmCircleColor = data.1.color
-                guard let ratio = data.1.getBpmRatio(bpm: data.0) else { return }
-                self?.bpmCircleRatio = ratio
+                self?.processHeartData(data)
             })
+    }
+    
+    private func processHeartData(_ data: (Int, HeartZone)) {
+        self.bpm = String(data.0)
+        self.bpmCircleColor = data.1.color
+        guard let ratio = data.1.getBpmRatio(bpm: data.0) else { return }
+        self.bpmCircleRatio = ratio
     }
     
     func setEnergySubscriber() {
@@ -172,7 +176,7 @@ class WorkoutViewModel: ObservableObject {
             }
     }
     
-    private func setSunsetSubscriptions() {
+    private func fetchSunsetDataAndSetSunsetSubscription() {
         sunsetSubscription = self.sunService
             .getSunset()
             .sink { [weak self] sunset in
@@ -181,17 +185,21 @@ class WorkoutViewModel: ObservableObject {
         sunsetTimer = Timer.publish(every: 30, on: .main, in: .common)
             .autoconnect()
             .sink() { [weak self] _ in
-                guard let sunset = self?.sunset else { return }
-                let date = Date()
-                let interval = sunset.timeIntervalSince(date)
-                if interval < kSecondsForThreeQuartersOfHour && interval >= 0 {
-                    self?.sunVisibility = (Double(interval) / kSecondsInHour)
-                    self?.sunsetLeft = Int((interval / 60.0).rounded(.up))
-                } else {
-                    self?.sunVisibility = 0.0
-                    self?.sunsetLeft = 0
-                }
+                self?.updateSunsetData()
             }
+    }
+    
+    private func updateSunsetData() {
+        guard let sunset = self.sunset else { return }
+        let date = Date()
+        let interval = sunset.timeIntervalSince(date)
+        if interval < kSecondsForThreeQuartersOfHour && interval >= 0 {
+            self.sunVisibility = (Double(interval) / kSecondsInHour)
+            self.sunsetLeft = Int((interval / 60.0).rounded(.up))
+        } else {
+            self.sunVisibility = 0.0
+            self.sunsetLeft = 0
+        }
     }
 }
 
