@@ -139,6 +139,8 @@
 		B62DDBE226AC2F06001D3D26 /* AuthorizationManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizationManagerTests.swift; sourceTree = "<group>"; };
 		B62EF907269E1FE40067E894 /* SunService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SunService.swift; sourceTree = "<group>"; };
 		B634FC5626AF4A860082AE4E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B637F8D726BFC12A00D81AA6 /* EnergyShowingStrategy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnergyShowingStrategy.swift; sourceTree = "<group>"; };
+		B637F8D926BFC8A400D81AA6 /* DistanceShowingStrategy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DistanceShowingStrategy.swift; sourceTree = "<group>"; };
 		B63AB83C269780FA007E07E9 /* DeviceBeepingManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceBeepingManager.swift; sourceTree = "<group>"; };
 		B63AB83E26983C99007E07E9 /* HeartZoneServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeartZoneServiceTests.swift; sourceTree = "<group>"; };
 		B63AB84226983FB2007E07E9 /* WorkoutServiceFake.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutServiceFake.swift; sourceTree = "<group>"; };
@@ -296,6 +298,7 @@
 			isa = PBXGroup;
 			children = (
 				B637F8D726BFC12A00D81AA6 /* EnergyShowingStrategy.swift */,
+				B637F8D926BFC8A400D81AA6 /* DistanceShowingStrategy.swift */,
 			);
 			path = Strategies;
 			sourceTree = "<group>";
@@ -602,6 +605,7 @@
 				B63AB8472698DB57007E07E9 /* LocationManager.swift in Sources */,
 				B650A96F2688955F0042B33D /* HeartZone.swift in Sources */,
 				B6E30C3C26850F73007CCA38 /* WorkoutSelectionView.swift in Sources */,
+				B637F8DA26BFC8A400D81AA6 /* DistanceShowingStrategy.swift in Sources */,
 				B661A3F626B56D5300E78D8E /* LazyView.swift in Sources */,
 				B6B14A7326B6D08E003CAF97 /* Metrics.swift in Sources */,
 				B6046DF526B19E1900BD43C1 /* HeartZoneState.swift in Sources */,

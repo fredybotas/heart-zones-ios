@@ -29,7 +29,6 @@ class WorkoutViewModel: ObservableObject {
     @Published private(set) var bpmCircleColor = Color.black
     @Published private(set) var bpmCircleRatio = 0.0
     
-    private let distanceFormatter = MeasurementFormatter()
     @Published private(set) var sunsetLeft = 0
     @Published private(set) var sunVisibility = 0.0
 
@@ -43,6 +42,8 @@ class WorkoutViewModel: ObservableObject {
     private let workoutType: WorkoutType
     
     private let energyShowingStrategy: IEnergyShowingStrategy
+    private let distanceShowingStrategy: IDistanceShowingStrategy
+
     private var timer: AnyCancellable?
     private var sunsetTimer: AnyCancellable?
     private var sunsetSubscription: AnyCancellable?
@@ -60,8 +61,6 @@ class WorkoutViewModel: ObservableObject {
         self.workoutType = workoutType
         self.settingsService = settingsService
         
-        distanceFormatter.unitOptions = .providedUnit
-        distanceFormatter.unitStyle = .medium
         switch self.settingsService.selectedEnergyMetric.type {
         case .kj:
             self.energyUnit = "KJ"
@@ -71,6 +70,22 @@ class WorkoutViewModel: ObservableObject {
             self.energyShowingStrategy = EnergyKcalShowingStrategy()
         }
         
+        switch self.settingsService.selectedDistanceMetric.type {
+        case .km:
+            switch self.settingsService.selectedSpeedMetric.type {
+            case .pace:
+                self.distanceShowingStrategy = MetricDistanceWithPaceShowingStrategy()
+            case .speed:
+                self.distanceShowingStrategy = MetricDistanceWithSpeedShowingStrategy()
+            }
+        case .mi:
+            switch self.settingsService.selectedSpeedMetric.type {
+            case .pace:
+                self.distanceShowingStrategy = MilleageDistanceWithPaceShowingStrategy()
+            case .speed:
+                self.distanceShowingStrategy = MilleageDistanceWithSpeedShowingStrategy()
+            }
+        }
 
         if let delegate = WKExtension.shared().delegate as? ExtensionDelegate {
             appStateChangeSubscriber = delegate.appStateChangePublisher
@@ -106,32 +121,16 @@ class WorkoutViewModel: ObservableObject {
             .sink(receiveCompletion: { [weak self] completion in
                 self?.workoutDistanceDataSubscriber = nil
             }, receiveValue: { [weak self] data in
-                // TODO: Refactor
-                self?.currentPace = data.currentSpeed.toPaceString()
-                self?.averagePace = data.averageSpeed.toPaceString()
-                // TODO: Change to optional without forcing
-                var unit: UnitLength!
-                if data.distance < Measurement.init(value: 1, unit: UnitLength.kilometers) {
-                    self?.distanceFormatter.numberFormatter.maximumFractionDigits = 0
-                    unit = UnitLength.meters
-                } else if data.distance >= Measurement.init(value: 100, unit: UnitLength.kilometers) {
-                    self?.distanceFormatter.numberFormatter.maximumFractionDigits = 0
-                    unit = UnitLength.kilometers
-                } else {
-                    self?.distanceFormatter.numberFormatter.maximumFractionDigits = 1
-                    self?.distanceFormatter.numberFormatter.minimumFractionDigits = 1
-                    unit = UnitLength.kilometers
-                }
-                let distanceString = self?.distanceFormatter.numberFormatter.string(from: NSNumber(value: data.distance.converted(to: unit).value))
-                // TODO: Fix this hack
-                let unitString = self?.distanceFormatter.string(from: data.distance.converted(to: unit)).split(separator: " ")[1]
-
-                guard let distanceString = distanceString else { return }
-                guard let unitString = unitString else { return }
-
-                self?.distance = distanceString
-                self?.distanceUnit = unitString.uppercased()
+                self?.processDistanceData(data)
             })
+    }
+    
+    private func processDistanceData(_ data: DistanceData) {
+        self.currentPace = self.distanceShowingStrategy.getCurrentPace(data)
+        self.averagePace = self.distanceShowingStrategy.getAveragePace(data)
+        
+        self.distance = self.distanceShowingStrategy.getDistanceValue(data)
+        self.distanceUnit = self.distanceShowingStrategy.getDistanceUnit(data)
     }
     
     func setHeartDataSubscriber() {
@@ -227,16 +226,3 @@ fileprivate extension TimeInterval {
         }
     }
 }
-
-fileprivate extension Measurement where UnitType == UnitSpeed {
-    func toPaceString() -> String {
-        let metresPerSec = self.converted(to: UnitSpeed.metersPerSecond).value
-        if metresPerSec == 0 {
-            return "--'--''"
-        }
-        let kilometresPerSec = metresPerSec / 1000
-        let secsForKilometer = Int.init(1 / kilometresPerSec)
-        return String(format: "%0.2d'%0.2d''", secsForKilometer / 60, secsForKilometer % 60)
-    }
-}
-
