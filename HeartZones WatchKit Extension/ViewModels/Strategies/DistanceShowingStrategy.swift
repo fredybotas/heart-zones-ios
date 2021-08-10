@@ -16,10 +16,14 @@ protocol IDistanceShowingStrategy {
 }
 
 class MetricDistanceWithPaceShowingStrategy: IDistanceShowingStrategy {
+    let distanceFormatter = MeasurementFormatter()
+    
+    init() {
+        distanceFormatter.unitOptions = .providedUnit
+        distanceFormatter.unitStyle = .medium
+    }
+    
     func getDistanceValue(_ data: DistanceData) -> String {
-//        // TODO: Refactor
-//        self?.currentPace = data.currentSpeed.toPaceString()
-//        self?.averagePace = data.averageSpeed.toPaceString()
 //        // TODO: Change to optional without forcing
 //        var unit: UnitLength!
 //        if data.distance < Measurement.init(value: 1, unit: UnitLength.kilometers) {
@@ -50,18 +54,11 @@ class MetricDistanceWithPaceShowingStrategy: IDistanceShowingStrategy {
     }
     
     func getCurrentPace(_ data: DistanceData) -> String {
-        return ""
+        return data.currentSpeed.toMetricPaceString()
     }
     
     func getAveragePace(_ data: DistanceData) -> String {
-        return ""
-    }
-    
-    let distanceFormatter = MeasurementFormatter()
-    
-    init() {
-        distanceFormatter.unitOptions = .providedUnit
-        distanceFormatter.unitStyle = .medium
+        return data.averageSpeed.toMetricPaceString()
     }
 }
 
@@ -75,11 +72,11 @@ class MilleageDistanceWithPaceShowingStrategy: IDistanceShowingStrategy {
     }
     
     func getCurrentPace(_ data: DistanceData) -> String {
-        return ""
+        return data.currentSpeed.toMilleagePaceString()
     }
     
     func getAveragePace(_ data: DistanceData) -> String {
-        return ""
+        return data.averageSpeed.toMilleagePaceString()
     }
     
 
@@ -95,11 +92,11 @@ class MetricDistanceWithSpeedShowingStrategy: IDistanceShowingStrategy {
     }
     
     func getCurrentPace(_ data: DistanceData) -> String {
-        return ""
+        return data.currentSpeed.toMetricSpeedString()
     }
     
     func getAveragePace(_ data: DistanceData) -> String {
-        return ""
+        return data.averageSpeed.toMetricSpeedString()
     }
     
 
@@ -115,11 +112,11 @@ class MilleageDistanceWithSpeedShowingStrategy: IDistanceShowingStrategy {
     }
     
     func getCurrentPace(_ data: DistanceData) -> String {
-        return ""
+        return data.currentSpeed.toMilleageSpeedString()
     }
     
     func getAveragePace(_ data: DistanceData) -> String {
-        return ""
+        return data.averageSpeed.toMilleageSpeedString()
     }
 }
 
