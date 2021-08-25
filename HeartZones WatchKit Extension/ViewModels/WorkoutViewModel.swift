@@ -15,17 +15,18 @@ fileprivate let kSecondsForThreeQuartersOfHour = (kSecondsInHour / 4.0) * 3.0
 class WorkoutViewModel: ObservableObject {
     @Published private(set) var time: String = "00:00,00"
     
-    @Published private(set) var energy: String = "0"
+    @Published private(set) var energy: String
     @Published private(set) var energyUnit: String
 
-    @Published private(set) var distance: String = "0"
-    @Published private(set) var distanceUnit: String = "M"
+    @Published private(set) var distance: String
+    @Published private(set) var distanceUnit: String
 
-    @Published private(set) var currentPace: String = "--'--''"
-    @Published private(set) var averagePace: String = "--'--''"
+    @Published private(set) var currentPace: String
+    @Published private(set) var averagePace: String
     
     @Published private(set) var bpm: String = "--"
     @Published private(set) var bpmUnit: String = "BPM"
+    
     @Published private(set) var bpmCircleColor = Color.black
     @Published private(set) var bpmCircleRatio = 0.0
     
@@ -63,10 +64,8 @@ class WorkoutViewModel: ObservableObject {
         
         switch self.settingsService.selectedEnergyMetric.type {
         case .kj:
-            self.energyUnit = "KJ"
             self.energyShowingStrategy = EnergyKJShowingStrategy()
         case .kcal:
-            self.energyUnit = "KCAL"
             self.energyShowingStrategy = EnergyKcalShowingStrategy()
         }
         
@@ -86,7 +85,16 @@ class WorkoutViewModel: ObservableObject {
                 self.distanceShowingStrategy = MilleageDistanceWithSpeedShowingStrategy()
             }
         }
+        
+        self.energy = self.energyShowingStrategy.defaultEnerguValue
+        self.energyUnit = self.energyShowingStrategy.defaultEnergyUnit
+        
+        self.distance = self.distanceShowingStrategy.defaultDistanceValue
+        self.distanceUnit = self.distanceShowingStrategy.defaultDistanceUnit
 
+        self.currentPace = self.distanceShowingStrategy.defaultPaceString
+        self.averagePace = self.distanceShowingStrategy.defaultPaceString
+        
         if let delegate = WKExtension.shared().delegate as? ExtensionDelegate {
             appStateChangeSubscriber = delegate.appStateChangePublisher
                 .receive(on: DispatchQueue.main)
@@ -129,8 +137,12 @@ class WorkoutViewModel: ObservableObject {
         self.currentPace = self.distanceShowingStrategy.getCurrentPace(data)
         self.averagePace = self.distanceShowingStrategy.getAveragePace(data)
         
-        self.distance = self.distanceShowingStrategy.getDistanceValue(data)
-        self.distanceUnit = self.distanceShowingStrategy.getDistanceUnit(data)
+        let (value, unit) = self.distanceShowingStrategy.getDistanceValueAndUnit(data)
+        guard let value = value else { return }
+        guard let unit = unit else { return }
+        
+        self.distance = value
+        self.distanceUnit = unit
     }
     
     func setHeartDataSubscriber() {
@@ -187,6 +199,7 @@ class WorkoutViewModel: ObservableObject {
             .getSunset()
             .sink { [weak self] sunset in
                 self?.sunset = sunset
+                self?.updateSunsetData()
             }
         sunsetTimer = Timer.publish(every: 30, on: .main, in: .common)
             .autoconnect()

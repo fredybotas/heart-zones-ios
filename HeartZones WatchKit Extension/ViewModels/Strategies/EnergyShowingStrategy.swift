@@ -10,9 +10,24 @@ import Foundation
 protocol IEnergyShowingStrategy {
     func getEnergyValue(_ data: Measurement<UnitEnergy>) -> String?
     func getEnergyMetric(_ data: Measurement<UnitEnergy>) -> String
+    
+    var defaultEnerguValue: String { get }
+    var defaultEnergyUnit: String { get }
 }
 
 class EnergyKcalShowingStrategy: IEnergyShowingStrategy {
+    var defaultEnerguValue: String {
+        get {
+            "0"
+        }
+    }
+    
+    var defaultEnergyUnit: String {
+        get {
+            "KCAL"
+        }
+    }
+    
     private let energyFormatter = MeasurementFormatter()
     
     init() {
@@ -34,6 +49,17 @@ class EnergyKcalShowingStrategy: IEnergyShowingStrategy {
 }
 
 class EnergyKJShowingStrategy: IEnergyShowingStrategy {
+    var defaultEnerguValue: String {
+        get {
+            "0"
+        }
+    }
+    
+    var defaultEnergyUnit: String {
+        get {
+            "KJ"
+        }
+    }
     private let energyFormatter = MeasurementFormatter()
     
     init() {

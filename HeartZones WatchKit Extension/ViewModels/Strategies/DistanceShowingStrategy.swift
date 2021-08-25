@@ -8,135 +8,160 @@
 import Foundation
 
 protocol IDistanceShowingStrategy {
-    func getDistanceValue(_ data: DistanceData) -> String
-    func getDistanceUnit(_ data: DistanceData) -> String
-    
+    func getDistanceValueAndUnit(_ data: DistanceData) -> (String?, String?)
+
     func getCurrentPace(_ data: DistanceData) -> String
     func getAveragePace(_ data: DistanceData) -> String
+
+    var defaultDistanceUnit: String { get }
+    var defaultPaceString: String { get }
+    var defaultDistanceValue: String { get }
 }
 
+// TODO: Refactor strategies
 class MetricDistanceWithPaceShowingStrategy: IDistanceShowingStrategy {
-    let distanceFormatter = MeasurementFormatter()
-    
-    init() {
-        distanceFormatter.unitOptions = .providedUnit
-        distanceFormatter.unitStyle = .medium
+    var defaultDistanceValue: String {
+        get {
+            "0"
+        }
     }
     
-    func getDistanceValue(_ data: DistanceData) -> String {
-//        // TODO: Change to optional without forcing
-//        var unit: UnitLength!
-//        if data.distance < Measurement.init(value: 1, unit: UnitLength.kilometers) {
-//            self?.distanceFormatter.numberFormatter.maximumFractionDigits = 0
-//            unit = UnitLength.meters
-//        } else if data.distance >= Measurement.init(value: 100, unit: UnitLength.kilometers) {
-//            self?.distanceFormatter.numberFormatter.maximumFractionDigits = 0
-//            unit = UnitLength.kilometers
-//        } else {
-//            self?.distanceFormatter.numberFormatter.maximumFractionDigits = 1
-//            self?.distanceFormatter.numberFormatter.minimumFractionDigits = 1
-//            unit = UnitLength.kilometers
-//        }
-//        let distanceString = self?.distanceFormatter.numberFormatter.string(from: NSNumber(value: data.distance.converted(to: unit).value))
-//        // TODO: Fix this hack
-//        let unitString = self?.distanceFormatter.string(from: data.distance.converted(to: unit)).split(separator: " ")[1]
-//
-//        guard let distanceString = distanceString else { return }
-//        guard let unitString = unitString else { return }
-//
-//        self?.distance = distanceString
-//        self?.distanceUnit = unitString.uppercased()
-        return ""
+    var defaultDistanceUnit: String {
+        get {
+            "M"
+        }
     }
     
-    func getDistanceUnit(_ data: DistanceData) -> String {
-        return ""
+    var defaultPaceString: String {
+        get {
+            "--'--''"
+        }
     }
     
+    func getDistanceValueAndUnit(_ data: DistanceData) -> (String?, String?) {
+        return data.distance.toMetricLengthValueAndUnitString()
+    }
+
     func getCurrentPace(_ data: DistanceData) -> String {
-        return data.currentSpeed.toMetricPaceString()
+        return data.currentSpeed.toMetricPaceString() ?? defaultPaceString
     }
     
     func getAveragePace(_ data: DistanceData) -> String {
-        return data.averageSpeed.toMetricPaceString()
+        return data.averageSpeed.toMetricPaceString() ?? defaultPaceString
     }
 }
 
 class MilleageDistanceWithPaceShowingStrategy: IDistanceShowingStrategy {
-    func getDistanceValue(_ data: DistanceData) -> String {
-        return ""
+    var defaultDistanceValue: String {
+        get {
+            "0"
+        }
     }
     
-    func getDistanceUnit(_ data: DistanceData) -> String {
-        return ""
+    var defaultDistanceUnit: String {
+        get {
+            "FT"
+        }
+    }
+    
+    var defaultPaceString: String {
+        get {
+            "--'--''"
+        }
+    }
+    
+    func getDistanceValueAndUnit(_ data: DistanceData) -> (String?, String?) {
+        return data.distance.toMilleageLengthValueAndUnitString()
     }
     
     func getCurrentPace(_ data: DistanceData) -> String {
-        return data.currentSpeed.toMilleagePaceString()
+        return data.currentSpeed.toMilleagePaceString() ?? defaultPaceString
     }
     
     func getAveragePace(_ data: DistanceData) -> String {
-        return data.averageSpeed.toMilleagePaceString()
+        return data.averageSpeed.toMilleagePaceString() ?? defaultPaceString
     }
-    
-
 }
 
 class MetricDistanceWithSpeedShowingStrategy: IDistanceShowingStrategy {
-    func getDistanceValue(_ data: DistanceData) -> String {
-        return ""
+    var defaultDistanceValue: String {
+        get {
+            "0"
+        }
     }
     
-    func getDistanceUnit(_ data: DistanceData) -> String {
-        return ""
+    var defaultDistanceUnit: String {
+        get {
+            "M"
+        }
+    }
+    
+    var defaultPaceString: String {
+        get {
+            "--'--''"
+        }
+    }
+    
+    func getDistanceValueAndUnit(_ data: DistanceData) -> (String?, String?) {
+        return data.distance.toMetricLengthValueAndUnitString()
     }
     
     func getCurrentPace(_ data: DistanceData) -> String {
-        return data.currentSpeed.toMetricSpeedString()
+        return data.currentSpeed.toMetricSpeedString().uppercased()
     }
     
     func getAveragePace(_ data: DistanceData) -> String {
-        return data.averageSpeed.toMetricSpeedString()
+        return data.averageSpeed.toMetricSpeedString().uppercased()
     }
-    
-
 }
 
 class MilleageDistanceWithSpeedShowingStrategy: IDistanceShowingStrategy {
-    func getDistanceValue(_ data: DistanceData) -> String {
-        return ""
+    var defaultDistanceValue: String {
+        get {
+            "0"
+        }
     }
     
-    func getDistanceUnit(_ data: DistanceData) -> String {
-        return ""
+    var defaultDistanceUnit: String {
+        get {
+            "FT"
+        }
+    }
+    
+    var defaultPaceString: String {
+        get {
+            "--'--''"
+        }
+    }
+    func getDistanceValueAndUnit(_ data: DistanceData) -> (String?, String?) {
+        return data.distance.toMilleageLengthValueAndUnitString()
     }
     
     func getCurrentPace(_ data: DistanceData) -> String {
-        return data.currentSpeed.toMilleageSpeedString()
+        return data.currentSpeed.toMilleageSpeedString().uppercased()
     }
     
     func getAveragePace(_ data: DistanceData) -> String {
-        return data.averageSpeed.toMilleageSpeedString()
+        return data.averageSpeed.toMilleageSpeedString().uppercased()
     }
 }
 
 fileprivate extension Measurement where UnitType == UnitSpeed {
-    func toMetricPaceString() -> String {
+    func toMetricPaceString() -> String? {
         let metresPerSec = self.converted(to: UnitSpeed.metersPerSecond).value
         if metresPerSec == 0 {
-            return "--'--''"
+            return nil
         }
         let kilometresPerSec = metresPerSec / 1000
         let secsForKilometer = Int.init(1 / kilometresPerSec)
         return String(format: "%0.2d'%0.2d''", secsForKilometer / 60, secsForKilometer % 60)
     }
     
-    func toMilleagePaceString() -> String {
+    func toMilleagePaceString() -> String? {
         let milesPerHour = self.converted(to: UnitSpeed.milesPerHour).value
         if milesPerHour == 0 {
-            return "--'--''"
+            return nil
         }
-
         let milesPerSec = milesPerHour / 3600
         let secsForMile = Int.init(1 / milesPerSec)
         return String(format: "%0.2d'%0.2d''", secsForMile / 60, secsForMile % 60)
@@ -144,11 +169,57 @@ fileprivate extension Measurement where UnitType == UnitSpeed {
     
     func toMetricSpeedString() -> String {
         let kilometresPerHour = self.converted(to: UnitSpeed.kilometersPerHour).value
-        return String(format: "%0.2d km/h", kilometresPerHour)
+        return String(format: "%0.2f", kilometresPerHour)
     }
     
     func toMilleageSpeedString() -> String {
         let milesPerHour = self.converted(to: UnitSpeed.milesPerHour).value
-        return String(format: "%0.2d mi/h", milesPerHour)
+        return String(format: "%0.2f", milesPerHour)
     }
+}
+
+fileprivate extension Measurement where UnitType == UnitLength {
+    func toMetricLengthValueAndUnitString() -> (String?, String?) {
+        var unit = UnitLength.kilometers
+        let formatter = MeasurementFormatter()
+        formatter.unitOptions = .providedUnit
+        formatter.unitStyle = .medium
+        if self < Measurement.init(value: 1, unit: UnitLength.kilometers) {
+            formatter.numberFormatter.maximumFractionDigits = 0
+            unit = UnitLength.meters
+        } else if self >= Measurement.init(value: 100, unit: UnitLength.kilometers) {
+            formatter.numberFormatter.maximumFractionDigits = 0
+        } else {
+            formatter.numberFormatter.maximumFractionDigits = 1
+            formatter.numberFormatter.minimumFractionDigits = 1
+        }
+        let valueAndUnitArray = formatter.string(from: self.converted(to: unit)).split(separator: " ")
+        if valueAndUnitArray.count < 2 {
+            return (nil, nil)
+        }
+        
+        return (String(valueAndUnitArray[0]), valueAndUnitArray[1].uppercased())
+    }
+    
+    func toMilleageLengthValueAndUnitString() -> (String?, String?) {
+        var unit = UnitLength.miles
+        let formatter = MeasurementFormatter()
+        formatter.unitOptions = .providedUnit
+        formatter.unitStyle = .medium
+        if self < Measurement.init(value: 1, unit: UnitLength.miles) {
+            formatter.numberFormatter.maximumFractionDigits = 0
+            formatter.numberFormatter.usesGroupingSeparator = false
+            unit = UnitLength.feet
+        } else if self >= Measurement.init(value: 100, unit: UnitLength.miles) {
+            formatter.numberFormatter.maximumFractionDigits = 0
+        } else {
+            formatter.numberFormatter.maximumFractionDigits = 1
+            formatter.numberFormatter.minimumFractionDigits = 1
+        }
+        let valueAndUnitArray = formatter.string(from: self.converted(to: unit)).split(separator: " ")
+        if valueAndUnitArray.count < 2 {
+            return (nil, nil)
+        }
+        
+        return (String(valueAndUnitArray[0]), valueAndUnitArray[1].uppercased())    }
 }
