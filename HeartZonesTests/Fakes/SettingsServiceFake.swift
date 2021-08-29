@@ -14,4 +14,6 @@ class SettingsServiceFake: ISettingsService {
     var targetHeartZoneAlertEnabled: Bool = true
     var maximumBpm: Int = 195
     var selectedDistanceMetric: DistanceMetric = DistanceMetric.getDefault(metric: true)
+    var selectedEnergyMetric: EnergyMetric = EnergyMetric.getDefault()
+    var selectedSpeedMetric: SpeedMetric = SpeedMetric.getDefault()
 }
