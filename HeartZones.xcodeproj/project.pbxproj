@@ -903,6 +903,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = online.trender.heartzones;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				WATCHOS_DEPLOYMENT_TARGET = 6.0;
 			};
 			name = Debug;
@@ -919,6 +920,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = online.trender.heartzones;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				WATCHOS_DEPLOYMENT_TARGET = 6.0;
 			};
 			name = Release;
@@ -939,6 +941,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = online.trender.heartzones.HeartZonesTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				RESOURCES_TARGETED_DEVICE_FAMILY = watch;
 				SDKROOT = watchos;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 4;
@@ -963,6 +966,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = online.trender.heartzones.HeartZonesTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				RESOURCES_TARGETED_DEVICE_FAMILY = watch;
 				SDKROOT = watchos;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 4;

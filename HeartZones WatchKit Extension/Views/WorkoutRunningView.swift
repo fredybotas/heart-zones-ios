@@ -43,7 +43,7 @@ struct WorkoutRunningView: View {
                 .font(Font.system(size: 32 * getDeviceSizeMultiplier(), weight: .semibold, design: .default))
             Spacer(minLength: 8 * getDeviceSizeMultiplier())
             HStack(alignment: .top, spacing: 0) {
-                VStack(alignment: .leading, spacing: nil) {
+                VStack(alignment: .leading, spacing: 0) {
                     Text(workoutViewModel.bpm)
                         .frame(width: 50 * getDeviceSizeMultiplier(), height: 25 * getDeviceSizeMultiplier(), alignment: .leading)
                         .font(Font.system(size: 25 * getDeviceSizeMultiplier(), weight: .medium, design: .default))

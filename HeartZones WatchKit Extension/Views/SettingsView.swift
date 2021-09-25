@@ -12,17 +12,33 @@ struct SettingsView: View {
     
     var body: some View {
         List {
-            Section(header: Text("Zones")) {
-                NavigationLink(destination: SettingsView(settingsViewModel: settingsViewModel)) {
-                    Text("Zones")
-                }
-                Picker("Max BPM", selection: $settingsViewModel.maxBpm) {
-                    ForEach(SettingsViewModel.kMinimumBpm..<SettingsViewModel.kMaximumBpm + 1) { bpm in
-                        Text(String(bpm)).tag(bpm)
+            Section(header: Text("Heart Zones")) {
+                Picker("Zones count", selection: $settingsViewModel.zonesCount) {
+                    ForEach(settingsViewModel.zonesCountOptions, id: \.self) { count in
+                        Text(String(count)).tag(count)
                     }
                 }
-                .pickerStyle(WheelPickerStyle())
-                .frame(height: 35)
+                .frame(height: 40)
+                VStack(alignment: .leading) {
+                    Text("Max BPM")
+                    Picker("Max BPM", selection: $settingsViewModel.maxBpm) {
+                        ForEach(SettingsViewModel.kMinimumBpm..<SettingsViewModel.kMaximumBpm + 1) { bpm in
+                            Text(String(bpm)).tag(bpm)
+                        }
+                    }
+                    .frame(height: 25)
+                    .labelsHidden()
+                    .pickerStyle(WheelPickerStyle())
+                }
+                Picker("Target zone", selection: $settingsViewModel.targetZone) {
+                    ForEach(settingsViewModel.selectedHeartZoneSetting.zoneNames, id: \.self) { name in
+                        Text(name).tag(name)
+                    }
+                }
+                .frame(height: 40)
+                NavigationLink(destination: SettingsView(settingsViewModel: settingsViewModel)) {
+                    Text("Zones settings")
+                }
             }
 
             Section(header: Text("Alert Settings")) {

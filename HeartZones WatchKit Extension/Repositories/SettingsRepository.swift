@@ -113,7 +113,6 @@ class SettingsRepository: ISettingsRepository {
             defaults.set(encodedMetric, forKey: kSelectedSpeedMetric)
         }
     }
-
 }
 
 class SettingsRepositoryCached: ISettingsRepository {

@@ -34,17 +34,39 @@ struct HeartZonesSetting {
         }
     }
     
+    var zoneNames: [String] {
+        get {
+            zones.map({ $0.name })
+        }
+    }
+    
+    var targetZoneName: String {
+        get {
+            zones.first(where: { $0.target == true})?.name ?? ""
+        }
+    }
+    
+    var zonesCount: Int {
+        get {
+            zones.count
+        }
+    }
+    
     static func getMaximumBpm(age: Int) -> Int {
         return 220 - age
+    }
+    
+    static func getPossibleZoneCounts() -> [Int] {
+        return [4, 5]
     }
     
     static func getDefaultHeartZonesSetting(maximumBpm: Int) -> HeartZonesSetting {
         let maxBpm = Double(maximumBpm)
         return HeartZonesSetting(zones: [
-            HeartZone(name: "Light", bpmRange: Int(0 * maxBpm)...Int(0.6 * maxBpm), color: Color.green, target: false),
-            HeartZone(name: "Moderate", bpmRange: Int(0.6 * maxBpm)...Int(0.75 * maxBpm), color: Color.yellow, target: false),
-            HeartZone(name: "Hard", bpmRange: Int(0.75 * maxBpm)...Int(0.85 * maxBpm), color: Color.orange, target: true),
-            HeartZone(name: "Peak", bpmRange: Int(0.85 * maxBpm)...Int(1.0 * maxBpm), color: Color.red, target: false),
+            HeartZone(name: "Zone 1", bpmRange: Int(0 * maxBpm)...Int(0.6 * maxBpm), color: Color.green, target: false),
+            HeartZone(name: "Zone 2", bpmRange: Int(0.6 * maxBpm)...Int(0.75 * maxBpm), color: Color.yellow, target: false),
+            HeartZone(name: "Zone 3", bpmRange: Int(0.75 * maxBpm)...Int(0.85 * maxBpm), color: Color.orange, target: true),
+            HeartZone(name: "Zone 4", bpmRange: Int(0.85 * maxBpm)...Int(1.0 * maxBpm), color: Color.red, target: false),
         ])
     }
 }
