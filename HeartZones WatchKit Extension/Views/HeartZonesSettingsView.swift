@@ -66,7 +66,7 @@ struct HeartZonesSettingsView: View {
 
     var body: some View {
         ScrollView(.vertical, showsIndicators: false) {
-            ForEach(HeartZonesSetting.getDefaultHeartZonesSetting(maximumBpm: 170).zones) { zone in
+            ForEach(HeartZonesSetting.getDefaultHeartZonesSetting().zones) { zone in
                 HeartZoneView(color: zone.color, zoneName: zone.name, maximumBpm: 170)
             }
             .navigationBarTitle("Zone Settings")

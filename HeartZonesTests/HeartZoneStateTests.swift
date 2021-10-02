@@ -15,23 +15,26 @@ class HeartZoneStateTests: XCTestCase {
     var settingsServiceFake: SettingsServiceFake!
     var sut: BaseHeartZoneState!
     
+    let maxBpm = 190
+    
     override func setUp() {
         self.zoneStateManagerMock = ZoneStateManagerMock()
         self.settingsServiceFake = SettingsServiceFake()
+        self.settingsServiceFake.maximumBpm = maxBpm
     }
     
     func getNeighbourZones() -> (HeartZone, HeartZone, HeartZone) {
-        let setting = HeartZonesSetting.getDefaultHeartZonesSetting(maximumBpm: 195)
+        let setting = HeartZonesSetting.getDefaultHeartZonesSetting()
         return (setting.zones[0], setting.zones[1], setting.zones[2])
     }
     
     func getTargetZone() -> HeartZone {
-        let setting = HeartZonesSetting.getDefaultHeartZonesSetting(maximumBpm: 195)
+        let setting = HeartZonesSetting.getDefaultHeartZonesSetting()
         return setting.zones[2]
     }
     
     func getBpmSampleFromHeartZone(zone: HeartZone) -> Int {
-        return zone.bpmRange.lowerBound + 1
+        return zone.getBpmRange(maxBpm: maxBpm).lowerBound + 1
     }
     
     func testHeartZoneStateWithoutActiveZoneSettings() {

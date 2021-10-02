@@ -32,7 +32,7 @@ class BaseHeartZoneState {
         guard let activeHeartZoneSetting = self.stateManager.activeHeartZoneSetting else {
             return (.undefined, nil)
         }
-        return activeHeartZoneSetting.evaluateBpmChange(currentZone: currentZone, bpm: bpm)
+        return activeHeartZoneSetting.evaluateBpmChange(currentZone: currentZone, bpm: bpm, maxBpm: settingsService.maximumBpm)
     }
     
     func bpmChanged(bpm: Int) {}

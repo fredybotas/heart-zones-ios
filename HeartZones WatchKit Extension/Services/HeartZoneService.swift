@@ -44,7 +44,7 @@ class HeartZoneService: IHeartZoneService, ZoneStateManager {
     
     private func resolveHeartZoneSetting() {
         // Make sure that it is called after permissions were requested
-        self.activeHeartZoneSetting = HeartZonesSetting.getDefaultHeartZonesSetting(maximumBpm: self.settingsService.maximumBpm)
+        self.activeHeartZoneSetting = HeartZonesSetting.getDefaultHeartZonesSetting()
     }
 
     private func handleStateChange(state: WorkoutState) {

@@ -44,7 +44,7 @@ class SettingsViewModel: ObservableObject {
         self.selectedEnergyMetric = settingsService.selectedEnergyMetric
         self.selectedSpeedMetric = settingsService.selectedSpeedMetric
         
-        let heartZoneSetting = HeartZonesSetting.getDefaultHeartZonesSetting(maximumBpm: settingsService.maximumBpm)
+        let heartZoneSetting = HeartZonesSetting.getDefaultHeartZonesSetting()
         self.selectedHeartZoneSetting = heartZoneSetting
         self.zonesCount = heartZoneSetting.zonesCount
         self.targetZone = heartZoneSetting.targetZoneName

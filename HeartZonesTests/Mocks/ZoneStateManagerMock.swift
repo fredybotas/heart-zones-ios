@@ -15,7 +15,7 @@ class ZoneStateManagerMock: ZoneStateManager {
     var setStateCalledSequence = [BaseHeartZoneState]()
     
     func initializeActiveHeartZoneSetting() {
-        activeHeartZoneSetting = HeartZonesSetting.getDefaultHeartZonesSetting(maximumBpm: 195)
+        activeHeartZoneSetting = HeartZonesSetting.getDefaultHeartZonesSetting()
     }
     
     func setState(state: BaseHeartZoneState) {

@@ -11,6 +11,8 @@ import Combine
 @testable import HeartZones_WatchKit_Extension
 
 class HeartZoneServiceTests: XCTestCase {
+    let maxBpm = 190
+
     var workoutServiceFake: WorkoutServiceFake!
     var beepingServiceMock: BeepingServiceMock!
     var healthKitServiceMock: HealthKitServiceMock!
@@ -24,13 +26,14 @@ class HeartZoneServiceTests: XCTestCase {
         self.beepingServiceMock = BeepingServiceMock()
         self.healthKitServiceMock = HealthKitServiceMock()
         self.settingsServiceFake = SettingsServiceFake()
+        self.settingsServiceFake.maximumBpm = maxBpm
         
         self.sut = HeartZoneService(workoutService: workoutServiceFake, beepingService: beepingServiceMock, healthKitService: healthKitServiceMock, settingsService: self.settingsServiceFake)
         self.cancellables.removeAll()
     }
     
     func getBpmSampleFromHeartZone(zone: HeartZone) -> Int {
-        return zone.bpmRange.lowerBound + 1
+        return zone.getBpmRange(maxBpm: maxBpm).lowerBound + 1
     }
     
     func testInitialization() {
