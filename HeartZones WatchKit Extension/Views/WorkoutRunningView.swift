@@ -70,12 +70,12 @@ struct WorkoutRunningView: View {
                         .font(Font.system(size: 14 * getDeviceSizeMultiplier(), weight: .light, design: .default))
                 }
                 VStack(alignment: .center, spacing: 8 * getDeviceSizeMultiplier()) {
-                    ZStack {
+                    ZStack(alignment: .center) {
                         PieSegment(ratio: workoutViewModel.bpmCircleRatio)
                             .fill(workoutViewModel.bpmCircleColor)
                             .frame(width: 20 * getDeviceSizeMultiplier(), height: 20 * getDeviceSizeMultiplier(), alignment: .center)
                             .padding(2.5 * getDeviceSizeMultiplier())
-                        PieSegment(ratio: workoutViewModel.bpmCircleRatio)
+                        PieSegment(ratio: 1.0)
                             .fill(Color.black)
                             .frame(width: 14 * getDeviceSizeMultiplier(), height: 14 * getDeviceSizeMultiplier(), alignment: .center)
                             .padding(2.5 * getDeviceSizeMultiplier())
