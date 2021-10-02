@@ -45,15 +45,15 @@ struct WorkoutRunningView: View {
             HStack(alignment: .top, spacing: 0) {
                 VStack(alignment: .leading, spacing: 0) {
                     Text(workoutViewModel.bpm)
-                        .frame(width: 50 * getDeviceSizeMultiplier(), height: 25 * getDeviceSizeMultiplier(), alignment: .leading)
+                        .frame(width: 53 * getDeviceSizeMultiplier(), height: 25 * getDeviceSizeMultiplier(), alignment: .leading)
                         .font(Font.system(size: 25 * getDeviceSizeMultiplier(), weight: .medium, design: .default))
                     Text("")
-                        .frame(width: 50 * getDeviceSizeMultiplier(), height: 4 * getDeviceSizeMultiplier(), alignment: .center)
+                        .frame(width: 53 * getDeviceSizeMultiplier(), height: 4 * getDeviceSizeMultiplier(), alignment: .center)
                     Text(workoutViewModel.distance)
-                        .frame(width: 50 * getDeviceSizeMultiplier(), height: 22 * getDeviceSizeMultiplier(), alignment: .leading)
+                        .frame(width: 53 * getDeviceSizeMultiplier(), height: 22 * getDeviceSizeMultiplier(), alignment: .leading)
                         .font(Font.system(size: 22 * getDeviceSizeMultiplier(), weight: .medium, design: .default))
                     Text(workoutViewModel.energy)
-                        .frame(width: 50 * getDeviceSizeMultiplier(), height: 22 * getDeviceSizeMultiplier(), alignment: .leading)
+                        .frame(width: 53 * getDeviceSizeMultiplier(), height: 22 * getDeviceSizeMultiplier(), alignment: .leading)
                         .font(Font.system(size: 22 * getDeviceSizeMultiplier(), weight: .medium, design: .default))
                 }
                 VStack(alignment: .leading, spacing: 0) {
