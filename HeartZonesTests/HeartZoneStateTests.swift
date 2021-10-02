@@ -51,15 +51,6 @@ class HeartZoneStateTests: XCTestCase {
         XCTAssertNotNil(zoneStateManagerMock.setStateCalledSequence[0].zone)
     }
     
-    func testHeartZoneNotAvailableStateNotValidZone() {
-        zoneStateManagerMock.initializeActiveHeartZoneSetting()
-
-        sut = HeartZoneNotAvailableState(stateManager: zoneStateManagerMock, settingsService: self.settingsServiceFake)
-        sut.bpmChanged(bpm: -20)
-        
-        XCTAssertEqual(zoneStateManagerMock.setStateCalledCount, 0)
-    }
-    
     func testHeartZoneActiveStateChangeZone() {
         zoneStateManagerMock.initializeActiveHeartZoneSetting()
 

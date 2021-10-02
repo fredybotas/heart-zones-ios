@@ -9,7 +9,6 @@ import Foundation
 import SwiftUI
 
 struct HeartZonesSetting {
-    
     enum HeartZoneMovement {
         case up, down, stay, undefined
     }
@@ -19,7 +18,14 @@ struct HeartZonesSetting {
     func evaluateBpmChange(currentZone: HeartZone?, bpm: Int) -> (HeartZoneMovement, HeartZone?) {
         let newZone = zones.first { $0.bpmRange.contains(bpm) }
         guard let newZone = newZone else {
-            return (.stay, nil)
+            // BPM not in range
+            if let firstZone = zones.first, bpm <= firstZone.bpmRange.lowerBound {
+                return (.undefined, zones.first)
+            } else if let lastZone = zones.last, bpm >= lastZone.bpmRange.upperBound {
+                return (.undefined, zones.last)
+            } else {
+                return (.undefined, nil)
+            }
         }
         guard let currentZone = currentZone else {
             return (.undefined, newZone)
@@ -42,7 +48,7 @@ struct HeartZonesSetting {
     
     var targetZoneName: String {
         get {
-            zones.first(where: { $0.target == true})?.name ?? ""
+            zones.first(where: { $0.target == true })?.name ?? ""
         }
     }
     

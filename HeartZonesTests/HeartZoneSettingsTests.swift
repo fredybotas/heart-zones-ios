@@ -63,11 +63,18 @@ class HeartZoneSettingsTests: XCTestCase {
         XCTAssertNil(zone)
     }
     
-    func testEvaluationBpmNotInAnyZone() {
+    func testEvaluationBpmLowerThanAnyZone() {
         let (movement, zone) = self.sut.evaluateBpmChange(currentZone: self.sut.zones[0], bpm: -20)
         
-        XCTAssertEqual(movement, .stay)
-        XCTAssertNil(zone)
+        XCTAssertEqual(movement, .undefined)
+        XCTAssertEqual(zone, self.sut.zones[0])
+    }
+    
+    func testEvaluationBpmHigherThanAnyZone() {
+        let (movement, zone) = self.sut.evaluateBpmChange(currentZone: self.sut.zones[0], bpm: 300)
+        
+        XCTAssertEqual(movement, .undefined)
+        XCTAssertEqual(zone, self.sut.zones[3])
     }
     
     
