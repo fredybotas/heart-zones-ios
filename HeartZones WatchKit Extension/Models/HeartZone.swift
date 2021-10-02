@@ -63,15 +63,16 @@ struct HeartZonesSetting {
     static func getDefaultHeartZonesSetting(maximumBpm: Int) -> HeartZonesSetting {
         let maxBpm = Double(maximumBpm)
         return HeartZonesSetting(zones: [
-            HeartZone(name: "Zone 1", bpmRange: Int(0 * maxBpm)...Int(0.6 * maxBpm), color: Color.green, target: false),
-            HeartZone(name: "Zone 2", bpmRange: Int(0.6 * maxBpm)...Int(0.75 * maxBpm), color: Color.yellow, target: false),
-            HeartZone(name: "Zone 3", bpmRange: Int(0.75 * maxBpm)...Int(0.85 * maxBpm), color: Color.orange, target: true),
-            HeartZone(name: "Zone 4", bpmRange: Int(0.85 * maxBpm)...Int(1.0 * maxBpm), color: Color.red, target: false),
+            HeartZone(id: 0, name: "Zone 1", bpmRange: Int(0 * maxBpm)...Int(0.6 * maxBpm), color: Color.init(red: 36 / 255, green: 123 / 255, blue: 160 / 255) , target: false),
+            HeartZone(id: 1, name: "Zone 2", bpmRange: Int(0.6 * maxBpm)...Int(0.75 * maxBpm), color: Color.init(red: 140 / 255, green: 179 / 255, blue: 105 / 255), target: false),
+            HeartZone(id: 2, name: "Zone 3", bpmRange: Int(0.75 * maxBpm)...Int(0.85 * maxBpm), color: Color.init(red: 250 / 255, green: 159 / 255, blue: 66 / 255), target: true),
+            HeartZone(id: 3, name: "Zone 4", bpmRange: Int(0.85 * maxBpm)...Int(1.0 * maxBpm), color: Color.init(red: 221 / 255, green: 4 / 255, blue: 38 / 255), target: false),
         ])
     }
 }
 
-struct HeartZone: Equatable {
+struct HeartZone: Equatable, Hashable, Identifiable {
+    let id: Int
     let name: String
     let bpmRange: ClosedRange<Int>
     let color: Color
@@ -97,4 +98,5 @@ struct HeartZone: Equatable {
             && lhs.color == rhs.color
             && lhs.target == rhs.target
     }
+
 }

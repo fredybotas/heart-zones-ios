@@ -25,7 +25,7 @@ struct WorkoutSelectionView: View {
             Divider()
                 .frame(maxHeight: 2)
                 .listRowPlatterColor(.clear)
-            NavigationLink(destination: LazyView(SettingsView(settingsViewModel: controller.container.resolve(SettingsViewModel.self)!))) {
+            NavigationLink(destination: LazyView(SettingsView(settingsViewModel: controller.container.resolve(SettingsViewModel.self)!, heartZoneSettingsViewModel: controller.container.resolve(HeartZoneSettingsViewModel.self)!))) {
                 Text("Settings")
             }
             .listRowPlatterColor(.blue)
