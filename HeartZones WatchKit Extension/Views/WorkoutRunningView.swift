@@ -79,6 +79,8 @@ struct WorkoutRunningView: View {
                             .fill(Color.black)
                             .frame(width: 14 * getDeviceSizeMultiplier(), height: 14 * getDeviceSizeMultiplier(), alignment: .center)
                             .padding(2.5 * getDeviceSizeMultiplier())
+                            // Hack with new sdk causing, zstack to not center elements correctly
+                            .offset(x: -0.11, y: 0)
                     }
                     SunViewWithMinutes(minutesLeft: workoutViewModel.sunsetLeft, sunVisibility: workoutViewModel.sunVisibility)
                         .frame(width: 20 * getDeviceSizeMultiplier(), height: 40 * getDeviceSizeMultiplier(), alignment: .center)
