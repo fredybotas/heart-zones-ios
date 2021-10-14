@@ -10,17 +10,10 @@ import Swinject
 
 struct SettingsView: View {
     @ObservedObject var settingsViewModel: SettingsViewModel
-    @ObservedObject var heartZoneSettingsViewModel: HeartZoneSettingsViewModel
-    
+
     var body: some View {
         List {
             Section(header: Text("Heart Zones")) {
-//                Picker("Zones count", selection: $settingsViewModel.zonesCount) {
-//                    ForEach(settingsViewModel.zonesCountOptions, id: \.self) { count in
-//                        Text(String(count)).tag(count)
-//                    }
-//                }
-//                .frame(height: 40)
                 VStack(alignment: .leading) {
                     Text("Max BPM")
                     Picker("Max BPM", selection: $settingsViewModel.maxBpm) {
@@ -32,12 +25,12 @@ struct SettingsView: View {
                     .labelsHidden()
                     .pickerStyle(WheelPickerStyle())
                 }
-                NavigationLink(destination: HeartZonesSettingsView(heartZoneSettingsViewModel: heartZoneSettingsViewModel)) {
+                NavigationLink(destination: LazyView(HeartZoneCircularPickerView(heartZoneSettingsViewModel: DIContainer.shared.resolve(HeartZoneSettingsViewModel.self)!))) {
                     Text("Zones settings")
                 }
                 Picker("Target zone", selection: $settingsViewModel.targetZone) {
-                    ForEach(settingsViewModel.selectedHeartZoneSetting.zoneNames, id: \.self) { name in
-                        Text(name).tag(name)
+                    ForEach(settingsViewModel.zones) { zone in
+                        Text(zone.name).tag(zone.id)
                     }
                 }
                 .frame(height: 40)
@@ -77,6 +70,6 @@ struct SettingsView: View {
 
 struct SettingsView_Previews: PreviewProvider {
     static var previews: some View {
-        SettingsView(settingsViewModel: SettingsViewModel(settingsService: SettingsService(settingsRepository: SettingsRepository(), healthKitService: HealthKitService())), heartZoneSettingsViewModel: HeartZoneSettingsViewModel(heartZoneSettingService: HeartZoneSettingService()))
+        SettingsView(settingsViewModel: SettingsViewModel(settingsService: SettingsService(settingsRepository: SettingsRepository(), healthKitService: HealthKitService())))
     }
 }

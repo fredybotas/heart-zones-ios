@@ -9,9 +9,8 @@ import SwiftUI
 import HealthKit
 
 struct WorkoutSelectionView: View {
-    
-    @ObservedObject var workoutSelectionViewModel: WorkoutSelectionViewModel
     weak var controller: HostingControllerWorkoutSelection!
+    @ObservedObject var workoutSelectionViewModel: WorkoutSelectionViewModel
     
     var body: some View {
         List {
@@ -25,7 +24,7 @@ struct WorkoutSelectionView: View {
             Divider()
                 .frame(maxHeight: 2)
                 .listRowPlatterColor(.clear)
-            NavigationLink(destination: LazyView(SettingsView(settingsViewModel: controller.container.resolve(SettingsViewModel.self)!, heartZoneSettingsViewModel: controller.container.resolve(HeartZoneSettingsViewModel.self)!))) {
+            NavigationLink(destination: LazyView(SettingsView(settingsViewModel: DIContainer.shared.resolve(SettingsViewModel.self)!))) {
                 Text("Settings")
             }
             .listRowPlatterColor(.blue)

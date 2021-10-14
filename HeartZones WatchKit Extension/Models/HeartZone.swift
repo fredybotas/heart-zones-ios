@@ -8,12 +8,12 @@
 import Foundation
 import SwiftUI
 
-struct HeartZonesSetting {
+struct HeartZonesSetting: Codable, Hashable {
     enum HeartZoneMovement {
         case up, down, stay, undefined
     }
     
-    let zones: [HeartZone]
+    var zones: [HeartZone]
     
     func evaluateBpmChange(currentZone: HeartZone?, bpm: Int, maxBpm: Int) -> (HeartZoneMovement, HeartZone?) {
         let newZone = zones.first { $0.getBpmRange(maxBpm: maxBpm).contains(bpm) }
@@ -40,24 +40,12 @@ struct HeartZonesSetting {
         }
     }
     
-    var zoneNames: [String] {
-        get {
-            zones.map({ $0.name })
-        }
-    }
-    
-    var targetZoneName: String {
-        get {
-            zones.first(where: { $0.target == true })?.name ?? ""
-        }
-    }
-    
     var zonesCount: Int {
         get {
             zones.count
         }
     }
-    
+
     static func getMaximumBpm(age: Int) -> Int {
         return 220 - age
     }
@@ -68,20 +56,39 @@ struct HeartZonesSetting {
     
     static func getDefaultHeartZonesSetting() -> HeartZonesSetting {
         return HeartZonesSetting(zones: [
-            HeartZone(id: 0, name: "Zone 1", bpmRangePercentage: 0...60, color: Color.init(red: 36 / 255, green: 123 / 255, blue: 160 / 255) , target: false),
-            HeartZone(id: 1, name: "Zone 2", bpmRangePercentage: 60...75, color: Color.init(red: 140 / 255, green: 179 / 255, blue: 105 / 255), target: false),
-            HeartZone(id: 2, name: "Zone 3", bpmRangePercentage: 75...85, color: Color.init(red: 250 / 255, green: 159 / 255, blue: 66 / 255), target: true),
-            HeartZone(id: 3, name: "Zone 4", bpmRangePercentage: 85...100, color: Color.init(red: 221 / 255, green: 4 / 255, blue: 38 / 255), target: false),
+            HeartZone(id: 0, name: "Zone 1", bpmRangePercentage: 0...60, color: HeartZone.Color.init(red: 36 / 255, green: 123 / 255, blue: 160 / 255) , target: false),
+            HeartZone(id: 1, name: "Zone 2", bpmRangePercentage: 60...75, color: HeartZone.Color.init(red: 140 / 255, green: 179 / 255, blue: 105 / 255), target: false),
+            HeartZone(id: 2, name: "Zone 3", bpmRangePercentage: 75...85, color: HeartZone.Color.init(red: 250 / 255, green: 159 / 255, blue: 66 / 255), target: true),
+            HeartZone(id: 3, name: "Zone 4", bpmRangePercentage: 85...100, color: HeartZone.Color.init(red: 221 / 255, green: 4 / 255, blue: 38 / 255), target: false)
         ])
+    }
+    
+    mutating func setTargetZone(targetZoneId: Int) {
+        for i in 0..<zones.count {
+            zones[i].target = false
+            if zones[i].id == targetZoneId {
+                zones[i].target = true
+            }
+        }
     }
 }
 
-struct HeartZone: Equatable, Hashable, Identifiable {
+struct HeartZone: Equatable, Hashable, Identifiable, Codable {
+    struct Color: Equatable, Hashable, Codable {
+        let red: CGFloat
+        let green: CGFloat
+        let blue: CGFloat
+        
+        func toColor() -> SwiftUI.Color {
+            return SwiftUI.Color.init(red: red, green: green, blue: blue)
+        }
+    }
+
     let id: Int
     let name: String
     let bpmRangePercentage: ClosedRange<Int>
     let color: Color
-    let target: Bool
+    var target: Bool
     
     func getBpmRatio(bpm: Int, maxBpm: Int) -> Double? {
         let first = Int((Double(bpmRangePercentage.lowerBound) / 100.0) * Double(maxBpm))
@@ -107,5 +114,4 @@ struct HeartZone: Equatable, Hashable, Identifiable {
             && lhs.color == rhs.color
             && lhs.target == rhs.target
     }
-
 }

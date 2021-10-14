@@ -14,6 +14,7 @@ protocol ISettingsRepository {
     var selectedDistanceMetric: DistanceMetric? { get set }
     var selectedEnergyMetric: EnergyMetric? { get set }
     var selectedSpeedMetric: SpeedMetric? { get set }
+    var selectedHeartZoneSetting: HeartZonesSetting? { get set }
 }
 
 fileprivate let kHeartZonesAlertEnabledKey = "kHeartZonesAlertEnabledKey"
@@ -22,96 +23,44 @@ fileprivate let kMaximumBpm = "kMaximumBpm"
 fileprivate let kSelectedDistanceMetric = "kSelectedDistanceMetric"
 fileprivate let kSelectedEnergyMetric = "kSelectedEnergyMetric"
 fileprivate let kSelectedSpeedMetric = "kSelectedSpeedMetric"
+fileprivate let kDefaultHeartZoneSetting = "kDefaultHeartZoneSetting"
 
 class SettingsRepository: ISettingsRepository {
-    
-    let defaults = UserDefaults.standard
-    let decoder = JSONDecoder()
-    let encoder = JSONEncoder()
-    
-    private func isKeyPresentInUserDefaults(key: String) -> Bool {
-        return defaults.object(forKey: key) != nil
-    }
+    let manager = UserDefaultsManager()
     
     var heartZonesAlertEnabled: Bool? {
-        get {
-            if isKeyPresentInUserDefaults(key: kHeartZonesAlertEnabledKey) {
-                return defaults.bool(forKey: kHeartZonesAlertEnabledKey)
-            }
-            return nil
-        }
-        set { defaults.set(newValue, forKey: kHeartZonesAlertEnabledKey) }
+        get { manager.get(key: kHeartZonesAlertEnabledKey) }
+        set { manager.save(newValue, key: kHeartZonesAlertEnabledKey) }
     }
     
     var targetHeartZoneAlertEnabled: Bool? {
-        get {
-            if isKeyPresentInUserDefaults(key: kTargetHeartZoneAlertEnabledKey) {
-                return defaults.bool(forKey: kTargetHeartZoneAlertEnabledKey)
-            }
-            return nil
-        }
-        
-        set {
-            defaults.set(newValue, forKey: kTargetHeartZoneAlertEnabledKey)
-        }
+        get { manager.get(key: kTargetHeartZoneAlertEnabledKey) }
+        set { manager.save(newValue, key: kTargetHeartZoneAlertEnabledKey) }
     }
     
     var maximumBpm: Int? {
-        get {
-            if isKeyPresentInUserDefaults(key: kMaximumBpm) {
-                return defaults.integer(forKey: kMaximumBpm)
-            }
-            return nil
-        }
-        set { defaults.set(newValue, forKey: kMaximumBpm) }
+        get { manager.get(key: kMaximumBpm) }
+        set { manager.save(newValue, key: kMaximumBpm) }
     }
     
     var selectedDistanceMetric: DistanceMetric? {
-        get {
-            if isKeyPresentInUserDefaults(key: kSelectedDistanceMetric) {
-                guard let decodedJson = defaults.object(forKey: kSelectedDistanceMetric) as? Data else { return nil }
-                guard let distanceMetric = try? self.decoder.decode(DistanceMetric.self, from: decodedJson) else { return nil }
-                return distanceMetric
-            }
-            return nil
-        }
-        set {
-            guard let metric = newValue else { return }
-            guard let encodedMetric = try? encoder.encode(metric) else { return }
-            defaults.set(encodedMetric, forKey: kSelectedDistanceMetric)
-        }
+        get { manager.get(key: kSelectedDistanceMetric) }
+        set { manager.save(newValue, key: kSelectedDistanceMetric) }
     }
     
     var selectedEnergyMetric: EnergyMetric? {
-        get {
-            if isKeyPresentInUserDefaults(key: kSelectedEnergyMetric) {
-                guard let decodedJson = defaults.object(forKey: kSelectedEnergyMetric) as? Data else { return nil }
-                guard let energyMetric = try? self.decoder.decode(EnergyMetric.self, from: decodedJson) else { return nil }
-                return energyMetric
-            }
-            return nil
-        }
-        set {
-            guard let metric = newValue else { return }
-            guard let encodedMetric = try? encoder.encode(metric) else { return }
-            defaults.set(encodedMetric, forKey: kSelectedEnergyMetric)
-        }
+        get { manager.get(key: kSelectedEnergyMetric) }
+        set { manager.save(newValue, key: kSelectedEnergyMetric) }
     }
     
     var selectedSpeedMetric: SpeedMetric? {
-        get {
-            if isKeyPresentInUserDefaults(key: kSelectedSpeedMetric) {
-                guard let decodedJson = defaults.object(forKey: kSelectedSpeedMetric) as? Data else { return nil }
-                guard let speedMetric = try? self.decoder.decode(SpeedMetric.self, from: decodedJson) else { return nil }
-                return speedMetric
-            }
-            return nil
-        }
-        set {
-            guard let metric = newValue else { return }
-            guard let encodedMetric = try? encoder.encode(metric) else { return }
-            defaults.set(encodedMetric, forKey: kSelectedSpeedMetric)
-        }
+        get { manager.get(key: kSelectedSpeedMetric) }
+        set { manager.save(newValue, key: kSelectedSpeedMetric) }
+    }
+    
+    var selectedHeartZoneSetting: HeartZonesSetting? {
+        get { manager.get(key: kDefaultHeartZoneSetting) }
+        set { manager.save(newValue, key: kDefaultHeartZoneSetting) }
     }
 }
 
@@ -124,6 +73,7 @@ class SettingsRepositoryCached: ISettingsRepository {
     private var selectedDistanceMetricInternal: DistanceMetric?
     private var selectedEnergyMetricInternal: EnergyMetric?
     private var selectedSpeedMetricInternal: SpeedMetric?
+    private var selectedHeartZoneSettingInternal: HeartZonesSetting?
 
     init() {
         heartZonesAlertEnabledInternal = settingsRepository.heartZonesAlertEnabled
@@ -132,6 +82,7 @@ class SettingsRepositoryCached: ISettingsRepository {
         selectedDistanceMetricInternal = settingsRepository.selectedDistanceMetric
         selectedEnergyMetricInternal = settingsRepository.selectedEnergyMetric
         selectedSpeedMetricInternal = settingsRepository.selectedSpeedMetric
+        selectedHeartZoneSettingInternal = settingsRepository.selectedHeartZoneSetting
     }
         
     var heartZonesAlertEnabled: Bool? {
@@ -200,4 +151,14 @@ class SettingsRepositoryCached: ISettingsRepository {
         }
     }
     
+    var selectedHeartZoneSetting: HeartZonesSetting? {
+        get {
+            return selectedHeartZoneSettingInternal
+        }
+        
+        set {
+            selectedHeartZoneSettingInternal = newValue
+            settingsRepository.selectedHeartZoneSetting = newValue
+        }
+    }
 }

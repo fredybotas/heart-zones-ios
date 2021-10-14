@@ -10,14 +10,21 @@ import Foundation
 import SwiftUI
 import Swinject
 
-class DIHostingController<Type>: WKHostingController<Type> where Type: View {
-    let container: Container = {
+class DIContainer {
+    static let shared: Container = {
         let delegate = WKExtension.shared().delegate as! ExtensionDelegate
         return delegate.container
     }()
 }
 
-class HostingControllerWorkoutSelection: DIHostingController<WorkoutSelectionView> {
+//class DIHostingController<Type>: WKHostingController<Type> where Type: View {
+//    let container: Container = {
+//        let delegate = WKExtension.shared().delegate as! ExtensionDelegate
+//        return delegate.container
+//    }()
+//}
+
+class HostingControllerWorkoutSelection: WKHostingController<WorkoutSelectionView> {
     static let identifier = "HostingControllerWorkoutSelection"
 
     func presentRunningWorkoutController(workoutType: WorkoutType) {
@@ -27,11 +34,11 @@ class HostingControllerWorkoutSelection: DIHostingController<WorkoutSelectionVie
     }
     
     override var body: WorkoutSelectionView {
-        return WorkoutSelectionView(workoutSelectionViewModel: container.resolve(WorkoutSelectionViewModel.self)!, controller: self)
+        return WorkoutSelectionView(controller: self, workoutSelectionViewModel: DIContainer.shared.resolve(WorkoutSelectionViewModel.self)!)
     }
 }
 
-class HostingControllerRunningWorkout: DIHostingController<WorkoutRunningView> {
+class HostingControllerRunningWorkout: WKHostingController<WorkoutRunningView> {
     static let identifier = "HostingControllerRunningWorkout"
     var workoutType: WorkoutType!
     
@@ -41,11 +48,11 @@ class HostingControllerRunningWorkout: DIHostingController<WorkoutRunningView> {
     }
         
     override var body: WorkoutRunningView {
-        return WorkoutRunningView(workoutViewModel: container.resolve(WorkoutViewModel.self, argument: workoutType)!)
+        return WorkoutRunningView(workoutViewModel: DIContainer.shared.resolve(WorkoutViewModel.self, argument: workoutType)!)
     }
 }
 
-class HostingControllerWorkoutControls: DIHostingController<WorkoutControlsView> {
+class HostingControllerWorkoutControls: WKHostingController<WorkoutControlsView> {
     static let identifier = "HostingControllerWorkoutControls"
     
     func popControllers() {
@@ -53,7 +60,7 @@ class HostingControllerWorkoutControls: DIHostingController<WorkoutControlsView>
     }
 
     override var body: WorkoutControlsView {
-        return WorkoutControlsView(workoutControlsViewModel: container.resolve(WorkoutControlsViewModel.self)!, controller: self)
+        return WorkoutControlsView(workoutControlsViewModel: DIContainer.shared.resolve(WorkoutControlsViewModel.self)!, controller: self)
     }
 }
 

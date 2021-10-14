@@ -9,6 +9,18 @@ import Foundation
 import Combine
 import SwiftUI
 
+class Zone: ObservableObject, Identifiable {
+    let id: Int
+    let name: String
+    let target: Bool
+
+    init(id: Int, name: String, target: Bool) {
+        self.id = id
+        self.name = name
+        self.target = target
+    }
+}
+
 class SettingsViewModel: ObservableObject {
     let distanceMetricOptions = DistanceMetric.getPossibleMetrics()
     let energyMetricOptions = EnergyMetric.getPossibleMetrics()
@@ -25,14 +37,12 @@ class SettingsViewModel: ObservableObject {
     @Published var heartZonesAlertEnabled: Bool
     @Published var targetHeartZoneAlertEnabled: Bool
     @Published var maxBpm: Int
-    @Published var zonesCount: Int
-    @Published var targetZone: String
+    @Published var targetZone: Int
+    @Published var zones: [Zone]
     
     @Published var selectedDistanceMetric: DistanceMetric
     @Published var selectedEnergyMetric: EnergyMetric
     @Published var selectedSpeedMetric: SpeedMetric
-
-    @Published var selectedHeartZoneSetting: HeartZonesSetting
     
     init(settingsService: ISettingsService) {
         self.settingsService = settingsService
@@ -44,11 +54,16 @@ class SettingsViewModel: ObservableObject {
         self.selectedEnergyMetric = settingsService.selectedEnergyMetric
         self.selectedSpeedMetric = settingsService.selectedSpeedMetric
         
-        let heartZoneSetting = HeartZonesSetting.getDefaultHeartZonesSetting()
-        self.selectedHeartZoneSetting = heartZoneSetting
-        self.zonesCount = heartZoneSetting.zonesCount
-        self.targetZone = heartZoneSetting.targetZoneName
+        self.targetZone = settingsService.targetZoneId
+        self.zones = settingsService.selectedHeartZoneSetting.zones.map { Zone(id: $0.id, name: $0.name, target: $0.target) }
         
+        self.$targetZone
+            .dropFirst()
+            .sink { [weak self] value in
+                self?.settingsService.targetZoneId = value
+            }
+            .store(in: &cancellables)
+
         self.$heartZonesAlertEnabled
             .dropFirst()
             .sink { [weak self] value in

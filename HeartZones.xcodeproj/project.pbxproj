@@ -50,6 +50,8 @@
 		B661A3F826B572D200E78D8E /* SettingsRepositoryFake.swift in Sources */ = {isa = PBXBuildFile; fileRef = B661A3F726B572D200E78D8E /* SettingsRepositoryFake.swift */; };
 		B6628A71268A538300901D17 /* HostingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6628A6F268A538300901D17 /* HostingController.swift */; };
 		B6628A72268A538300901D17 /* ExtensionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6628A70268A538300901D17 /* ExtensionDelegate.swift */; };
+		B66C863A27133DDC00C03FD4 /* HeartZoneCircularPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B66C863927133DDC00C03FD4 /* HeartZoneCircularPickerView.swift */; };
+		B68999132709FD1500F92061 /* UserDefaultsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B68999122709FD1500F92061 /* UserDefaultsManager.swift */; };
 		B697B4FE268B9A77003558C8 /* Swinject in Frameworks */ = {isa = PBXBuildFile; productRef = B697B4FD268B9A77003558C8 /* Swinject */; };
 		B697B500268BBD6E003558C8 /* WorkoutControlsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B697B4FF268BBD6E003558C8 /* WorkoutControlsViewModel.swift */; };
 		B6AFC1A526A5917100616311 /* BeepingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6AFC1A426A5917100616311 /* BeepingService.swift */; };
@@ -61,11 +63,8 @@
 		B6B14A7126B68B65003CAF97 /* SettingsServiceFake.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6B14A7026B68B65003CAF97 /* SettingsServiceFake.swift */; };
 		B6B14A7326B6D08E003CAF97 /* Metrics.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6B14A7226B6D08E003CAF97 /* Metrics.swift */; };
 		B6B6EC9A268E465800170E39 /* Containers.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6B6EC99268E465800170E39 /* Containers.swift */; };
-		B6CD785A26FF291E00C195BD /* HeartZonesSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6CD785926FF291E00C195BD /* HeartZonesSettingsView.swift */; };
 		B6D1397F26B3105200396285 /* DeviceBeeper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6D1397E26B3105200396285 /* DeviceBeeper.swift */; };
 		B6DD62E82702085500E639B0 /* HeartZoneSettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6DD62E72702085500E639B0 /* HeartZoneSettingsViewModel.swift */; };
-		B6DD62EA2702092500E639B0 /* HeartZoneSettingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6DD62E92702092500E639B0 /* HeartZoneSettingService.swift */; };
-		B6DD62EC27020A1100E639B0 /* HeartZonesRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6DD62EB27020A1100E639B0 /* HeartZonesRepository.swift */; };
 		B6E30C3C26850F73007CCA38 /* WorkoutSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6E30C3B26850F73007CCA38 /* WorkoutSelectionView.swift */; };
 		B6E30C4126851996007CCA38 /* WorkoutControlsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6E30C4026851996007CCA38 /* WorkoutControlsView.swift */; };
 		B6E30C43268519B8007CCA38 /* WorkoutRunningView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6E30C42268519B8007CCA38 /* WorkoutRunningView.swift */; };
@@ -173,6 +172,8 @@
 		B6628A6F268A538300901D17 /* HostingController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HostingController.swift; sourceTree = "<group>"; };
 		B6628A70268A538300901D17 /* ExtensionDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExtensionDelegate.swift; sourceTree = "<group>"; };
 		B6628A75268A56CB00901D17 /* Interface.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Interface.storyboard; sourceTree = "<group>"; };
+		B66C863927133DDC00C03FD4 /* HeartZoneCircularPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeartZoneCircularPickerView.swift; sourceTree = "<group>"; };
+		B68999122709FD1500F92061 /* UserDefaultsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsManager.swift; sourceTree = "<group>"; };
 		B697B4FF268BBD6E003558C8 /* WorkoutControlsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutControlsViewModel.swift; sourceTree = "<group>"; };
 		B6AFC1A426A5917100616311 /* BeepingService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeepingService.swift; sourceTree = "<group>"; };
 		B6AFC1A726A59BD100616311 /* BeepingServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeepingServiceTests.swift; sourceTree = "<group>"; };
@@ -186,8 +187,6 @@
 		B6CD785926FF291E00C195BD /* HeartZonesSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeartZonesSettingsView.swift; sourceTree = "<group>"; };
 		B6D1397E26B3105200396285 /* DeviceBeeper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceBeeper.swift; sourceTree = "<group>"; };
 		B6DD62E72702085500E639B0 /* HeartZoneSettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeartZoneSettingsViewModel.swift; sourceTree = "<group>"; };
-		B6DD62E92702092500E639B0 /* HeartZoneSettingService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeartZoneSettingService.swift; sourceTree = "<group>"; };
-		B6DD62EB27020A1100E639B0 /* HeartZonesRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeartZonesRepository.swift; sourceTree = "<group>"; };
 		B6E30C3B26850F73007CCA38 /* WorkoutSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutSelectionView.swift; sourceTree = "<group>"; };
 		B6E30C4026851996007CCA38 /* WorkoutControlsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutControlsView.swift; sourceTree = "<group>"; };
 		B6E30C42268519B8007CCA38 /* WorkoutRunningView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutRunningView.swift; sourceTree = "<group>"; };
@@ -340,6 +339,7 @@
 				B610ABA626923FCC00DA3FA8 /* SunView.swift */,
 				B64D61EA26A342DC003E0737 /* SunViewWithMinutes.swift */,
 				B661A3F526B56D5300E78D8E /* LazyView.swift */,
+				B66C863927133DDC00C03FD4 /* HeartZoneCircularPickerView.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -360,14 +360,13 @@
 		B650A960268799B40042B33D /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				B67A7BA32709FB3B00D70C37 /* Persistence */,
 				B6AFC1A626A5917B00616311 /* Utils */,
 				B650A961268799C60042B33D /* WorkoutService.swift */,
 				B650A970268895800042B33D /* HeartZoneService.swift */,
 				B6046DF426B19E1900BD43C1 /* HeartZoneState.swift */,
 				B62EF907269E1FE40067E894 /* SunService.swift */,
 				B6AFC1A426A5917100616311 /* BeepingService.swift */,
-				B6B14A6E26B6865F003CAF97 /* SettingsService.swift */,
-				B6DD62E92702092500E639B0 /* HeartZoneSettingService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -395,10 +394,26 @@
 		B661A3F026B5621100E78D8E /* Repositories */ = {
 			isa = PBXGroup;
 			children = (
+				B68999142709FF0B00F92061 /* Utils */,
 				B661A3F126B5622000E78D8E /* SettingsRepository.swift */,
-				B6DD62EB27020A1100E639B0 /* HeartZonesRepository.swift */,
 			);
 			path = Repositories;
+			sourceTree = "<group>";
+		};
+		B67A7BA32709FB3B00D70C37 /* Persistence */ = {
+			isa = PBXGroup;
+			children = (
+				B6B14A6E26B6865F003CAF97 /* SettingsService.swift */,
+			);
+			path = Persistence;
+			sourceTree = "<group>";
+		};
+		B68999142709FF0B00F92061 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				B68999122709FD1500F92061 /* UserDefaultsManager.swift */,
+			);
+			path = Utils;
 			sourceTree = "<group>";
 		};
 		B6AFC1A626A5917B00616311 /* Utils */ = {
@@ -604,6 +619,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B6B14A6F26B6865F003CAF97 /* SettingsService.swift in Sources */,
+				B66C863A27133DDC00C03FD4 /* HeartZoneCircularPickerView.swift in Sources */,
 				B6607B2526AC40C400C0C0EE /* AuthorizationManager.swift in Sources */,
 				B650A95F26878E1F0042B33D /* WorkoutViewModel.swift in Sources */,
 				B6E30C43268519B8007CCA38 /* WorkoutRunningView.swift in Sources */,
@@ -613,7 +629,6 @@
 				B6628A71268A538300901D17 /* HostingController.swift in Sources */,
 				B63AB83D269780FA007E07E9 /* DeviceBeepingManager.swift in Sources */,
 				B6B6EC9A268E465800170E39 /* Containers.swift in Sources */,
-				B6CD785A26FF291E00C195BD /* HeartZonesSettingsView.swift in Sources */,
 				B6628A72268A538300901D17 /* ExtensionDelegate.swift in Sources */,
 				B63AB8472698DB57007E07E9 /* LocationManager.swift in Sources */,
 				B650A96F2688955F0042B33D /* HeartZone.swift in Sources */,
@@ -622,15 +637,14 @@
 				B637F8DA26BFC8A400D81AA6 /* DistanceShowingStrategy.swift in Sources */,
 				B661A3F626B56D5300E78D8E /* LazyView.swift in Sources */,
 				B6B14A7326B6D08E003CAF97 /* Metrics.swift in Sources */,
-				B6DD62EA2702092500E639B0 /* HeartZoneSettingService.swift in Sources */,
 				B6046DF526B19E1900BD43C1 /* HeartZoneState.swift in Sources */,
 				B661A3F226B5622000E78D8E /* SettingsRepository.swift in Sources */,
 				B637F8D826BFC12A00D81AA6 /* EnergyShowingStrategy.swift in Sources */,
 				B62DDBDD26ABFC0D001D3D26 /* HealthKitService.swift in Sources */,
+				B68999132709FD1500F92061 /* UserDefaultsManager.swift in Sources */,
 				B610ABA726923FCC00DA3FA8 /* SunView.swift in Sources */,
 				B64D61EB26A342DC003E0737 /* SunViewWithMinutes.swift in Sources */,
 				B650A962268799C60042B33D /* WorkoutService.swift in Sources */,
-				B6DD62EC27020A1100E639B0 /* HeartZonesRepository.swift in Sources */,
 				B697B500268BBD6E003558C8 /* WorkoutControlsViewModel.swift in Sources */,
 				B650A971268895800042B33D /* HeartZoneService.swift in Sources */,
 				B6AFC1A526A5917100616311 /* BeepingService.swift in Sources */,
@@ -865,6 +879,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = YES;
@@ -889,6 +904,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = YES;

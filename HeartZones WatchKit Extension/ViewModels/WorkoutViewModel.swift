@@ -161,7 +161,7 @@ class WorkoutViewModel: ObservableObject {
     
     private func processHeartData(_ data: (Int, HeartZone)) {
         self.bpm = String(data.0)
-        self.bpmCircleColor = data.1.color
+        self.bpmCircleColor = data.1.color.toColor()
         guard let ratio = data.1.getBpmRatio(bpm: data.0, maxBpm: self.settingsService.maximumBpm) else { return }
         self.bpmCircleRatio = ratio
     }
