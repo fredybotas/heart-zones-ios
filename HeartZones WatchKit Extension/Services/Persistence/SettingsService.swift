@@ -16,6 +16,8 @@ protocol ISettingsService {
     var selectedSpeedMetric: SpeedMetric { get set }
     var selectedHeartZoneSetting: HeartZonesSetting { get set }
     var targetZoneId: Int { get set }
+    
+    func resetHeartZoneSettings()
 }
 
 let kDefaultAge = 25
@@ -77,6 +79,11 @@ class SettingsService: ISettingsService {
         self.healthKitService = healthKitService
     }
     
+    func resetHeartZoneSettings() {
+        self.settingsRepository.selectedHeartZoneSetting = nil
+        self.settingsRepository.maximumBpm = nil
+    }
+
     static func userPrefersMetric() -> Bool {
         return ((Locale.current as NSLocale).object(forKey: NSLocale.Key.usesMetricSystem) as? Bool) ?? true
     }

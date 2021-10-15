@@ -9,19 +9,19 @@ import Foundation
 import Combine
 import SwiftUI
 
-class Zone: ObservableObject, Identifiable {
-    let id: Int
-    let name: String
-    let target: Bool
-
-    init(id: Int, name: String, target: Bool) {
-        self.id = id
-        self.name = name
-        self.target = target
-    }
-}
-
 class SettingsViewModel: ObservableObject {
+    class Zone: ObservableObject, Identifiable {
+        let id: Int
+        let name: String
+        let target: Bool
+
+        init(id: Int, name: String, target: Bool) {
+            self.id = id
+            self.name = name
+            self.target = target
+        }
+    }
+    
     let distanceMetricOptions = DistanceMetric.getPossibleMetrics()
     let energyMetricOptions = EnergyMetric.getPossibleMetrics()
     let speedMetricOptions = SpeedMetric.getPossibleMetrics()
@@ -46,17 +46,21 @@ class SettingsViewModel: ObservableObject {
     
     init(settingsService: ISettingsService) {
         self.settingsService = settingsService
-    
-        self.heartZonesAlertEnabled = settingsService.heartZonesAlertEnabled
-        self.targetHeartZoneAlertEnabled = settingsService.targetHeartZoneAlertEnabled
+
         self.maxBpm = settingsService.maximumBpm
-        self.selectedDistanceMetric = settingsService.selectedDistanceMetric
-        self.selectedEnergyMetric = settingsService.selectedEnergyMetric
-        self.selectedSpeedMetric = settingsService.selectedSpeedMetric
-        
         self.targetZone = settingsService.targetZoneId
         self.zones = settingsService.selectedHeartZoneSetting.zones.map { Zone(id: $0.id, name: $0.name, target: $0.target) }
         
+        self.heartZonesAlertEnabled = settingsService.heartZonesAlertEnabled
+        self.targetHeartZoneAlertEnabled = settingsService.targetHeartZoneAlertEnabled
+        self.selectedDistanceMetric = settingsService.selectedDistanceMetric
+        self.selectedEnergyMetric = settingsService.selectedEnergyMetric
+        self.selectedSpeedMetric = settingsService.selectedSpeedMetric
+
+        initBindings()
+    }
+    
+    func initBindings() {
         self.$targetZone
             .dropFirst()
             .sink { [weak self] value in
@@ -108,5 +112,15 @@ class SettingsViewModel: ObservableObject {
             .store(in: &cancellables)
     }
     
+    func resetHeartZoneSettings() {
+        settingsService.resetHeartZoneSettings()
+    
+        cancellables.removeAll()
+        
+        self.maxBpm = settingsService.maximumBpm
+        self.targetZone = settingsService.targetZoneId
+        self.zones = settingsService.selectedHeartZoneSetting.zones.map { Zone(id: $0.id, name: $0.name, target: $0.target) }
 
+        initBindings()
+    }
 }

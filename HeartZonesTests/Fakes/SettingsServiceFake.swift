@@ -10,6 +10,12 @@ import Foundation
 @testable import HeartZones_WatchKit_Extension
 
 class SettingsServiceFake: ISettingsService {
+    func resetHeartZoneSettings() {
+        selectedHeartZoneSetting = HeartZonesSetting.getDefaultHeartZonesSetting()
+        maximumBpm = 195
+        targetZoneId = 2
+    }
+    
     var targetZoneId: Int = 2
     var selectedHeartZoneSetting: HeartZonesSetting = HeartZonesSetting.getDefaultHeartZonesSetting()
     var heartZonesAlertEnabled: Bool = true
@@ -18,5 +24,4 @@ class SettingsServiceFake: ISettingsService {
     var selectedDistanceMetric: DistanceMetric = DistanceMetric.getDefault(metric: true)
     var selectedEnergyMetric: EnergyMetric = EnergyMetric.getDefault()
     var selectedSpeedMetric: SpeedMetric = SpeedMetric.getDefault()
-    
 }

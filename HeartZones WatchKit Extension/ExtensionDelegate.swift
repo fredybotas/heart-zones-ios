@@ -55,19 +55,15 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
             return AuthorizationManager(authorizables: [healthKit, locationManager])
         }).inObjectScope(.container)
         
-        
+
         container.register(SettingsRepositoryCached.self, factory: { resolver in
             return SettingsRepositoryCached()
-        })
+        }).inObjectScope(.container)
         container.register(SettingsService.self, factory: { resolver in
             let healthKitService = container.resolve(HealthKitService.self)!
             let settingsRepository = container.resolve(SettingsRepositoryCached.self)!
             
             return SettingsService(settingsRepository: settingsRepository, healthKitService: healthKitService)
-        }).inObjectScope(.container)
-        
-        container.register(HeartZoneSettingService.self, factory: { resolver in            
-            return HeartZoneSettingService()
         }).inObjectScope(.container)
         
         // Get new viewModel every time when requested
@@ -90,8 +86,8 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
             return WorkoutControlsViewModel(workoutService: workoutService)
         })
         container.register(HeartZoneSettingsViewModel.self, factory: { resolver in
-            let service = resolver.resolve(HeartZoneSettingService.self)!
-            return HeartZoneSettingsViewModel(heartZoneSettingService: service)
+            let settingsService = resolver.resolve(SettingsService.self)!
+            return HeartZoneSettingsViewModel(settingsService: settingsService)
         })
         
         return container

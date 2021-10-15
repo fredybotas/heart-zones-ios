@@ -7,6 +7,7 @@
 
 import SwiftUI
 import Swinject
+import XCTest
 
 struct SettingsView: View {
     @ObservedObject var settingsViewModel: SettingsViewModel
@@ -61,8 +62,14 @@ struct SettingsView: View {
                         }
                     }
                 }
-                
             }
+            
+            Section(header: Text("Misc")) {
+                Button(action: { settingsViewModel.resetHeartZoneSettings() }) {
+                    Text("Reset Zone Settings")
+                }
+            }
+            
         }
         .navigationBarTitle("Settings")
     }
