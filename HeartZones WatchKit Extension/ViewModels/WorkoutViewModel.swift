@@ -14,13 +14,13 @@ fileprivate let kSecondsForThreeQuartersOfHour = (kSecondsInHour / 4.0) * 3.0
 
 class WorkoutViewModel: ObservableObject {
     @Published private(set) var time: String = "00:00,00"
+
+    @Published private(set) var fieldOne: String
+    @Published private(set) var fieldOneUnit: String
+
+    @Published private(set) var fieldTwo: String
+    @Published private(set) var fieldTwoUnit: String
     
-    @Published private(set) var energy: String
-    @Published private(set) var energyUnit: String
-
-    @Published private(set) var distance: String
-    @Published private(set) var distanceUnit: String
-
     @Published private(set) var currentPace: String
     @Published private(set) var averagePace: String
     
@@ -86,12 +86,12 @@ class WorkoutViewModel: ObservableObject {
             }
         }
         
-        self.energy = self.energyShowingStrategy.defaultEnerguValue
-        self.energyUnit = self.energyShowingStrategy.defaultEnergyUnit
-        
-        self.distance = self.distanceShowingStrategy.defaultDistanceValue
-        self.distanceUnit = self.distanceShowingStrategy.defaultDistanceUnit
+        self.fieldOne = self.distanceShowingStrategy.defaultDistanceValue
+        self.fieldOneUnit = self.distanceShowingStrategy.defaultDistanceUnit
 
+        self.fieldTwo = self.energyShowingStrategy.defaultEnerguValue
+        self.fieldTwoUnit = self.energyShowingStrategy.defaultEnergyUnit
+        
         self.currentPace = self.distanceShowingStrategy.defaultPaceString
         self.averagePace = self.distanceShowingStrategy.defaultPaceString
         
@@ -141,8 +141,8 @@ class WorkoutViewModel: ObservableObject {
         guard let value = value else { return }
         guard let unit = unit else { return }
         
-        self.distance = value
-        self.distanceUnit = unit
+        self.fieldOne = value
+        self.fieldOneUnit = unit
     }
     
     func setHeartDataSubscriber() {
@@ -179,8 +179,8 @@ class WorkoutViewModel: ObservableObject {
     }
     
     private func processEnergyData(_ data: Measurement<UnitEnergy>) {
-        energy = self.energyShowingStrategy.getEnergyValue(data) ?? energy
-        energyUnit = self.energyShowingStrategy.getEnergyMetric(data)
+        fieldTwo = self.energyShowingStrategy.getEnergyValue(data) ?? fieldTwo
+        fieldTwoUnit = self.energyShowingStrategy.getEnergyMetric(data)
     }
     
     private func startTimer(slow: Bool) {
