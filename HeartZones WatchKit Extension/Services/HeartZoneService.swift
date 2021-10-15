@@ -24,7 +24,6 @@ class HeartZoneService: IHeartZoneService, ZoneStateManager {
     
     private var currentHeartZonePublisher = CurrentValueSubject<HeartZone?, Never>(nil)
 
-    // TODO: Add logic to evaluate correct heart zone. Now we are using default zones only.
     private(set) var activeHeartZoneSetting: HeartZonesSetting?
     
     private var heartZoneState: BaseHeartZoneState?
@@ -44,7 +43,7 @@ class HeartZoneService: IHeartZoneService, ZoneStateManager {
     
     private func resolveHeartZoneSetting() {
         // Make sure that it is called after permissions were requested
-        self.activeHeartZoneSetting = HeartZonesSetting.getDefaultHeartZonesSetting()
+        self.activeHeartZoneSetting = settingsService.selectedHeartZoneSetting
     }
 
     private func handleStateChange(state: WorkoutState) {
