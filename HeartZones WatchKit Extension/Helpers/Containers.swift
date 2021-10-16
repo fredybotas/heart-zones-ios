@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import CoreLocation
 
 struct BpmContainer {
     private var array = [Int]()
@@ -84,5 +85,34 @@ struct SameElementsContainer<T: Equatable> {
     mutating func removeAll() {
         elements.removeAll()
     }
+}
+
+struct ElevationContainer {
+    private var lastElement: Double?
+    private var currentElement: Double?
+    private(set) var elevationGained: Double = 0.0
+    
+    private(set) var minElevation: Double = Double.infinity
+    private(set) var maxElevation: Double = -Double.infinity
+    
+    mutating func insertLocation(loc: CLLocation) {
+        let elevation = loc.altitude
+        if elevation < minElevation {
+            minElevation = elevation
+        }
+        if elevation > maxElevation {
+            maxElevation = elevation
+        }
+        
+        lastElement = currentElement
+        currentElement = elevation
+        
+        if let lastElement = lastElement, let currentElement = currentElement {
+            if currentElement > lastElement {
+                elevationGained += currentElement - lastElement
+            }
+        }
+    }
+
 }
 

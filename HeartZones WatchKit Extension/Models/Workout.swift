@@ -20,6 +20,7 @@ struct WorkoutDataChangePublishers {
     let bpmPublisher = PassthroughSubject<Int, Never>()
     let distancePublisher = PassthroughSubject<DistanceData, Never>()
     let energyPublisher = PassthroughSubject<Measurement<UnitEnergy>, Never>()
+    let elevationPublisher = PassthroughSubject<Measurement<UnitLength>, Never>()
 }
 
 protocol IWorkout {
@@ -45,9 +46,11 @@ class Workout: NSObject, IWorkout, HKLiveWorkoutBuilderDelegate, HKWorkoutSessio
     private var locationDataPublisher: AnyCancellable?
     private var routeBuilder: HKWorkoutRouteBuilder?
     
+    
     private var bpm = BpmContainer(size: 1)
     private var distances = DistanceContainer(size: 3)
-
+    private var elevationContainer = ElevationContainer()
+    
     init(healthKit: HKHealthStore, type: WorkoutType, locationManager: WorkoutLocationFetcher) {
         self.healthKit = healthKit
         self.workoutType = type
@@ -78,8 +81,8 @@ class Workout: NSObject, IWorkout, HKLiveWorkoutBuilderDelegate, HKWorkoutSessio
         if configuration.locationType == .outdoor {
             locationManager.startWorkoutLocationUpdates()
             self.routeBuilder = HKWorkoutRouteBuilder(healthStore: healthKit, device: nil)
-            
             locationDataPublisher = locationManager.getWorkoutLocationUpdatesPublisher().sink { [weak self] location in
+                self?.elevationContainer.insertLocation(loc: location)
                 self?.routeBuilder?.insertRouteData([location], completion: {
                     result, error in
                     guard result == true else { return }
@@ -122,6 +125,9 @@ class Workout: NSObject, IWorkout, HKLiveWorkoutBuilderDelegate, HKWorkoutSessio
             if self.shouldSaveWorkout() {
                 self.activeWorkoutSession?.associatedWorkoutBuilder().finishWorkout { (workout, error) in
                     guard let workout = workout else { return }
+                    if var metadata = workout.metadata {
+                        metadata[HKMetadataKeyElevationAscended] = self.elevationContainer.elevationGained
+                    }
                     self.routeBuilder?.finishRoute(with: workout, metadata: nil, completion: { (route, error) in
                         guard success else { return }
                     })
@@ -175,10 +181,12 @@ class Workout: NSObject, IWorkout, HKLiveWorkoutBuilderDelegate, HKWorkoutSessio
                 handleBpmData(statistics: statistics)
             }
             if quantityType.isEqual(HKQuantityType.quantityType(forIdentifier: HKQuantityTypeIdentifier.activeEnergyBurned)) {
-                guard let energy = statistics.sumQuantity()?.doubleValue(for: HKUnit.kilocalorie()) else { return }
+                guard let energy = statistics.sumQuantity()?.doubleValue(for: HKUnit.kilocalorie()) else { continue }
                 self.dataPublishers.energyPublisher.send(Measurement(value: energy, unit: UnitEnergy.kilocalories))
             }
         }
+        
+        self.dataPublishers.elevationPublisher.send(Measurement(value: elevationContainer.elevationGained, unit: UnitLength.meters))
     }
     
     private func handleBpmData(statistics: HKStatistics) {

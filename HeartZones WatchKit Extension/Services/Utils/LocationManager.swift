@@ -47,7 +47,8 @@ class LocationManager: NSObject, WorkoutLocationFetcher, OnDemandLocationFetcher
     func getWorkoutLocationUpdatesPublisher() -> AnyPublisher<CLLocation, Never> {
         return workoutLocationPublisher
             .filter({ location in
-                return location.horizontalAccuracy < 30
+                // TODO: Add reasonable filter for vertical accuracy
+                return location.horizontalAccuracy < 30 && location.horizontalAccuracy > 0
             })
             .throttle(for: 3, scheduler: RunLoop.main, latest: true)
             .eraseToAnyPublisher()
