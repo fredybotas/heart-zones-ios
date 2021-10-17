@@ -58,3 +58,24 @@ struct SpeedMetric: Identifiable, Codable, Hashable {
         return getPossibleMetrics()[0]
     }
 }
+
+struct WorkoutMetric: Identifiable, Codable, Hashable {
+    enum UnitType: String, Codable, Hashable {
+        case none = "Empty", distance = "Distance", elevation = "Elevation", energy = "Energy"
+    }
+    
+    let id: UInt
+    let type: UnitType
+    
+    static func getPossibleMetrics() -> [WorkoutMetric] {
+        return [WorkoutMetric(id: 0, type: .none), WorkoutMetric(id: 1, type: .distance), WorkoutMetric(id: 2, type: .energy), WorkoutMetric(id: 3, type: .elevation)]
+    }
+    
+    static func getDefaultForFieldOne() -> WorkoutMetric {
+        return WorkoutMetric(id: 1, type: .distance)
+    }
+    
+    static func getDefaultForFieldTwo() -> WorkoutMetric {
+        return WorkoutMetric(id: 2, type: .energy)
+    }
+}

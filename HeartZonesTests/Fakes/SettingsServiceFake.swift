@@ -24,4 +24,6 @@ class SettingsServiceFake: ISettingsService {
     var selectedDistanceMetric: DistanceMetric = DistanceMetric.getDefault(metric: true)
     var selectedEnergyMetric: EnergyMetric = EnergyMetric.getDefault()
     var selectedSpeedMetric: SpeedMetric = SpeedMetric.getDefault()
+    var selectedMetricInFieldOne: WorkoutMetric = WorkoutMetric.getDefaultForFieldOne()
+    var selectedMetricInFieldTwo: WorkoutMetric = WorkoutMetric.getDefaultForFieldTwo()
 }

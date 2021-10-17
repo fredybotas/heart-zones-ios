@@ -16,7 +16,9 @@ struct SettingsView: View {
         List {
             Section(header: Text("Heart Zones")) {
                 VStack(alignment: .leading) {
-                    Text("Max BPM")
+                    if #available(watchOSApplicationExtension 7.0, *) {
+                        Text("Max BPM")
+                    }
                     Picker("Max BPM", selection: $settingsViewModel.maxBpm) {
                         ForEach(SettingsViewModel.kMinimumBpm..<SettingsViewModel.kMaximumBpm + 1) { bpm in
                             Text(String(bpm)).tag(bpm)
@@ -34,9 +36,9 @@ struct SettingsView: View {
                         Text(zone.name).tag(zone.id)
                     }
                 }
+                .pickerStyle(DefaultPickerStyle())
                 .frame(height: 40)
             }
-            
             Section(header: Text("Alert Settings")) {
                 Toggle("Target zone alert", isOn: $settingsViewModel.targetHeartZoneAlertEnabled)
                 Toggle("Zone pass alert", isOn: $settingsViewModel.heartZonesAlertEnabled)
@@ -47,11 +49,13 @@ struct SettingsView: View {
                         Text(metric.type.rawValue).tag(metric)
                     }
                 }
+                .pickerStyle(DefaultPickerStyle())
                 Picker("Energy", selection: $settingsViewModel.selectedEnergyMetric) {
                     ForEach(settingsViewModel.energyMetricOptions) { metric in
                         Text(metric.type.rawValue).tag(metric)
                     }
                 }
+                .pickerStyle(DefaultPickerStyle())
                 Picker("Speed", selection: $settingsViewModel.selectedSpeedMetric) {
                     ForEach(settingsViewModel.speedMetricOptions) { metric in
                         switch metric.type {
@@ -62,6 +66,22 @@ struct SettingsView: View {
                         }
                     }
                 }
+                .pickerStyle(DefaultPickerStyle())
+            }
+            
+            Section(header: Text("Metrics")) {
+                Picker("Field 1", selection: $settingsViewModel.selectedMetricInFieldOne) {
+                    ForEach(settingsViewModel.metricInFieldOneOptions) { metric in
+                        Text(metric.type.rawValue).tag(metric)
+                    }
+                }
+                .pickerStyle(DefaultPickerStyle())
+                Picker("Field 2", selection: $settingsViewModel.selectedMetricInFieldTwo) {
+                    ForEach(settingsViewModel.metricInFieldTwoOptions) { metric in
+                        Text(metric.type.rawValue).tag(metric)
+                    }
+                }
+                .pickerStyle(DefaultPickerStyle())
             }
             
             Section(header: Text("Misc")) {
@@ -69,8 +89,8 @@ struct SettingsView: View {
                     Text("Reset Zone Settings")
                 }
             }
-            
         }
+        .listStyle(PlainListStyle())
         .navigationBarTitle("Settings")
     }
 }

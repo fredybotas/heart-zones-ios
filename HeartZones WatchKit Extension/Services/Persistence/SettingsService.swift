@@ -14,6 +14,8 @@ protocol ISettingsService {
     var selectedDistanceMetric: DistanceMetric { get set }
     var selectedEnergyMetric: EnergyMetric { get set }
     var selectedSpeedMetric: SpeedMetric { get set }
+    var selectedMetricInFieldOne: WorkoutMetric { get set }
+    var selectedMetricInFieldTwo: WorkoutMetric { get set }
     var selectedHeartZoneSetting: HeartZonesSetting { get set }
     var targetZoneId: Int { get set }
     
@@ -40,6 +42,14 @@ class SettingsService: ISettingsService {
     var selectedSpeedMetric: SpeedMetric {
         get { self.settingsRepository.selectedSpeedMetric ?? SpeedMetric.getDefault() }
         set { self.settingsRepository.selectedSpeedMetric = newValue }
+    }
+    var selectedMetricInFieldOne: WorkoutMetric {
+        get { self.settingsRepository.selectedMetricInFieldOne ?? WorkoutMetric.getDefaultForFieldOne() }
+        set { self.settingsRepository.selectedMetricInFieldOne = newValue }
+    }
+    var selectedMetricInFieldTwo: WorkoutMetric {
+        get { self.settingsRepository.selectedMetricInFieldTwo ?? WorkoutMetric.getDefaultForFieldTwo() }
+        set { self.settingsRepository.selectedMetricInFieldTwo = newValue }
     }
     var heartZonesAlertEnabled: Bool {
         get { self.settingsRepository.heartZonesAlertEnabled ?? true }

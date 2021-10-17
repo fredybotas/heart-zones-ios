@@ -26,6 +26,8 @@ class SettingsViewModel: ObservableObject {
     let energyMetricOptions = EnergyMetric.getPossibleMetrics()
     let speedMetricOptions = SpeedMetric.getPossibleMetrics()
     let zonesCountOptions = HeartZonesSetting.getPossibleZoneCounts()
+    let metricInFieldOneOptions = WorkoutMetric.getPossibleMetrics()
+    let metricInFieldTwoOptions = WorkoutMetric.getPossibleMetrics()
     
     static let kMinimumBpm = 60
     static let kMaximumBpm = 220
@@ -44,6 +46,9 @@ class SettingsViewModel: ObservableObject {
     @Published var selectedEnergyMetric: EnergyMetric
     @Published var selectedSpeedMetric: SpeedMetric
     
+    @Published var selectedMetricInFieldOne: WorkoutMetric
+    @Published var selectedMetricInFieldTwo: WorkoutMetric
+    
     init(settingsService: ISettingsService) {
         self.settingsService = settingsService
 
@@ -57,6 +62,9 @@ class SettingsViewModel: ObservableObject {
         self.selectedEnergyMetric = settingsService.selectedEnergyMetric
         self.selectedSpeedMetric = settingsService.selectedSpeedMetric
 
+        self.selectedMetricInFieldOne = settingsService.selectedMetricInFieldOne
+        self.selectedMetricInFieldTwo = settingsService.selectedMetricInFieldTwo
+        
         initBindings()
     }
     
@@ -108,6 +116,20 @@ class SettingsViewModel: ObservableObject {
             .dropFirst()
             .sink { [weak self] value in
                 self?.settingsService.selectedSpeedMetric = value
+            }
+            .store(in: &cancellables)
+        
+        self.$selectedMetricInFieldOne
+            .dropFirst()
+            .sink { [weak self] value in
+                self?.settingsService.selectedMetricInFieldOne = value
+            }
+            .store(in: &cancellables)
+        
+        self.$selectedMetricInFieldTwo
+            .dropFirst()
+            .sink { [weak self] value in
+                self?.settingsService.selectedMetricInFieldTwo = value
             }
             .store(in: &cancellables)
     }

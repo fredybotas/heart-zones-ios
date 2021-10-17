@@ -14,6 +14,8 @@ protocol ISettingsRepository {
     var selectedDistanceMetric: DistanceMetric? { get set }
     var selectedEnergyMetric: EnergyMetric? { get set }
     var selectedSpeedMetric: SpeedMetric? { get set }
+    var selectedMetricInFieldOne: WorkoutMetric? { get set }
+    var selectedMetricInFieldTwo: WorkoutMetric? { get set }
     var selectedHeartZoneSetting: HeartZonesSetting? { get set }
 }
 
@@ -24,6 +26,8 @@ fileprivate let kSelectedDistanceMetric = "kSelectedDistanceMetric"
 fileprivate let kSelectedEnergyMetric = "kSelectedEnergyMetric"
 fileprivate let kSelectedSpeedMetric = "kSelectedSpeedMetric"
 fileprivate let kDefaultHeartZoneSetting = "kDefaultHeartZoneSetting"
+fileprivate let kSelectedMetricInFieldOne = "kSelectedMetricInFieldOne"
+fileprivate let kSelectedMetricInFieldTwo = "kSelectedMetricInFieldTwo"
 
 class SettingsRepository: ISettingsRepository {
     let manager = UserDefaultsManager()
@@ -58,6 +62,16 @@ class SettingsRepository: ISettingsRepository {
         set { manager.save(newValue, key: kSelectedSpeedMetric) }
     }
     
+    var selectedMetricInFieldOne: WorkoutMetric? {
+        get { manager.get(key: kSelectedMetricInFieldOne) }
+        set { manager.save(newValue, key: kSelectedMetricInFieldOne)}
+    }
+    
+    var selectedMetricInFieldTwo: WorkoutMetric? {
+        get { manager.get(key: kSelectedMetricInFieldTwo) }
+        set { manager.save(newValue, key: kSelectedMetricInFieldTwo)}
+    }
+    
     var selectedHeartZoneSetting: HeartZonesSetting? {
         get { manager.get(key: kDefaultHeartZoneSetting) }
         set { manager.save(newValue, key: kDefaultHeartZoneSetting) }
@@ -73,6 +87,8 @@ class SettingsRepositoryCached: ISettingsRepository {
     private var selectedDistanceMetricInternal: DistanceMetric?
     private var selectedEnergyMetricInternal: EnergyMetric?
     private var selectedSpeedMetricInternal: SpeedMetric?
+    private var selectedWorkoutUnitOneInternal: WorkoutMetric?
+    private var selectedWorkoutUnitTwoInternal: WorkoutMetric?
     private var selectedHeartZoneSettingInternal: HeartZonesSetting?
 
     init() {
@@ -148,6 +164,28 @@ class SettingsRepositoryCached: ISettingsRepository {
         set {
             selectedSpeedMetricInternal = newValue
             settingsRepository.selectedSpeedMetric = newValue
+        }
+    }
+    
+    var selectedMetricInFieldOne: WorkoutMetric? {
+        get {
+            return selectedWorkoutUnitOneInternal
+        }
+        
+        set {
+            selectedWorkoutUnitOneInternal = newValue
+            settingsRepository.selectedMetricInFieldOne = newValue
+        }
+    }
+    
+    var selectedMetricInFieldTwo: WorkoutMetric? {
+        get {
+            return selectedWorkoutUnitTwoInternal
+        }
+        
+        set {
+            selectedWorkoutUnitTwoInternal = newValue
+            settingsRepository.selectedMetricInFieldTwo = newValue
         }
     }
     

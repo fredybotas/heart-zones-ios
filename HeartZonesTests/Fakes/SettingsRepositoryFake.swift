@@ -16,4 +16,6 @@ class SettingsRepositoryFake: ISettingsRepository {
     var selectedDistanceMetric: DistanceMetric? = DistanceMetric.getPossibleMetrics()[0]
     var selectedEnergyMetric: EnergyMetric? = EnergyMetric.getPossibleMetrics()[0]
     var selectedSpeedMetric: SpeedMetric? = SpeedMetric.getPossibleMetrics()[0]
+    var selectedMetricInFieldOne: WorkoutMetric? = WorkoutMetric.getPossibleMetrics()[0]
+    var selectedMetricInFieldTwo: WorkoutMetric? = WorkoutMetric.getPossibleMetrics()[0]
 }
