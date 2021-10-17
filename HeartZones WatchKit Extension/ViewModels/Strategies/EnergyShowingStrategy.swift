@@ -11,12 +11,12 @@ protocol IEnergyShowingStrategy {
     func getEnergyValue(_ data: Measurement<UnitEnergy>) -> String?
     func getEnergyMetric(_ data: Measurement<UnitEnergy>) -> String
     
-    var defaultEnerguValue: String { get }
+    var defaultEnergyValue: String { get }
     var defaultEnergyUnit: String { get }
 }
 
 class EnergyKcalShowingStrategy: IEnergyShowingStrategy {
-    var defaultEnerguValue: String {
+    var defaultEnergyValue: String {
         get {
             "0"
         }
@@ -49,7 +49,7 @@ class EnergyKcalShowingStrategy: IEnergyShowingStrategy {
 }
 
 class EnergyKJShowingStrategy: IEnergyShowingStrategy {
-    var defaultEnerguValue: String {
+    var defaultEnergyValue: String {
         get {
             "0"
         }

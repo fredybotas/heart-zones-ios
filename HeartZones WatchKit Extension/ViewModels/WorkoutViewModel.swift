@@ -52,7 +52,8 @@ class WorkoutViewModel: ObservableObject {
     private var workoutDistanceDataSubscriber: AnyCancellable?
     private var workoutHeartDataSubscriber: AnyCancellable?
     private var workoutEnergyDataSubscriber: AnyCancellable?
-
+    private var workoutElevationDataSubscriber: AnyCancellable?
+    
     private var appStateChangeSubscriber: AnyCancellable?
 
     init(workoutType: WorkoutType, workoutService: IWorkoutService, heartZoneService: IHeartZoneService, sunService: ISunService, settingsService: ISettingsService) {
@@ -85,12 +86,40 @@ class WorkoutViewModel: ObservableObject {
                 self.distanceShowingStrategy = MilleageDistanceWithSpeedShowingStrategy()
             }
         }
-        
-        self.fieldOne = self.distanceShowingStrategy.defaultDistanceValue
-        self.fieldOneUnit = self.distanceShowingStrategy.defaultDistanceUnit
 
-        self.fieldTwo = self.energyShowingStrategy.defaultEnerguValue
-        self.fieldTwoUnit = self.energyShowingStrategy.defaultEnergyUnit
+        switch settingsService.selectedMetricInFieldOne.type {
+        case .none:
+            self.fieldOne = ""
+            self.fieldOneUnit = ""
+            break
+        case .energy:
+            self.fieldOne = self.energyShowingStrategy.defaultEnergyValue
+            self.fieldOneUnit = self.energyShowingStrategy.defaultEnergyUnit
+            break
+        case .distance:
+            fallthrough
+        case .elevation:
+            self.fieldOne = self.distanceShowingStrategy.defaultDistanceValue
+            self.fieldOneUnit = self.distanceShowingStrategy.defaultDistanceUnit
+            break
+        }
+
+        switch settingsService.selectedMetricInFieldTwo.type {
+        case .none:
+            self.fieldTwo = ""
+            self.fieldTwoUnit = ""
+            break
+        case .energy:
+            self.fieldTwo = self.energyShowingStrategy.defaultEnergyValue
+            self.fieldTwoUnit = self.energyShowingStrategy.defaultEnergyUnit
+            break
+        case .distance:
+            fallthrough
+        case .elevation:
+            self.fieldTwo = self.distanceShowingStrategy.defaultDistanceValue
+            self.fieldTwoUnit = self.distanceShowingStrategy.defaultDistanceUnit
+            break
+        }
         
         self.currentPace = self.distanceShowingStrategy.defaultPaceString
         self.averagePace = self.distanceShowingStrategy.defaultPaceString
@@ -119,6 +148,19 @@ class WorkoutViewModel: ObservableObject {
         setDistanceSubscriber()
         setHeartDataSubscriber()
         setEnergySubscriber()
+        setElevationSubscriber()
+    }
+    
+    func setElevationSubscriber() {
+        workoutElevationDataSubscriber = workoutService
+            .getActiveWorkoutDataPublisher()?
+            .elevationPublisher
+            .receive(on: DispatchQueue.main)
+            .sink(receiveCompletion: { [weak self] completion in
+                self?.workoutElevationDataSubscriber = nil
+            }, receiveValue: { [weak self] data in
+                self?.processElevationData(data)
+            })
     }
     
     func setDistanceSubscriber() {
@@ -133,6 +175,22 @@ class WorkoutViewModel: ObservableObject {
             })
     }
     
+    private func processElevationData(_ data: Measurement<UnitLength>) {
+        // TODO: Refactor with distance data
+        let (value, unit) = self.distanceShowingStrategy.getDistanceValueAndUnit(data)
+        guard let value = value else { return }
+        guard let unit = unit else { return }
+        
+        if settingsService.selectedMetricInFieldOne.type == .elevation {
+            self.fieldOne = value
+            self.fieldOneUnit = unit
+        }
+        if settingsService.selectedMetricInFieldTwo.type == .elevation {
+            self.fieldTwo = value
+            self.fieldTwoUnit = unit
+        }
+    }
+    
     private func processDistanceData(_ data: DistanceData) {
         self.currentPace = self.distanceShowingStrategy.getCurrentPace(data)
         self.averagePace = self.distanceShowingStrategy.getAveragePace(data)
@@ -141,8 +199,14 @@ class WorkoutViewModel: ObservableObject {
         guard let value = value else { return }
         guard let unit = unit else { return }
         
-        self.fieldOne = value
-        self.fieldOneUnit = unit
+        if settingsService.selectedMetricInFieldOne.type == .distance {
+            self.fieldOne = value
+            self.fieldOneUnit = unit
+        }
+        if settingsService.selectedMetricInFieldTwo.type == .distance {
+            self.fieldTwo = value
+            self.fieldTwoUnit = unit
+        }
     }
     
     func setHeartDataSubscriber() {
@@ -179,8 +243,14 @@ class WorkoutViewModel: ObservableObject {
     }
     
     private func processEnergyData(_ data: Measurement<UnitEnergy>) {
-        fieldTwo = self.energyShowingStrategy.getEnergyValue(data) ?? fieldTwo
-        fieldTwoUnit = self.energyShowingStrategy.getEnergyMetric(data)
+        if settingsService.selectedMetricInFieldOne.type == .energy {
+            fieldOne = self.energyShowingStrategy.getEnergyValue(data) ?? fieldOne
+            fieldOneUnit = self.energyShowingStrategy.getEnergyMetric(data)
+        }
+        if settingsService.selectedMetricInFieldTwo.type == .energy {
+            fieldTwo = self.energyShowingStrategy.getEnergyValue(data) ?? fieldTwo
+            fieldTwoUnit = self.energyShowingStrategy.getEnergyMetric(data)
+        }
     }
     
     private func startTimer(slow: Bool) {

@@ -99,6 +99,8 @@ class SettingsRepositoryCached: ISettingsRepository {
         selectedEnergyMetricInternal = settingsRepository.selectedEnergyMetric
         selectedSpeedMetricInternal = settingsRepository.selectedSpeedMetric
         selectedHeartZoneSettingInternal = settingsRepository.selectedHeartZoneSetting
+        selectedMetricInFieldOne = settingsRepository.selectedMetricInFieldOne
+        selectedMetricInFieldTwo = settingsRepository.selectedMetricInFieldTwo
     }
         
     var heartZonesAlertEnabled: Bool? {

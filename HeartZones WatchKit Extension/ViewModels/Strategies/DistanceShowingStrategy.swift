@@ -9,7 +9,8 @@ import Foundation
 
 protocol IDistanceShowingStrategy {
     func getDistanceValueAndUnit(_ data: DistanceData) -> (String?, String?)
-
+    func getDistanceValueAndUnit(_ data: Measurement<UnitLength>) -> (String?, String?)
+    
     func getCurrentPace(_ data: DistanceData) -> String
     func getAveragePace(_ data: DistanceData) -> String
 
@@ -38,16 +39,20 @@ class MetricDistanceWithPaceShowingStrategy: IDistanceShowingStrategy {
         }
     }
     
+    func getDistanceValueAndUnit(_ data: Measurement<UnitLength>) -> (String?, String?) {
+        data.toMetricLengthValueAndUnitString()
+    }
+    
     func getDistanceValueAndUnit(_ data: DistanceData) -> (String?, String?) {
-        return data.distance.toMetricLengthValueAndUnitString()
+        data.distance.toMetricLengthValueAndUnitString()
     }
 
     func getCurrentPace(_ data: DistanceData) -> String {
-        return data.currentSpeed.toMetricPaceString() ?? defaultPaceString
+        data.currentSpeed.toMetricPaceString() ?? defaultPaceString
     }
     
     func getAveragePace(_ data: DistanceData) -> String {
-        return data.averageSpeed.toMetricPaceString() ?? defaultPaceString
+        data.averageSpeed.toMetricPaceString() ?? defaultPaceString
     }
 }
 
@@ -70,16 +75,20 @@ class MilleageDistanceWithPaceShowingStrategy: IDistanceShowingStrategy {
         }
     }
     
+    func getDistanceValueAndUnit(_ data: Measurement<UnitLength>) -> (String?, String?) {
+        data.toMilleageLengthValueAndUnitString()
+    }
+    
     func getDistanceValueAndUnit(_ data: DistanceData) -> (String?, String?) {
-        return data.distance.toMilleageLengthValueAndUnitString()
+        data.distance.toMilleageLengthValueAndUnitString()
     }
     
     func getCurrentPace(_ data: DistanceData) -> String {
-        return data.currentSpeed.toMilleagePaceString() ?? defaultPaceString
+        data.currentSpeed.toMilleagePaceString() ?? defaultPaceString
     }
     
     func getAveragePace(_ data: DistanceData) -> String {
-        return data.averageSpeed.toMilleagePaceString() ?? defaultPaceString
+        data.averageSpeed.toMilleagePaceString() ?? defaultPaceString
     }
 }
 
@@ -102,16 +111,20 @@ class MetricDistanceWithSpeedShowingStrategy: IDistanceShowingStrategy {
         }
     }
     
+    func getDistanceValueAndUnit(_ data: Measurement<UnitLength>) -> (String?, String?) {
+        data.toMetricLengthValueAndUnitString()
+    }
+    
     func getDistanceValueAndUnit(_ data: DistanceData) -> (String?, String?) {
-        return data.distance.toMetricLengthValueAndUnitString()
+        data.distance.toMetricLengthValueAndUnitString()
     }
     
     func getCurrentPace(_ data: DistanceData) -> String {
-        return data.currentSpeed.toMetricSpeedString().uppercased()
+        data.currentSpeed.toMetricSpeedString().uppercased()
     }
     
     func getAveragePace(_ data: DistanceData) -> String {
-        return data.averageSpeed.toMetricSpeedString().uppercased()
+        data.averageSpeed.toMetricSpeedString().uppercased()
     }
 }
 
@@ -133,16 +146,20 @@ class MilleageDistanceWithSpeedShowingStrategy: IDistanceShowingStrategy {
             "--'--''"
         }
     }
+    func getDistanceValueAndUnit(_ data: Measurement<UnitLength>) -> (String?, String?) {
+        data.toMilleageLengthValueAndUnitString()
+    }
+    
     func getDistanceValueAndUnit(_ data: DistanceData) -> (String?, String?) {
-        return data.distance.toMilleageLengthValueAndUnitString()
+        data.distance.toMilleageLengthValueAndUnitString()
     }
     
     func getCurrentPace(_ data: DistanceData) -> String {
-        return data.currentSpeed.toMilleageSpeedString().uppercased()
+        data.currentSpeed.toMilleageSpeedString().uppercased()
     }
     
     func getAveragePace(_ data: DistanceData) -> String {
-        return data.averageSpeed.toMilleageSpeedString().uppercased()
+        data.averageSpeed.toMilleageSpeedString().uppercased()
     }
 }
 
