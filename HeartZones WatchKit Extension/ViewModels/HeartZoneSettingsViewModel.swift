@@ -120,7 +120,7 @@ class HeartZoneSettingsViewModel: ObservableObject {
         
         Publishers
             .MergeMany(listOfInterestingPublishers)
-            .debounce(for: .seconds(0.6), scheduler: RunLoop.main, options: nil)
+            .debounce(for: .seconds(0.2), scheduler: RunLoop.main, options: nil)
             .dropFirst()
             .sink { [weak self] _ in
                 self?.saveZone()
@@ -130,7 +130,6 @@ class HeartZoneSettingsViewModel: ObservableObject {
     
     private func saveZone() {
         settingsService.selectedHeartZoneSetting = HeartZonesSetting(zones: zones.map{ $0.getHeartZone() })
-        print("saving")
     }
 }
 

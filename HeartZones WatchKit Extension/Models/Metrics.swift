@@ -13,7 +13,8 @@ struct DistanceMetric: Identifiable, Codable, Hashable {
     }
     let id: UInt
     let type: MetricType
-    
+    var description: String { get { type.rawValue }}
+
     static func getPossibleMetrics() -> [DistanceMetric] {
         return [DistanceMetric(id: 0, type: .km), DistanceMetric(id: 1, type: .mi)]
     }
@@ -33,7 +34,8 @@ struct EnergyMetric: Identifiable, Codable, Hashable {
     }
     let id: UInt
     let type: MetricType
-    
+    var description: String { get { type.rawValue }}
+
     static func getPossibleMetrics() -> [EnergyMetric] {
         return [EnergyMetric(id: 0, type: .kcal), EnergyMetric(id: 1, type: .kj)]
     }
@@ -49,7 +51,7 @@ struct SpeedMetric: Identifiable, Codable, Hashable {
     }
     let id: UInt
     let type: MetricType
-    
+
     static func getPossibleMetrics() -> [SpeedMetric] {
         return [SpeedMetric(id: 0, type: .pace), SpeedMetric(id: 1, type: .speed)]
     }
@@ -66,7 +68,8 @@ struct WorkoutMetric: Identifiable, Codable, Hashable {
     
     let id: UInt
     let type: UnitType
-    
+    var description: String { get { type.rawValue }}
+
     static func getPossibleMetrics() -> [WorkoutMetric] {
         return [WorkoutMetric(id: 0, type: .none), WorkoutMetric(id: 1, type: .distance), WorkoutMetric(id: 2, type: .energy), WorkoutMetric(id: 3, type: .elevation)]
     }

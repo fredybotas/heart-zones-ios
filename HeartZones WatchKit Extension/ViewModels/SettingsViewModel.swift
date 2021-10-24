@@ -92,7 +92,6 @@ class SettingsViewModel: ObservableObject {
         
         self.$maxBpm
             .dropFirst()
-            .debounce(for: 0.5, scheduler: RunLoop.main)
             .sink { [weak self] value in
                 self?.settingsService.maximumBpm = value
             }
