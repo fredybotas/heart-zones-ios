@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct DistanceMetric: Identifiable, Codable, Hashable {
+struct DistanceMetric: Identifiable, Codable, Hashable, CustomStringConvertible {
     enum MetricType: String, Codable, Hashable {
         case km = "km", mi = "mi"
     }
@@ -28,7 +28,7 @@ struct DistanceMetric: Identifiable, Codable, Hashable {
     }
 }
 
-struct EnergyMetric: Identifiable, Codable, Hashable {
+struct EnergyMetric: Identifiable, Codable, Hashable, CustomStringConvertible {
     enum MetricType: String, Codable, Hashable {
         case kcal = "kcal", kj = "kJ"
     }
@@ -45,12 +45,13 @@ struct EnergyMetric: Identifiable, Codable, Hashable {
     }
 }
 
-struct SpeedMetric: Identifiable, Codable, Hashable {
-    enum MetricType: Int, Codable, Hashable {
-        case pace, speed
+struct SpeedMetric: Identifiable, Codable, Hashable, CustomStringConvertible {
+    enum MetricType: String, Codable, Hashable {
+        case pace = "Pace", speed = "Speed"
     }
     let id: UInt
     let type: MetricType
+    var description: String { get { type.rawValue }}
 
     static func getPossibleMetrics() -> [SpeedMetric] {
         return [SpeedMetric(id: 0, type: .pace), SpeedMetric(id: 1, type: .speed)]
@@ -61,7 +62,7 @@ struct SpeedMetric: Identifiable, Codable, Hashable {
     }
 }
 
-struct WorkoutMetric: Identifiable, Codable, Hashable {
+struct WorkoutMetric: Identifiable, Codable, Hashable, CustomStringConvertible {
     enum UnitType: String, Codable, Hashable {
         case none = "Empty", distance = "Distance", elevation = "Elevation", energy = "Energy"
     }

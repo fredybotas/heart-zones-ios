@@ -33,85 +33,157 @@ struct PickerView<T: Hashable & Identifiable & CustomStringConvertible>: View {
                 }
             }
         }
-        
     }
-}
-
-struct BpmDTO: Identifiable, Hashable, CustomStringConvertible {
-    var id: Int
-    var value: Int
-    var description: String { get { String(value) } }
 }
 
 struct SettingsView: View {
     @ObservedObject var settingsViewModel: SettingsViewModel
     @State var selectionShown = false
+    
+    func getSpeedString(speedMetric: SpeedMetric, distanceMetric: DistanceMetric) -> String {
+        switch speedMetric.type {
+        case .pace:
+            return String("min / " + distanceMetric.type.rawValue)
+        case .speed:
+            return String(distanceMetric.type.rawValue + " / h")
+        }
+    }
+    
     var body: some View {
         List {
             Section(header: Text("Heart Zones")) {
-                VStack(alignment: .leading) {
+                if #available(watchOSApplicationExtension 7.0, *) {
                     Picker("Max BPM", selection: $settingsViewModel.maxBpm) {
                         ForEach(SettingsViewModel.kMinimumBpm..<SettingsViewModel.kMaximumBpm + 1) { bpm in
                             Text(String(bpm)).tag(bpm)
                         }
                     }
                     .frame(height: 25)
-//                    NavigationLink(destination: LazyView(PickerView(possibleValues: [1, 2, 3, 4].map { BpmDTO(id: $0, value: $0) }, selectionId: $settingsViewModel.maxBpm, showView: $selectionShown)), isActive: $selectionShown) {
-//                        VStack(alignment: .leading) {
-//                            Text("Max BPM")
-//                            Text(String(settingsViewModel.maxBpm))
-//                                .font(Font.footnote)
-//                                .foregroundColor(.gray)
-//
-//                        }
-//                    }
+                } else {
+                    NavigationLink(destination: LazyView(PickerView(possibleValues: settingsViewModel.maxBpmOptions, selectionId: $settingsViewModel.maxBpm, showView: $selectionShown)), isActive: $selectionShown) {
+                        VStack(alignment: .leading) {
+                            Text("Max BPM")
+                            Text(String(settingsViewModel.maxBpm))
+                                .font(Font.footnote)
+                                .foregroundColor(.gray)
+
+                        }
+                    }
                 }
                 NavigationLink(destination: LazyView(HeartZoneCircularPickerView(heartZoneSettingsViewModel: DIContainer.shared.resolve(HeartZoneSettingsViewModel.self)!))) {
                     Text("Zones settings")
                 }
-                Picker("Target zone", selection: $settingsViewModel.targetZone) {
-                    ForEach(settingsViewModel.zones) { zone in
-                        Text(zone.name).tag(zone.id)
+                if #available(watchOSApplicationExtension 7.0, *) {
+                    Picker("Target zone", selection: $settingsViewModel.targetZone) {
+                        ForEach(settingsViewModel.zones) { zone in
+                            Text(zone.name).tag(zone.id)
+                        }
+                    }
+                    .frame(height: 40)
+                } else {
+                    NavigationLink(destination: LazyView(PickerView(possibleValues: settingsViewModel.zones, selectionId: $settingsViewModel.targetZone, showView: $selectionShown)), isActive: $selectionShown) {
+                        VStack(alignment: .leading) {
+                            Text("Target zone")
+                            // TODO: Not safe, fix if zone id changes
+                            Text(String(settingsViewModel.zones[settingsViewModel.targetZone].name))
+                                .font(Font.footnote)
+                                .foregroundColor(.gray)
+
+                        }
                     }
                 }
-                .frame(height: 40)
             }
             Section(header: Text("Alert Settings")) {
                 Toggle("Target zone alert", isOn: $settingsViewModel.targetHeartZoneAlertEnabled)
                 Toggle("Zone pass alert", isOn: $settingsViewModel.heartZonesAlertEnabled)
             }
             Section(header: Text("Units")) {
-                Picker("Distance", selection: $settingsViewModel.selectedDistanceMetric) {
-                    ForEach(settingsViewModel.distanceMetricOptions) { metric in
-                        Text(metric.type.rawValue).tag(metric)
+                if #available(watchOSApplicationExtension 7.0, *) {
+                    Picker("Distance", selection: $settingsViewModel.selectedDistanceMetric) {
+                        ForEach(settingsViewModel.distanceMetricOptions) { metric in
+                            Text(metric.type.rawValue).tag(metric)
+                        }
+                    }
+                } else {
+                    NavigationLink(destination: LazyView(PickerView(possibleValues: settingsViewModel.distanceMetricOptions, selectionType: $settingsViewModel.selectedDistanceMetric, showView: $selectionShown)), isActive: $selectionShown) {
+                        VStack(alignment: .leading) {
+                            Text("Distance")
+                            Text(String(settingsViewModel.selectedDistanceMetric.description))
+                                .font(Font.footnote)
+                                .foregroundColor(.gray)
+
+                        }
                     }
                 }
-                Picker("Energy", selection: $settingsViewModel.selectedEnergyMetric) {
-                    ForEach(settingsViewModel.energyMetricOptions) { metric in
-                        Text(metric.type.rawValue).tag(metric)
+                if #available(watchOSApplicationExtension 7.0, *) {
+                    Picker("Energy", selection: $settingsViewModel.selectedEnergyMetric) {
+                        ForEach(settingsViewModel.energyMetricOptions) { metric in
+                            Text(metric.type.rawValue).tag(metric)
+                        }
+                    }
+                } else {
+                    NavigationLink(destination: LazyView(PickerView(possibleValues: settingsViewModel.energyMetricOptions, selectionType: $settingsViewModel.selectedEnergyMetric, showView: $selectionShown)), isActive: $selectionShown) {
+                        VStack(alignment: .leading) {
+                            Text("Energy")
+                            Text(String(settingsViewModel.selectedEnergyMetric.description))
+                                .font(Font.footnote)
+                                .foregroundColor(.gray)
+
+                        }
                     }
                 }
-                Picker("Speed", selection: $settingsViewModel.selectedSpeedMetric) {
-                    ForEach(settingsViewModel.speedMetricOptions) { metric in
-                        switch metric.type {
-                        case .pace:
-                            Text("min / " + settingsViewModel.selectedDistanceMetric.type.rawValue).tag(metric)
-                        case .speed:
-                            Text(settingsViewModel.selectedDistanceMetric.type.rawValue + " / h").tag(metric)
+                if #available(watchOSApplicationExtension 7.0, *) {
+                    Picker("Speed", selection: $settingsViewModel.selectedSpeedMetric) {
+                        ForEach(settingsViewModel.speedMetricOptions) { metric in
+                            Text(getSpeedString(speedMetric: metric, distanceMetric:settingsViewModel.selectedDistanceMetric)).tag(metric)
+                        }
+                    }
+                } else {
+                    NavigationLink(destination: LazyView(PickerView(possibleValues: settingsViewModel.speedMetricOptions, selectionType: $settingsViewModel.selectedSpeedMetric, showView: $selectionShown)), isActive: $selectionShown) {
+                        VStack(alignment: .leading) {
+                            Text("Speed")
+                            Text(String(getSpeedString(speedMetric: settingsViewModel.selectedSpeedMetric, distanceMetric:settingsViewModel.selectedDistanceMetric)))
+                                .font(Font.footnote)
+                                .foregroundColor(.gray)
+
                         }
                     }
                 }
             }
 
             Section(header: Text("Metrics")) {
-                Picker("Field 1", selection: $settingsViewModel.selectedMetricInFieldOne) {
-                    ForEach(settingsViewModel.metricInFieldOneOptions) { metric in
-                        Text(metric.type.rawValue).tag(metric)
+                if #available(watchOSApplicationExtension 7.0, *) {
+                    Picker("Field 1", selection: $settingsViewModel.selectedMetricInFieldOne) {
+                        ForEach(settingsViewModel.metricInFieldOneOptions) { metric in
+                            Text(metric.type.rawValue).tag(metric)
+                        }
+                    }
+                } else {
+                    NavigationLink(destination: LazyView(PickerView(possibleValues: settingsViewModel.metricInFieldOneOptions, selectionType: $settingsViewModel.selectedMetricInFieldOne, showView: $selectionShown)), isActive: $selectionShown) {
+                        VStack(alignment: .leading) {
+                            Text("Field 1")
+                            Text(String(settingsViewModel.selectedMetricInFieldOne.description))
+                                .font(Font.footnote)
+                                .foregroundColor(.gray)
+
+                        }
                     }
                 }
-                Picker("Field 2", selection: $settingsViewModel.selectedMetricInFieldTwo) {
-                    ForEach(settingsViewModel.metricInFieldTwoOptions) { metric in
-                        Text(metric.type.rawValue).tag(metric)
+                if #available(watchOSApplicationExtension 7.0, *) {
+                    Picker("Field 2", selection: $settingsViewModel.selectedMetricInFieldTwo) {
+                        ForEach(settingsViewModel.metricInFieldTwoOptions) { metric in
+                            Text(metric.type.rawValue).tag(metric)
+                        }
+                    }
+                } else {
+                    NavigationLink(destination: LazyView(PickerView(possibleValues: settingsViewModel.metricInFieldTwoOptions, selectionType: $settingsViewModel.selectedMetricInFieldTwo, showView: $selectionShown)), isActive: $selectionShown) {
+                        VStack(alignment: .leading) {
+                            Text("Field 2")
+                            Text(String(settingsViewModel.selectedMetricInFieldTwo.description))
+                                .font(Font.footnote)
+                                .foregroundColor(.gray)
+
+                        }
                     }
                 }
             }

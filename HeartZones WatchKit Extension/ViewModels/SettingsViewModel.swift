@@ -9,18 +9,39 @@ import Foundation
 import Combine
 import SwiftUI
 
+struct BpmViewModel: Identifiable, Hashable, CustomStringConvertible {
+    var id: Int
+    var value: Int
+    var description: String { get { String(value) } }
+}
+
 class SettingsViewModel: ObservableObject {
-    class Zone: ObservableObject, Identifiable {
+    class Zone: ObservableObject, Identifiable, CustomStringConvertible, Hashable {
+        static func == (lhs: SettingsViewModel.Zone, rhs: SettingsViewModel.Zone) -> Bool {
+            return lhs.id == rhs.id && lhs.name == rhs.name && lhs.target && rhs.target
+        }
+        
         let id: Int
         let name: String
         let target: Bool
-
+        
+        var description: String { get { name } }
+        
         init(id: Int, name: String, target: Bool) {
             self.id = id
             self.name = name
             self.target = target
         }
+
+        func hash(into hasher: inout Hasher) {
+            hasher.combine(id)
+            hasher.combine(name)
+            hasher.combine(target)
+        }
+
     }
+    static let kMinimumBpm = 60
+    static let kMaximumBpm = 220
     
     let distanceMetricOptions = DistanceMetric.getPossibleMetrics()
     let energyMetricOptions = EnergyMetric.getPossibleMetrics()
@@ -28,9 +49,7 @@ class SettingsViewModel: ObservableObject {
     let zonesCountOptions = HeartZonesSetting.getPossibleZoneCounts()
     let metricInFieldOneOptions = WorkoutMetric.getPossibleMetrics()
     let metricInFieldTwoOptions = WorkoutMetric.getPossibleMetrics()
-    
-    static let kMinimumBpm = 60
-    static let kMaximumBpm = 220
+    let maxBpmOptions = Array.init(kMinimumBpm..<kMaximumBpm).map { BpmViewModel(id: $0, value: $0) }
 
     private var settingsService: ISettingsService
     private var cancellables = Set<AnyCancellable>()
