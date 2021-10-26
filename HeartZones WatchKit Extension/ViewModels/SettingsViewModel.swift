@@ -40,7 +40,7 @@ class SettingsViewModel: ObservableObject {
         }
 
     }
-    static let kMinimumBpm = 60
+    static let kMinimumBpm = 120
     static let kMaximumBpm = 220
     
     let distanceMetricOptions = DistanceMetric.getPossibleMetrics()
