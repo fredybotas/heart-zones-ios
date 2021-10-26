@@ -28,6 +28,7 @@ class WorkoutViewModel: ObservableObject {
     @Published private(set) var bpmUnit: String = "BPM"
     
     @Published private(set) var bpmCircleColor = Color.black
+    @Published private(set) var bpmPercentage = 0
     @Published private(set) var bpmCircleRatio = 0.0
     
     @Published private(set) var sunsetLeft = 0
@@ -228,6 +229,14 @@ class WorkoutViewModel: ObservableObject {
         self.bpmCircleColor = data.1.color.toColor()
         guard let ratio = data.1.getBpmRatio(bpm: data.0, maxBpm: self.settingsService.maximumBpm) else { return }
         self.bpmCircleRatio = ratio
+        var bpmPercentage = Int((Double(data.0) / Double(settingsService.maximumBpm)) * 100)
+        if bpmPercentage < 0 {
+            bpmPercentage = 0
+        }
+        if bpmPercentage > 99 {
+            bpmPercentage = 99
+        }
+        self.bpmPercentage = bpmPercentage
     }
     
     func setEnergySubscriber() {

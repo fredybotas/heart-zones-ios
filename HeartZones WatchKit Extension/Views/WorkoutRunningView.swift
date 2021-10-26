@@ -41,7 +41,7 @@ struct WorkoutRunningView: View {
         VStack(alignment: .leading, spacing: nil) {
             Text(workoutViewModel.time)
                 .font(Font.system(size: 32 * getDeviceSizeMultiplier(), weight: .semibold, design: .default))
-            Spacer(minLength: 8 * getDeviceSizeMultiplier())
+            Spacer(minLength: 5 * getDeviceSizeMultiplier())
             HStack(alignment: .top, spacing: 0) {
                 VStack(alignment: .leading, spacing: 0) {
                     Text(workoutViewModel.bpm)
@@ -73,14 +73,18 @@ struct WorkoutRunningView: View {
                     ZStack(alignment: .center) {
                         PieSegment(ratio: workoutViewModel.bpmCircleRatio)
                             .fill(workoutViewModel.bpmCircleColor)
-                            .frame(width: 20 * getDeviceSizeMultiplier(), height: 20 * getDeviceSizeMultiplier(), alignment: .center)
-                            .padding(2.5 * getDeviceSizeMultiplier())
+                            .frame(width: 25 * getDeviceSizeMultiplier(), height: 25 * getDeviceSizeMultiplier(), alignment: .center)
                         PieSegment(ratio: 1.0)
                             .fill(Color.black)
-                            .frame(width: 14 * getDeviceSizeMultiplier(), height: 14 * getDeviceSizeMultiplier(), alignment: .center)
-                            .padding(2.5 * getDeviceSizeMultiplier())
+                            .frame(width: 21 * getDeviceSizeMultiplier(), height: 21 * getDeviceSizeMultiplier(), alignment: .center)
                             // Hack with new sdk causing, zstack to not center elements correctly
                             .offset(x: -0.11, y: 0)
+                        Text(String(workoutViewModel.bpmPercentage))
+                            .foregroundColor(workoutViewModel.bpmCircleColor)
+                            .frame(width: 25 * getDeviceSizeMultiplier(), height: 25 * getDeviceSizeMultiplier(), alignment: .center)
+                            .font(Font.system(size: 12 * getDeviceSizeMultiplier(), weight: .medium, design: .default))
+                            .offset(x: 0, y: -0.1)
+
                     }
                     SunViewWithMinutes(minutesLeft: workoutViewModel.sunsetLeft, sunVisibility: workoutViewModel.sunVisibility)
                         .frame(width: 20 * getDeviceSizeMultiplier(), height: 40 * getDeviceSizeMultiplier(), alignment: .center)
