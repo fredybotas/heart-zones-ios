@@ -42,13 +42,12 @@ class WorkoutViewModel: ObservableObject {
     private let settingsService: ISettingsService
 
     private let workoutType: WorkoutType
-    
-    private let energyShowingStrategy: IEnergyShowingStrategy
-    private let distanceShowingStrategy: IDistanceShowingStrategy
 
     private var timer: AnyCancellable?
     private var sunsetTimer: AnyCancellable?
     private var sunsetSubscription: AnyCancellable?
+    
+    private let showingStrategies: ShowingStrategyFacade
     
     private var workoutDistanceDataSubscriber: AnyCancellable?
     private var workoutHeartDataSubscriber: AnyCancellable?
@@ -63,45 +62,22 @@ class WorkoutViewModel: ObservableObject {
         self.sunService = sunService
         self.workoutType = workoutType
         self.settingsService = settingsService
-        
-        switch self.settingsService.selectedEnergyMetric.type {
-        case .kj:
-            self.energyShowingStrategy = EnergyKJShowingStrategy()
-        case .kcal:
-            self.energyShowingStrategy = EnergyKcalShowingStrategy()
-        }
-        
-        switch self.settingsService.selectedDistanceMetric.type {
-        case .km:
-            switch self.settingsService.selectedSpeedMetric.type {
-            case .pace:
-                self.distanceShowingStrategy = MetricDistanceWithPaceShowingStrategy()
-            case .speed:
-                self.distanceShowingStrategy = MetricDistanceWithSpeedShowingStrategy()
-            }
-        case .mi:
-            switch self.settingsService.selectedSpeedMetric.type {
-            case .pace:
-                self.distanceShowingStrategy = MilleageDistanceWithPaceShowingStrategy()
-            case .speed:
-                self.distanceShowingStrategy = MilleageDistanceWithSpeedShowingStrategy()
-            }
-        }
-
+        self.showingStrategies = ShowingStrategyFacade(settingsService: settingsService)
+    
         switch settingsService.selectedMetricInFieldOne.type {
         case .none:
             self.fieldOne = ""
             self.fieldOneUnit = ""
             break
         case .energy:
-            self.fieldOne = self.energyShowingStrategy.defaultEnergyValue
-            self.fieldOneUnit = self.energyShowingStrategy.defaultEnergyUnit
+            self.fieldOne = self.showingStrategies.energyShowingStrategy.defaultEnergyValue
+            self.fieldOneUnit = self.showingStrategies.energyShowingStrategy.defaultEnergyUnit
             break
         case .distance:
             fallthrough
         case .elevation:
-            self.fieldOne = self.distanceShowingStrategy.defaultDistanceValue
-            self.fieldOneUnit = self.distanceShowingStrategy.defaultDistanceUnit
+            self.fieldOne = self.showingStrategies.distanceShowingStrategy.defaultDistanceValue
+            self.fieldOneUnit = self.showingStrategies.distanceShowingStrategy.defaultDistanceUnit
             break
         }
 
@@ -111,19 +87,19 @@ class WorkoutViewModel: ObservableObject {
             self.fieldTwoUnit = ""
             break
         case .energy:
-            self.fieldTwo = self.energyShowingStrategy.defaultEnergyValue
-            self.fieldTwoUnit = self.energyShowingStrategy.defaultEnergyUnit
+            self.fieldTwo = self.showingStrategies.energyShowingStrategy.defaultEnergyValue
+            self.fieldTwoUnit = self.showingStrategies.energyShowingStrategy.defaultEnergyUnit
             break
         case .distance:
             fallthrough
         case .elevation:
-            self.fieldTwo = self.distanceShowingStrategy.defaultDistanceValue
-            self.fieldTwoUnit = self.distanceShowingStrategy.defaultDistanceUnit
+            self.fieldTwo = self.showingStrategies.distanceShowingStrategy.defaultDistanceValue
+            self.fieldTwoUnit = self.showingStrategies.distanceShowingStrategy.defaultDistanceUnit
             break
         }
         
-        self.currentPace = self.distanceShowingStrategy.defaultPaceString
-        self.averagePace = self.distanceShowingStrategy.defaultPaceString
+        self.currentPace = self.showingStrategies.distanceShowingStrategy.defaultPaceString
+        self.averagePace = self.showingStrategies.distanceShowingStrategy.defaultPaceString
         
         if let delegate = WKExtension.shared().delegate as? ExtensionDelegate {
             appStateChangeSubscriber = delegate.appStateChangePublisher
@@ -178,7 +154,7 @@ class WorkoutViewModel: ObservableObject {
     
     private func processElevationData(_ data: Measurement<UnitLength>) {
         // TODO: Refactor with distance data
-        let (value, unit) = self.distanceShowingStrategy.getDistanceValueAndUnit(data)
+        let (value, unit) = self.showingStrategies.distanceShowingStrategy.getDistanceValueAndUnit(data)
         guard let value = value else { return }
         guard let unit = unit else { return }
         
@@ -193,10 +169,10 @@ class WorkoutViewModel: ObservableObject {
     }
     
     private func processDistanceData(_ data: DistanceData) {
-        self.currentPace = self.distanceShowingStrategy.getCurrentPace(data)
-        self.averagePace = self.distanceShowingStrategy.getAveragePace(data)
+        self.currentPace = self.showingStrategies.distanceShowingStrategy.getCurrentPace(data)
+        self.averagePace = self.showingStrategies.distanceShowingStrategy.getAveragePace(data)
         
-        let (value, unit) = self.distanceShowingStrategy.getDistanceValueAndUnit(data)
+        let (value, unit) = self.showingStrategies.distanceShowingStrategy.getDistanceValueAndUnit(data)
         guard let value = value else { return }
         guard let unit = unit else { return }
         
@@ -253,12 +229,12 @@ class WorkoutViewModel: ObservableObject {
     
     private func processEnergyData(_ data: Measurement<UnitEnergy>) {
         if settingsService.selectedMetricInFieldOne.type == .energy {
-            fieldOne = self.energyShowingStrategy.getEnergyValue(data) ?? fieldOne
-            fieldOneUnit = self.energyShowingStrategy.getEnergyMetric(data)
+            fieldOne = self.showingStrategies.energyShowingStrategy.getEnergyValue(data) ?? fieldOne
+            fieldOneUnit = self.showingStrategies.energyShowingStrategy.getEnergyMetric(data)
         }
         if settingsService.selectedMetricInFieldTwo.type == .energy {
-            fieldTwo = self.energyShowingStrategy.getEnergyValue(data) ?? fieldTwo
-            fieldTwoUnit = self.energyShowingStrategy.getEnergyMetric(data)
+            fieldTwo = self.showingStrategies.energyShowingStrategy.getEnergyValue(data) ?? fieldTwo
+            fieldTwoUnit = self.showingStrategies.energyShowingStrategy.getEnergyMetric(data)
         }
     }
     

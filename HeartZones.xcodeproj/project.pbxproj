@@ -10,6 +10,7 @@
 		B6046DF526B19E1900BD43C1 /* HeartZoneState.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6046DF426B19E1900BD43C1 /* HeartZoneState.swift */; };
 		B6046DF726B1B26100BD43C1 /* SameElementsContainerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6046DF626B1B26100BD43C1 /* SameElementsContainerTests.swift */; };
 		B607E15B268E1EA90069FEA4 /* BpmContainerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B607E15A268E1EA90069FEA4 /* BpmContainerTests.swift */; };
+		B60BE83327385DA600A28A26 /* ShowingStrategyFacade.swift in Sources */ = {isa = PBXBuildFile; fileRef = B60BE83227385DA600A28A26 /* ShowingStrategyFacade.swift */; };
 		B610ABA726923FCC00DA3FA8 /* SunView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B610ABA626923FCC00DA3FA8 /* SunView.swift */; };
 		B615E0272683BD1800B5DC91 /* HeartZonesKit.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = B615E0262683BD1800B5DC91 /* HeartZonesKit.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		B615E02C2683BD1900B5DC91 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B615E02B2683BD1900B5DC91 /* Assets.xcassets */; };
@@ -21,6 +22,8 @@
 		B62DDBE326AC2F06001D3D26 /* AuthorizationManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B62DDBE226AC2F06001D3D26 /* AuthorizationManagerTests.swift */; };
 		B62EF908269E1FE40067E894 /* SunService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B62EF907269E1FE40067E894 /* SunService.swift */; };
 		B62EF90C269E211F0067E894 /* Solar in Frameworks */ = {isa = PBXBuildFile; productRef = B62EF90B269E211F0067E894 /* Solar */; };
+		B636EF19272B234B0038BD85 /* WorkoutSummaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B636EF18272B234B0038BD85 /* WorkoutSummaryView.swift */; };
+		B636EF1B272B235E0038BD85 /* WorkoutSummaryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B636EF1A272B235E0038BD85 /* WorkoutSummaryViewModel.swift */; };
 		B637F8D826BFC12A00D81AA6 /* EnergyShowingStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = B637F8D726BFC12A00D81AA6 /* EnergyShowingStrategy.swift */; };
 		B637F8DA26BFC8A400D81AA6 /* DistanceShowingStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = B637F8D926BFC8A400D81AA6 /* DistanceShowingStrategy.swift */; };
 		B63AB83D269780FA007E07E9 /* DeviceBeepingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B63AB83C269780FA007E07E9 /* DeviceBeepingManager.swift */; };
@@ -123,6 +126,7 @@
 		B6046DF426B19E1900BD43C1 /* HeartZoneState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeartZoneState.swift; sourceTree = "<group>"; };
 		B6046DF626B1B26100BD43C1 /* SameElementsContainerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SameElementsContainerTests.swift; sourceTree = "<group>"; };
 		B607E15A268E1EA90069FEA4 /* BpmContainerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BpmContainerTests.swift; sourceTree = "<group>"; };
+		B60BE83227385DA600A28A26 /* ShowingStrategyFacade.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowingStrategyFacade.swift; sourceTree = "<group>"; };
 		B610ABA626923FCC00DA3FA8 /* SunView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SunView.swift; sourceTree = "<group>"; };
 		B615E0222683BD1800B5DC91 /* HeartZones.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HeartZones.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B615E0262683BD1800B5DC91 /* HeartZonesKit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HeartZonesKit.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -142,6 +146,8 @@
 		B62DDBE226AC2F06001D3D26 /* AuthorizationManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizationManagerTests.swift; sourceTree = "<group>"; };
 		B62EF907269E1FE40067E894 /* SunService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SunService.swift; sourceTree = "<group>"; };
 		B634FC5626AF4A860082AE4E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B636EF18272B234B0038BD85 /* WorkoutSummaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutSummaryView.swift; sourceTree = "<group>"; };
+		B636EF1A272B235E0038BD85 /* WorkoutSummaryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutSummaryViewModel.swift; sourceTree = "<group>"; };
 		B637F8D726BFC12A00D81AA6 /* EnergyShowingStrategy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnergyShowingStrategy.swift; sourceTree = "<group>"; };
 		B637F8D926BFC8A400D81AA6 /* DistanceShowingStrategy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DistanceShowingStrategy.swift; sourceTree = "<group>"; };
 		B63AB83C269780FA007E07E9 /* DeviceBeepingManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceBeepingManager.swift; sourceTree = "<group>"; };
@@ -306,6 +312,7 @@
 			children = (
 				B637F8D726BFC12A00D81AA6 /* EnergyShowingStrategy.swift */,
 				B637F8D926BFC8A400D81AA6 /* DistanceShowingStrategy.swift */,
+				B60BE83227385DA600A28A26 /* ShowingStrategyFacade.swift */,
 			);
 			path = Strategies;
 			sourceTree = "<group>";
@@ -353,6 +360,7 @@
 				B697B4FF268BBD6E003558C8 /* WorkoutControlsViewModel.swift */,
 				B661A3F326B5625700E78D8E /* SettingsViewModel.swift */,
 				B6DD62E72702085500E639B0 /* HeartZoneSettingsViewModel.swift */,
+				B636EF1A272B235E0038BD85 /* WorkoutSummaryViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -445,6 +453,7 @@
 				B6E30C42268519B8007CCA38 /* WorkoutRunningView.swift */,
 				B661A3EE26B536D200E78D8E /* SettingsView.swift */,
 				B6CD785926FF291E00C195BD /* HeartZonesSettingsView.swift */,
+				B636EF18272B234B0038BD85 /* WorkoutSummaryView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -621,9 +630,11 @@
 				B6B14A6F26B6865F003CAF97 /* SettingsService.swift in Sources */,
 				B66C863A27133DDC00C03FD4 /* HeartZoneCircularPickerView.swift in Sources */,
 				B6607B2526AC40C400C0C0EE /* AuthorizationManager.swift in Sources */,
+				B636EF19272B234B0038BD85 /* WorkoutSummaryView.swift in Sources */,
 				B650A95F26878E1F0042B33D /* WorkoutViewModel.swift in Sources */,
 				B6E30C43268519B8007CCA38 /* WorkoutRunningView.swift in Sources */,
 				B62EF908269E1FE40067E894 /* SunService.swift in Sources */,
+				B60BE83327385DA600A28A26 /* ShowingStrategyFacade.swift in Sources */,
 				B6E30C4126851996007CCA38 /* WorkoutControlsView.swift in Sources */,
 				B650A9692688853A0042B33D /* WorkoutType.swift in Sources */,
 				B6628A71268A538300901D17 /* HostingController.swift in Sources */,
@@ -654,6 +665,7 @@
 				B6D1397F26B3105200396285 /* DeviceBeeper.swift in Sources */,
 				B661A3EF26B536D200E78D8E /* SettingsView.swift in Sources */,
 				B661A3F426B5625700E78D8E /* SettingsViewModel.swift in Sources */,
+				B636EF1B272B235E0038BD85 /* WorkoutSummaryViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
