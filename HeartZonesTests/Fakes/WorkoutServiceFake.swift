@@ -10,10 +10,10 @@ import Combine
 @testable import HeartZones_WatchKit_Extension
 
 class WorkoutServiceFake: IWorkoutService {
-    
     private var dataPublishers = WorkoutDataChangePublishers()
     private let statePublisher = PassthroughSubject<WorkoutState, Never>()
-    
+    private let workoutSummaryPublisher = CurrentValueSubject<WorkoutSummaryData?, Never>(nil)
+
     func startWorkout(workoutType: WorkoutType) {}
     func stopActiveWorkout() {}
     func pauseActiveWorkout() {}
@@ -43,4 +43,13 @@ class WorkoutServiceFake: IWorkoutService {
     func getWorkoutStatePublisher() -> AnyPublisher<WorkoutState, Never> {
         return statePublisher.eraseToAnyPublisher()
     }
+    
+    func saveActiveWorkout() {}
+    
+    func discardActiveWorkout() {}
+    
+    func getActiveWorkoutSummaryPublisher() -> AnyPublisher<WorkoutSummaryData?, Never>? {
+        return workoutSummaryPublisher.eraseToAnyPublisher()
+    }
+    
 }

@@ -12,7 +12,8 @@ class BpmContainerTests: XCTestCase {
     var container: BpmContainer!
 
     override func setUp() {
-        container = BpmContainer(size: 3)
+        // TODO: Adapt tests to heart zones
+        container = BpmContainer(size: 3, targetHeartZone: HeartZone.init(id: 0, name: "T", bpmRangePercentage: 0...100, color: HeartZone.Color.init(red: 0, green: 0, blue: 0), target: true), maxBpm: 185)
     }
 
     func testInsert() throws {
