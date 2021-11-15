@@ -16,7 +16,7 @@ struct WorkoutControlsView: View {
             VStack {
                 Button{
                     workoutControlsViewModel.stopWorkout()
-                    controller?.popControllers()
+                    controller?.presentWorkoutSummaryView()
                 } label: {
                     Image(systemName: "xmark")
                 }
@@ -51,6 +51,6 @@ struct WorkoutControlsView: View {
 
 struct WorkoutControlsView_Previews: PreviewProvider {
     static var previews: some View {
-        WorkoutControlsView(workoutControlsViewModel: WorkoutControlsViewModel(workoutService: WorkoutService(locationManager: LocationManager(), healthKitService: HealthKitService())))
+        WorkoutControlsView(workoutControlsViewModel: WorkoutControlsViewModel(workoutService: WorkoutService(locationManager: LocationManager(), healthKitService: HealthKitService(), settingsService: SettingsService(settingsRepository: SettingsRepository(), healthKitService: HealthKitService()))))
     }
 }

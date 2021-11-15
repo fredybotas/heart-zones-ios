@@ -55,8 +55,8 @@ class HostingControllerRunningWorkout: WKHostingController<WorkoutRunningView> {
 class HostingControllerWorkoutControls: WKHostingController<WorkoutControlsView> {
     static let identifier = "HostingControllerWorkoutControls"
     
-    func popControllers() {
-        WKInterfaceController.reloadRootControllers(withNamesAndContexts: [(HostingControllerWorkoutSelection.identifier, self)])
+    func presentWorkoutSummaryView() {
+        WKInterfaceController.reloadRootControllers(withNamesAndContexts: [(HostingControllerWorkoutSummary.identifier, self)])
     }
 
     override var body: WorkoutControlsView {
@@ -66,4 +66,16 @@ class HostingControllerWorkoutControls: WKHostingController<WorkoutControlsView>
 
 class PlayingNowController: WKInterfaceController {
     static let identifier = "PlayingNowController"
+}
+
+class HostingControllerWorkoutSummary: WKHostingController<WorkoutSummaryView> {
+    static let identifier = "HostingControllerWorkoutSummary"
+    
+    func popControllers() {
+        WKInterfaceController.reloadRootControllers(withNamesAndContexts: [(HostingControllerWorkoutSelection.identifier, self)])
+    }
+    
+    override var body: WorkoutSummaryView {
+        return WorkoutSummaryView(controller: self, workoutSummaryViewModel: DIContainer.shared.resolve(WorkoutSummaryViewModel.self)!)
+    }
 }

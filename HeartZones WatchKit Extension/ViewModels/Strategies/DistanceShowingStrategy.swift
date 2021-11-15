@@ -8,19 +8,34 @@
 import Foundation
 
 protocol IDistanceShowingStrategy {
-    func getDistanceValueAndUnit(_ data: DistanceData) -> (String?, String?)
-    func getDistanceValueAndUnit(_ data: Measurement<UnitLength>) -> (String?, String?)
+    func getDistanceValueAndUnit(_ data: DistanceData) -> (String, String)?
+    func getDistanceValueAndUnit(_ data: Measurement<UnitLength>) -> (String, String)?
     
     func getCurrentPace(_ data: DistanceData) -> String
     func getAveragePace(_ data: DistanceData) -> String
 
+    func getPaceValueAndUnit(_ data: Measurement<UnitSpeed>) -> (String, String)
+    
+    var defaultPaceName: String { get }
     var defaultDistanceUnit: String { get }
     var defaultPaceString: String { get }
+    var defaultPaceUnit: String { get }
     var defaultDistanceValue: String { get }
 }
 
 // TODO: Refactor strategies
 class MetricDistanceWithPaceShowingStrategy: IDistanceShowingStrategy {
+    var defaultPaceName: String {
+        get {
+            "AVG PACE"
+        }
+    }
+    var defaultPaceUnit: String {
+        get {
+            ""
+        }
+    }
+
     var defaultDistanceValue: String {
         get {
             "0"
@@ -39,11 +54,11 @@ class MetricDistanceWithPaceShowingStrategy: IDistanceShowingStrategy {
         }
     }
     
-    func getDistanceValueAndUnit(_ data: Measurement<UnitLength>) -> (String?, String?) {
+    func getDistanceValueAndUnit(_ data: Measurement<UnitLength>) -> (String, String)? {
         data.toMetricLengthValueAndUnitString()
     }
     
-    func getDistanceValueAndUnit(_ data: DistanceData) -> (String?, String?) {
+    func getDistanceValueAndUnit(_ data: DistanceData) -> (String, String)? {
         data.distance.toMetricLengthValueAndUnitString()
     }
 
@@ -54,9 +69,25 @@ class MetricDistanceWithPaceShowingStrategy: IDistanceShowingStrategy {
     func getAveragePace(_ data: DistanceData) -> String {
         data.averageSpeed.toMetricPaceString() ?? defaultPaceString
     }
+    
+    func getPaceValueAndUnit(_ data: Measurement<UnitSpeed>) -> (String, String) {
+        return (data.toMetricPaceString() ?? defaultPaceString, "")
+    }
 }
 
 class MilleageDistanceWithPaceShowingStrategy: IDistanceShowingStrategy {
+    var defaultPaceName: String {
+        get {
+            "AVG PACE"
+        }
+    }
+    
+    var defaultPaceUnit: String {
+        get {
+            ""
+        }
+    }
+    
     var defaultDistanceValue: String {
         get {
             "0"
@@ -75,11 +106,11 @@ class MilleageDistanceWithPaceShowingStrategy: IDistanceShowingStrategy {
         }
     }
     
-    func getDistanceValueAndUnit(_ data: Measurement<UnitLength>) -> (String?, String?) {
+    func getDistanceValueAndUnit(_ data: Measurement<UnitLength>) -> (String, String)? {
         data.toMilleageLengthValueAndUnitString()
     }
     
-    func getDistanceValueAndUnit(_ data: DistanceData) -> (String?, String?) {
+    func getDistanceValueAndUnit(_ data: DistanceData) -> (String, String)? {
         data.distance.toMilleageLengthValueAndUnitString()
     }
     
@@ -90,9 +121,25 @@ class MilleageDistanceWithPaceShowingStrategy: IDistanceShowingStrategy {
     func getAveragePace(_ data: DistanceData) -> String {
         data.averageSpeed.toMilleagePaceString() ?? defaultPaceString
     }
+    
+    func getPaceValueAndUnit(_ data: Measurement<UnitSpeed>) -> (String, String) {
+        return (data.toMilleagePaceString() ?? defaultPaceString, "")
+    }
 }
 
 class MetricDistanceWithSpeedShowingStrategy: IDistanceShowingStrategy {
+    var defaultPaceName: String {
+        get {
+            "AVG SPEED"
+        }
+    }
+    
+    var defaultPaceUnit: String {
+        get {
+            "KM/H"
+        }
+    }
+    
     var defaultDistanceValue: String {
         get {
             "0"
@@ -111,11 +158,11 @@ class MetricDistanceWithSpeedShowingStrategy: IDistanceShowingStrategy {
         }
     }
     
-    func getDistanceValueAndUnit(_ data: Measurement<UnitLength>) -> (String?, String?) {
+    func getDistanceValueAndUnit(_ data: Measurement<UnitLength>) -> (String, String)? {
         data.toMetricLengthValueAndUnitString()
     }
     
-    func getDistanceValueAndUnit(_ data: DistanceData) -> (String?, String?) {
+    func getDistanceValueAndUnit(_ data: DistanceData) -> (String, String)? {
         data.distance.toMetricLengthValueAndUnitString()
     }
     
@@ -126,9 +173,25 @@ class MetricDistanceWithSpeedShowingStrategy: IDistanceShowingStrategy {
     func getAveragePace(_ data: DistanceData) -> String {
         data.averageSpeed.toMetricSpeedString().uppercased()
     }
+    
+    func getPaceValueAndUnit(_ data: Measurement<UnitSpeed>) -> (String, String) {
+        return (data.toMetricSpeedString(), defaultPaceUnit)
+    }
 }
 
 class MilleageDistanceWithSpeedShowingStrategy: IDistanceShowingStrategy {
+    var defaultPaceName: String {
+        get {
+            "AVG SPEED"
+        }
+    }
+    
+    var defaultPaceUnit: String {
+        get {
+            "MI/H"
+        }
+    }
+    
     var defaultDistanceValue: String {
         get {
             "0"
@@ -146,11 +209,11 @@ class MilleageDistanceWithSpeedShowingStrategy: IDistanceShowingStrategy {
             "--'--''"
         }
     }
-    func getDistanceValueAndUnit(_ data: Measurement<UnitLength>) -> (String?, String?) {
+    func getDistanceValueAndUnit(_ data: Measurement<UnitLength>) -> (String, String)? {
         data.toMilleageLengthValueAndUnitString()
     }
     
-    func getDistanceValueAndUnit(_ data: DistanceData) -> (String?, String?) {
+    func getDistanceValueAndUnit(_ data: DistanceData) -> (String, String)? {
         data.distance.toMilleageLengthValueAndUnitString()
     }
     
@@ -160,6 +223,10 @@ class MilleageDistanceWithSpeedShowingStrategy: IDistanceShowingStrategy {
     
     func getAveragePace(_ data: DistanceData) -> String {
         data.averageSpeed.toMilleageSpeedString().uppercased()
+    }
+    
+    func getPaceValueAndUnit(_ data: Measurement<UnitSpeed>) -> (String, String) {
+        return (data.toMilleageSpeedString(), defaultPaceUnit)
     }
 }
 
@@ -196,7 +263,7 @@ fileprivate extension Measurement where UnitType == UnitSpeed {
 }
 
 fileprivate extension Measurement where UnitType == UnitLength {
-    func toMetricLengthValueAndUnitString() -> (String?, String?) {
+    func toMetricLengthValueAndUnitString() -> (String, String)? {
         var unit = UnitLength.kilometers
         let formatter = MeasurementFormatter()
         formatter.unitOptions = .providedUnit
@@ -212,13 +279,13 @@ fileprivate extension Measurement where UnitType == UnitLength {
         }
         let valueAndUnitArray = formatter.string(from: self.converted(to: unit)).split(separator: " ")
         if valueAndUnitArray.count < 2 {
-            return (nil, nil)
+            return nil
         }
         
         return (String(valueAndUnitArray[0]), valueAndUnitArray[1].uppercased())
     }
     
-    func toMilleageLengthValueAndUnitString() -> (String?, String?) {
+    func toMilleageLengthValueAndUnitString() -> (String, String)? {
         var unit = UnitLength.miles
         let formatter = MeasurementFormatter()
         formatter.unitOptions = .providedUnit
@@ -235,8 +302,9 @@ fileprivate extension Measurement where UnitType == UnitLength {
         }
         let valueAndUnitArray = formatter.string(from: self.converted(to: unit)).split(separator: " ")
         if valueAndUnitArray.count < 2 {
-            return (nil, nil)
+            return nil
         }
         
-        return (String(valueAndUnitArray[0]), valueAndUnitArray[1].uppercased())    }
+        return (String(valueAndUnitArray[0]), valueAndUnitArray[1].uppercased())
+    }
 }

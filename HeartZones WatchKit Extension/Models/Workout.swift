@@ -10,10 +10,25 @@ import HealthKit
 import Combine
 import CoreLocation
 
+struct NotAllowedOperationError: Error {}
+
 struct DistanceData {
     let distance: Measurement<UnitLength>
     let currentSpeed: Measurement<UnitSpeed>
     let averageSpeed: Measurement<UnitSpeed>
+}
+
+struct WorkoutSummaryData {
+    let workoutType: WorkoutType
+    let elapsedTime: TimeInterval
+    let avgBpm: Int?
+    let timeInTargetZonePercentage: Int
+    let distance: Measurement<UnitLength>?
+    let averagePace: Measurement<UnitSpeed>?
+    let elevationMin: Measurement<UnitLength>?
+    let elevationMax: Measurement<UnitLength>?
+    let elevationGain: Measurement<UnitLength>?
+    let activeEnergy: Measurement<UnitEnergy>?
 }
 
 struct WorkoutDataChangePublishers {
@@ -27,18 +42,27 @@ protocol IWorkout {
     var dataPublishers: WorkoutDataChangePublishers { get }
     var workoutType: WorkoutType { get }
     
+    func getWorkoutSummaryPublisher() -> AnyPublisher<WorkoutSummaryData?, Never>
     func pause()
     func resume()
     func stop()
+    func saveWorkout() throws
+    func discardWorkout() throws
     func getElapsedTime() -> TimeInterval
 }
 
 class Workout: NSObject, IWorkout, HKLiveWorkoutBuilderDelegate, HKWorkoutSessionDelegate {
+    enum State {
+        case notInitialized, active, stopped
+    }
+
     internal let dataPublishers = WorkoutDataChangePublishers()
     internal let workoutType: WorkoutType
     
+    private let workoutSummaryPublisher: CurrentValueSubject<WorkoutSummaryData?, Never> = CurrentValueSubject(nil)
     private let locationManager: WorkoutLocationFetcher
     private let configuration: HKWorkoutConfiguration
+    private let settingsService: ISettingsService
     
     private let healthKit: HKHealthStore
     private var activeWorkoutSession: HKWorkoutSession?
@@ -46,22 +70,23 @@ class Workout: NSObject, IWorkout, HKLiveWorkoutBuilderDelegate, HKWorkoutSessio
     private var locationDataPublisher: AnyCancellable?
     private var routeBuilder: HKWorkoutRouteBuilder?
     
-    
-    private var bpm = BpmContainer(size: 1)
+    private var bpm: BpmContainer
     private var distances = DistanceContainer(size: 3)
     private var elevationContainer = ElevationContainer()
     
-    init(healthKit: HKHealthStore, type: WorkoutType, locationManager: WorkoutLocationFetcher) {
+    private var state: State = .notInitialized
+    
+    init(healthKit: HKHealthStore, type: WorkoutType, locationManager: WorkoutLocationFetcher, settingsService: ISettingsService) {
         self.healthKit = healthKit
         self.workoutType = type
         self.locationManager = locationManager
         self.configuration = workoutType.getConfiguration()
-
+        self.settingsService = settingsService
+        self.bpm = BpmContainer(size: 1, targetHeartZone: settingsService.selectedHeartZoneSetting.zones[settingsService.targetZoneId], maxBpm: settingsService.maximumBpm)
+        
         super.init()
         
-        DispatchQueue.global(qos: .userInitiated).async {
-            self.initializeWorkout()
-        }
+        self.initializeWorkout()
     }
     
     private func initializeWorkout() {
@@ -75,6 +100,8 @@ class Workout: NSObject, IWorkout, HKLiveWorkoutBuilderDelegate, HKWorkoutSessio
         builder?.beginCollection(withStart: Date()) { (success, error) in }
         
         setLocationHarvesting()
+        
+        self.state = .active
     }
     
     private func setLocationHarvesting() {
@@ -101,41 +128,86 @@ class Workout: NSObject, IWorkout, HKLiveWorkoutBuilderDelegate, HKWorkoutSessio
     }
     
     func stop() {
-        finalizePublishers()
+        finalizeLivePublishers()
         
         if configuration.locationType == .outdoor {
             locationDataPublisher = nil
             locationManager.stopWorkoutLocationUpdates()
         }
         
-        DispatchQueue.global(qos: .userInitiated).async {
-            self.stopWorkoutInternal()
+        self.stopWorkoutInternal()
+    }
+    
+    func saveWorkout() throws {
+        if state != .stopped {
+            throw NotAllowedOperationError()
         }
+        workoutSummaryPublisher.send(completion: .finished)
+        self.activeWorkoutSession?.associatedWorkoutBuilder().finishWorkout { (workout, error) in
+            guard let workout = workout else { return }
+            self.routeBuilder?.finishRoute(with: workout, metadata: nil, completion: { (route, error) in })
+        }
+    }
+    
+    func discardWorkout() throws {
+        if state != .stopped {
+            throw NotAllowedOperationError()
+        }
+        workoutSummaryPublisher.send(completion: .finished)
+        self.activeWorkoutSession?.associatedWorkoutBuilder().discardWorkout()
     }
     
     private func stopWorkoutInternal() {
         let currentDate = Date()
         activeWorkoutSession?.stopActivity(with: currentDate)
         activeWorkoutSession?.end()
-        activeWorkoutSession?.associatedWorkoutBuilder().endCollection(withEnd: currentDate){ (success, error) in
+        activeWorkoutSession?.associatedWorkoutBuilder().endCollection(withEnd: currentDate){ [weak self] (success, error) in
+            self?.state = .stopped
+            self?.prepareWorkoutSummary()
             guard success else {
                 return
             }
-            
-            if self.shouldSaveWorkout() {
-                self.activeWorkoutSession?.associatedWorkoutBuilder().finishWorkout { (workout, error) in
-                    guard let workout = workout else { return }
-                    if var metadata = workout.metadata {
-                        metadata[HKMetadataKeyElevationAscended] = self.elevationContainer.elevationGained
-                    }
-                    self.routeBuilder?.finishRoute(with: workout, metadata: nil, completion: { (route, error) in
-                        guard success else { return }
-                    })
-                }
-            } else {
-                self.activeWorkoutSession?.associatedWorkoutBuilder().discardWorkout()
-            }
         }
+    }
+    
+    private func prepareWorkoutSummary() {
+        if state != .stopped {
+            workoutSummaryPublisher.send(nil)
+            return
+        }
+        let summaryData = WorkoutSummaryData(workoutType: workoutType, elapsedTime: getElapsedTime(), avgBpm: getAverageBpm(), timeInTargetZonePercentage: bpm.timeInTargetZonePercentage(), distance: getRunningDistance(), averagePace: getAverageSpeed(), elevationMin: elevationContainer.getMinElevation(), elevationMax: elevationContainer.getMaxElevation(), elevationGain: elevationContainer.getElevationGain(), activeEnergy: getActiveEnergy())
+        workoutSummaryPublisher.send(summaryData)
+    }
+    
+    
+    // TODO: Refactor getters
+    private func getAverageBpm() -> Int? {
+        let type = HKQuantityType(HKQuantityTypeIdentifier.heartRate)
+        let hertzs = activeWorkoutSession?.associatedWorkoutBuilder().statistics(for: type)?.averageQuantity()?.doubleValue(for: HKUnit.hertz())
+        guard let hertzs = hertzs else { return nil }
+        return Int(hertzs * 60)
+    }
+    
+    private func getRunningDistance() -> Measurement<UnitLength>? {
+        let type = HKQuantityType(HKQuantityTypeIdentifier.distanceWalkingRunning)
+        let distance = activeWorkoutSession?.associatedWorkoutBuilder().statistics(for: type)?.sumQuantity()?.doubleValue(for: HKUnit.meter())
+        guard let distance = distance else { return nil }
+        return Measurement.init(value: distance, unit: UnitLength.meters)
+    }
+    
+    private func getAverageSpeed() -> Measurement<UnitSpeed>? {
+        let distance = getRunningDistance()
+        let time = getElapsedTime()
+        guard let distance = distance else { return nil }
+        let speedMetersPerSec = distance.converted(to: UnitLength.meters).value / time
+        return Measurement.init(value: speedMetersPerSec, unit: UnitSpeed.metersPerSecond)
+    }
+    
+    private func getActiveEnergy() -> Measurement<UnitEnergy>? {
+        let type = HKQuantityType(HKQuantityTypeIdentifier.activeEnergyBurned)
+        let energy = activeWorkoutSession?.associatedWorkoutBuilder().statistics(for: type)?.sumQuantity()?.doubleValue(for: HKUnit.kilocalorie())
+        guard let energy = energy else { return nil }
+        return Measurement.init(value: energy, unit: UnitEnergy.kilocalories)
     }
     
     func getElapsedTime() -> TimeInterval {
@@ -155,10 +227,11 @@ class Workout: NSObject, IWorkout, HKLiveWorkoutBuilderDelegate, HKWorkoutSessio
         return false
     }
     
-    private func finalizePublishers() {
+    private func finalizeLivePublishers() {
         dataPublishers.bpmPublisher.send(completion: .finished)
         dataPublishers.distancePublisher.send(completion: .finished)
         dataPublishers.energyPublisher.send(completion: .finished)
+        dataPublishers.elevationPublisher.send(completion: .finished)
     }
     
     internal func workoutSession(_ workoutSession: HKWorkoutSession, didFailWithError error: Error) {
@@ -186,7 +259,9 @@ class Workout: NSObject, IWorkout, HKLiveWorkoutBuilderDelegate, HKWorkoutSessio
             }
         }
         
-        self.dataPublishers.elevationPublisher.send(Measurement(value: elevationContainer.elevationGained, unit: UnitLength.meters))
+        if let elevationGain = elevationContainer.getElevationGain() {
+            self.dataPublishers.elevationPublisher.send(elevationGain)
+        }
     }
     
     private func handleBpmData(statistics: HKStatistics) {
@@ -207,6 +282,11 @@ class Workout: NSObject, IWorkout, HKLiveWorkoutBuilderDelegate, HKWorkoutSessio
         let data = DistanceData(distance: Measurement.init(value: totalLength, unit: UnitLength.meters), currentSpeed: currentSpeed, averageSpeed: Measurement.init(value: totalLength / getElapsedTime(), unit: UnitSpeed.metersPerSecond))
         self.dataPublishers.distancePublisher.send(data)
     }
+    
+    func getWorkoutSummaryPublisher() -> AnyPublisher<WorkoutSummaryData?, Never> {
+        return workoutSummaryPublisher.eraseToAnyPublisher()
+    }
+
     
     internal func workoutBuilderDidCollectEvent(_ workoutBuilder: HKLiveWorkoutBuilder) {}
 }

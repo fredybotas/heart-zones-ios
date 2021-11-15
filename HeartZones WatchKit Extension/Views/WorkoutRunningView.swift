@@ -40,15 +40,16 @@ struct WorkoutRunningView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: nil) {
             Text(workoutViewModel.time)
-                .font(Font.system(size: 32 * getDeviceSizeMultiplier(), weight: .semibold, design: .default))
-            Spacer(minLength: 5 * getDeviceSizeMultiplier())
+                .font(Font.system(size: 34 * getDeviceSizeMultiplier(), weight: .semibold, design: .default))
+            // TODO: Changed recently. Is it save? check displays
+            Spacer(minLength: 2 * getDeviceSizeMultiplier())
             HStack(alignment: .top, spacing: 0) {
                 VStack(alignment: .leading, spacing: 0) {
                     Text(workoutViewModel.bpm)
                         .frame(width: 53 * getDeviceSizeMultiplier(), height: 25 * getDeviceSizeMultiplier(), alignment: .leading)
                         .font(Font.system(size: 25 * getDeviceSizeMultiplier(), weight: .medium, design: .default))
-                    Text("")
-                        .frame(width: 53 * getDeviceSizeMultiplier(), height: 4 * getDeviceSizeMultiplier(), alignment: .center)
+//                    Text("")
+//                        .frame(width: 53 * getDeviceSizeMultiplier(), height: 4 * getDeviceSizeMultiplier(), alignment: .center)
                     Text(workoutViewModel.fieldOne)
                         .frame(width: 53 * getDeviceSizeMultiplier(), height: 22 * getDeviceSizeMultiplier(), alignment: .leading)
                         .font(Font.system(size: 22 * getDeviceSizeMultiplier(), weight: .medium, design: .default))
@@ -59,15 +60,15 @@ struct WorkoutRunningView: View {
                 VStack(alignment: .leading, spacing: 0) {
                     Text(workoutViewModel.bpmUnit)
                         .frame(width: 50 * getDeviceSizeMultiplier(), height: 25 * getDeviceSizeMultiplier(), alignment: .bottomLeading)
-                        .font(Font.system(size: 18 * getDeviceSizeMultiplier(), weight: .light, design: .default))
-                    Text("")
-                        .frame(width: 50 * getDeviceSizeMultiplier(), height: 4 * getDeviceSizeMultiplier(), alignment: .center)
+                        .font(Font.system(size: 16 * getDeviceSizeMultiplier(), weight: .light, design: .default))
+//                    Text("")
+//                        .frame(width: 50 * getDeviceSizeMultiplier(), height: 4 * getDeviceSizeMultiplier(), alignment: .center)
                     Text(workoutViewModel.fieldOneUnit)
                         .frame(width: 50 * getDeviceSizeMultiplier(), height: 22 * getDeviceSizeMultiplier(), alignment: .bottomLeading)
-                        .font(Font.system(size: 14 * getDeviceSizeMultiplier(), weight: .light, design: .default))
+                        .font(Font.system(size: 12 * getDeviceSizeMultiplier(), weight: .light, design: .default))
                     Text(workoutViewModel.fieldTwoUnit)
                         .frame(width: 50 * getDeviceSizeMultiplier(), height: 22 * getDeviceSizeMultiplier(), alignment: .bottomLeading)
-                        .font(Font.system(size: 14 * getDeviceSizeMultiplier(), weight: .light, design: .default))
+                        .font(Font.system(size: 12 * getDeviceSizeMultiplier(), weight: .light, design: .default))
                 }
                 VStack(alignment: .center, spacing: 8 * getDeviceSizeMultiplier()) {
                     ZStack(alignment: .center) {
@@ -109,7 +110,7 @@ struct WorkoutRunningView: View {
 
 struct WorkoutRunningView_Previews: PreviewProvider {
     
-    static var viewModel = WorkoutViewModel(workoutType: WorkoutType(type: .outdoorRunning), workoutService: WorkoutService(locationManager: LocationManager(), healthKitService: HealthKitService()), heartZoneService: HeartZoneService(workoutService: WorkoutService(locationManager: LocationManager(), healthKitService: HealthKitService()), beepingService: BeepingService(beeper: DeviceBeepingManager(beeper: DeviceBeeper()), settingsService: SettingsService(settingsRepository: SettingsRepository(), healthKitService: HealthKitService())), healthKitService: HealthKitService(), settingsService: SettingsService(settingsRepository: SettingsRepository(), healthKitService: HealthKitService())), sunService: SunService(locationManager: LocationManager()), settingsService: SettingsService(settingsRepository: SettingsRepository(), healthKitService: HealthKitService()))
+    static var viewModel = WorkoutViewModel(workoutType: WorkoutType(type: .outdoorRunning), workoutService: WorkoutService(locationManager: LocationManager(), healthKitService: HealthKitService(), settingsService: SettingsService(settingsRepository: SettingsRepository(), healthKitService: HealthKitService())), heartZoneService: HeartZoneService(workoutService: WorkoutService(locationManager: LocationManager(), healthKitService: HealthKitService(), settingsService: SettingsService(settingsRepository: SettingsRepository(), healthKitService: HealthKitService())), beepingService: BeepingService(beeper: DeviceBeepingManager(beeper: DeviceBeeper()), settingsService: SettingsService(settingsRepository: SettingsRepository(), healthKitService: HealthKitService())), healthKitService: HealthKitService(), settingsService: SettingsService(settingsRepository: SettingsRepository(), healthKitService: HealthKitService())), sunService: SunService(locationManager: LocationManager()), settingsService: SettingsService(settingsRepository: SettingsRepository(), healthKitService: HealthKitService()))
     
     static var previews: some View {
         WorkoutRunningView(workoutViewModel: viewModel)

@@ -21,7 +21,7 @@ class WorkoutControlsViewModel: ObservableObject {
         
         workoutService
             .getWorkoutStatePublisher()
-            .map({ $0 != .paused})
+            .map({ $0 == .running})
             .sink { [weak self] val in
                 self?.isRunning = val
             }

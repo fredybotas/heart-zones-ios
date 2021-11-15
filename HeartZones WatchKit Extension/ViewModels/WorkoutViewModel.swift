@@ -154,9 +154,9 @@ class WorkoutViewModel: ObservableObject {
     
     private func processElevationData(_ data: Measurement<UnitLength>) {
         // TODO: Refactor with distance data
-        let (value, unit) = self.showingStrategies.distanceShowingStrategy.getDistanceValueAndUnit(data)
-        guard let value = value else { return }
-        guard let unit = unit else { return }
+        guard let tuple = self.showingStrategies.distanceShowingStrategy.getDistanceValueAndUnit(data) else { return }
+        let value = tuple.0
+        let unit = tuple.1
         
         if settingsService.selectedMetricInFieldOne.type == .elevation {
             self.fieldOne = value
@@ -172,9 +172,9 @@ class WorkoutViewModel: ObservableObject {
         self.currentPace = self.showingStrategies.distanceShowingStrategy.getCurrentPace(data)
         self.averagePace = self.showingStrategies.distanceShowingStrategy.getAveragePace(data)
         
-        let (value, unit) = self.showingStrategies.distanceShowingStrategy.getDistanceValueAndUnit(data)
-        guard let value = value else { return }
-        guard let unit = unit else { return }
+        guard let tuple = self.showingStrategies.distanceShowingStrategy.getDistanceValueAndUnit(data) else { return }
+        let value = tuple.0
+        let unit = tuple.1
         
         if settingsService.selectedMetricInFieldOne.type == .distance {
             self.fieldOne = value
@@ -277,7 +277,7 @@ class WorkoutViewModel: ObservableObject {
     }
 }
 
-fileprivate extension TimeInterval {
+extension TimeInterval {
 
     func stringFromTimeInterval() -> String {
 

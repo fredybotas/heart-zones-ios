@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder.WatchKit.Storyboard" version="3.0" toolsVersion="18122" targetRuntime="watchKit" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="NBu-mt-KyX">
+<document type="com.apple.InterfaceBuilder.WatchKit.Storyboard" version="3.0" toolsVersion="19455" targetRuntime="watchKit" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="NBu-mt-KyX">
     <device id="watch38"/>
     <dependencies>
         <deployment identifier="watchOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBWatchKitPlugin" version="18022"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19454"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBWatchKitPlugin" version="19454"/>
     </dependencies>
     <scenes>
         <!--HostingControllerWorkoutSelection-->
@@ -20,6 +20,13 @@
                 <hostingController identifier="HostingControllerWorkoutControls" id="qyC-4j-AWB" customClass="HostingControllerWorkoutControls" customModule="HeartZones_WatchKit_Extension"/>
             </objects>
             <point key="canvasLocation" x="394" y="-503"/>
+        </scene>
+        <!--HostingControllerWorkoutSummary-->
+        <scene sceneID="x7x-fc-ehf">
+            <objects>
+                <hostingController identifier="HostingControllerWorkoutSummary" id="guG-3j-exq" customClass="HostingControllerWorkoutSummary" customModule="HeartZones_WatchKit_Extension"/>
+            </objects>
+            <point key="canvasLocation" x="863" y="-503"/>
         </scene>
         <!--HostingControllerRunningWorkout-->
         <scene sceneID="Znu-3F-ZQw">

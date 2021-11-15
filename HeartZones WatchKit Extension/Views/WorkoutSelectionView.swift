@@ -9,7 +9,7 @@ import SwiftUI
 import HealthKit
 
 struct WorkoutSelectionView: View {
-    weak var controller: HostingControllerWorkoutSelection!
+    weak var controller: HostingControllerWorkoutSelection?
     @ObservedObject var workoutSelectionViewModel: WorkoutSelectionViewModel
     
     var body: some View {

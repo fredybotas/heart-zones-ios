@@ -71,6 +71,7 @@
 		B6E30C3C26850F73007CCA38 /* WorkoutSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6E30C3B26850F73007CCA38 /* WorkoutSelectionView.swift */; };
 		B6E30C4126851996007CCA38 /* WorkoutControlsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6E30C4026851996007CCA38 /* WorkoutControlsView.swift */; };
 		B6E30C43268519B8007CCA38 /* WorkoutRunningView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6E30C42268519B8007CCA38 /* WorkoutRunningView.swift */; };
+		B6F6E119273D7E49009C5E6A /* SummaryDataProcessingStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6F6E118273D7E49009C5E6A /* SummaryDataProcessingStrategy.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -196,6 +197,7 @@
 		B6E30C3B26850F73007CCA38 /* WorkoutSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutSelectionView.swift; sourceTree = "<group>"; };
 		B6E30C4026851996007CCA38 /* WorkoutControlsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutControlsView.swift; sourceTree = "<group>"; };
 		B6E30C42268519B8007CCA38 /* WorkoutRunningView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutRunningView.swift; sourceTree = "<group>"; };
+		B6F6E118273D7E49009C5E6A /* SummaryDataProcessingStrategy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SummaryDataProcessingStrategy.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -313,6 +315,7 @@
 				B637F8D726BFC12A00D81AA6 /* EnergyShowingStrategy.swift */,
 				B637F8D926BFC8A400D81AA6 /* DistanceShowingStrategy.swift */,
 				B60BE83227385DA600A28A26 /* ShowingStrategyFacade.swift */,
+				B6F6E118273D7E49009C5E6A /* SummaryDataProcessingStrategy.swift */,
 			);
 			path = Strategies;
 			sourceTree = "<group>";
@@ -665,6 +668,7 @@
 				B6D1397F26B3105200396285 /* DeviceBeeper.swift in Sources */,
 				B661A3EF26B536D200E78D8E /* SettingsView.swift in Sources */,
 				B661A3F426B5625700E78D8E /* SettingsViewModel.swift in Sources */,
+				B6F6E119273D7E49009C5E6A /* SummaryDataProcessingStrategy.swift in Sources */,
 				B636EF1B272B235E0038BD85 /* WorkoutSummaryViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

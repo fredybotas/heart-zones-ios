@@ -37,7 +37,8 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
         container.register(WorkoutService.self, factory: { resolver in
             let locationManager = resolver.resolve(LocationManager.self)!
             let healthKitService = resolver.resolve(HealthKitService.self)!
-            return WorkoutService(locationManager: locationManager, healthKitService: healthKitService)
+            let settingsService = resolver.resolve(SettingsService.self)!
+            return WorkoutService(locationManager: locationManager, healthKitService: healthKitService, settingsService: settingsService)
         }).inObjectScope(.container)
         
         container.register(HeartZoneService.self, factory: { resolver in
@@ -88,6 +89,11 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
         container.register(HeartZoneSettingsViewModel.self, factory: { resolver in
             let settingsService = resolver.resolve(SettingsService.self)!
             return HeartZoneSettingsViewModel(settingsService: settingsService)
+        })
+        container.register(WorkoutSummaryViewModel.self, factory: { resolver in
+            let workoutService = resolver.resolve(WorkoutService.self)!
+            let settingsService = resolver.resolve(SettingsService.self)!
+            return WorkoutSummaryViewModel(workoutService: workoutService, settingsService: settingsService)
         })
         
         return container

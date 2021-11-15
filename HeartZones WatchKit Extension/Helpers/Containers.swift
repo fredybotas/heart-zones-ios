@@ -9,25 +9,46 @@ import Foundation
 import CoreLocation
 
 struct BpmContainer {
-    private var array = [Int]()
+    private var array = [(Int, TimeInterval)]()
     private let size: UInt
+    private let targetHeartZone: HeartZone
+    private(set) var timeInTargetZone: TimeInterval = 0
+    private(set) var bpmDuration: TimeInterval = 0
+    private let maxBpm: Int
     
-    init(size: UInt) {
+    init(size: UInt, targetHeartZone: HeartZone, maxBpm: Int) {
         self.size = size
+        self.targetHeartZone = targetHeartZone
+        self.maxBpm = maxBpm
     }
     
     mutating func insert(bpm: Int) {
-        array.append(bpm)
+        if let lastElement = array.last {
+            let timestamp = Date().timeIntervalSince1970
+            if targetHeartZone.getBpmRange(maxBpm: maxBpm).contains(lastElement.0) {
+                timeInTargetZone += timestamp - lastElement.1
+            }
+            bpmDuration += timestamp - lastElement.1
+        }
+        array.append((bpm, Date().timeIntervalSince1970))
         if array.count > size {
             array.remove(at: 0)
         }
+    }
+    
+    func timeInTargetZonePercentage() -> Int {
+        let bpmTimeRatio = timeInTargetZone / bpmDuration
+        if bpmTimeRatio.isNaN || bpmTimeRatio.isInfinite {
+            return 0
+        }
+        return Int(bpmTimeRatio * 100)
     }
     
     func getActualBpm() -> Int? {
         if array.count < size || array.count == 0 {
             return nil
         }
-        return array.reduce(0, { $0 + $1 }) / array.count
+        return array.map{$0.0}.reduce(0, { $0 + $1 }) / array.count
     }
 }
 
@@ -90,10 +111,10 @@ struct SameElementsContainer<T: Equatable> {
 struct ElevationContainer {
     private var lastElement: Double?
     private var currentElement: Double?
-    private(set) var elevationGained: Double = 0.0
+    private var elevationGained: Double = 0.0
     
-    private(set) var minElevation: Double = Double.infinity
-    private(set) var maxElevation: Double = -Double.infinity
+    private var minElevation: Double = Double.infinity
+    private var maxElevation: Double = -Double.infinity
     
     mutating func insertLocation(loc: CLLocation) {
         let elevation = loc.altitude
@@ -113,6 +134,26 @@ struct ElevationContainer {
             }
         }
     }
-
+    
+    func getMinElevation() -> Measurement<UnitLength>? {
+        if minElevation == Double.infinity {
+            return nil
+        }
+        return Measurement.init(value: minElevation, unit: UnitLength.meters)
+    }
+    
+    func getMaxElevation() -> Measurement<UnitLength>? {
+        if maxElevation == -Double.infinity {
+            return nil
+        }
+        return Measurement.init(value: maxElevation, unit: UnitLength.meters)
+    }
+    
+    func getElevationGain() -> Measurement<UnitLength>? {
+        if elevationGained == 0 {
+            return nil
+        }
+        return Measurement.init(value: elevationGained, unit: UnitLength.meters)
+    }
 }
 
