@@ -47,9 +47,7 @@ struct WorkoutRunningView: View {
                 Text(workoutViewModel.time)
                     .frame(height: 32 * getDeviceSizeMultiplier(), alignment: .leading)
                     .font(Font.system(size: 32 * getDeviceSizeMultiplier(), weight: .semibold, design: .default))
-//                Text("")
-//                    .frame(height: 5 * getDeviceSizeMultiplier(), alignment: .center)
-                Spacer(minLength: 6 * getDeviceSizeMultiplier())
+                Spacer()
                 HStack(alignment: .top, spacing: 0) {
                     VStack(alignment: .leading, spacing: 0) {
                         Text(workoutViewModel.bpm)
@@ -100,9 +98,7 @@ struct WorkoutRunningView: View {
                             .frame(width: 20 * getDeviceSizeMultiplier(), height: 40 * getDeviceSizeMultiplier(), alignment: .center)
                     }
                 }
-//                Text("")
-//                    .frame(height: 6 * getDeviceSizeMultiplier(), alignment: .center)
-                Spacer(minLength: 6 * getDeviceSizeMultiplier())
+                Spacer()
                 HStack {
                     Text(workoutViewModel.currentPace)
                         .frame(height: 18 * getDeviceSizeMultiplier(), alignment: .leading)
@@ -113,14 +109,15 @@ struct WorkoutRunningView: View {
                         .font(Font.system(size: 18 * getDeviceSizeMultiplier(), weight: .medium, design: .default))
                 }
             }
-//            .frame(width: geo.size.width, height: geo.size.height, alignment: .topLeading)
+            .frame(width: geo.size.width, height: geo.size.height - 12, alignment: .topLeading)
+            .offset(x: 0, y: -2)
             .onAppear(){
                 workoutViewModel.startWorkout()
             }
             .navigationBarHidden(true)
         }
         .frame(width: CGFloat(maxScreenSize.0), alignment: .center)
-//        .edgesIgnoringSafeArea([.bottom])
+        .edgesIgnoringSafeArea([.bottom])
     }
 }
 

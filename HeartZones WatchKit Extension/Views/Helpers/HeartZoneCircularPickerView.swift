@@ -77,17 +77,16 @@ struct MiddleTextView: View {
     }
     
     var body: some View {
-        VStack(alignment: .center, spacing: 2) {
+        VStack(alignment: .center, spacing: 3) {
             Text(heartZoneViewModel.name)
                 .font(Font.system(size: 16 * getDeviceSizeMultiplier(), weight: .medium, design: .default))
-//                .frame(width: 40 * getDeviceSizeMultiplier(), alignment: .trailing)
             HStack(alignment: .center, spacing: 0) {
                 VStack {
                     Text("\(heartZoneViewModel.lowerBound)")
-                        .font(Font.system(size: 12 * getDeviceSizeMultiplier(), weight: .light, design: .default))
+                        .font(Font.system(size: 14 * getDeviceSizeMultiplier(), weight: .light, design: .default))
                         .frame(width: 25 * getDeviceSizeMultiplier(), alignment: .trailing)
                     Text("\(Int((Double(heartZoneViewModel.lowerBound) / 100.0) * Double(maxBpm)))")
-                        .font(Font.system(size: 12 * getDeviceSizeMultiplier(), weight: .light, design: .default))
+                        .font(Font.system(size: 14 * getDeviceSizeMultiplier(), weight: .light, design: .default))
                         .frame(width: 25 * getDeviceSizeMultiplier(), alignment: .trailing)
                 }
                 VStack {
@@ -100,22 +99,23 @@ struct MiddleTextView: View {
                 }
                 VStack {
                     Text("\(heartZoneViewModel.upperBound)")
-                        .font(Font.system(size: 12 * getDeviceSizeMultiplier(), weight: .light, design: .default))
+                        .font(Font.system(size: 14 * getDeviceSizeMultiplier(), weight: .light, design: .default))
                         .frame(width: 25 * getDeviceSizeMultiplier(), alignment: .leading)
                     Text("\(Int((Double(heartZoneViewModel.upperBound) / 100.0) * Double(maxBpm)))")
-                        .font(Font.system(size: 12 * getDeviceSizeMultiplier(), weight: .light, design: .default))
+                        .font(Font.system(size: 14 * getDeviceSizeMultiplier(), weight: .light, design: .default))
                         .frame(width: 25 * getDeviceSizeMultiplier(), alignment: .leading)
                 }
                 VStack(alignment: .leading) {
                     Text("%")
-                        .frame(height: 12 * getDeviceSizeMultiplier(), alignment: .bottomLeading)
+                        .frame(height: 14 * getDeviceSizeMultiplier(), alignment: .bottomLeading)
                         .font(Font.system(size: 8 * getDeviceSizeMultiplier(), weight: .light, design: .default))
                     Text("BPM")
-                        .frame(height: 12 * getDeviceSizeMultiplier(), alignment: .bottomLeading)
+                        .frame(height: 14 * getDeviceSizeMultiplier(), alignment: .bottomLeading)
                         .font(Font.system(size: 8 * getDeviceSizeMultiplier(), weight: .light, design: .default))
                 }
             }
         }
+        .offset(x: 0, y: -2)
     }
 }
 

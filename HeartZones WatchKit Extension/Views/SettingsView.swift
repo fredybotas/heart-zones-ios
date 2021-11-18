@@ -37,8 +37,14 @@ struct PickerView<T: Hashable & Identifiable & CustomStringConvertible>: View {
 
 struct SettingsView: View {
     @ObservedObject var settingsViewModel: SettingsViewModel
-    @State var selectionShown = false
-    
+    @State var selectionShownMaxBpm = false
+    @State var selectionShownTargetZone = false
+    @State var selectionShownDistanceMetricOptions = false
+    @State var selectionShownEnergyMetricOptions = false
+    @State var selectionShownSpeedMetricOptions = false
+    @State var selectionShownFieldOne = false
+    @State var selectionShownFieldTwo = false
+
     func getSpeedString(speedMetric: SpeedMetric, distanceMetric: DistanceMetric) -> String {
         switch speedMetric.type {
         case .pace:
@@ -59,7 +65,7 @@ struct SettingsView: View {
                     }
                     .frame(height: 25)
                 } else {
-                    NavigationLink(destination: LazyView(PickerView(possibleValues: settingsViewModel.maxBpmOptions, selectionId: $settingsViewModel.maxBpm, showView: $selectionShown)), isActive: $selectionShown) {
+                    NavigationLink(destination: LazyView(PickerView(possibleValues: settingsViewModel.maxBpmOptions, selectionId: $settingsViewModel.maxBpm, showView: $selectionShownMaxBpm)), isActive: $selectionShownMaxBpm) {
                         VStack(alignment: .leading) {
                             Text("Max BPM")
                             Text(String(settingsViewModel.maxBpm))
@@ -80,7 +86,7 @@ struct SettingsView: View {
                     }
                     .frame(height: 40)
                 } else {
-                    NavigationLink(destination: LazyView(PickerView(possibleValues: settingsViewModel.zones, selectionId: $settingsViewModel.targetZone, showView: $selectionShown)), isActive: $selectionShown) {
+                    NavigationLink(destination: LazyView(PickerView(possibleValues: settingsViewModel.zones, selectionId: $settingsViewModel.targetZone, showView: $selectionShownTargetZone)), isActive: $selectionShownTargetZone) {
                         VStack(alignment: .leading) {
                             Text("Target zone")
                             // TODO: Not safe, fix if zone id changes
@@ -104,7 +110,7 @@ struct SettingsView: View {
                         }
                     }
                 } else {
-                    NavigationLink(destination: LazyView(PickerView(possibleValues: settingsViewModel.distanceMetricOptions, selectionType: $settingsViewModel.selectedDistanceMetric, showView: $selectionShown)), isActive: $selectionShown) {
+                    NavigationLink(destination: LazyView(PickerView(possibleValues: settingsViewModel.distanceMetricOptions, selectionType: $settingsViewModel.selectedDistanceMetric, showView: $selectionShownDistanceMetricOptions)), isActive: $selectionShownDistanceMetricOptions) {
                         VStack(alignment: .leading) {
                             Text("Distance")
                             Text(String(settingsViewModel.selectedDistanceMetric.description))
@@ -121,7 +127,7 @@ struct SettingsView: View {
                         }
                     }
                 } else {
-                    NavigationLink(destination: LazyView(PickerView(possibleValues: settingsViewModel.energyMetricOptions, selectionType: $settingsViewModel.selectedEnergyMetric, showView: $selectionShown)), isActive: $selectionShown) {
+                    NavigationLink(destination: LazyView(PickerView(possibleValues: settingsViewModel.energyMetricOptions, selectionType: $settingsViewModel.selectedEnergyMetric, showView: $selectionShownEnergyMetricOptions)), isActive: $selectionShownEnergyMetricOptions) {
                         VStack(alignment: .leading) {
                             Text("Energy")
                             Text(String(settingsViewModel.selectedEnergyMetric.description))
@@ -138,7 +144,7 @@ struct SettingsView: View {
                         }
                     }
                 } else {
-                    NavigationLink(destination: LazyView(PickerView(possibleValues: settingsViewModel.speedMetricOptions, selectionType: $settingsViewModel.selectedSpeedMetric, showView: $selectionShown)), isActive: $selectionShown) {
+                    NavigationLink(destination: LazyView(PickerView(possibleValues: settingsViewModel.speedMetricOptions, selectionType: $settingsViewModel.selectedSpeedMetric, showView: $selectionShownSpeedMetricOptions)), isActive: $selectionShownSpeedMetricOptions) {
                         VStack(alignment: .leading) {
                             Text("Speed")
                             Text(String(getSpeedString(speedMetric: settingsViewModel.selectedSpeedMetric, distanceMetric:settingsViewModel.selectedDistanceMetric)))
@@ -158,7 +164,7 @@ struct SettingsView: View {
                         }
                     }
                 } else {
-                    NavigationLink(destination: LazyView(PickerView(possibleValues: settingsViewModel.metricInFieldOneOptions, selectionType: $settingsViewModel.selectedMetricInFieldOne, showView: $selectionShown)), isActive: $selectionShown) {
+                    NavigationLink(destination: LazyView(PickerView(possibleValues: settingsViewModel.metricInFieldOneOptions, selectionType: $settingsViewModel.selectedMetricInFieldOne, showView: $selectionShownFieldOne)), isActive: $selectionShownFieldOne) {
                         VStack(alignment: .leading) {
                             Text("Field 1")
                             Text(String(settingsViewModel.selectedMetricInFieldOne.description))
@@ -175,7 +181,7 @@ struct SettingsView: View {
                         }
                     }
                 } else {
-                    NavigationLink(destination: LazyView(PickerView(possibleValues: settingsViewModel.metricInFieldTwoOptions, selectionType: $settingsViewModel.selectedMetricInFieldTwo, showView: $selectionShown)), isActive: $selectionShown) {
+                    NavigationLink(destination: LazyView(PickerView(possibleValues: settingsViewModel.metricInFieldTwoOptions, selectionType: $settingsViewModel.selectedMetricInFieldTwo, showView: $selectionShownFieldTwo)), isActive: $selectionShownFieldTwo) {
                         VStack(alignment: .leading) {
                             Text("Field 2")
                             Text(String(settingsViewModel.selectedMetricInFieldTwo.description))

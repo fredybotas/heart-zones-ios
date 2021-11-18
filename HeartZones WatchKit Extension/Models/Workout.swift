@@ -182,14 +182,16 @@ class Workout: NSObject, IWorkout, HKLiveWorkoutBuilderDelegate, HKWorkoutSessio
     
     // TODO: Refactor getters
     private func getAverageBpm() -> Int? {
-        let type = HKQuantityType(HKQuantityTypeIdentifier.heartRate)
+        let type = HKObjectType.quantityType(forIdentifier: HKQuantityTypeIdentifier.heartRate)
+        guard let type = type else { return nil }
         let hertzs = activeWorkoutSession?.associatedWorkoutBuilder().statistics(for: type)?.averageQuantity()?.doubleValue(for: HKUnit.hertz())
         guard let hertzs = hertzs else { return nil }
         return Int(hertzs * 60)
     }
     
     private func getRunningDistance() -> Measurement<UnitLength>? {
-        let type = HKQuantityType(HKQuantityTypeIdentifier.distanceWalkingRunning)
+        let type = HKObjectType.quantityType(forIdentifier: HKQuantityTypeIdentifier.distanceWalkingRunning)
+        guard let type = type else { return nil }
         let distance = activeWorkoutSession?.associatedWorkoutBuilder().statistics(for: type)?.sumQuantity()?.doubleValue(for: HKUnit.meter())
         guard let distance = distance else { return nil }
         return Measurement.init(value: distance, unit: UnitLength.meters)
@@ -204,7 +206,8 @@ class Workout: NSObject, IWorkout, HKLiveWorkoutBuilderDelegate, HKWorkoutSessio
     }
     
     private func getActiveEnergy() -> Measurement<UnitEnergy>? {
-        let type = HKQuantityType(HKQuantityTypeIdentifier.activeEnergyBurned)
+        let type = HKObjectType.quantityType(forIdentifier: HKQuantityTypeIdentifier.activeEnergyBurned)
+        guard let type = type else { return nil }
         let energy = activeWorkoutSession?.associatedWorkoutBuilder().statistics(for: type)?.sumQuantity()?.doubleValue(for: HKUnit.kilocalorie())
         guard let energy = energy else { return nil }
         return Measurement.init(value: energy, unit: UnitEnergy.kilocalories)

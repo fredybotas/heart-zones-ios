@@ -36,7 +36,7 @@ struct WorkoutSummaryUnitView: View {
                         Text(value)
                             .lineLimit(1)
                             .minimumScaleFactor(0.5)
-                            .font(Font.system(size: 18 * getDeviceSizeMultiplier(), weight: .medium, design: .default))
+                            .font(Font.system(size: 22 * getDeviceSizeMultiplier(), weight: .medium, design: .default))
                             .frame(alignment: .bottom)
                             .padding([.bottom, .top], -2)
                     }

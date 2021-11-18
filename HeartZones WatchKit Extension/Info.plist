@@ -31,11 +31,11 @@
 		<string>com.apple.watchkit</string>
 	</dict>
 	<key>NSHealthShareUsageDescription</key>
-	<string>We need to read your health data to show them during workout</string>
+	<string>We need to read your health data to show them during workout and to personalize your settings.</string>
 	<key>NSHealthUpdateUsageDescription</key>
-	<string>We need to update health data in order save your workouts into HealthKit</string>
+	<string>We need to update health data in order save your workouts into HealthKit.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>App needs location data for collecting workout route</string>
+	<string>App needs location data for collecting workout routes.</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>audio</string>
