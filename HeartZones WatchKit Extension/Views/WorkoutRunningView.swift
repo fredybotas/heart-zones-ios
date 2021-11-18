@@ -15,13 +15,17 @@ func widthToMaxSize(width: CGFloat) -> (Int, Int) {
     if width == 136 {
         return (136, 300)
     } else if width == 162 {
-        return (142, 190)
+        return (142, 300)
     } else if width == 156 {
         return (156, 300)
     } else if width == 184 {
         return (164, 300)
+    } else if width == 176 {
+        return (164, 300)
+    } else if width == 198 {
+        return (174, 300)
     }
-    return (1000, 1000)
+    return (164, 300)
 }
 
 struct WorkoutRunningView: View {
@@ -38,81 +42,111 @@ struct WorkoutRunningView: View {
     }
     
     var body: some View {
-        VStack(alignment: .leading, spacing: nil) {
-            Text(workoutViewModel.time)
-                .font(Font.system(size: 34 * getDeviceSizeMultiplier(), weight: .semibold, design: .default))
-            // TODO: Changed recently. Is it save? check displays
-            Spacer(minLength: 2 * getDeviceSizeMultiplier())
-            HStack(alignment: .top, spacing: 0) {
-                VStack(alignment: .leading, spacing: 0) {
-                    Text(workoutViewModel.bpm)
-                        .frame(width: 53 * getDeviceSizeMultiplier(), height: 25 * getDeviceSizeMultiplier(), alignment: .leading)
-                        .font(Font.system(size: 25 * getDeviceSizeMultiplier(), weight: .medium, design: .default))
-//                    Text("")
-//                        .frame(width: 53 * getDeviceSizeMultiplier(), height: 4 * getDeviceSizeMultiplier(), alignment: .center)
-                    Text(workoutViewModel.fieldOne)
-                        .frame(width: 53 * getDeviceSizeMultiplier(), height: 22 * getDeviceSizeMultiplier(), alignment: .leading)
-                        .font(Font.system(size: 22 * getDeviceSizeMultiplier(), weight: .medium, design: .default))
-                    Text(workoutViewModel.fieldTwo)
-                        .frame(width: 53 * getDeviceSizeMultiplier(), height: 22 * getDeviceSizeMultiplier(), alignment: .leading)
-                        .font(Font.system(size: 22 * getDeviceSizeMultiplier(), weight: .medium, design: .default))
-                }
-                VStack(alignment: .leading, spacing: 0) {
-                    Text(workoutViewModel.bpmUnit)
-                        .frame(width: 50 * getDeviceSizeMultiplier(), height: 25 * getDeviceSizeMultiplier(), alignment: .bottomLeading)
-                        .font(Font.system(size: 16 * getDeviceSizeMultiplier(), weight: .light, design: .default))
-//                    Text("")
-//                        .frame(width: 50 * getDeviceSizeMultiplier(), height: 4 * getDeviceSizeMultiplier(), alignment: .center)
-                    Text(workoutViewModel.fieldOneUnit)
-                        .frame(width: 50 * getDeviceSizeMultiplier(), height: 22 * getDeviceSizeMultiplier(), alignment: .bottomLeading)
-                        .font(Font.system(size: 12 * getDeviceSizeMultiplier(), weight: .light, design: .default))
-                    Text(workoutViewModel.fieldTwoUnit)
-                        .frame(width: 50 * getDeviceSizeMultiplier(), height: 22 * getDeviceSizeMultiplier(), alignment: .bottomLeading)
-                        .font(Font.system(size: 12 * getDeviceSizeMultiplier(), weight: .light, design: .default))
-                }
-                VStack(alignment: .center, spacing: 8 * getDeviceSizeMultiplier()) {
-                    ZStack(alignment: .center) {
-                        PieSegment(ratio: workoutViewModel.bpmCircleRatio)
-                            .fill(workoutViewModel.bpmCircleColor)
-                            .frame(width: 25 * getDeviceSizeMultiplier(), height: 25 * getDeviceSizeMultiplier(), alignment: .center)
-                        PieSegment(ratio: 1.0)
-                            .fill(Color.black)
-                            .frame(width: 21 * getDeviceSizeMultiplier(), height: 21 * getDeviceSizeMultiplier(), alignment: .center)
-                            // Hack with new sdk causing, zstack to not center elements correctly
-                            .offset(x: -0.11, y: 0)
-                        Text(String(workoutViewModel.bpmPercentage))
-                            .foregroundColor(workoutViewModel.bpmCircleColor)
-                            .frame(width: 25 * getDeviceSizeMultiplier(), height: 25 * getDeviceSizeMultiplier(), alignment: .center)
-                            .font(Font.system(size: 12 * getDeviceSizeMultiplier(), weight: .medium, design: .default))
-                            .offset(x: 0, y: -0.1)
-
+        GeometryReader { geo in
+            VStack(alignment: .leading, spacing: 0) {
+                Text(workoutViewModel.time)
+                    .frame(height: 32 * getDeviceSizeMultiplier(), alignment: .leading)
+                    .font(Font.system(size: 32 * getDeviceSizeMultiplier(), weight: .semibold, design: .default))
+//                Text("")
+//                    .frame(height: 5 * getDeviceSizeMultiplier(), alignment: .center)
+                Spacer(minLength: 6 * getDeviceSizeMultiplier())
+                HStack(alignment: .top, spacing: 0) {
+                    VStack(alignment: .leading, spacing: 0) {
+                        Text(workoutViewModel.bpm)
+                            .frame(width: 53 * getDeviceSizeMultiplier(), height: 25 * getDeviceSizeMultiplier(), alignment: .leading)
+                            .font(Font.system(size: 25 * getDeviceSizeMultiplier(), weight: .medium, design: .default))
+                        Text("")
+                            .frame(width: 53 * getDeviceSizeMultiplier(), height: 4 * getDeviceSizeMultiplier(), alignment: .center)
+                        Text(workoutViewModel.fieldOne)
+                            .frame(width: 53 * getDeviceSizeMultiplier(), height: 22 * getDeviceSizeMultiplier(), alignment: .leading)
+                            .font(Font.system(size: 22 * getDeviceSizeMultiplier(), weight: .medium, design: .default))
+                        Text(workoutViewModel.fieldTwo)
+                            .frame(width: 53 * getDeviceSizeMultiplier(), height: 22 * getDeviceSizeMultiplier(), alignment: .leading)
+                            .font(Font.system(size: 22 * getDeviceSizeMultiplier(), weight: .medium, design: .default))
                     }
-                    SunViewWithMinutes(minutesLeft: workoutViewModel.sunsetLeft, sunVisibility: workoutViewModel.sunVisibility)
-                        .frame(width: 20 * getDeviceSizeMultiplier(), height: 40 * getDeviceSizeMultiplier(), alignment: .center)
+                    VStack(alignment: .leading, spacing: 0) {
+                        Text(workoutViewModel.bpmUnit)
+                            .frame(width: 50 * getDeviceSizeMultiplier(), height: 25 * getDeviceSizeMultiplier(), alignment: .bottomLeading)
+                            .font(Font.system(size: 16 * getDeviceSizeMultiplier(), weight: .light, design: .default))
+                        Text("")
+                            .frame(width: 50 * getDeviceSizeMultiplier(), height: 4 * getDeviceSizeMultiplier(), alignment: .center)
+                        Text(workoutViewModel.fieldOneUnit)
+                            .frame(width: 50 * getDeviceSizeMultiplier(), height: 22 * getDeviceSizeMultiplier(), alignment: .bottomLeading)
+                            .font(Font.system(size: 12 * getDeviceSizeMultiplier(), weight: .light, design: .default))
+                        Text(workoutViewModel.fieldTwoUnit)
+                            .frame(width: 50 * getDeviceSizeMultiplier(), height: 22 * getDeviceSizeMultiplier(), alignment: .bottomLeading)
+                            .font(Font.system(size: 12 * getDeviceSizeMultiplier(), weight: .light, design: .default))
+                    }
+                    VStack(alignment: .center, spacing: 8 * getDeviceSizeMultiplier()) {
+                        ZStack(alignment: .center) {
+                            PieSegment(ratio: workoutViewModel.bpmCircleRatio)
+                                .fill(workoutViewModel.bpmCircleColor)
+                                .frame(width: 26 * getDeviceSizeMultiplier(), height: 26 * getDeviceSizeMultiplier(), alignment: .center)
+    //                            .padding(2.5 * getDeviceSizeMultiplier())
+                            PieSegment(ratio: 1.0)
+                                .fill(Color.black)
+                                .frame(width: 21 * getDeviceSizeMultiplier(), height: 21 * getDeviceSizeMultiplier(), alignment: .center)
+    //                            .padding(2.5 * getDeviceSizeMultiplier())
+                                // Hack with new sdk causing, zstack to not center elements correctly
+    //                            .offset(x: -0.11, y: 0)
+                            Text(String(workoutViewModel.bpmPercentage))
+                                .foregroundColor(workoutViewModel.bpmCircleColor)
+                                .frame(width: 25 * getDeviceSizeMultiplier(), height: 25 * getDeviceSizeMultiplier(), alignment: .center)
+                                .font(Font.system(size: 12 * getDeviceSizeMultiplier(), weight: .medium, design: .default))
+                                .offset(x: 0, y: -0.1)
+
+                        }
+                        SunViewWithMinutes(minutesLeft: workoutViewModel.sunsetLeft, sunVisibility: workoutViewModel.sunVisibility)
+                            .frame(width: 20 * getDeviceSizeMultiplier(), height: 40 * getDeviceSizeMultiplier(), alignment: .center)
+                    }
+                }
+//                Text("")
+//                    .frame(height: 6 * getDeviceSizeMultiplier(), alignment: .center)
+                Spacer(minLength: 6 * getDeviceSizeMultiplier())
+                HStack {
+                    Text(workoutViewModel.currentPace)
+                        .frame(height: 18 * getDeviceSizeMultiplier(), alignment: .leading)
+                        .font(Font.system(size: 18 * getDeviceSizeMultiplier(), weight: .medium, design: .default))
+                    Spacer()
+                    Text(workoutViewModel.averagePace)
+                        .frame(height: 18 * getDeviceSizeMultiplier(), alignment: .trailing)
+                        .font(Font.system(size: 18 * getDeviceSizeMultiplier(), weight: .medium, design: .default))
                 }
             }
-            Spacer(minLength: 8 * getDeviceSizeMultiplier())
-            HStack {
-                Text(workoutViewModel.currentPace)
-                    .font(Font.system(size: 18 * getDeviceSizeMultiplier(), weight: .medium, design: .default))
-                Spacer()
-                Text(workoutViewModel.averagePace)
-                    .font(Font.system(size: 18 * getDeviceSizeMultiplier(), weight: .medium, design: .default))
+//            .frame(width: geo.size.width, height: geo.size.height, alignment: .topLeading)
+            .onAppear(){
+                workoutViewModel.startWorkout()
             }
+            .navigationBarHidden(true)
         }
-        .onAppear(){
-            workoutViewModel.startWorkout()
-        }
-        .navigationBarHidden(true)
-        .frame(maxWidth: CGFloat(maxScreenSize.0), maxHeight: CGFloat(maxScreenSize.1), alignment: .leading)
+        .frame(width: CGFloat(maxScreenSize.0), alignment: .center)
+//        .edgesIgnoringSafeArea([.bottom])
     }
 }
 
 struct WorkoutRunningView_Previews: PreviewProvider {
-    
     static var viewModel = WorkoutViewModel(workoutType: WorkoutType(type: .outdoorRunning), workoutService: WorkoutService(locationManager: LocationManager(), healthKitService: HealthKitService(), settingsService: SettingsService(settingsRepository: SettingsRepository(), healthKitService: HealthKitService())), heartZoneService: HeartZoneService(workoutService: WorkoutService(locationManager: LocationManager(), healthKitService: HealthKitService(), settingsService: SettingsService(settingsRepository: SettingsRepository(), healthKitService: HealthKitService())), beepingService: BeepingService(beeper: DeviceBeepingManager(beeper: DeviceBeeper()), settingsService: SettingsService(settingsRepository: SettingsRepository(), healthKitService: HealthKitService())), healthKitService: HealthKitService(), settingsService: SettingsService(settingsRepository: SettingsRepository(), healthKitService: HealthKitService())), sunService: SunService(locationManager: LocationManager()), settingsService: SettingsService(settingsRepository: SettingsRepository(), healthKitService: HealthKitService()))
-    
+        
     static var previews: some View {
-        WorkoutRunningView(workoutViewModel: viewModel)
+        Group {
+            WorkoutRunningView(workoutViewModel: viewModel)
+                .previewDevice(PreviewDevice(rawValue: "Apple Watch Series 3 - 38mm"))
+                .previewDisplayName("38mm")
+            WorkoutRunningView(workoutViewModel: viewModel)
+                .previewDevice(PreviewDevice(rawValue: "Apple Watch Series 3 - 42mm"))
+                .previewDisplayName("42mm")
+            WorkoutRunningView(workoutViewModel: viewModel)
+                .previewDevice(PreviewDevice(rawValue: "Apple Watch Series 6 - 40mm"))
+                .previewDisplayName("40mm")
+            WorkoutRunningView(workoutViewModel: viewModel)
+                .previewDevice(PreviewDevice(rawValue: "Apple Watch Series 6 - 44mm"))
+                .previewDisplayName("44mm")
+            WorkoutRunningView(workoutViewModel: viewModel)
+                .previewDevice(PreviewDevice(rawValue: "Apple Watch Series 7 - 41mm"))
+                .previewDisplayName("41mm")
+            WorkoutRunningView(workoutViewModel: viewModel)
+                .previewDevice(PreviewDevice(rawValue: "Apple Watch Series 7 - 45mm"))
+                .previewDisplayName("45mm")
+        }
     }
 }

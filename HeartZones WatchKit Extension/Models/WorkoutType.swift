@@ -12,11 +12,12 @@ let typeToString: [WorkoutType.type: String] = [
     .outdoorRunning: "Outdoor Run",
     .indoorRunning: "Indoor Run",
     .walking: "Walking",
+    .hiking: "Hiking",
 ]
 
 struct WorkoutType: Identifiable {
     enum type: Int {
-        case outdoorRunning, indoorRunning, walking
+        case outdoorRunning, indoorRunning, walking, hiking
     }
     var type: type
     var name: String {
@@ -42,6 +43,9 @@ struct WorkoutType: Identifiable {
             configuration.locationType = .indoor
         case .walking:
             configuration.activityType = .walking
+            configuration.locationType = .outdoor
+        case .hiking:
+            configuration.activityType = .hiking
             configuration.locationType = .outdoor
         }
 

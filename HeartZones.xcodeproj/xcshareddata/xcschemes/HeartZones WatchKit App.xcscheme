@@ -78,10 +78,11 @@
       ignoresPersistentStateOnLaunch = "NO"
       debugDocumentVersioning = "YES"
       debugServiceExtension = "internal"
-      allowLocationSimulation = "YES"
-      notificationPayloadFile = "HeartZones WatchKit Extension/PushNotificationPayload.apns">
-      <BuildableProductRunnable
-         runnableDebuggingMode = "0">
+      allowLocationSimulation = "YES">
+      <RemoteRunnable
+         runnableDebuggingMode = "2"
+         BundleIdentifier = "com.apple.Carousel"
+         RemotePath = "/HeartZones">
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "B615E0252683BD1800B5DC91"
@@ -89,17 +90,18 @@
             BlueprintName = "HeartZonesKit"
             ReferencedContainer = "container:HeartZones.xcodeproj">
          </BuildableReference>
-      </BuildableProductRunnable>
+      </RemoteRunnable>
    </LaunchAction>
    <ProfileAction
       buildConfiguration = "Release"
       shouldUseLaunchSchemeArgsEnv = "YES"
       savedToolIdentifier = ""
       useCustomWorkingDirectory = "NO"
-      debugDocumentVersioning = "YES"
-      notificationPayloadFile = "HeartZones WatchKit Extension/PushNotificationPayload.apns">
-      <BuildableProductRunnable
-         runnableDebuggingMode = "0">
+      debugDocumentVersioning = "YES">
+      <RemoteRunnable
+         runnableDebuggingMode = "2"
+         BundleIdentifier = "com.apple.Carousel"
+         RemotePath = "/HeartZones">
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "B615E0252683BD1800B5DC91"
@@ -107,7 +109,16 @@
             BlueprintName = "HeartZonesKit"
             ReferencedContainer = "container:HeartZones.xcodeproj">
          </BuildableReference>
-      </BuildableProductRunnable>
+      </RemoteRunnable>
+      <MacroExpansion>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "B615E0252683BD1800B5DC91"
+            BuildableName = "HeartZonesKit.app"
+            BlueprintName = "HeartZonesKit"
+            ReferencedContainer = "container:HeartZones.xcodeproj">
+         </BuildableReference>
+      </MacroExpansion>
    </ProfileAction>
    <AnalyzeAction
       buildConfiguration = "Debug">

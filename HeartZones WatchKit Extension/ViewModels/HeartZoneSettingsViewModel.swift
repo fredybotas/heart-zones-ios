@@ -11,6 +11,7 @@ import SwiftUI
 
 class HeartZoneViewModel: ObservableObject, Identifiable {
     let zone: HeartZone
+    let isLast: Bool
 
     @Published var lowerBound: Int
     @Published var upperBound: Int
@@ -25,8 +26,9 @@ class HeartZoneViewModel: ObservableObject, Identifiable {
     
     var cancellables = Set<AnyCancellable>()
     
-    init(zone: HeartZone) {
+    init(zone: HeartZone, isLast: Bool) {
         self.zone = zone
+        self.isLast = isLast
         self.lowerBound = zone.bpmRangePercentage.lowerBound
         self.upperBound = zone.bpmRangePercentage.upperBound
                 
@@ -37,13 +39,14 @@ class HeartZoneViewModel: ObservableObject, Identifiable {
         self.name = zone.name
         
         self.crown = Double(zone.bpmRangePercentage.upperBound)
-        self.$crown
-            .removeDuplicates()
-            .sink(receiveValue: { val in
-                self.upperBound = Int(val)
-            })
-            .store(in: &cancellables)
-        
+        if !isLast {
+            self.$crown
+                .removeDuplicates()
+                .sink(receiveValue: { val in
+                    self.upperBound = Int(val)
+                })
+                .store(in: &cancellables)
+        }
         self.$upperBound
             .removeDuplicates()
             .map( { Double($0) } )
@@ -89,7 +92,7 @@ class HeartZoneViewModel: ObservableObject, Identifiable {
 
 class HeartZoneSettingsViewModel: ObservableObject {
     var settingsService: ISettingsService
-
+    
     @Published var zones: [HeartZoneViewModel]
 
     var cancellables = Set<AnyCancellable>()
@@ -98,7 +101,11 @@ class HeartZoneSettingsViewModel: ObservableObject {
     init(settingsService: ISettingsService) {
         self.settingsService = settingsService
         self.zoneSetting = settingsService.selectedHeartZoneSetting
-        self.zones = zoneSetting.zones.map({ HeartZoneViewModel(zone: $0) })
+        self.zones = zoneSetting.zones
+            .enumerated()
+            .map { [zoneCount = zoneSetting.zonesCount]  (index, zone) in
+                return HeartZoneViewModel(zone: zone, isLast: index == zoneCount - 1)
+            }
     
         initBindings()
     }

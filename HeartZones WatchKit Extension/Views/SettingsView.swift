@@ -7,7 +7,6 @@
 
 import SwiftUI
 import Swinject
-import XCTest
 
 struct PickerView<T: Hashable & Identifiable & CustomStringConvertible>: View {
     let possibleValues: [T]
@@ -71,7 +70,7 @@ struct SettingsView: View {
                     }
                 }
                 NavigationLink(destination: LazyView(HeartZoneCircularPickerView(heartZoneSettingsViewModel: DIContainer.shared.resolve(HeartZoneSettingsViewModel.self)!))) {
-                    Text("Zones settings")
+                    Text("Zone settings")
                 }
                 if #available(watchOSApplicationExtension 7.0, *) {
                     Picker("Target zone", selection: $settingsViewModel.targetZone) {

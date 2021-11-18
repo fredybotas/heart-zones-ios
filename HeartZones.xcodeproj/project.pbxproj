@@ -16,12 +16,10 @@
 		B615E02C2683BD1900B5DC91 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B615E02B2683BD1900B5DC91 /* Assets.xcassets */; };
 		B615E0332683BD1900B5DC91 /* HeartZones WatchKit Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = B615E0322683BD1900B5DC91 /* HeartZones WatchKit Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		B615E0422683BD1900B5DC91 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B615E0412683BD1900B5DC91 /* Assets.xcassets */; };
-		B615E0452683BD1900B5DC91 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B615E0442683BD1900B5DC91 /* Preview Assets.xcassets */; };
 		B62DDBDD26ABFC0D001D3D26 /* HealthKitService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B62DDBDC26ABFC0D001D3D26 /* HealthKitService.swift */; };
 		B62DDBDF26AC0DEA001D3D26 /* HealthKitServiceMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = B62DDBDE26AC0DEA001D3D26 /* HealthKitServiceMock.swift */; };
 		B62DDBE326AC2F06001D3D26 /* AuthorizationManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B62DDBE226AC2F06001D3D26 /* AuthorizationManagerTests.swift */; };
 		B62EF908269E1FE40067E894 /* SunService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B62EF907269E1FE40067E894 /* SunService.swift */; };
-		B62EF90C269E211F0067E894 /* Solar in Frameworks */ = {isa = PBXBuildFile; productRef = B62EF90B269E211F0067E894 /* Solar */; };
 		B636EF19272B234B0038BD85 /* WorkoutSummaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B636EF18272B234B0038BD85 /* WorkoutSummaryView.swift */; };
 		B636EF1B272B235E0038BD85 /* WorkoutSummaryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B636EF1A272B235E0038BD85 /* WorkoutSummaryViewModel.swift */; };
 		B637F8D826BFC12A00D81AA6 /* EnergyShowingStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = B637F8D726BFC12A00D81AA6 /* EnergyShowingStrategy.swift */; };
@@ -38,7 +36,6 @@
 		B650A95B26878DAD0042B33D /* PieSegmentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B650A95A26878DAD0042B33D /* PieSegmentView.swift */; };
 		B650A95F26878E1F0042B33D /* WorkoutViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B650A95E26878E1F0042B33D /* WorkoutViewModel.swift */; };
 		B650A962268799C60042B33D /* WorkoutService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B650A961268799C60042B33D /* WorkoutService.swift */; };
-		B650A96626879E5B0042B33D /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B650A96526879E5B0042B33D /* HealthKit.framework */; };
 		B650A9692688853A0042B33D /* WorkoutType.swift in Sources */ = {isa = PBXBuildFile; fileRef = B650A9682688853A0042B33D /* WorkoutType.swift */; };
 		B650A96B2688857E0042B33D /* WorkoutSelectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B650A96A2688857E0042B33D /* WorkoutSelectionViewModel.swift */; };
 		B650A96D26888AD10042B33D /* Workout.swift in Sources */ = {isa = PBXBuildFile; fileRef = B650A96C26888AD10042B33D /* Workout.swift */; };
@@ -53,9 +50,11 @@
 		B661A3F826B572D200E78D8E /* SettingsRepositoryFake.swift in Sources */ = {isa = PBXBuildFile; fileRef = B661A3F726B572D200E78D8E /* SettingsRepositoryFake.swift */; };
 		B6628A71268A538300901D17 /* HostingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6628A6F268A538300901D17 /* HostingController.swift */; };
 		B6628A72268A538300901D17 /* ExtensionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6628A70268A538300901D17 /* ExtensionDelegate.swift */; };
+		B6663C892745A1570049A4EC /* Swinject in Frameworks */ = {isa = PBXBuildFile; productRef = B6663C882745A1570049A4EC /* Swinject */; };
+		B6663C8B2745A1570049A4EC /* Solar in Frameworks */ = {isa = PBXBuildFile; productRef = B6663C8A2745A1570049A4EC /* Solar */; };
 		B66C863A27133DDC00C03FD4 /* HeartZoneCircularPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B66C863927133DDC00C03FD4 /* HeartZoneCircularPickerView.swift */; };
+		B6739964274644B5002A6A25 /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B6739963274644B5002A6A25 /* HealthKit.framework */; };
 		B68999132709FD1500F92061 /* UserDefaultsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B68999122709FD1500F92061 /* UserDefaultsManager.swift */; };
-		B697B4FE268B9A77003558C8 /* Swinject in Frameworks */ = {isa = PBXBuildFile; productRef = B697B4FD268B9A77003558C8 /* Swinject */; };
 		B697B500268BBD6E003558C8 /* WorkoutControlsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B697B4FF268BBD6E003558C8 /* WorkoutControlsViewModel.swift */; };
 		B6AFC1A526A5917100616311 /* BeepingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6AFC1A426A5917100616311 /* BeepingService.swift */; };
 		B6AFC1AA26A59C4D00616311 /* BeepingServiceMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6AFC1A926A59C4D00616311 /* BeepingServiceMock.swift */; };
@@ -138,7 +137,6 @@
 		B615E0412683BD1900B5DC91 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B615E0442683BD1900B5DC91 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		B615E0462683BD1900B5DC91 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		B615E0472683BD1900B5DC91 /* PushNotificationPayload.apns */ = {isa = PBXFileReference; lastKnownFileType = text; path = PushNotificationPayload.apns; sourceTree = "<group>"; };
 		B615E04C2683BD1900B5DC91 /* HeartZonesTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HeartZonesTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B615E0522683BD1900B5DC91 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B62DDBDC26ABFC0D001D3D26 /* HealthKitService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthKitService.swift; sourceTree = "<group>"; };
@@ -163,13 +161,11 @@
 		B650A95E26878E1F0042B33D /* WorkoutViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutViewModel.swift; sourceTree = "<group>"; };
 		B650A961268799C60042B33D /* WorkoutService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutService.swift; sourceTree = "<group>"; };
 		B650A96326879E5B0042B33D /* HeartZones WatchKit Extension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "HeartZones WatchKit Extension.entitlements"; sourceTree = "<group>"; };
-		B650A96526879E5B0042B33D /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = Platforms/WatchOS.platform/Developer/SDKs/WatchOS7.4.sdk/System/Library/Frameworks/HealthKit.framework; sourceTree = DEVELOPER_DIR; };
 		B650A9682688853A0042B33D /* WorkoutType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutType.swift; sourceTree = "<group>"; };
 		B650A96A2688857E0042B33D /* WorkoutSelectionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutSelectionViewModel.swift; sourceTree = "<group>"; };
 		B650A96C26888AD10042B33D /* Workout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Workout.swift; sourceTree = "<group>"; };
 		B650A96E2688955F0042B33D /* HeartZone.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeartZone.swift; sourceTree = "<group>"; };
 		B650A970268895800042B33D /* HeartZoneService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeartZoneService.swift; sourceTree = "<group>"; };
-		B650A9722688C3A80042B33D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = Platforms/WatchOS.platform/Developer/SDKs/WatchOS7.4.sdk/System/Library/Frameworks/CoreGraphics.framework; sourceTree = DEVELOPER_DIR; };
 		B6607B2626AC4CB700C0C0EE /* AuthorizableFake.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizableFake.swift; sourceTree = "<group>"; };
 		B661A3EE26B536D200E78D8E /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		B661A3F126B5622000E78D8E /* SettingsRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsRepository.swift; sourceTree = "<group>"; };
@@ -180,6 +176,7 @@
 		B6628A70268A538300901D17 /* ExtensionDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExtensionDelegate.swift; sourceTree = "<group>"; };
 		B6628A75268A56CB00901D17 /* Interface.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Interface.storyboard; sourceTree = "<group>"; };
 		B66C863927133DDC00C03FD4 /* HeartZoneCircularPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeartZoneCircularPickerView.swift; sourceTree = "<group>"; };
+		B6739963274644B5002A6A25 /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = Platforms/WatchOS.platform/Developer/SDKs/WatchOS8.0.sdk/System/Library/Frameworks/HealthKit.framework; sourceTree = DEVELOPER_DIR; };
 		B68999122709FD1500F92061 /* UserDefaultsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsManager.swift; sourceTree = "<group>"; };
 		B697B4FF268BBD6E003558C8 /* WorkoutControlsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutControlsViewModel.swift; sourceTree = "<group>"; };
 		B6AFC1A426A5917100616311 /* BeepingService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeepingService.swift; sourceTree = "<group>"; };
@@ -205,9 +202,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B62EF90C269E211F0067E894 /* Solar in Frameworks */,
-				B650A96626879E5B0042B33D /* HealthKit.framework in Frameworks */,
-				B697B4FE268B9A77003558C8 /* Swinject in Frameworks */,
+				B6739964274644B5002A6A25 /* HealthKit.framework in Frameworks */,
+				B6663C8B2745A1570049A4EC /* Solar in Frameworks */,
+				B6663C892745A1570049A4EC /* Swinject in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -269,7 +266,6 @@
 				B6628A6F268A538300901D17 /* HostingController.swift */,
 				B615E0412683BD1900B5DC91 /* Assets.xcassets */,
 				B615E0462683BD1900B5DC91 /* Info.plist */,
-				B615E0472683BD1900B5DC91 /* PushNotificationPayload.apns */,
 				B615E0432683BD1900B5DC91 /* Preview Content */,
 			);
 			path = "HeartZones WatchKit Extension";
@@ -385,8 +381,7 @@
 		B650A96426879E5B0042B33D /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				B650A9722688C3A80042B33D /* CoreGraphics.framework */,
-				B650A96526879E5B0042B33D /* HealthKit.framework */,
+				B6739963274644B5002A6A25 /* HealthKit.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -478,8 +473,8 @@
 			);
 			name = HeartZones;
 			packageProductDependencies = (
-				B697B4FC268B9A70003558C8 /* Swinject */,
-				B62EF90A269E21150067E894 /* Solar */,
+				B6663C852745A0B90049A4EC /* Swinject */,
+				B6663C872745A0D70049A4EC /* Solar */,
 			);
 			productName = HeartZones;
 			productReference = B615E0222683BD1800B5DC91 /* HeartZones.app */;
@@ -516,8 +511,8 @@
 			);
 			name = "HeartZones WatchKit Extension";
 			packageProductDependencies = (
-				B697B4FD268B9A77003558C8 /* Swinject */,
-				B62EF90B269E211F0067E894 /* Solar */,
+				B6663C882745A1570049A4EC /* Swinject */,
+				B6663C8A2745A1570049A4EC /* Solar */,
 			);
 			productName = "HeartZones WatchKit Extension";
 			productReference = B615E0322683BD1900B5DC91 /* HeartZones WatchKit Extension.appex */;
@@ -575,8 +570,8 @@
 			);
 			mainGroup = B615E01B2683BD1800B5DC91;
 			packageReferences = (
-				B697B4FB268B9A70003558C8 /* XCRemoteSwiftPackageReference "Swinject" */,
-				B62EF909269E21150067E894 /* XCRemoteSwiftPackageReference "Solar" */,
+				B6663C842745A0B90049A4EC /* XCRemoteSwiftPackageReference "Swinject" */,
+				B6663C862745A0D70049A4EC /* XCRemoteSwiftPackageReference "Solar" */,
 			);
 			productRefGroup = B615E0232683BD1800B5DC91 /* Products */;
 			projectDirPath = "";
@@ -611,7 +606,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B615E0452683BD1900B5DC91 /* Preview Assets.xcassets in Resources */,
 				B615E0422683BD1900B5DC91 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -837,20 +831,24 @@
 				ASSETCATALOG_COMPILER_COMPLICATION_NAME = Complication;
 				CODE_SIGN_ENTITLEMENTS = "HeartZones WatchKit Extension/HeartZones WatchKit Extension.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 8;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_ASSET_PATHS = "\"HeartZones WatchKit Extension/Preview Content\"";
 				DEVELOPMENT_TEAM = DUTU9Q7M96;
 				ENABLE_PREVIEWS = YES;
-				ENABLE_TESTING_SEARCH_PATHS = YES;
+				ENABLE_TESTING_SEARCH_PATHS = NO;
 				INFOPLIST_FILE = "HeartZones WatchKit Extension/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.1.0;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SDKROOT)/usr/lib/swift",
+				);
+				MARKETING_VERSION = 2.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = online.trender.heartzones.watchkitapp.watchkitextension;
 				PRODUCT_NAME = "${TARGET_NAME}";
 				SDKROOT = watchos;
@@ -867,20 +865,24 @@
 				ASSETCATALOG_COMPILER_COMPLICATION_NAME = Complication;
 				CODE_SIGN_ENTITLEMENTS = "HeartZones WatchKit Extension/HeartZones WatchKit Extension.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 8;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_ASSET_PATHS = "\"HeartZones WatchKit Extension/Preview Content\"";
 				DEVELOPMENT_TEAM = DUTU9Q7M96;
 				ENABLE_PREVIEWS = YES;
-				ENABLE_TESTING_SEARCH_PATHS = YES;
+				ENABLE_TESTING_SEARCH_PATHS = NO;
 				INFOPLIST_FILE = "HeartZones WatchKit Extension/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.1.0;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SDKROOT)/usr/lib/swift",
+				);
+				MARKETING_VERSION = 2.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = online.trender.heartzones.watchkitapp.watchkitextension;
 				PRODUCT_NAME = "${TARGET_NAME}";
 				SDKROOT = watchos;
@@ -897,16 +899,16 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEAD_CODE_STRIPPING = YES;
+				CURRENT_PROJECT_VERSION = 8;
+				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = DUTU9Q7M96;
 				ENABLE_TESTING_SEARCH_PATHS = NO;
 				IBSC_MODULE = HeartZones_WatchKit_Extension;
 				INFOPLIST_FILE = "HeartZones WatchKit App/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
-				MARKETING_VERSION = 1.1.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				MARKETING_VERSION = 2.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = online.trender.heartzones.watchkitapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
@@ -923,16 +925,16 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEAD_CODE_STRIPPING = YES;
+				CURRENT_PROJECT_VERSION = 8;
+				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = DUTU9Q7M96;
 				ENABLE_TESTING_SEARCH_PATHS = NO;
 				IBSC_MODULE = HeartZones_WatchKit_Extension;
 				INFOPLIST_FILE = "HeartZones WatchKit App/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
-				MARKETING_VERSION = 1.1.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				MARKETING_VERSION = 2.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = online.trender.heartzones.watchkitapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
@@ -947,11 +949,16 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEAD_CODE_STRIPPING = YES;
+				CURRENT_PROJECT_VERSION = 8;
+				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = DUTU9Q7M96;
 				INFOPLIST_FILE = HeartZones/Info.plist;
-				MARKETING_VERSION = 1.1.0;
+				INFOPLIST_KEY_CFBundleDisplayName = HeartZones;
+				INFOPLIST_KEY_NSHealthShareUsageDescription = "We need to read your health data to show them during workout";
+				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "We need to update health data in order save your workouts into HealthKit";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "App needs location data for collecting workout route";
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				MARKETING_VERSION = 2.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = online.trender.heartzones;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -964,11 +971,16 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEAD_CODE_STRIPPING = YES;
+				CURRENT_PROJECT_VERSION = 8;
+				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = DUTU9Q7M96;
 				INFOPLIST_FILE = HeartZones/Info.plist;
-				MARKETING_VERSION = 1.1.0;
+				INFOPLIST_KEY_CFBundleDisplayName = HeartZones;
+				INFOPLIST_KEY_NSHealthShareUsageDescription = "We need to read your health data to show them during workout";
+				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "We need to update health data in order save your workouts into HealthKit";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "App needs location data for collecting workout route";
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				MARKETING_VERSION = 2.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = online.trender.heartzones;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -985,7 +997,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = DUTU9Q7M96;
 				INFOPLIST_FILE = HeartZonesTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1011,7 +1023,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = DUTU9Q7M96;
 				INFOPLIST_FILE = HeartZonesTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1080,44 +1092,44 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		B62EF909269E21150067E894 /* XCRemoteSwiftPackageReference "Solar" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/ceeK/Solar.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 2.2.0;
-			};
-		};
-		B697B4FB268B9A70003558C8 /* XCRemoteSwiftPackageReference "Swinject" */ = {
+		B6663C842745A0B90049A4EC /* XCRemoteSwiftPackageReference "Swinject" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/Swinject/Swinject.git";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 2.7.1;
+				minimumVersion = 2.8.0;
+			};
+		};
+		B6663C862745A0D70049A4EC /* XCRemoteSwiftPackageReference "Solar" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/ceeK/Solar.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 3.0.0;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		B62EF90A269E21150067E894 /* Solar */ = {
+		B6663C852745A0B90049A4EC /* Swinject */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = B62EF909269E21150067E894 /* XCRemoteSwiftPackageReference "Solar" */;
-			productName = Solar;
-		};
-		B62EF90B269E211F0067E894 /* Solar */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = B62EF909269E21150067E894 /* XCRemoteSwiftPackageReference "Solar" */;
-			productName = Solar;
-		};
-		B697B4FC268B9A70003558C8 /* Swinject */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = B697B4FB268B9A70003558C8 /* XCRemoteSwiftPackageReference "Swinject" */;
+			package = B6663C842745A0B90049A4EC /* XCRemoteSwiftPackageReference "Swinject" */;
 			productName = Swinject;
 		};
-		B697B4FD268B9A77003558C8 /* Swinject */ = {
+		B6663C872745A0D70049A4EC /* Solar */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = B697B4FB268B9A70003558C8 /* XCRemoteSwiftPackageReference "Swinject" */;
+			package = B6663C862745A0D70049A4EC /* XCRemoteSwiftPackageReference "Solar" */;
+			productName = Solar;
+		};
+		B6663C882745A1570049A4EC /* Swinject */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B6663C842745A0B90049A4EC /* XCRemoteSwiftPackageReference "Swinject" */;
 			productName = Swinject;
+		};
+		B6663C8A2745A1570049A4EC /* Solar */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B6663C862745A0D70049A4EC /* XCRemoteSwiftPackageReference "Solar" */;
+			productName = Solar;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

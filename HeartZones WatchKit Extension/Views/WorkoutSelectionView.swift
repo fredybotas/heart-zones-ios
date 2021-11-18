@@ -26,8 +26,10 @@ struct WorkoutSelectionView: View {
                 .listRowPlatterColor(.clear)
             NavigationLink(destination: LazyView(SettingsView(settingsViewModel: DIContainer.shared.resolve(SettingsViewModel.self)!))) {
                 Text("Settings")
+                    .font(Font.system(size: 14, weight: .regular, design: .default))
+                    .padding(EdgeInsets(top: 10, leading: 3, bottom: 10, trailing: 3))
             }
-            .listRowPlatterColor(.blue)
+            .listRowPlatterColor(Color.init(red: 36 / 255, green: 123 / 255, blue: 160 / 255))
         }
         .listStyle(CarouselListStyle())
         .navigationBarTitle("Workouts")

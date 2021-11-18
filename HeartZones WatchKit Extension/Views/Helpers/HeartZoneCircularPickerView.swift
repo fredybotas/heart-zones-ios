@@ -9,7 +9,9 @@ import SwiftUI
 
 struct HeartZoneControl: View {
     @ObservedObject var heartZoneViewModel: HeartZoneViewModel
-
+    let radius: CGFloat
+    let lineWidth: CGFloat
+    
     var body: some View {
         Circle()
             .trim(from:
@@ -17,8 +19,8 @@ struct HeartZoneControl: View {
                   , to:
                     CGFloat(heartZoneViewModel.upperBound) / CGFloat(100)
             )
-            .stroke(heartZoneViewModel.color, lineWidth: 5)
-            .frame(width: 60 * 2, height: 60 * 2)
+            .stroke(heartZoneViewModel.color, lineWidth: lineWidth)
+            .frame(width: radius * 2, height: radius * 2)
             .rotationEffect(.degrees(-90))
     }
 }
@@ -26,109 +28,94 @@ struct HeartZoneControl: View {
 struct HeartZoneKnob: View {
     @ObservedObject var heartZoneViewModel: HeartZoneViewModel
     @Binding var focusedIndex: Int
-    let fixed: Bool
     let index: Int
+    let isLast: Bool
     
-    private let radius: CGFloat = 7
+    let radius: CGFloat
+    let knobRadius: CGFloat
+    
     private let knobPadding: CGFloat = 10
         
     var body: some View {
         // Knobs
         Circle()
             .fill(focusedIndex == index ? Color.green : Color.white)
-            .frame(width: (radius + 1) * 2, height: (radius + 1) * 2)
+            .frame(width: (knobRadius + 1) * 2, height: (knobRadius + 1) * 2)
             .padding(knobPadding)
-            .offset(y: -60)
+            .offset(y: -radius)
             .rotationEffect(
                 Angle.degrees(Double((CGFloat(heartZoneViewModel.upperBound) / 100) * CGFloat(360)))
             )
-            
         Circle()
             .fill(heartZoneViewModel.color)
-            .frame(width: radius * 2, height: radius * 2)
+            .frame(width: knobRadius * 2, height: knobRadius * 2)
             .padding(knobPadding)
-            .offset(y: -60)
+            .offset(y: -radius)
             .rotationEffect(
                 Angle.degrees(Double((CGFloat(heartZoneViewModel.upperBound) / 100) * CGFloat(360)))
             )
-            .focusable()
+            .focusable(true) { focused in
+                if focused {
+                    focusedIndex = index
+                }
+            }
             .digitalCrownRotation($heartZoneViewModel.crown, from: Double(heartZoneViewModel.minBound), through: Double(heartZoneViewModel.maxBound), by: 1.0, sensitivity: .medium, isContinuous: false, isHapticFeedbackEnabled: false)
-            .gesture(DragGesture(minimumDistance: 0.0)
-            .onChanged({ value in
-                focusedIndex = index
-                if fixed { return }
-                self.change(value.location)
-            }))
-    }
-    
-    private func change(_ location: CGPoint) {
-        // creating vector from location point
-        let vector = CGVector(dx: location.x, dy: location.y)
-        
-        // geting angle in radian need to subtract the knob radius and padding
-        let angle = atan2(vector.dy - (radius + knobPadding), vector.dx - (radius + knobPadding)) + .pi/2.0
-        
-        // convert angle range from (-pi to pi) to (0 to 2pi)
-        let fixedAngle = angle < 0.0 ? angle + 2.0 * .pi : angle
-        let degrees = fixedAngle * 180 / .pi
-        let upperBound = Int((degrees / 360.0) * 100.0)
-        if heartZoneViewModel.maxBound >= upperBound && heartZoneViewModel.minBound <= upperBound {
-            heartZoneViewModel.upperBound = upperBound
-        }
     }
 }
 
 struct MiddleTextView: View {
     @ObservedObject var heartZoneViewModel: HeartZoneViewModel
     let maxBpm: Int
+    
+    var maxScreenSize: (Int, Int) = {
+        return widthToMaxSize(width: WKInterfaceDevice.current().screenBounds.width)
+    }()
+    
+    func getDeviceSizeMultiplier() -> CGFloat {
+        let screenSize = self.maxScreenSize
+        return CGFloat(screenSize.0) / kSmallestDeviceWidth
+    }
+    
     var body: some View {
-        VStack(alignment: .center, spacing: 0) {
+        VStack(alignment: .center, spacing: 2) {
             Text(heartZoneViewModel.name)
+                .font(Font.system(size: 16 * getDeviceSizeMultiplier(), weight: .medium, design: .default))
+//                .frame(width: 40 * getDeviceSizeMultiplier(), alignment: .trailing)
             HStack(alignment: .center, spacing: 0) {
                 VStack {
                     Text("\(heartZoneViewModel.lowerBound)")
-                        .font(Font.system(size: 12, weight: .medium, design: .default))
-                        .frame(width: 24, alignment: .trailing)
+                        .font(Font.system(size: 12 * getDeviceSizeMultiplier(), weight: .light, design: .default))
+                        .frame(width: 25 * getDeviceSizeMultiplier(), alignment: .trailing)
                     Text("\(Int((Double(heartZoneViewModel.lowerBound) / 100.0) * Double(maxBpm)))")
-                        .font(Font.system(size: 12, weight: .medium, design: .default))
-                        .frame(width: 24, alignment: .trailing)
+                        .font(Font.system(size: 12 * getDeviceSizeMultiplier(), weight: .light, design: .default))
+                        .frame(width: 25 * getDeviceSizeMultiplier(), alignment: .trailing)
                 }
                 VStack {
                     Text("-")
-                        .font(Font.system(size: 12, weight: .medium, design: .default))
-                        .frame(width: 12)
+                        .font(Font.system(size: 12 * getDeviceSizeMultiplier(), weight: .light, design: .default))
+                        .frame(width: 12 * getDeviceSizeMultiplier())
                     Text("-")
-                        .font(Font.system(size: 12, weight: .medium, design: .default))
-                        .frame(width: 12)
+                        .font(Font.system(size: 12 * getDeviceSizeMultiplier(), weight: .light, design: .default))
+                        .frame(width: 12 * getDeviceSizeMultiplier())
                 }
                 VStack {
                     Text("\(heartZoneViewModel.upperBound)")
-                        .font(Font.system(size: 12, weight: .medium, design: .default))
-                        .frame(width: 24, alignment: .leading)
+                        .font(Font.system(size: 12 * getDeviceSizeMultiplier(), weight: .light, design: .default))
+                        .frame(width: 25 * getDeviceSizeMultiplier(), alignment: .leading)
                     Text("\(Int((Double(heartZoneViewModel.upperBound) / 100.0) * Double(maxBpm)))")
-                        .font(Font.system(size: 12, weight: .medium, design: .default))
-                        .frame(width: 24, alignment: .leading)
+                        .font(Font.system(size: 12 * getDeviceSizeMultiplier(), weight: .light, design: .default))
+                        .frame(width: 25 * getDeviceSizeMultiplier(), alignment: .leading)
                 }
-                VStack {
+                VStack(alignment: .leading) {
                     Text("%")
-                        .frame(width: 20, height: 12, alignment: .bottomLeading)
-                        .font(Font.system(size: 8, weight: .medium, design: .default))
+                        .frame(height: 12 * getDeviceSizeMultiplier(), alignment: .bottomLeading)
+                        .font(Font.system(size: 8 * getDeviceSizeMultiplier(), weight: .light, design: .default))
                     Text("BPM")
-                        .frame(width: 20, height: 12, alignment: .bottomLeading)
-                        .font(Font.system(size: 8, weight: .medium, design: .default))
+                        .frame(height: 12 * getDeviceSizeMultiplier(), alignment: .bottomLeading)
+                        .font(Font.system(size: 8 * getDeviceSizeMultiplier(), weight: .light, design: .default))
                 }
             }
         }
-    }
-}
-
-struct BackgroundCircle: View {
-    let color: Color
-    
-    var body: some View {
-        Circle()
-            .fill(color)
-            .frame(width: 57 * 2, height: 57 * 2)
     }
 }
 
@@ -136,26 +123,69 @@ struct HeartZoneCircularPickerView: View {
     @ObservedObject var heartZoneSettingsViewModel: HeartZoneSettingsViewModel
     @State var focusedIndex: Int = 0
     
+    func getMinDimension(geo: GeometryProxy) -> CGFloat {
+        let width = geo.size.width
+        let height = geo.size.height
+        
+        return width < height ? width : height
+    }
+    
+    func getRadius(geo: GeometryProxy) -> CGFloat {
+        let min = getMinDimension(geo: geo)
+        let maxRadius = min / 2
+        return maxRadius - 12
+    }
+    
+    func getLineWidth(geo: GeometryProxy) -> CGFloat {
+        return getMinDimension(geo: geo) / 25
+    }
+    
+    func getKnobRadius(geo: GeometryProxy) -> CGFloat {
+        return getMinDimension(geo: geo) / 19
+    }
+    
     var body: some View {
-        ZStack {
-            ForEach(0..<heartZoneSettingsViewModel.zones.count) { i in
-                HeartZoneControl(heartZoneViewModel: heartZoneSettingsViewModel.zones[i])
-            }
-//            BackgroundCircle(color: heartZoneSettingsViewModel.zones[focusedIndex].color)
+        GeometryReader { geo in
+            ZStack(alignment: .center) {
+                ForEach(0..<heartZoneSettingsViewModel.zones.count) { i in
+                    HeartZoneControl(heartZoneViewModel: heartZoneSettingsViewModel.zones[i], radius: getRadius(geo: geo), lineWidth: getLineWidth(geo: geo))
+                }
 
-            ForEach(0..<heartZoneSettingsViewModel.zones.count) { i in
-                HeartZoneKnob(heartZoneViewModel: heartZoneSettingsViewModel.zones[i], focusedIndex: $focusedIndex, fixed: i == heartZoneSettingsViewModel.zones.count - 1, index: i)
+                ForEach(0..<heartZoneSettingsViewModel.zones.count) { i in
+                    HeartZoneKnob(heartZoneViewModel: heartZoneSettingsViewModel.zones[i], focusedIndex: $focusedIndex, index: i, isLast: heartZoneSettingsViewModel.zones[i].isLast, radius: getRadius(geo: geo), knobRadius: getKnobRadius(geo: geo))
+                }
+                
+                MiddleTextView(heartZoneViewModel: heartZoneSettingsViewModel.zones[focusedIndex], maxBpm: heartZoneSettingsViewModel.settingsService.maximumBpm)
             }
-            
-            MiddleTextView(heartZoneViewModel: heartZoneSettingsViewModel.zones[focusedIndex], maxBpm: heartZoneSettingsViewModel.settingsService.maximumBpm)
+            .frame(width: geo.size.width, height: geo.size.height, alignment: .center)
         }
-        .offset(x: 0, y: 5)
+        .edgesIgnoringSafeArea([.bottom])
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
         .navigationBarTitle("Zone Settings")
     }
 }
 
 struct HeartZoneCircularPickerView_Previews: PreviewProvider {
     static var previews: some View {
-        HeartZoneCircularPickerView(heartZoneSettingsViewModel: HeartZoneSettingsViewModel(settingsService: SettingsService(settingsRepository: SettingsRepository(), healthKitService: HealthKitService())))
+        Group {
+            HeartZoneCircularPickerView(heartZoneSettingsViewModel: HeartZoneSettingsViewModel(settingsService: SettingsService(settingsRepository: SettingsRepository(), healthKitService: HealthKitService())))
+                .previewDevice(PreviewDevice(rawValue: "Apple Watch Series 3 - 38mm"))
+                .previewDisplayName("38mm")
+            HeartZoneCircularPickerView(heartZoneSettingsViewModel: HeartZoneSettingsViewModel(settingsService: SettingsService(settingsRepository: SettingsRepository(), healthKitService: HealthKitService())))
+                .previewDevice(PreviewDevice(rawValue: "Apple Watch Series 3 - 42mm"))
+                .previewDisplayName("42mm")
+            HeartZoneCircularPickerView(heartZoneSettingsViewModel: HeartZoneSettingsViewModel(settingsService: SettingsService(settingsRepository: SettingsRepository(), healthKitService: HealthKitService())))
+                .previewDevice(PreviewDevice(rawValue: "Apple Watch Series 6 - 40mm"))
+                .previewDisplayName("40mm")
+            HeartZoneCircularPickerView(heartZoneSettingsViewModel: HeartZoneSettingsViewModel(settingsService: SettingsService(settingsRepository: SettingsRepository(), healthKitService: HealthKitService())))
+                .previewDevice(PreviewDevice(rawValue: "Apple Watch Series 6 - 44mm"))
+                .previewDisplayName("44mm")
+            HeartZoneCircularPickerView(heartZoneSettingsViewModel: HeartZoneSettingsViewModel(settingsService: SettingsService(settingsRepository: SettingsRepository(), healthKitService: HealthKitService())))
+                .previewDevice(PreviewDevice(rawValue: "Apple Watch Series 7 - 41mm"))
+                .previewDisplayName("41mm")
+            HeartZoneCircularPickerView(heartZoneSettingsViewModel: HeartZoneSettingsViewModel(settingsService: SettingsService(settingsRepository: SettingsRepository(), healthKitService: HealthKitService())))
+                .previewDevice(PreviewDevice(rawValue: "Apple Watch Series 7 - 45mm"))
+                .previewDisplayName("45mm")
+        }
     }
 }

@@ -47,6 +47,8 @@
 	</array>
 	<key>WKExtensionDelegateClassName</key>
 	<string>$(PRODUCT_MODULE_NAME).ExtensionDelegate</string>
+	<key>WKSupportsAlwaysOnDisplay</key>
+	<false/>
 	<key>WKWatchOnly</key>
 	<true/>
 </dict>

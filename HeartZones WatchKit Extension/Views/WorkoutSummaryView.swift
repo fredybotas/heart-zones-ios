@@ -12,12 +12,22 @@ struct WorkoutSummaryUnitView: View {
     let values: [String]
     let unit: String
     
+    // TODO: Unify coef multiplier across screens
+    var maxScreenSize: (Int, Int) = {
+        return widthToMaxSize(width: WKInterfaceDevice.current().screenBounds.width)
+    }()
+
+    func getDeviceSizeMultiplier() -> CGFloat {
+        let screenSize = self.maxScreenSize
+        return CGFloat(screenSize.0) / kSmallestDeviceWidth
+    }
+    
     var body: some View {
         VStack(alignment: .leading, spacing: 1) {
             Text(name)
                 .lineLimit(1)
-                .minimumScaleFactor(0.8)
-                .font(Font.system(size: 10, weight: .light, design: .default))
+                .minimumScaleFactor(0.5)
+                .font(Font.system(size: 9 * getDeviceSizeMultiplier(), weight: .light, design: .default))
                 .foregroundColor(.gray)
             HStack(alignment: .bottom) {
                 VStack(spacing: 0) {
@@ -26,7 +36,7 @@ struct WorkoutSummaryUnitView: View {
                         Text(value)
                             .lineLimit(1)
                             .minimumScaleFactor(0.5)
-                            .font(Font.system(size: 24, weight: .medium, design: .default))
+                            .font(Font.system(size: 18 * getDeviceSizeMultiplier(), weight: .medium, design: .default))
                             .frame(alignment: .bottom)
                             .padding([.bottom, .top], -2)
                     }
@@ -35,8 +45,8 @@ struct WorkoutSummaryUnitView: View {
                 Spacer()
                 Text(unit)
                     .lineLimit(1)
-                    .minimumScaleFactor(0.8)
-                    .font(Font.system(size: 14, weight: .light, design: .default))
+                    .minimumScaleFactor(0.5)
+                    .font(Font.system(size: 8 * getDeviceSizeMultiplier(), weight: .light, design: .default))
                     .frame(alignment: .bottom)
 
             }
@@ -53,9 +63,8 @@ struct WorkoutSummaryRow: View {
             Rectangle()
                 .frame(height: 1)
             Spacer(minLength: 5)
-            HStack {
+            HStack(spacing: 15) {
                 WorkoutSummaryUnitView(name: unitLeft?.name ?? "", values: unitLeft?.values ?? [], unit: unitLeft?.unit ?? "")
-                Spacer(minLength: 20)
                 WorkoutSummaryUnitView(name: unitRight?.name ?? "", values: unitRight?.values ?? [], unit: unitRight?.unit ?? "")
             }
         }
@@ -70,12 +79,12 @@ struct WorkoutSummaryView: View {
         ScrollView {
             VStack(alignment: .leading, spacing: 1) {
                 Text(workoutSummaryViewModel.workoutType)
-                    .minimumScaleFactor(0.8)
+                    .minimumScaleFactor(0.5)
                     .font(Font.footnote)
                     .foregroundColor(.gray)
                 Text("ELAPSED TIME")
                     .lineLimit(1)
-                    .minimumScaleFactor(0.8)
+                    .minimumScaleFactor(0.5)
                     .font(Font.system(size: 10, weight: .light, design: .default))
                     .foregroundColor(.gray)
                 Text(workoutSummaryViewModel.timeElapsed)
@@ -95,7 +104,7 @@ struct WorkoutSummaryView: View {
                     workoutSummaryViewModel.saveWorkout()
                     controller?.popControllers()
                 })
-                Spacer(minLength: 15)
+                Spacer(minLength: 10)
                 Button("Discard", action: {
                     workoutSummaryViewModel.discardWorkout()
                     controller?.popControllers()
@@ -107,6 +116,27 @@ struct WorkoutSummaryView: View {
 
 struct WorkoutSummaryView_Previews: PreviewProvider {
     static var previews: some View {
-        WorkoutSummaryView(workoutSummaryViewModel: WorkoutSummaryViewModel(workoutService: WorkoutService(locationManager: LocationManager(), healthKitService: HealthKitService(), settingsService: SettingsService(settingsRepository: SettingsRepository(), healthKitService: HealthKitService())), settingsService: SettingsService(settingsRepository: SettingsRepository(), healthKitService: HealthKitService())))
+        Group {
+            WorkoutSummaryView(workoutSummaryViewModel: WorkoutSummaryViewModel(workoutService: WorkoutService(locationManager: LocationManager(), healthKitService: HealthKitService(), settingsService: SettingsService(settingsRepository: SettingsRepository(), healthKitService: HealthKitService())), settingsService: SettingsService(settingsRepository: SettingsRepository(), healthKitService: HealthKitService())))
+                .previewDevice(PreviewDevice(rawValue: "Apple Watch Series 3 - 38mm"))
+                .previewDisplayName("38mm")
+            WorkoutSummaryView(workoutSummaryViewModel: WorkoutSummaryViewModel(workoutService: WorkoutService(locationManager: LocationManager(), healthKitService: HealthKitService(), settingsService: SettingsService(settingsRepository: SettingsRepository(), healthKitService: HealthKitService())), settingsService: SettingsService(settingsRepository: SettingsRepository(), healthKitService: HealthKitService())))
+                .previewDevice(PreviewDevice(rawValue: "Apple Watch Series 3 - 42mm"))
+                .previewDisplayName("42mm")
+            WorkoutSummaryView(workoutSummaryViewModel: WorkoutSummaryViewModel(workoutService: WorkoutService(locationManager: LocationManager(), healthKitService: HealthKitService(), settingsService: SettingsService(settingsRepository: SettingsRepository(), healthKitService: HealthKitService())), settingsService: SettingsService(settingsRepository: SettingsRepository(), healthKitService: HealthKitService())))
+                .previewDevice(PreviewDevice(rawValue: "Apple Watch Series 6 - 40mm"))
+                .previewDisplayName("40mm")
+            WorkoutSummaryView(workoutSummaryViewModel: WorkoutSummaryViewModel(workoutService: WorkoutService(locationManager: LocationManager(), healthKitService: HealthKitService(), settingsService: SettingsService(settingsRepository: SettingsRepository(), healthKitService: HealthKitService())), settingsService: SettingsService(settingsRepository: SettingsRepository(), healthKitService: HealthKitService())))
+                .previewDevice(PreviewDevice(rawValue: "Apple Watch Series 6 - 44mm"))
+                .previewDisplayName("44mm")
+            WorkoutSummaryView(workoutSummaryViewModel: WorkoutSummaryViewModel(workoutService: WorkoutService(locationManager: LocationManager(), healthKitService: HealthKitService(), settingsService: SettingsService(settingsRepository: SettingsRepository(), healthKitService: HealthKitService())), settingsService: SettingsService(settingsRepository: SettingsRepository(), healthKitService: HealthKitService())))
+                .previewDevice(PreviewDevice(rawValue: "Apple Watch Series 7 - 41mm"))
+                .previewDisplayName("41mm")
+            WorkoutSummaryView(workoutSummaryViewModel: WorkoutSummaryViewModel(workoutService: WorkoutService(locationManager: LocationManager(), healthKitService: HealthKitService(), settingsService: SettingsService(settingsRepository: SettingsRepository(), healthKitService: HealthKitService())), settingsService: SettingsService(settingsRepository: SettingsRepository(), healthKitService: HealthKitService())))
+                .previewDevice(PreviewDevice(rawValue: "Apple Watch Series 7 - 45mm"))
+                .previewDisplayName("45mm")
+        }
     }
+    
+    
 }

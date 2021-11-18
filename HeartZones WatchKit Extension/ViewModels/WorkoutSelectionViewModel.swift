@@ -9,6 +9,6 @@ import Foundation
 
 class WorkoutSelectionViewModel: ObservableObject {
  
-    private(set) var workoutTypes: [WorkoutType] = [WorkoutType(type: .outdoorRunning), WorkoutType(type: .indoorRunning), WorkoutType(type: .walking)]
+    private(set) var workoutTypes: [WorkoutType] = [WorkoutType(type: .outdoorRunning), WorkoutType(type: .indoorRunning), WorkoutType(type: .walking), WorkoutType(type: .hiking)]
 
 }
