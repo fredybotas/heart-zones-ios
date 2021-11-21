@@ -22,7 +22,9 @@ struct WorkoutSummaryData {
     let workoutType: WorkoutType
     let elapsedTime: TimeInterval
     let avgBpm: Int?
+    let bpmColor: HeartZone.Color?
     let timeInTargetZonePercentage: Int
+    let timeInTargetColor: HeartZone.Color?
     let distance: Measurement<UnitLength>?
     let averagePace: Measurement<UnitSpeed>?
     let elevationMin: Measurement<UnitLength>?
@@ -175,10 +177,21 @@ class Workout: NSObject, IWorkout, HKLiveWorkoutBuilderDelegate, HKWorkoutSessio
             workoutSummaryPublisher.send(nil)
             return
         }
-        let summaryData = WorkoutSummaryData(workoutType: workoutType, elapsedTime: getElapsedTime(), avgBpm: getAverageBpm(), timeInTargetZonePercentage: bpm.timeInTargetZonePercentage(), distance: getRunningDistance(), averagePace: getAverageSpeed(), elevationMin: elevationContainer.getMinElevation(), elevationMax: elevationContainer.getMaxElevation(), elevationGain: elevationContainer.getElevationGain(), activeEnergy: getActiveEnergy())
+        let avgBpm = getAverageBpm()
+        let summaryData = WorkoutSummaryData(workoutType: workoutType, elapsedTime: getElapsedTime(), avgBpm: avgBpm, bpmColor: getBpmColor(avgBpm: avgBpm), timeInTargetZonePercentage: bpm.timeInTargetZonePercentage(), timeInTargetColor: getTimeInTargetColor(), distance: getRunningDistance(), averagePace: getAverageSpeed(), elevationMin: elevationContainer.getMinElevation(), elevationMax: elevationContainer.getMaxElevation(), elevationGain: elevationContainer.getElevationGain(), activeEnergy: getActiveEnergy())
         workoutSummaryPublisher.send(summaryData)
     }
     
+    private func getBpmColor(avgBpm: Int?) -> HeartZone.Color? {
+        guard let avgBpm = avgBpm else { return nil }
+        let bpmPercentage = Double(avgBpm) / Double(settingsService.maximumBpm)
+        let positiveZones = settingsService.selectedHeartZoneSetting.zones.filter { $0.bpmRangePercentage.contains(Int(bpmPercentage * 100)) }
+        return positiveZones.first?.color
+    }
+    
+    private func getTimeInTargetColor() -> HeartZone.Color? {
+        return settingsService.selectedHeartZoneSetting.zones[settingsService.targetZoneId].color
+    }
     
     // TODO: Refactor getters
     private func getAverageBpm() -> Int? {

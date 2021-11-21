@@ -127,7 +127,7 @@ class HeartZoneSettingsViewModel: ObservableObject {
         
         Publishers
             .MergeMany(listOfInterestingPublishers)
-            .debounce(for: .seconds(0.2), scheduler: RunLoop.main, options: nil)
+            .debounce(for: .seconds(0.1), scheduler: RunLoop.main, options: nil)
             .dropFirst()
             .sink { [weak self] _ in
                 self?.saveZone()

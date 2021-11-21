@@ -11,6 +11,7 @@ struct WorkoutSummaryUnitView: View {
     let name: String
     let values: [String]
     let unit: String
+    let color: Color?
     
     // TODO: Unify coef multiplier across screens
     var maxScreenSize: (Int, Int) = {
@@ -35,18 +36,20 @@ struct WorkoutSummaryUnitView: View {
                     ForEach(values, id: \.self) { value in
                         Text(value)
                             .lineLimit(1)
-                            .minimumScaleFactor(0.5)
+                            .minimumScaleFactor(0.4)
                             .font(Font.system(size: 22 * getDeviceSizeMultiplier(), weight: .medium, design: .default))
+                            .foregroundColor(color)
                             .frame(alignment: .bottom)
                             .padding([.bottom, .top], -2)
                     }
                 }
-                .frame(maxHeight: 35)
+                .frame(maxHeight: 42)
                 Spacer()
                 Text(unit)
                     .lineLimit(1)
                     .minimumScaleFactor(0.5)
                     .font(Font.system(size: 8 * getDeviceSizeMultiplier(), weight: .light, design: .default))
+                    .foregroundColor(color)
                     .frame(alignment: .bottom)
 
             }
@@ -64,8 +67,8 @@ struct WorkoutSummaryRow: View {
                 .frame(height: 1)
             Spacer(minLength: 5)
             HStack(spacing: 15) {
-                WorkoutSummaryUnitView(name: unitLeft?.name ?? "", values: unitLeft?.values ?? [], unit: unitLeft?.unit ?? "")
-                WorkoutSummaryUnitView(name: unitRight?.name ?? "", values: unitRight?.values ?? [], unit: unitRight?.unit ?? "")
+                WorkoutSummaryUnitView(name: unitLeft?.name ?? "", values: unitLeft?.values ?? [], unit: unitLeft?.unit ?? "", color: unitLeft?.color)
+                WorkoutSummaryUnitView(name: unitRight?.name ?? "", values: unitRight?.values ?? [], unit: unitRight?.unit ?? "", color: unitRight?.color)
             }
         }
     }
@@ -100,10 +103,12 @@ struct WorkoutSummaryView: View {
                 Rectangle()
                     .frame(height: 1)
                 Spacer(minLength: 20)
-                Button("Save Workout", action: {
-                    workoutSummaryViewModel.saveWorkout()
-                    controller?.popControllers()
-                })
+                if workoutSummaryViewModel.showSaveButton {
+                    Button("Save Workout", action: {
+                        workoutSummaryViewModel.saveWorkout()
+                        controller?.popControllers()
+                    })
+                }
                 Spacer(minLength: 10)
                 Button("Discard", action: {
                     workoutSummaryViewModel.discardWorkout()

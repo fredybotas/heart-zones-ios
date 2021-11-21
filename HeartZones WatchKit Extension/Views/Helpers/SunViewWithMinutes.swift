@@ -8,8 +8,9 @@
 import SwiftUI
 
 struct SunViewWithMinutes: View {
-    var minutesLeft: Int
-    var sunVisibility: Double
+    let minutesLeft: Int
+    let sunVisibility: Double
+    let fontSize: CGFloat
     
     var body: some View {
         VStack(alignment: .center, spacing: 0) {
@@ -19,6 +20,7 @@ struct SunViewWithMinutes: View {
                 .clipped()
             if minutesLeft > 0 {
                 Text(String(minutesLeft))
+                    .font(Font.system(size: fontSize, weight: .medium, design: .default))
                     .foregroundColor(.yellow)
             }
         }
@@ -27,6 +29,6 @@ struct SunViewWithMinutes: View {
 
 struct SunViewWithMinutes_Previews: PreviewProvider {
     static var previews: some View {
-        SunViewWithMinutes(minutesLeft: 45, sunVisibility: 0.75)
+        SunViewWithMinutes(minutesLeft: 45, sunVisibility: 0.75, fontSize: 16)
     }
 }

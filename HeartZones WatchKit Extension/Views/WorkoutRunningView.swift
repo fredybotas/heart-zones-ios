@@ -41,6 +41,13 @@ struct WorkoutRunningView: View {
         return CGFloat(screenSize.0) / kSmallestDeviceWidth
     }
     
+    func getScreenOffsetY() -> CGFloat {
+        if #available(watchOSApplicationExtension 7.0, *) {
+            return -4
+        }
+        return -6
+    }
+    
     var body: some View {
         GeometryReader { geo in
             VStack(alignment: .leading, spacing: 0) {
@@ -79,22 +86,21 @@ struct WorkoutRunningView: View {
                         ZStack(alignment: .center) {
                             PieSegment(ratio: workoutViewModel.bpmCircleRatio)
                                 .fill(workoutViewModel.bpmCircleColor)
-                                .frame(width: 26 * getDeviceSizeMultiplier(), height: 26 * getDeviceSizeMultiplier(), alignment: .center)
+                                .frame(width: 29 * getDeviceSizeMultiplier(), height: 29 * getDeviceSizeMultiplier(), alignment: .center)
     //                            .padding(2.5 * getDeviceSizeMultiplier())
                             PieSegment(ratio: 1.0)
                                 .fill(Color.black)
-                                .frame(width: 21 * getDeviceSizeMultiplier(), height: 21 * getDeviceSizeMultiplier(), alignment: .center)
+                                .frame(width: 24 * getDeviceSizeMultiplier(), height: 24 * getDeviceSizeMultiplier(), alignment: .center)
     //                            .padding(2.5 * getDeviceSizeMultiplier())
                                 // Hack with new sdk causing, zstack to not center elements correctly
     //                            .offset(x: -0.11, y: 0)
                             Text(String(workoutViewModel.bpmPercentage))
                                 .foregroundColor(workoutViewModel.bpmCircleColor)
                                 .frame(width: 25 * getDeviceSizeMultiplier(), height: 25 * getDeviceSizeMultiplier(), alignment: .center)
-                                .font(Font.system(size: 12 * getDeviceSizeMultiplier(), weight: .medium, design: .default))
+                                .font(Font.system(size: 15 * getDeviceSizeMultiplier(), weight: .medium, design: .default))
                                 .offset(x: 0, y: -0.1)
-
                         }
-                        SunViewWithMinutes(minutesLeft: workoutViewModel.sunsetLeft, sunVisibility: workoutViewModel.sunVisibility)
+                        SunViewWithMinutes(minutesLeft: workoutViewModel.sunsetLeft, sunVisibility: workoutViewModel.sunVisibility, fontSize: 15 * getDeviceSizeMultiplier())
                             .frame(width: 20 * getDeviceSizeMultiplier(), height: 40 * getDeviceSizeMultiplier(), alignment: .center)
                     }
                 }
@@ -110,7 +116,7 @@ struct WorkoutRunningView: View {
                 }
             }
             .frame(width: geo.size.width, height: geo.size.height - 12, alignment: .topLeading)
-            .offset(x: 0, y: -2)
+            .offset(x: 0, y: getScreenOffsetY())
             .onAppear(){
                 workoutViewModel.startWorkout()
             }

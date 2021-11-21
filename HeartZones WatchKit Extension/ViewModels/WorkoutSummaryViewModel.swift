@@ -13,7 +13,7 @@ struct SummaryUnit: Hashable {
     let name: String
     let values: [String]
     let unit: String
-//    let color: Color?
+    let color: Color?
 }
 
 struct SummaryRow: Hashable {
@@ -22,11 +22,11 @@ struct SummaryRow: Hashable {
 }
 
 class WorkoutSummaryViewModel: ObservableObject {
-    @Published var timeElapsed: String = "00:00,00"
-    @Published var workoutType: String = "--"
+    @Published var timeElapsed: String = "--:--,--"
+    @Published var showSaveButton: Bool = false
+    @Published var workoutType: String = "Loading"
     
     @Published var summaryUnits = [SummaryRow]()
-
     private var cancellables = Set<AnyCancellable>()
     private let summaryDataProcessingStrategy: ISummaryDataProcessingStrategy
     private let showingStrategyFacade: ShowingStrategyFacade
@@ -55,6 +55,7 @@ class WorkoutSummaryViewModel: ObservableObject {
         timeElapsed = data.elapsedTime.stringFromTimeInterval()
         workoutType = data.workoutType.name
         summaryUnits = summaryDataProcessingStrategy.processSummaryData(workoutSummaryData: data)
+        showSaveButton = true
     }
     
     func saveWorkout() {

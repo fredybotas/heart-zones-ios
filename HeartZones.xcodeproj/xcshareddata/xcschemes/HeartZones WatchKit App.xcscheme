@@ -65,8 +65,10 @@
       debugDocumentVersioning = "YES"
       debugServiceExtension = "internal"
       allowLocationSimulation = "YES">
-      <BuildableProductRunnable
-         runnableDebuggingMode = "0">
+      <RemoteRunnable
+         runnableDebuggingMode = "2"
+         BundleIdentifier = "com.apple.Carousel"
+         RemotePath = "/HeartZones">
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "B615E0252683BD1800B5DC91"
@@ -74,7 +76,7 @@
             BlueprintName = "HeartZonesKit"
             ReferencedContainer = "container:HeartZones.xcodeproj">
          </BuildableReference>
-      </BuildableProductRunnable>
+      </RemoteRunnable>
    </LaunchAction>
    <ProfileAction
       buildConfiguration = "Release"
@@ -82,8 +84,10 @@
       savedToolIdentifier = ""
       useCustomWorkingDirectory = "NO"
       debugDocumentVersioning = "YES">
-      <BuildableProductRunnable
-         runnableDebuggingMode = "0">
+      <RemoteRunnable
+         runnableDebuggingMode = "2"
+         BundleIdentifier = "com.apple.Carousel"
+         RemotePath = "/HeartZones">
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "B615E0252683BD1800B5DC91"
@@ -91,7 +95,16 @@
             BlueprintName = "HeartZonesKit"
             ReferencedContainer = "container:HeartZones.xcodeproj">
          </BuildableReference>
-      </BuildableProductRunnable>
+      </RemoteRunnable>
+      <MacroExpansion>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "B615E0252683BD1800B5DC91"
+            BuildableName = "HeartZonesKit.app"
+            BlueprintName = "HeartZonesKit"
+            ReferencedContainer = "container:HeartZones.xcodeproj">
+         </BuildableReference>
+      </MacroExpansion>
    </ProfileAction>
    <AnalyzeAction
       buildConfiguration = "Debug">

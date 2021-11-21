@@ -195,8 +195,9 @@ struct SettingsView: View {
             
             Section(header: Text("Misc")) {
                 Button(action: { settingsViewModel.resetHeartZoneSettings() }) {
-                    Text("Reset Zone Settings")
+                    Text("Reset Heart Zone Settings")
                 }
+                .accentColor(.red)
             }
         }
         .listStyle(DefaultListStyle())
