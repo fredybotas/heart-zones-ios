@@ -25,14 +25,13 @@ class WorkoutSummaryViewModel: ObservableObject {
     @Published var timeElapsed: String = "--:--,--"
     @Published var showSaveButton: Bool = false
     @Published var workoutType: String = "Loading"
-    
     @Published var summaryUnits = [SummaryRow]()
+    
     private var cancellables = Set<AnyCancellable>()
     private let summaryDataProcessingStrategy: ISummaryDataProcessingStrategy
     private let showingStrategyFacade: ShowingStrategyFacade
     private let workoutService: IWorkoutService
     private let settingsService: ISettingsService
-    
     
     init(workoutService: IWorkoutService, settingsService: ISettingsService) {
         self.workoutService = workoutService
@@ -44,6 +43,7 @@ class WorkoutSummaryViewModel: ObservableObject {
         
         self.workoutService
             .getActiveWorkoutSummaryPublisher()?
+            .receive(on: DispatchQueue.main)
             .compactMap({ $0 })
             .sink { [weak self] val in
                 self?.setSummaryUnits(data: val)

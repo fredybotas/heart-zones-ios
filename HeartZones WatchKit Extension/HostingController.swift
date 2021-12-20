@@ -30,7 +30,7 @@ class HostingControllerWorkoutSelection: WKHostingController<WorkoutSelectionVie
     func presentRunningWorkoutController(workoutType: WorkoutType) {
         let contexts: [Any?] = [nil, workoutType, nil]
         
-        WKInterfaceController.reloadRootPageControllers(withNames: [HostingControllerWorkoutControls.identifier, HostingControllerRunningWorkout.identifier, PlayingNowController.identifier], contexts: contexts as [Any], orientation: WKPageOrientation.horizontal, pageIndex: 1)
+        WKInterfaceController.reloadRootPageControllers(withNames: [HostingControllerWorkoutControls.identifier, HostingControllerRunningWorkout.identifier, HostingControllerWorkoutGraph.identifier], contexts: contexts as [Any], orientation: WKPageOrientation.horizontal, pageIndex: 1)
     }
     
     override var body: WorkoutSelectionView {
@@ -77,5 +77,13 @@ class HostingControllerWorkoutSummary: WKHostingController<WorkoutSummaryView> {
     
     override var body: WorkoutSummaryView {
         return WorkoutSummaryView(controller: self, workoutSummaryViewModel: DIContainer.shared.resolve(WorkoutSummaryViewModel.self)!)
+    }
+}
+
+class HostingControllerWorkoutGraph: WKHostingController<HeartZoneGraphView> {
+    static let identifier = "HostingControllerWorkoutGraph"
+    
+    override var body: HeartZoneGraphView {
+        return HeartZoneGraphView(heartZoneGraphViewModel: DIContainer.shared.resolve(HeartZoneGraphViewModel.self)!)
     }
 }

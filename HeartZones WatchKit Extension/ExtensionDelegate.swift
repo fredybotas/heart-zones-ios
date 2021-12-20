@@ -95,6 +95,10 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
             let settingsService = resolver.resolve(SettingsService.self)!
             return WorkoutSummaryViewModel(workoutService: workoutService, settingsService: settingsService)
         })
+        container.register(HeartZoneGraphViewModel.self, factory: { resolver in
+            let healthKitService = container.resolve(HealthKitService.self)!
+            return HeartZoneGraphViewModel(healthKitService: healthKitService)
+        })
         
         return container
     }()

@@ -44,7 +44,14 @@
                     </items>
                 </controller>
             </objects>
-            <point key="canvasLocation" x="394" y="239"/>
+            <point key="canvasLocation" x="106" y="234"/>
+        </scene>
+        <!--HostingControllerWorkoutGraph-->
+        <scene sceneID="0Vx-FP-ZAu">
+            <objects>
+                <hostingController identifier="HostingControllerWorkoutGraph" id="Pga-KD-5D7" customClass="HostingControllerWorkoutGraph" customModule="HeartZones_WatchKit_Extension"/>
+            </objects>
+            <point key="canvasLocation" x="401" y="228"/>
         </scene>
     </scenes>
 </document>
