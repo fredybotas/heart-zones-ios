@@ -5,8 +5,8 @@
 //  Created by Michal Manak on 27/11/2021.
 //
 
-import Foundation
 import Combine
+import Foundation
 import SwiftUI
 
 struct BpmSegment: Hashable {
@@ -18,17 +18,17 @@ class HeartZoneGraphViewModel: ObservableObject {
     var bpmTimeInterval: TimeInterval = 0
     @Published var bpms: [BpmSegment] = []
     @Published var bpmTimeDuration: String = "--"
-    @Published var end: CGFloat = CGFloat.zero
-    
+    @Published var end: CGFloat = .zero
+
     private var refreshTimer: AnyCancellable?
     private let healthKit: IHealthKitService
     private var bpmCancellable: AnyCancellable?
-    
+
     init(healthKitService: IHealthKitService) {
-        self.healthKit = healthKitService
-        self.refreshTimer = Timer.publish(every: 5, on: .main, in: .common)
+        healthKit = healthKitService
+        refreshTimer = Timer.publish(every: 5, on: .main, in: .common)
             .autoconnect()
-            .sink() { [weak self] _ in
+            .sink { [weak self] _ in
                 self?.bpmCancellable = self?
                     .healthKit
                     .getBpmData(startDate: Date(timeIntervalSinceNow: -5 * 60) as NSDate)
@@ -38,15 +38,15 @@ class HeartZoneGraphViewModel: ObservableObject {
                     })
             }
     }
-    
+
     private func processBpmValues(bpmEntries: [BpmEntry]) {
-        self.bpmTimeInterval = (bpmEntries.last?.timestamp ?? 0) - (bpmEntries.first?.timestamp ?? 0)
-        self.bpms = [BpmSegment(color: HeartZone.Color(red: 120, green: 0, blue: 0), bpms: bpmEntries)]
-        
+        bpmTimeInterval = (bpmEntries.last?.timestamp ?? 0) - (bpmEntries.first?.timestamp ?? 0)
+        bpms = [BpmSegment(color: HeartZone.Color(red: 120, green: 0, blue: 0), bpms: bpmEntries)]
+
         var min: TimeInterval = Double.infinity
         var max: TimeInterval = -Double.infinity
         if bpmEntries.isEmpty {
-            self.bpmTimeDuration = "--"
+            bpmTimeDuration = "--"
             return
         }
         for entry in bpmEntries {
@@ -59,9 +59,9 @@ class HeartZoneGraphViewModel: ObservableObject {
         }
         let interval = max - min
         if interval >= 60 {
-            self.bpmTimeDuration = String(Int((interval / 60).rounded())) + "m"
+            bpmTimeDuration = String(Int((interval / 60).rounded())) + "m"
         } else {
-            self.bpmTimeDuration = String(Int(interval)) + "s"
+            bpmTimeDuration = String(Int(interval)) + "s"
         }
     }
 }

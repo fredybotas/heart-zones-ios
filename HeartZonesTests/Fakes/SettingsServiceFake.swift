@@ -15,15 +15,15 @@ class SettingsServiceFake: ISettingsService {
         maximumBpm = 195
         targetZoneId = 2
     }
-    
+
     var targetZoneId: Int = 2
-    var selectedHeartZoneSetting: HeartZonesSetting = HeartZonesSetting.getDefaultHeartZonesSetting()
+    var selectedHeartZoneSetting: HeartZonesSetting = .getDefaultHeartZonesSetting()
     var heartZonesAlertEnabled: Bool = true
     var targetHeartZoneAlertEnabled: Bool = true
     var maximumBpm: Int = 195
     var selectedDistanceMetric: DistanceMetric = DistanceMetric.getDefault(metric: true)
-    var selectedEnergyMetric: EnergyMetric = EnergyMetric.getDefault()
-    var selectedSpeedMetric: SpeedMetric = SpeedMetric.getDefault()
-    var selectedMetricInFieldOne: WorkoutMetric = WorkoutMetric.getDefaultForFieldOne()
-    var selectedMetricInFieldTwo: WorkoutMetric = WorkoutMetric.getDefaultForFieldTwo()
+    var selectedEnergyMetric: EnergyMetric = .getDefault()
+    var selectedSpeedMetric: SpeedMetric = .getDefault()
+    var selectedMetricInFieldOne: WorkoutMetric = .getDefaultForFieldOne()
+    var selectedMetricInFieldTwo: WorkoutMetric = .getDefaultForFieldTwo()
 }

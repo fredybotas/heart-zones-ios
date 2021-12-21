@@ -10,31 +10,30 @@ import Foundation
 class ShowingStrategyFacade {
     let energyShowingStrategy: IEnergyShowingStrategy
     let distanceShowingStrategy: IDistanceShowingStrategy
-    
+
     init(settingsService: ISettingsService) {
         switch settingsService.selectedEnergyMetric.type {
         case .kj:
-            self.energyShowingStrategy = EnergyKJShowingStrategy()
+            energyShowingStrategy = EnergyKJShowingStrategy()
         case .kcal:
-            self.energyShowingStrategy = EnergyKcalShowingStrategy()
+            energyShowingStrategy = EnergyKcalShowingStrategy()
         }
-        
+
         switch settingsService.selectedDistanceMetric.type {
         case .km:
             switch settingsService.selectedSpeedMetric.type {
             case .pace:
-                self.distanceShowingStrategy = MetricDistanceWithPaceShowingStrategy()
+                distanceShowingStrategy = MetricDistanceWithPaceShowingStrategy()
             case .speed:
-                self.distanceShowingStrategy = MetricDistanceWithSpeedShowingStrategy()
+                distanceShowingStrategy = MetricDistanceWithSpeedShowingStrategy()
             }
         case .mi:
             switch settingsService.selectedSpeedMetric.type {
             case .pace:
-                self.distanceShowingStrategy = MilleageDistanceWithPaceShowingStrategy()
+                distanceShowingStrategy = MilleageDistanceWithPaceShowingStrategy()
             case .speed:
-                self.distanceShowingStrategy = MilleageDistanceWithSpeedShowingStrategy()
+                distanceShowingStrategy = MilleageDistanceWithSpeedShowingStrategy()
             }
         }
     }
-
 }

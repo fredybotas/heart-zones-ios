@@ -8,32 +8,30 @@
 import Foundation
 import HealthKit
 
-let typeToString: [WorkoutType.type: String] = [
+let typeToString: [WorkoutType.TypeValues: String] = [
     .outdoorRunning: "Outdoor Run",
     .indoorRunning: "Indoor Run",
     .walking: "Walking"
 ]
 
 struct WorkoutType: Identifiable {
-    enum type: Int {
+    enum TypeValues: Int {
         case outdoorRunning, indoorRunning, walking
     }
-    var type: type
+
+    var type: TypeValues
     var name: String {
-        get {
-            return typeToString[self.type]!
-        }
+        return typeToString[type]!
     }
+
     var id: Int {
-        get {
-            return self.type.rawValue
-        }
+        return type.rawValue
     }
-    
+
     func getConfiguration() -> HKWorkoutConfiguration {
         let configuration = HKWorkoutConfiguration()
-        //TODO: Add support for more configurations
-        switch self.type {
+        // TODO: Add support for more configurations
+        switch type {
         case .outdoorRunning:
             configuration.activityType = .running
             configuration.locationType = .outdoor

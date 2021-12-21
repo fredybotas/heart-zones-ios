@@ -6,18 +6,19 @@
 //
 
 import Foundation
+
 @testable import HeartZones_WatchKit_Extension
 
 class ZoneStateManagerMock: ZoneStateManager {
     var activeHeartZoneSetting: HeartZonesSetting?
-    
+
     var setStateCalledCount = 0
     var setStateCalledSequence = [BaseHeartZoneState]()
-    
+
     func initializeActiveHeartZoneSetting() {
         activeHeartZoneSetting = HeartZonesSetting.getDefaultHeartZonesSetting()
     }
-    
+
     func setState(state: BaseHeartZoneState) {
         setStateCalledCount += 1
         setStateCalledSequence.append(state)

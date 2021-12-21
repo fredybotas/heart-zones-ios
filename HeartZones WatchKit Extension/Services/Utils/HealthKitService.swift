@@ -5,14 +5,14 @@
 //  Created by Michal Manak on 24/07/2021.
 //
 
+import Combine
 import Foundation
 import HealthKit
-import Combine
 
 protocol IHealthKitService {
     var healthStore: HKHealthStore { get }
     var age: Int? { get }
-    
+
     func getBpmData(startDate: NSDate) -> Future<[BpmEntry], Never>
 }
 
@@ -23,7 +23,7 @@ struct BpmEntry: Equatable, Hashable {
 
 class HealthKitService: IHealthKitService, Authorizable {
     let healthStore = HKHealthStore()
-    
+
     lazy var age: Int? = {
         var date: DateComponents?
         do {
@@ -31,24 +31,28 @@ class HealthKitService: IHealthKitService, Authorizable {
         } catch {}
         guard let dateComponents = date else { return nil }
         let calendar = Calendar.current
-        let ageComponents = calendar.dateComponents([.year], from: dateComponents, to: calendar.dateComponents([.year, .month, .day], from: Date()))
+        let ageComponents = calendar.dateComponents(
+            [.year], from: dateComponents,
+            to: calendar.dateComponents([.year, .month, .day], from: Date())
+        )
         guard let age = ageComponents.year else { return nil }
         NSLog("Age received from healtkit: %d", age)
         return age
     }()
-    
+
     let readMetrics = [
         HKQuantityType.quantityType(forIdentifier: .heartRate)!,
         HKQuantityType.quantityType(forIdentifier: .activeEnergyBurned)!,
         HKQuantityType.quantityType(forIdentifier: .distanceWalkingRunning)!,
-        HKCharacteristicType.characteristicType(forIdentifier: HKCharacteristicTypeIdentifier.dateOfBirth)!,
+        HKCharacteristicType.characteristicType(
+            forIdentifier: HKCharacteristicTypeIdentifier.dateOfBirth)!
     ]
-    
+
     let writeMetrics = [
         HKSeriesType.workoutRoute(),
         HKQuantityType.workoutType()
     ]
-    
+
     func requestAuthorization() -> Future<Bool, Never> {
         let writeMetrics = self.writeMetrics
         let readMetrics = self.readMetrics
@@ -57,7 +61,9 @@ class HealthKitService: IHealthKitService, Authorizable {
                 promise(.success(false))
                 return
             }
-            self?.healthStore.requestAuthorization(toShare: Set<HKSampleType>(writeMetrics), read: Set<HKObjectType>(readMetrics)) { (authorized, error) in
+            self?.healthStore.requestAuthorization(
+                toShare: Set<HKSampleType>(writeMetrics), read: Set<HKObjectType>(readMetrics)
+            ) { authorized, error in
                 guard authorized else {
                     guard error != nil else {
                         promise(.success(false))
@@ -70,23 +76,41 @@ class HealthKitService: IHealthKitService, Authorizable {
             }
         })
     }
-    
+
     func getBpmData(startDate: NSDate) -> Future<[BpmEntry], Never> {
         let endDate = NSDate()
-        let predicate = HKQuery.predicateForSamples(withStart: startDate as Date, end: endDate as Date?, options: [])
+        let predicate = HKQuery.predicateForSamples(
+            withStart: startDate as Date, end: endDate as Date?, options: []
+        )
 
         let sortDescriptors = [NSSortDescriptor(key: HKSampleSortIdentifierEndDate, ascending: true)]
         let future = Future<[BpmEntry], Never>({ [weak self] promise in
-            let heartRateQuery = HKSampleQuery(sampleType: HKQuantityType.quantityType(forIdentifier: HKQuantityTypeIdentifier.heartRate)!, predicate: predicate, limit: Int(HKObjectQueryNoLimit), sortDescriptors: sortDescriptors, resultsHandler: { (query, results, error) in
-                guard error == nil else { promise(.success([])); return }
-                guard let results = results else { promise(.success([])); return }
-                promise(.success(results
-                                    .compactMap({ $0 as? HKQuantitySample })
-                                    .map({ BpmEntry(value: Int($0.quantity.doubleValue(for: HKUnit(from: "count/min"))), timestamp: $0.endDate.timeIntervalSince1970 ) })))
-            })
+            let heartRateQuery = HKSampleQuery(
+                sampleType: HKQuantityType.quantityType(forIdentifier: HKQuantityTypeIdentifier.heartRate)!,
+                predicate: predicate, limit: Int(HKObjectQueryNoLimit), sortDescriptors: sortDescriptors,
+                resultsHandler: { _, results, error in
+                    guard error == nil else {
+                        promise(.success([]))
+                        return
+                    }
+                    guard let results = results else {
+                        promise(.success([]))
+                        return
+                    }
+                    promise(
+                        .success(
+                            results
+                                .compactMap { $0 as? HKQuantitySample }
+                                .map {
+                                    BpmEntry(
+                                        value: Int($0.quantity.doubleValue(for: HKUnit(from: "count/min"))),
+                                        timestamp: $0.endDate.timeIntervalSince1970
+                                    )
+                                }))
+                }
+            )
             self?.healthStore.execute(heartRateQuery)
         })
         return future
     }
 }
-

@@ -5,10 +5,10 @@
 //  Created by Michal Manak on 26/06/2021.
 //
 
-import Foundation
-import HealthKit
 import Combine
 import CoreLocation
+import Foundation
+import HealthKit
 
 protocol IWorkoutService {
     func startWorkout(workoutType: WorkoutType)
@@ -31,80 +31,86 @@ class WorkoutService: IWorkoutService {
     private let healthKitService: IHealthKitService
     private let locationManager: WorkoutLocationFetcher
     private let settingsService: ISettingsService
-    
+
     private var activeWorkout: IWorkout?
     @Published private var workoutState: WorkoutState = .notPresent
-    
-    init(locationManager: LocationManager, healthKitService: HealthKitService, settingsService: ISettingsService) {
+
+    init(
+        locationManager: LocationManager, healthKitService: HealthKitService,
+        settingsService: ISettingsService
+    ) {
         self.locationManager = locationManager
         self.healthKitService = healthKitService
         self.settingsService = settingsService
     }
-    
+
     func startWorkout(workoutType: WorkoutType) {
         if activeWorkout != nil {
             print("Workout already exists")
             return
         }
-        
-        activeWorkout = Workout(healthKit: healthKitService.healthStore, type: workoutType, locationManager: locationManager, settingsService: settingsService)
+
+        activeWorkout = Workout(
+            healthKit: healthKitService.healthStore, type: workoutType, locationManager: locationManager,
+            settingsService: settingsService
+        )
         workoutState = .running
     }
-    
+
     func getWorkoutStatePublisher() -> AnyPublisher<WorkoutState, Never> {
         return $workoutState.eraseToAnyPublisher()
     }
-    
+
     func stopActiveWorkout() {
         guard let activeWorkout = activeWorkout else {
             print("There is not running workout")
             return
         }
-        
+
         activeWorkout.stop()
         workoutState = .finished
     }
-    
+
     func saveActiveWorkout() {
-        try? self.activeWorkout?.saveWorkout()
-        self.activeWorkout = nil
+        try? activeWorkout?.saveWorkout()
+        activeWorkout = nil
         workoutState = .notPresent
     }
-    
+
     func discardActiveWorkout() {
-        try? self.activeWorkout?.discardWorkout()
-        self.activeWorkout = nil
+        try? activeWorkout?.discardWorkout()
+        activeWorkout = nil
         workoutState = .notPresent
     }
-    
+
     func pauseActiveWorkout() {
         activeWorkout?.pause()
         workoutState = .paused
     }
-    
+
     func resumeActiveWorkout() {
         activeWorkout?.resume()
         workoutState = .running
     }
-    
+
     func getActiveWorkoutElapsedTime() -> TimeInterval? {
         guard let activeWorkout = activeWorkout else {
             print("There is not active workout while fetching elapsed time")
             return nil
         }
-        
+
         return activeWorkout.getElapsedTime()
     }
-    
+
     func getActiveWorkoutDataPublisher() -> WorkoutDataChangePublishers? {
         guard let activeWorkout = activeWorkout else {
             print("There is not active workout while getting data publisher")
             return nil
         }
-        
+
         return activeWorkout.dataPublishers
     }
-    
+
     func getActiveWorkoutSummaryPublisher() -> AnyPublisher<WorkoutSummaryData?, Never>? {
         guard let activeWorkout = activeWorkout else {
             print("There is not active workout while getting summary publisher")
@@ -112,5 +118,4 @@ class WorkoutService: IWorkoutService {
         }
         return activeWorkout.getWorkoutSummaryPublisher()
     }
-
 }

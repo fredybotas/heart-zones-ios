@@ -8,14 +8,16 @@
 import SwiftUI
 
 struct SunView: View {
-    
     var sunVisibility: Double
-    
+
     var body: some View {
-        GeometryReader() { geometry in
+        GeometryReader { geometry in
             Circle()
                 .fill(Color.yellow)
-                .position(x: geometry.size.width / 2, y: (geometry.size.height / 2) + geometry.size.height * (1 - CGFloat(sunVisibility)))
+                .position(
+                    x: geometry.size.width / 2,
+                    y: (geometry.size.height / 2) + geometry.size.height * (1 - CGFloat(sunVisibility))
+                )
         }
     }
 }

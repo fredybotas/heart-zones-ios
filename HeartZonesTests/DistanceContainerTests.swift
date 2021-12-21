@@ -6,6 +6,7 @@
 //
 
 import XCTest
+
 @testable import HeartZones_WatchKit_Extension
 
 class DistanceContainerTests: XCTestCase {
@@ -19,7 +20,7 @@ class DistanceContainerTests: XCTestCase {
         container.insert(distance: 10.0, timeInterval: 2.0)
         container.insert(distance: 10.0, timeInterval: 2.0)
         container.insert(distance: 10.0, timeInterval: 2.0)
-   
+
         XCTAssertNotNil(container.getAverageSpeed())
     }
 
@@ -27,8 +28,10 @@ class DistanceContainerTests: XCTestCase {
         container.insert(distance: 5.0, timeInterval: 2.0)
         container.insert(distance: 10.0, timeInterval: 2.0)
         container.insert(distance: 15.0, timeInterval: 2.0)
-        
+
         guard let value = container.getAverageSpeed()?.value else { return }
-        XCTAssertEqual(value, Measurement.init(value: 5.0, unit: UnitSpeed.metersPerSecond).value, accuracy: 0.1)
+        XCTAssertEqual(
+            value, Measurement(value: 5.0, unit: UnitSpeed.metersPerSecond).value, accuracy: 0.1
+        )
     }
 }

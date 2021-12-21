@@ -5,37 +5,32 @@
 //  Created by Michal Manak on 08/07/2021.
 //
 
+import Combine
 import Foundation
 import WatchKit
-import Combine
 
 protocol BeepingManager {
     var isLowRateAlertRunning: Bool { get }
     var isHighRateAlertRunning: Bool { get }
-    
+
     func startHighRateAlert()
     func startLowRateAlert()
     func stopHighRateAlert()
     func stopLowRateAlert()
-    
+
     func runOnceHighRateAlert()
     func runOnceLowRateAlert()
 }
 
-fileprivate let kZoneAlertInterval: TimeInterval = 5.0
+private let kZoneAlertInterval: TimeInterval = 5.0
 
 class DeviceBeepingManager: BeepingManager {
-    
     var isLowRateAlertRunning: Bool {
-        get {
-            return timerLowRate != nil
-        }
+        return timerLowRate != nil
     }
-    
+
     var isHighRateAlertRunning: Bool {
-        get {
-            return timerHighRate != nil
-        }
+        return timerHighRate != nil
     }
 
     private let beeper: IDeviceBeeper
@@ -43,45 +38,46 @@ class DeviceBeepingManager: BeepingManager {
     private var timerHighRate: AnyCancellable?
     private var timerLowRate: AnyCancellable?
     private var appStateChangeSubscriber: AnyCancellable?
-    
+
     init(beeper: IDeviceBeeper) {
         self.beeper = beeper
     }
-    
+
     func runOnceHighRateAlert() {
-        self.beeper.runHighRateAlert()
+        beeper.runHighRateAlert()
     }
-    
+
     func runOnceLowRateAlert() {
-        self.beeper.runLowRateAlert()
+        beeper.runLowRateAlert()
     }
-    
+
     func startHighRateAlert() {
-        self.beeper.runHighRateAlert()
-        timerHighRate = Timer.TimerPublisher.init(interval: kZoneAlertInterval, runLoop: .main, mode: .common)
-            .autoconnect()
-            .sink { _ in
-                self.beeper.runHighRateAlert()
-            }
+        beeper.runHighRateAlert()
+        timerHighRate = Timer.TimerPublisher(
+            interval: kZoneAlertInterval, runLoop: .main, mode: .common
+        )
+        .autoconnect()
+        .sink { _ in
+            self.beeper.runHighRateAlert()
+        }
     }
-    
+
     func startLowRateAlert() {
-        self.beeper.runLowRateAlert()
-        timerLowRate = Timer.TimerPublisher.init(interval: kZoneAlertInterval, runLoop: .main, mode: .common)
-            .autoconnect()
-            .sink { _ in
-                self.beeper.runLowRateAlert()
-            }
+        beeper.runLowRateAlert()
+        timerLowRate = Timer.TimerPublisher(
+            interval: kZoneAlertInterval, runLoop: .main, mode: .common
+        )
+        .autoconnect()
+        .sink { _ in
+            self.beeper.runLowRateAlert()
+        }
     }
-    
+
     func stopHighRateAlert() {
         timerHighRate = nil
     }
-    
+
     func stopLowRateAlert() {
         timerLowRate = nil
     }
-    
-
-    
 }

@@ -18,47 +18,61 @@ protocol ISettingsService {
     var selectedMetricInFieldTwo: WorkoutMetric { get set }
     var selectedHeartZoneSetting: HeartZonesSetting { get set }
     var targetZoneId: Int { get set }
-    
+
     func resetHeartZoneSettings()
 }
 
 let kDefaultAge = 25
 class SettingsService: ISettingsService {
     var targetZoneId: Int {
-        get { self.selectedHeartZoneSetting.zones.first { $0.target }?.id ?? 0 }
+        get { selectedHeartZoneSetting.zones.first { $0.target }?.id ?? 0 }
         set {
             selectedHeartZoneSetting.setTargetZone(targetZoneId: newValue)
         }
     }
-    
+
     var selectedDistanceMetric: DistanceMetric {
-        get { self.settingsRepository.selectedDistanceMetric ?? DistanceMetric.getDefault(metric: SettingsService.userPrefersMetric()) }
-        set { self.settingsRepository.selectedDistanceMetric = newValue }
+        get {
+            settingsRepository.selectedDistanceMetric
+                ?? DistanceMetric.getDefault(metric: SettingsService.userPrefersMetric())
+        }
+        set { settingsRepository.selectedDistanceMetric = newValue }
     }
+
     var selectedEnergyMetric: EnergyMetric {
-        get { self.settingsRepository.selectedEnergyMetric ?? EnergyMetric.getDefault() }
-        set { self.settingsRepository.selectedEnergyMetric = newValue }
+        get { settingsRepository.selectedEnergyMetric ?? EnergyMetric.getDefault() }
+        set { settingsRepository.selectedEnergyMetric = newValue }
     }
+
     var selectedSpeedMetric: SpeedMetric {
-        get { self.settingsRepository.selectedSpeedMetric ?? SpeedMetric.getDefault() }
-        set { self.settingsRepository.selectedSpeedMetric = newValue }
+        get { settingsRepository.selectedSpeedMetric ?? SpeedMetric.getDefault() }
+        set { settingsRepository.selectedSpeedMetric = newValue }
     }
+
     var selectedMetricInFieldOne: WorkoutMetric {
-        get { self.settingsRepository.selectedMetricInFieldOne ?? WorkoutMetric.getDefaultForFieldOne() }
-        set { self.settingsRepository.selectedMetricInFieldOne = newValue }
+        get {
+            settingsRepository.selectedMetricInFieldOne ?? WorkoutMetric.getDefaultForFieldOne()
+        }
+        set { settingsRepository.selectedMetricInFieldOne = newValue }
     }
+
     var selectedMetricInFieldTwo: WorkoutMetric {
-        get { self.settingsRepository.selectedMetricInFieldTwo ?? WorkoutMetric.getDefaultForFieldTwo() }
-        set { self.settingsRepository.selectedMetricInFieldTwo = newValue }
+        get {
+            settingsRepository.selectedMetricInFieldTwo ?? WorkoutMetric.getDefaultForFieldTwo()
+        }
+        set { settingsRepository.selectedMetricInFieldTwo = newValue }
     }
+
     var heartZonesAlertEnabled: Bool {
-        get { self.settingsRepository.heartZonesAlertEnabled ?? true }
-        set { self.settingsRepository.heartZonesAlertEnabled = newValue }
+        get { settingsRepository.heartZonesAlertEnabled ?? true }
+        set { settingsRepository.heartZonesAlertEnabled = newValue }
     }
+
     var targetHeartZoneAlertEnabled: Bool {
-        get { self.settingsRepository.targetHeartZoneAlertEnabled ?? true }
-        set { self.settingsRepository.targetHeartZoneAlertEnabled = newValue }
+        get { settingsRepository.targetHeartZoneAlertEnabled ?? true }
+        set { settingsRepository.targetHeartZoneAlertEnabled = newValue }
     }
+
     var maximumBpm: Int {
         get {
             if let maxBpm = settingsRepository.maximumBpm {
@@ -68,33 +82,38 @@ class SettingsService: ISettingsService {
                 return HeartZonesSetting.getMaximumBpm(age: age)
             }
         }
-        
+
         set {
-            self.settingsRepository.maximumBpm = newValue
+            settingsRepository.maximumBpm = newValue
         }
     }
-    
+
     var selectedHeartZoneSetting: HeartZonesSetting {
-        get { self.settingsRepository.selectedHeartZoneSetting ?? HeartZonesSetting.getDefaultHeartZonesSetting() }
-        set { self.settingsRepository.selectedHeartZoneSetting = newValue
+        get {
+            settingsRepository.selectedHeartZoneSetting
+                ?? HeartZonesSetting.getDefaultHeartZonesSetting()
+        }
+        set {
+            settingsRepository.selectedHeartZoneSetting = newValue
             print(newValue)
         }
     }
-    
+
     private var settingsRepository: ISettingsRepository
     private var healthKitService: IHealthKitService
-    
+
     init(settingsRepository: ISettingsRepository, healthKitService: IHealthKitService) {
         self.settingsRepository = settingsRepository
         self.healthKitService = healthKitService
     }
-    
+
     func resetHeartZoneSettings() {
-        self.settingsRepository.selectedHeartZoneSetting = nil
-        self.settingsRepository.maximumBpm = nil
+        settingsRepository.selectedHeartZoneSetting = nil
+        settingsRepository.maximumBpm = nil
     }
 
     static func userPrefersMetric() -> Bool {
-        return ((Locale.current as NSLocale).object(forKey: NSLocale.Key.usesMetricSystem) as? Bool) ?? true
+        return ((Locale.current as NSLocale).object(forKey: NSLocale.Key.usesMetricSystem) as? Bool)
+            ?? true
     }
 }

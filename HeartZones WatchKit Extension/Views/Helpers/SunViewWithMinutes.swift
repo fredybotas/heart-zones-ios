@@ -11,7 +11,7 @@ struct SunViewWithMinutes: View {
     let minutesLeft: Int
     let sunVisibility: Double
     let fontSize: CGFloat
-    
+
     var body: some View {
         VStack(alignment: .center, spacing: 0) {
             SunView(sunVisibility: sunVisibility)

@@ -14,35 +14,35 @@ class SameElementsContainerTests: XCTestCase {
     var sut: SameElementsContainer<Int>!
 
     override func setUp() {
-        self.sut = SameElementsContainer<Int>()
+        sut = SameElementsContainer<Int>()
     }
-       
+
     func testInsert() {
-        self.sut.RefreshAndInsert(element: 1)
-        
-        XCTAssertEqual(self.sut.count, 1)
+        sut.RefreshAndInsert(element: 1)
+
+        XCTAssertEqual(sut.count, 1)
     }
-    
+
     func testRemoveAll() {
-        self.sut.RefreshAndInsert(element: 1)
-        self.sut.RefreshAndInsert(element: 1)
-        self.sut.removeAll()
-        XCTAssertEqual(self.sut.count, 0)
+        sut.RefreshAndInsert(element: 1)
+        sut.RefreshAndInsert(element: 1)
+        sut.removeAll()
+        XCTAssertEqual(sut.count, 0)
     }
-    
+
     func testInsertOtherElement() {
-        self.sut.RefreshAndInsert(element: 1)
-        self.sut.RefreshAndInsert(element: 1)
-        
-        self.sut.RefreshAndInsert(element: 2)
-        XCTAssertEqual(self.sut.count, 1)
+        sut.RefreshAndInsert(element: 1)
+        sut.RefreshAndInsert(element: 1)
+
+        sut.RefreshAndInsert(element: 2)
+        XCTAssertEqual(sut.count, 1)
     }
-    
+
     func testInsertSameElements() {
-        self.sut.RefreshAndInsert(element: 1)
-        self.sut.RefreshAndInsert(element: 1)
-        self.sut.RefreshAndInsert(element: 1)
-        
-        XCTAssertEqual(self.sut.count, 3)
+        sut.RefreshAndInsert(element: 1)
+        sut.RefreshAndInsert(element: 1)
+        sut.RefreshAndInsert(element: 1)
+
+        XCTAssertEqual(sut.count, 3)
     }
 }

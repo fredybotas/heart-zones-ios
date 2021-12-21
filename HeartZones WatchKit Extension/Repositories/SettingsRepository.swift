@@ -19,59 +19,59 @@ protocol ISettingsRepository {
     var selectedHeartZoneSetting: HeartZonesSetting? { get set }
 }
 
-fileprivate let kHeartZonesAlertEnabledKey = "kHeartZonesAlertEnabledKey"
-fileprivate let kTargetHeartZoneAlertEnabledKey = "kTargetHeartZoneAlertEnabledKey"
-fileprivate let kMaximumBpm = "kMaximumBpm"
-fileprivate let kSelectedDistanceMetric = "kSelectedDistanceMetric"
-fileprivate let kSelectedEnergyMetric = "kSelectedEnergyMetric"
-fileprivate let kSelectedSpeedMetric = "kSelectedSpeedMetric"
-fileprivate let kDefaultHeartZoneSetting = "kDefaultHeartZoneSetting"
-fileprivate let kSelectedMetricInFieldOne = "kSelectedMetricInFieldOne"
-fileprivate let kSelectedMetricInFieldTwo = "kSelectedMetricInFieldTwo"
+private let kHeartZonesAlertEnabledKey = "kHeartZonesAlertEnabledKey"
+private let kTargetHeartZoneAlertEnabledKey = "kTargetHeartZoneAlertEnabledKey"
+private let kMaximumBpm = "kMaximumBpm"
+private let kSelectedDistanceMetric = "kSelectedDistanceMetric"
+private let kSelectedEnergyMetric = "kSelectedEnergyMetric"
+private let kSelectedSpeedMetric = "kSelectedSpeedMetric"
+private let kDefaultHeartZoneSetting = "kDefaultHeartZoneSetting"
+private let kSelectedMetricInFieldOne = "kSelectedMetricInFieldOne"
+private let kSelectedMetricInFieldTwo = "kSelectedMetricInFieldTwo"
 
 class SettingsRepository: ISettingsRepository {
     let manager = UserDefaultsManager()
-    
+
     var heartZonesAlertEnabled: Bool? {
         get { manager.get(key: kHeartZonesAlertEnabledKey) }
         set { manager.save(newValue, key: kHeartZonesAlertEnabledKey) }
     }
-    
+
     var targetHeartZoneAlertEnabled: Bool? {
         get { manager.get(key: kTargetHeartZoneAlertEnabledKey) }
         set { manager.save(newValue, key: kTargetHeartZoneAlertEnabledKey) }
     }
-    
+
     var maximumBpm: Int? {
         get { manager.get(key: kMaximumBpm) }
         set { manager.save(newValue, key: kMaximumBpm) }
     }
-    
+
     var selectedDistanceMetric: DistanceMetric? {
         get { manager.get(key: kSelectedDistanceMetric) }
         set { manager.save(newValue, key: kSelectedDistanceMetric) }
     }
-    
+
     var selectedEnergyMetric: EnergyMetric? {
         get { manager.get(key: kSelectedEnergyMetric) }
         set { manager.save(newValue, key: kSelectedEnergyMetric) }
     }
-    
+
     var selectedSpeedMetric: SpeedMetric? {
         get { manager.get(key: kSelectedSpeedMetric) }
         set { manager.save(newValue, key: kSelectedSpeedMetric) }
     }
-    
+
     var selectedMetricInFieldOne: WorkoutMetric? {
         get { manager.get(key: kSelectedMetricInFieldOne) }
-        set { manager.save(newValue, key: kSelectedMetricInFieldOne)}
+        set { manager.save(newValue, key: kSelectedMetricInFieldOne) }
     }
-    
+
     var selectedMetricInFieldTwo: WorkoutMetric? {
         get { manager.get(key: kSelectedMetricInFieldTwo) }
-        set { manager.save(newValue, key: kSelectedMetricInFieldTwo)}
+        set { manager.save(newValue, key: kSelectedMetricInFieldTwo) }
     }
-    
+
     var selectedHeartZoneSetting: HeartZonesSetting? {
         get { manager.get(key: kDefaultHeartZoneSetting) }
         set { manager.save(newValue, key: kDefaultHeartZoneSetting) }
@@ -80,7 +80,7 @@ class SettingsRepository: ISettingsRepository {
 
 class SettingsRepositoryCached: ISettingsRepository {
     let settingsRepository = SettingsRepository()
-    
+
     private var heartZonesAlertEnabledInternal: Bool?
     private var targetHeartZoneAlertEnabledInternal: Bool?
     private var maximumBpmInternal: Int?
@@ -102,100 +102,100 @@ class SettingsRepositoryCached: ISettingsRepository {
         selectedMetricInFieldOne = settingsRepository.selectedMetricInFieldOne
         selectedMetricInFieldTwo = settingsRepository.selectedMetricInFieldTwo
     }
-        
+
     var heartZonesAlertEnabled: Bool? {
         get {
             return heartZonesAlertEnabledInternal
         }
-        
+
         set {
             settingsRepository.heartZonesAlertEnabled = newValue
             heartZonesAlertEnabledInternal = newValue
         }
     }
-    
+
     var targetHeartZoneAlertEnabled: Bool? {
         get {
             return targetHeartZoneAlertEnabledInternal
         }
-        
+
         set {
             settingsRepository.targetHeartZoneAlertEnabled = newValue
             targetHeartZoneAlertEnabledInternal = newValue
         }
     }
-    
+
     var maximumBpm: Int? {
         get {
             return maximumBpmInternal
         }
-    
+
         set {
             settingsRepository.maximumBpm = newValue
             maximumBpmInternal = newValue
         }
     }
-    
+
     var selectedDistanceMetric: DistanceMetric? {
         get {
             return selectedDistanceMetricInternal
         }
-        
+
         set {
             selectedDistanceMetricInternal = newValue
             settingsRepository.selectedDistanceMetric = newValue
         }
     }
-    
+
     var selectedEnergyMetric: EnergyMetric? {
         get {
             return selectedEnergyMetricInternal
         }
-        
+
         set {
             selectedEnergyMetricInternal = newValue
             settingsRepository.selectedEnergyMetric = newValue
         }
     }
-    
+
     var selectedSpeedMetric: SpeedMetric? {
         get {
             return selectedSpeedMetricInternal
         }
-        
+
         set {
             selectedSpeedMetricInternal = newValue
             settingsRepository.selectedSpeedMetric = newValue
         }
     }
-    
+
     var selectedMetricInFieldOne: WorkoutMetric? {
         get {
             return selectedWorkoutUnitOneInternal
         }
-        
+
         set {
             selectedWorkoutUnitOneInternal = newValue
             settingsRepository.selectedMetricInFieldOne = newValue
         }
     }
-    
+
     var selectedMetricInFieldTwo: WorkoutMetric? {
         get {
             return selectedWorkoutUnitTwoInternal
         }
-        
+
         set {
             selectedWorkoutUnitTwoInternal = newValue
             settingsRepository.selectedMetricInFieldTwo = newValue
         }
     }
-    
+
     var selectedHeartZoneSetting: HeartZonesSetting? {
         get {
             return selectedHeartZoneSettingInternal
         }
-        
+
         set {
             selectedHeartZoneSettingInternal = newValue
             settingsRepository.selectedHeartZoneSetting = newValue

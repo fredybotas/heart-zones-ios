@@ -5,8 +5,8 @@
 //  Created by Michal Manak on 09/07/2021.
 //
 
-import XCTest
 import Combine
+import XCTest
 
 @testable import HeartZones_WatchKit_Extension
 
@@ -17,150 +17,183 @@ class HeartZoneServiceTests: XCTestCase {
     var beepingServiceMock: BeepingServiceMock!
     var healthKitServiceMock: HealthKitServiceMock!
     var settingsServiceFake: SettingsServiceFake!
-    
+
     var sut: HeartZoneService!
     var cancellables = Set<AnyCancellable>()
 
     override func setUp() {
-        self.workoutServiceFake = WorkoutServiceFake()
-        self.beepingServiceMock = BeepingServiceMock()
-        self.healthKitServiceMock = HealthKitServiceMock()
-        self.settingsServiceFake = SettingsServiceFake()
-        self.settingsServiceFake.maximumBpm = maxBpm
-        
-        self.sut = HeartZoneService(workoutService: workoutServiceFake, beepingService: beepingServiceMock, healthKitService: healthKitServiceMock, settingsService: self.settingsServiceFake)
-        self.cancellables.removeAll()
+        workoutServiceFake = WorkoutServiceFake()
+        beepingServiceMock = BeepingServiceMock()
+        healthKitServiceMock = HealthKitServiceMock()
+        settingsServiceFake = SettingsServiceFake()
+        settingsServiceFake.maximumBpm = maxBpm
+
+        sut = HeartZoneService(
+            workoutService: workoutServiceFake, beepingService: beepingServiceMock,
+            healthKitService: healthKitServiceMock, settingsService: settingsServiceFake
+        )
+        cancellables.removeAll()
     }
-    
+
     func getBpmSampleFromHeartZone(zone: HeartZone) -> Int {
         return zone.getBpmRange(maxBpm: maxBpm).lowerBound + 1
     }
-    
-    func testInitialization() {
-        self.workoutServiceFake.changeState(state: .notPresent)
-        self.workoutServiceFake.sendBpmChange(bpm: 10)
 
-        self.sut.getHeartZonePublisher().sink { zone in
+    func testInitialization() {
+        workoutServiceFake.changeState(state: .notPresent)
+        workoutServiceFake.sendBpmChange(bpm: 10)
+
+        sut.getHeartZonePublisher().sink { _ in
             XCTAssert(false, "Zone should not be changed")
         }.store(in: &cancellables)
     }
-    
+
     func testSetActiveHeartZoneSetting() {
-        self.workoutServiceFake.changeState(state: .running)
-        
-        XCTAssertNotNil(self.sut.activeHeartZoneSetting)
+        workoutServiceFake.changeState(state: .running)
+
+        XCTAssertNotNil(sut.activeHeartZoneSetting)
     }
-    
+
     func testZoneChange() {
-        self.workoutServiceFake.changeState(state: .running)
+        workoutServiceFake.changeState(state: .running)
 
         var firstZone: HeartZone?
-        self.sut.getHeartZonePublisher().sink { zone in
+        sut.getHeartZonePublisher().sink { zone in
             firstZone = zone
         }
         .store(in: &cancellables)
-        
-        guard let sampleZone1 = self.sut.activeHeartZoneSetting?.zones[0] else { XCTAssert(false, "Zone should be available"); return }
-        
-        self.sut.setState(state: HeartZoneActiveState(zone: sampleZone1, stateManager: self.sut, movement: .up, settingsService: self.settingsServiceFake))
-        
+
+        guard let sampleZone1 = sut.activeHeartZoneSetting?.zones[0] else {
+            XCTAssert(false, "Zone should be available")
+            return
+        }
+
+        sut.setState(
+            state: HeartZoneActiveState(
+                zone: sampleZone1, stateManager: sut, movement: .up,
+                settingsService: settingsServiceFake
+            ))
+
         guard let firstZone = firstZone else {
             XCTAssert(false, "zone should be received")
             return
         }
-        
+
         XCTAssertEqual(firstZone, sampleZone1)
     }
-    
-    
+
     func testZoneShouldChangeOnlyOnceWhenBpmInSameZone() {
-        self.workoutServiceFake.changeState(state: .running)
+        workoutServiceFake.changeState(state: .running)
         var zoneChangeCalledCount = 0
-        self.sut.getHeartZonePublisher().sink { zone in
+        sut.getHeartZonePublisher().sink { _ in
             zoneChangeCalledCount += 1
         }
         .store(in: &cancellables)
-        
-        self.workoutServiceFake.sendBpmChange(bpm: 10)
-        self.workoutServiceFake.sendBpmChange(bpm: 10)
-        
+
+        workoutServiceFake.sendBpmChange(bpm: 10)
+        workoutServiceFake.sendBpmChange(bpm: 10)
+
         XCTAssertEqual(zoneChangeCalledCount, 1)
     }
 
     func testZoneTransmissionDeviceBeepCall() {
-        self.workoutServiceFake.changeState(state: .running)
+        workoutServiceFake.changeState(state: .running)
 
-        guard let sampleZone1 = self.sut.activeHeartZoneSetting?.zones[0] else { return }
-        
-        self.sut.setState(state: HeartZoneActiveState(zone: sampleZone1, stateManager: self.sut, movement: .up, settingsService: self.settingsServiceFake))
+        guard let sampleZone1 = sut.activeHeartZoneSetting?.zones[0] else { return }
 
-        XCTAssertEqual(self.beepingServiceMock.handleDeviceBeepCallSequence.count, 1)
+        sut.setState(
+            state: HeartZoneActiveState(
+                zone: sampleZone1, stateManager: sut, movement: .up,
+                settingsService: settingsServiceFake
+            ))
+
+        XCTAssertEqual(beepingServiceMock.handleDeviceBeepCallSequence.count, 1)
     }
 
     func testZoneTransmissionDeviceBeepToTargetZone() {
-        self.workoutServiceFake.changeState(state: .running)
+        workoutServiceFake.changeState(state: .running)
 
-        guard let sampleZone1 = self.sut.activeHeartZoneSetting?.zones[0] else { return }
-        guard let targetZone = self.sut.activeHeartZoneSetting?.zones[2] else { return }
+        guard let sampleZone1 = sut.activeHeartZoneSetting?.zones[0] else { return }
+        guard let targetZone = sut.activeHeartZoneSetting?.zones[2] else { return }
 
-        self.sut.setState(state: HeartZoneActiveState(zone: sampleZone1, stateManager: self.sut, movement: .up, settingsService: self.settingsServiceFake))
-        self.sut.setState(state: HeartZoneActiveState(zone: targetZone, stateManager: self.sut, movement: .up, settingsService: self.settingsServiceFake))
+        sut.setState(
+            state: HeartZoneActiveState(
+                zone: sampleZone1, stateManager: sut, movement: .up,
+                settingsService: settingsServiceFake
+            ))
+        sut.setState(
+            state: HeartZoneActiveState(
+                zone: targetZone, stateManager: sut, movement: .up,
+                settingsService: settingsServiceFake
+            ))
 
-        XCTAssertEqual(self.beepingServiceMock.handleDeviceBeepCallSequence[1].2, true)
+        XCTAssertEqual(beepingServiceMock.handleDeviceBeepCallSequence[1].2, true)
     }
-    
+
     func testZoneTransmissionDeviceBeepFromTargetZone() {
-        self.workoutServiceFake.changeState(state: .running)
+        workoutServiceFake.changeState(state: .running)
 
-        guard let sampleZone1 = self.sut.activeHeartZoneSetting?.zones[0] else { return }
-        guard let targetZone = self.sut.activeHeartZoneSetting?.zones[2] else { return }
+        guard let sampleZone1 = sut.activeHeartZoneSetting?.zones[0] else { return }
+        guard let targetZone = sut.activeHeartZoneSetting?.zones[2] else { return }
 
-        self.sut.setState(state: HeartZoneActiveState(zone: targetZone, stateManager: self.sut, movement: .down, settingsService: self.settingsServiceFake))
-        self.sut.setState(state: HeartZoneActiveState(zone: sampleZone1, stateManager: self.sut, movement: .down, settingsService: self.settingsServiceFake))
+        sut.setState(
+            state: HeartZoneActiveState(
+                zone: targetZone, stateManager: sut, movement: .down,
+                settingsService: settingsServiceFake
+            ))
+        sut.setState(
+            state: HeartZoneActiveState(
+                zone: sampleZone1, stateManager: sut, movement: .down,
+                settingsService: settingsServiceFake
+            ))
 
-        XCTAssertEqual(self.beepingServiceMock.handleDeviceBeepCallSequence[1].1, true)
+        XCTAssertEqual(beepingServiceMock.handleDeviceBeepCallSequence[1].1, true)
     }
-    
+
     func testZoneTransmissionDeviceBeepMovement() {
-        self.workoutServiceFake.changeState(state: .running)
+        workoutServiceFake.changeState(state: .running)
 
-        guard let sampleZone1 = self.sut.activeHeartZoneSetting?.zones[0] else { return }
-        
-        self.sut.setState(state: HeartZoneActiveState(zone: sampleZone1, stateManager: self.sut, movement: .down, settingsService: self.settingsServiceFake))
-        
-        XCTAssertEqual(self.beepingServiceMock.handleDeviceBeepCallSequence[0].0, .down)
+        guard let sampleZone1 = sut.activeHeartZoneSetting?.zones[0] else { return }
+
+        sut.setState(
+            state: HeartZoneActiveState(
+                zone: sampleZone1, stateManager: sut, movement: .down,
+                settingsService: settingsServiceFake
+            ))
+
+        XCTAssertEqual(beepingServiceMock.handleDeviceBeepCallSequence[0].0, .down)
     }
-    
-    
+
     func testContinousResubscriptionForZones() {
-        self.workoutServiceFake.changeState(state: .running)
+        workoutServiceFake.changeState(state: .running)
         var firstTimeCalled = false
         var completed = false
-        self.sut
+        sut
             .getHeartZonePublisher()
-            .sink(receiveCompletion: { completion in
-            completed = true
-        }, receiveValue: { val in
-            firstTimeCalled = true
-        }).store(in: &cancellables)
+            .sink(
+                receiveCompletion: { _ in
+                    completed = true
+                },
+                receiveValue: { _ in
+                    firstTimeCalled = true
+                }
+            ).store(in: &cancellables)
 
-        self.workoutServiceFake.sendBpmChange(bpm: 10)
+        workoutServiceFake.sendBpmChange(bpm: 10)
         XCTAssert(firstTimeCalled)
-        self.workoutServiceFake.resetSubscribers()
-        self.workoutServiceFake.changeState(state: .finished)
+        workoutServiceFake.resetSubscribers()
+        workoutServiceFake.changeState(state: .finished)
         XCTAssert(completed)
 
-        self.workoutServiceFake.changeState(state: .notPresent)
-        self.workoutServiceFake.changeState(state: .running)
-        
+        workoutServiceFake.changeState(state: .notPresent)
+        workoutServiceFake.changeState(state: .running)
+
         var secondTimeCalled = false
-        self.sut.getHeartZonePublisher().sink { val in
+        sut.getHeartZonePublisher().sink { _ in
             secondTimeCalled = true
         }.store(in: &cancellables)
-        self.workoutServiceFake.sendBpmChange(bpm: 10)
+        workoutServiceFake.sendBpmChange(bpm: 10)
 
         XCTAssert(secondTimeCalled)
     }
-    
-    
 }

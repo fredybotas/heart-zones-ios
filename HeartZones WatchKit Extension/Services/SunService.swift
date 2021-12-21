@@ -5,28 +5,27 @@
 //  Created by Michal Manak on 13/07/2021.
 //
 
-import Foundation
-import CoreLocation
-import Solar
 import Combine
+import CoreLocation
+import Foundation
+import Solar
 
 protocol ISunService {
     func getSunset() -> Future<Date, Never>
 }
 
-fileprivate let kSunsetShift: TimeInterval = -600 // Make sunset 10min earlier as it seems to be more reasonable
+private let kSunsetShift: TimeInterval = -600 // Make sunset 10min earlier as it seems to be more reasonable
 
 class SunService: ISunService {
-
     private let locationManager: OnDemandLocationFetcher
     private var cancellables = Set<AnyCancellable>()
 
     init(locationManager: OnDemandLocationFetcher) {
         self.locationManager = locationManager
     }
-    
+
     func getSunset() -> Future<Date, Never> {
-        return Future({ promise in
+        return Future { promise in
             self.locationManager
                 .getLocation()
                 .map { location in
@@ -39,7 +38,6 @@ class SunService: ISunService {
                     promise(.success($0))
                 }
                 .store(in: &self.cancellables)
-        })
+        }
     }
 }
-

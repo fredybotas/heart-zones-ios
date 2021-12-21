@@ -14,7 +14,7 @@ struct WorkoutControlsView: View {
     var body: some View {
         HStack {
             VStack {
-                Button{
+                Button {
                     workoutControlsViewModel.stopWorkout()
                     controller?.presentWorkoutSummaryView()
                 } label: {
@@ -26,7 +26,7 @@ struct WorkoutControlsView: View {
             }
             VStack {
                 if workoutControlsViewModel.isRunning {
-                    Button{
+                    Button {
                         workoutControlsViewModel.pauseWorkout()
                     } label: {
                         Image(systemName: "pause")
@@ -35,7 +35,7 @@ struct WorkoutControlsView: View {
                     .font(Font.system(size: 25, weight: .regular, design: .default))
                     Text("Pause")
                 } else {
-                    Button{
+                    Button {
                         workoutControlsViewModel.resumeWorkout()
                     } label: {
                         Image(systemName: "play")
@@ -51,6 +51,13 @@ struct WorkoutControlsView: View {
 
 struct WorkoutControlsView_Previews: PreviewProvider {
     static var previews: some View {
-        WorkoutControlsView(workoutControlsViewModel: WorkoutControlsViewModel(workoutService: WorkoutService(locationManager: LocationManager(), healthKitService: HealthKitService(), settingsService: SettingsService(settingsRepository: SettingsRepository(), healthKitService: HealthKitService()))))
+        WorkoutControlsView(
+            workoutControlsViewModel: WorkoutControlsViewModel(
+                workoutService: WorkoutService(
+                    locationManager: LocationManager(), healthKitService: HealthKitService(),
+                    settingsService: SettingsService(
+                        settingsRepository: SettingsRepository(), healthKitService: HealthKitService()
+                    )
+                )))
     }
 }

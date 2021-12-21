@@ -12,18 +12,21 @@ struct PickerView<T: Hashable & Identifiable & CustomStringConvertible>: View {
     let possibleValues: [T]
     var selectionId: Binding<Int>?
     var selectionType: Binding<T>?
-    
-    @Binding var showView : Bool
+
+    @Binding var showView: Bool
 
     var body: some View {
         List {
             ForEach(possibleValues) { element in
                 ZStack(alignment: .trailing) {
-                    Button(element.description, action: {
-                        selectionId?.wrappedValue = element.id as? Int ?? 0
-                        selectionType?.wrappedValue = element
-                        showView = false
-                    })
+                    Button(
+                        element.description,
+                        action: {
+                            selectionId?.wrappedValue = element.id as? Int ?? 0
+                            selectionType?.wrappedValue = element
+                            showView = false
+                        }
+                    )
                     if let selectionId = selectionId, selectionId.wrappedValue == (element.id as? Int) {
                         Image(systemName: "checkmark")
                     } else if let selectionType = selectionType, selectionType.wrappedValue == element {
@@ -53,29 +56,40 @@ struct SettingsView: View {
             return String(distanceMetric.type.rawValue + " / h")
         }
     }
-    
+
     var body: some View {
         List {
             Section(header: Text("Heart Zones")) {
                 if #available(watchOSApplicationExtension 7.0, *) {
                     Picker("Max BPM", selection: $settingsViewModel.maxBpm) {
-                        ForEach(SettingsViewModel.kMinimumBpm..<SettingsViewModel.kMaximumBpm + 1) { bpm in
+                        ForEach(SettingsViewModel.kMinimumBpm ..< SettingsViewModel.kMaximumBpm + 1) { bpm in
                             Text(String(bpm)).tag(bpm)
                         }
                     }
                     .frame(height: 25)
                 } else {
-                    NavigationLink(destination: LazyView(PickerView(possibleValues: settingsViewModel.maxBpmOptions, selectionId: $settingsViewModel.maxBpm, showView: $selectionShownMaxBpm)), isActive: $selectionShownMaxBpm) {
+                    NavigationLink(
+                        destination: LazyView(
+                            PickerView(
+                                possibleValues: settingsViewModel.maxBpmOptions,
+                                selectionId: $settingsViewModel.maxBpm, showView: $selectionShownMaxBpm
+                            )),
+                        isActive: $selectionShownMaxBpm
+                    ) {
                         VStack(alignment: .leading) {
                             Text("Max BPM")
                             Text(String(settingsViewModel.maxBpm))
                                 .font(Font.footnote)
                                 .foregroundColor(.gray)
-
                         }
                     }
                 }
-                NavigationLink(destination: LazyView(HeartZoneCircularPickerView(heartZoneSettingsViewModel: DIContainer.shared.resolve(HeartZoneSettingsViewModel.self)!))) {
+                NavigationLink(
+                    destination: LazyView(
+                        HeartZoneCircularPickerView(
+                            heartZoneSettingsViewModel: DIContainer.shared.resolve(
+                                HeartZoneSettingsViewModel.self)!))
+                ) {
                     Text("Zone settings")
                 }
                 if #available(watchOSApplicationExtension 7.0, *) {
@@ -86,14 +100,19 @@ struct SettingsView: View {
                     }
                     .frame(height: 40)
                 } else {
-                    NavigationLink(destination: LazyView(PickerView(possibleValues: settingsViewModel.zones, selectionId: $settingsViewModel.targetZone, showView: $selectionShownTargetZone)), isActive: $selectionShownTargetZone) {
+                    NavigationLink(
+                        destination: LazyView(
+                            PickerView(
+                                possibleValues: settingsViewModel.zones, selectionId: $settingsViewModel.targetZone,
+                                showView: $selectionShownTargetZone
+                            )), isActive: $selectionShownTargetZone
+                    ) {
                         VStack(alignment: .leading) {
                             Text("Target zone")
                             // TODO: Not safe, fix if zone id changes
                             Text(String(settingsViewModel.zones[settingsViewModel.targetZone].name))
                                 .font(Font.footnote)
                                 .foregroundColor(.gray)
-
                         }
                     }
                 }
@@ -110,13 +129,20 @@ struct SettingsView: View {
                         }
                     }
                 } else {
-                    NavigationLink(destination: LazyView(PickerView(possibleValues: settingsViewModel.distanceMetricOptions, selectionType: $settingsViewModel.selectedDistanceMetric, showView: $selectionShownDistanceMetricOptions)), isActive: $selectionShownDistanceMetricOptions) {
+                    NavigationLink(
+                        destination: LazyView(
+                            PickerView(
+                                possibleValues: settingsViewModel.distanceMetricOptions,
+                                selectionType: $settingsViewModel.selectedDistanceMetric,
+                                showView: $selectionShownDistanceMetricOptions
+                            )),
+                        isActive: $selectionShownDistanceMetricOptions
+                    ) {
                         VStack(alignment: .leading) {
                             Text("Distance")
                             Text(String(settingsViewModel.selectedDistanceMetric.description))
                                 .font(Font.footnote)
                                 .foregroundColor(.gray)
-
                         }
                     }
                 }
@@ -127,30 +153,54 @@ struct SettingsView: View {
                         }
                     }
                 } else {
-                    NavigationLink(destination: LazyView(PickerView(possibleValues: settingsViewModel.energyMetricOptions, selectionType: $settingsViewModel.selectedEnergyMetric, showView: $selectionShownEnergyMetricOptions)), isActive: $selectionShownEnergyMetricOptions) {
+                    NavigationLink(
+                        destination: LazyView(
+                            PickerView(
+                                possibleValues: settingsViewModel.energyMetricOptions,
+                                selectionType: $settingsViewModel.selectedEnergyMetric,
+                                showView: $selectionShownEnergyMetricOptions
+                            )),
+                        isActive: $selectionShownEnergyMetricOptions
+                    ) {
                         VStack(alignment: .leading) {
                             Text("Energy")
                             Text(String(settingsViewModel.selectedEnergyMetric.description))
                                 .font(Font.footnote)
                                 .foregroundColor(.gray)
-
                         }
                     }
                 }
                 if #available(watchOSApplicationExtension 7.0, *) {
                     Picker("Speed", selection: $settingsViewModel.selectedSpeedMetric) {
                         ForEach(settingsViewModel.speedMetricOptions) { metric in
-                            Text(getSpeedString(speedMetric: metric, distanceMetric:settingsViewModel.selectedDistanceMetric)).tag(metric)
+                            Text(
+                                getSpeedString(
+                                    speedMetric: metric, distanceMetric: settingsViewModel.selectedDistanceMetric
+                                )
+                            ).tag(metric)
                         }
                     }
                 } else {
-                    NavigationLink(destination: LazyView(PickerView(possibleValues: settingsViewModel.speedMetricOptions, selectionType: $settingsViewModel.selectedSpeedMetric, showView: $selectionShownSpeedMetricOptions)), isActive: $selectionShownSpeedMetricOptions) {
+                    NavigationLink(
+                        destination: LazyView(
+                            PickerView(
+                                possibleValues: settingsViewModel.speedMetricOptions,
+                                selectionType: $settingsViewModel.selectedSpeedMetric,
+                                showView: $selectionShownSpeedMetricOptions
+                            )),
+                        isActive: $selectionShownSpeedMetricOptions
+                    ) {
                         VStack(alignment: .leading) {
                             Text("Speed")
-                            Text(String(getSpeedString(speedMetric: settingsViewModel.selectedSpeedMetric, distanceMetric:settingsViewModel.selectedDistanceMetric)))
-                                .font(Font.footnote)
-                                .foregroundColor(.gray)
-
+                            Text(
+                                String(
+                                    getSpeedString(
+                                        speedMetric: settingsViewModel.selectedSpeedMetric,
+                                        distanceMetric: settingsViewModel.selectedDistanceMetric
+                                    ))
+                            )
+                            .font(Font.footnote)
+                            .foregroundColor(.gray)
                         }
                     }
                 }
@@ -164,13 +214,19 @@ struct SettingsView: View {
                         }
                     }
                 } else {
-                    NavigationLink(destination: LazyView(PickerView(possibleValues: settingsViewModel.metricInFieldOneOptions, selectionType: $settingsViewModel.selectedMetricInFieldOne, showView: $selectionShownFieldOne)), isActive: $selectionShownFieldOne) {
+                    NavigationLink(
+                        destination: LazyView(
+                            PickerView(
+                                possibleValues: settingsViewModel.metricInFieldOneOptions,
+                                selectionType: $settingsViewModel.selectedMetricInFieldOne,
+                                showView: $selectionShownFieldOne
+                            )), isActive: $selectionShownFieldOne
+                    ) {
                         VStack(alignment: .leading) {
                             Text("Field 1")
                             Text(String(settingsViewModel.selectedMetricInFieldOne.description))
                                 .font(Font.footnote)
                                 .foregroundColor(.gray)
-
                         }
                     }
                 }
@@ -181,22 +237,30 @@ struct SettingsView: View {
                         }
                     }
                 } else {
-                    NavigationLink(destination: LazyView(PickerView(possibleValues: settingsViewModel.metricInFieldTwoOptions, selectionType: $settingsViewModel.selectedMetricInFieldTwo, showView: $selectionShownFieldTwo)), isActive: $selectionShownFieldTwo) {
+                    NavigationLink(
+                        destination: LazyView(
+                            PickerView(
+                                possibleValues: settingsViewModel.metricInFieldTwoOptions,
+                                selectionType: $settingsViewModel.selectedMetricInFieldTwo,
+                                showView: $selectionShownFieldTwo
+                            )), isActive: $selectionShownFieldTwo
+                    ) {
                         VStack(alignment: .leading) {
                             Text("Field 2")
                             Text(String(settingsViewModel.selectedMetricInFieldTwo.description))
                                 .font(Font.footnote)
                                 .foregroundColor(.gray)
-
                         }
                     }
                 }
             }
-            
+
             Section(header: Text("Misc")) {
-                Button(action: { settingsViewModel.resetHeartZoneSettings() }) {
+                Button(action: {
+                    settingsViewModel.resetHeartZoneSettings()
+                }, label: {
                     Text("Reset Heart Zone Settings")
-                }
+                })
                 .accentColor(.red)
             }
         }
@@ -207,6 +271,10 @@ struct SettingsView: View {
 
 struct SettingsView_Previews: PreviewProvider {
     static var previews: some View {
-        SettingsView(settingsViewModel: SettingsViewModel(settingsService: SettingsService(settingsRepository: SettingsRepository(), healthKitService: HealthKitService())))
+        SettingsView(
+            settingsViewModel: SettingsViewModel(
+                settingsService: SettingsService(
+                    settingsRepository: SettingsRepository(), healthKitService: HealthKitService()
+                )))
     }
 }

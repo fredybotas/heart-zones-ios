@@ -6,6 +6,7 @@
 //
 
 import Foundation
+
 @testable import HeartZones_WatchKit_Extension
 
 class SettingsRepositoryFake: ISettingsRepository {
