@@ -56,6 +56,9 @@ class HeartZoneService: IHeartZoneService, ZoneStateManager {
                 stateManager: self, settingsService: settingsService
             )
             currentHeartZonePublisher = CurrentValueSubject<HeartZone?, Never>(nil)
+        case .paused:
+            // swiftlint:disable:next no_fallthrough_only
+            fallthrough
         case .running:
             heartZoneState = HeartZoneNotAvailableState(
                 stateManager: self, settingsService: settingsService
@@ -65,8 +68,6 @@ class HeartZoneService: IHeartZoneService, ZoneStateManager {
         case .finished:
             currentHeartZonePublisher.send(completion: .finished)
             beepingService.stopAnyBeeping()
-        default:
-            break
         }
     }
 

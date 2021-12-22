@@ -45,4 +45,20 @@ struct WorkoutType: Identifiable {
 
         return configuration
     }
+
+    static func configurationToType(configuration: HKWorkoutConfiguration) -> WorkoutType {
+        // TODO: Refactor
+        if configuration.activityType == .running {
+            if configuration.locationType == .indoor {
+                return WorkoutType(type: .indoorRunning)
+            } else if configuration.locationType == .outdoor {
+                return WorkoutType(type: .outdoorRunning)
+            }
+        } else if configuration.activityType == .walking {
+            if configuration.locationType == .outdoor {
+                return WorkoutType(type: .walking)
+            }
+        }
+        return WorkoutType(type: .outdoorRunning)
+    }
 }

@@ -44,6 +44,14 @@ class WorkoutService: IWorkoutService {
         self.settingsService = settingsService
     }
 
+    func setRecoveredWorkout(session: HKWorkoutSession) {
+        activeWorkout = Workout(healthKit: healthKitService.healthStore,
+                                session: session, locationManager: locationManager,
+                                settingsService: settingsService)
+        activeWorkout?.startWorkout()
+        workoutState = activeWorkout!.workoutState
+    }
+
     func startWorkout(workoutType: WorkoutType) {
         if activeWorkout != nil {
             print("Workout already exists")
@@ -54,7 +62,8 @@ class WorkoutService: IWorkoutService {
             healthKit: healthKitService.healthStore, type: workoutType, locationManager: locationManager,
             settingsService: settingsService
         )
-        workoutState = .running
+        activeWorkout?.startWorkout()
+        workoutState = activeWorkout!.workoutState
     }
 
     func getWorkoutStatePublisher() -> AnyPublisher<WorkoutState, Never> {

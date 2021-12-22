@@ -28,12 +28,13 @@ class DIContainer {
 class HostingControllerWorkoutSelection: WKHostingController<WorkoutSelectionView> {
     static let identifier = "HostingControllerWorkoutSelection"
 
-    func presentRunningWorkoutController(workoutType: WorkoutType) {
+    static func presentRunningWorkoutController(workoutType: WorkoutType) {
         let contexts: [Any?] = [nil, workoutType, nil]
 
         WKInterfaceController.reloadRootPageControllers(
             withNames: [
-                HostingControllerWorkoutControls.identifier, HostingControllerRunningWorkout.identifier,
+                HostingControllerWorkoutControls.identifier,
+                HostingControllerRunningWorkout.identifier,
                 HostingControllerWorkoutGraph.identifier
             ], contexts: contexts as [Any], orientation: WKPageOrientation.horizontal, pageIndex: 1
         )
@@ -41,7 +42,6 @@ class HostingControllerWorkoutSelection: WKHostingController<WorkoutSelectionVie
 
     override var body: WorkoutSelectionView {
         return WorkoutSelectionView(
-            controller: self,
             workoutSelectionViewModel: DIContainer.shared.resolve(WorkoutSelectionViewModel.self)!
         )
     }

@@ -21,6 +21,8 @@ struct BpmEntry: Equatable, Hashable {
     let timestamp: TimeInterval
 }
 
+struct WorkoutNotSpecifiedError: Error {}
+
 class HealthKitService: IHealthKitService, Authorizable {
     let healthStore = HKHealthStore()
 
@@ -75,6 +77,21 @@ class HealthKitService: IHealthKitService, Authorizable {
                 promise(.success(true))
             }
         })
+    }
+
+    func recoverWorkout() -> Future<HKWorkoutSession, Error> {
+        let future = Future<HKWorkoutSession, Error>({ [weak self] promise in
+            self?.healthStore.recoverActiveWorkoutSession(completion: { workout, error in
+                if let workout = workout, workout.state != .ended {
+                    promise(.success(workout))
+                } else if let error = error {
+                    promise(.failure(error))
+                } else {
+                    promise(.failure(WorkoutNotSpecifiedError()))
+                }
+            })
+        })
+        return future
     }
 
     func getBpmData(startDate: NSDate) -> Future<[BpmEntry], Never> {

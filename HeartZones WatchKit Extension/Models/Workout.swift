@@ -43,8 +43,10 @@ struct WorkoutDataChangePublishers {
 protocol IWorkout {
     var dataPublishers: WorkoutDataChangePublishers { get }
     var workoutType: WorkoutType { get }
+    var workoutState: WorkoutState { get }
 
     func getWorkoutSummaryPublisher() -> AnyPublisher<WorkoutSummaryData?, Never>
+    func startWorkout()
     func pause()
     func resume()
     func stop()
@@ -53,6 +55,7 @@ protocol IWorkout {
     func getElapsedTime() -> TimeInterval
 }
 
+// swiftlint:disable:next type_body_length
 class Workout: NSObject, IWorkout, HKLiveWorkoutBuilderDelegate, HKWorkoutSessionDelegate {
     enum State {
         case notInitialized, active, stopped
@@ -60,6 +63,27 @@ class Workout: NSObject, IWorkout, HKLiveWorkoutBuilderDelegate, HKWorkoutSessio
 
     internal let dataPublishers = WorkoutDataChangePublishers()
     internal let workoutType: WorkoutType
+    internal var workoutState: WorkoutState {
+        guard let hkState = activeWorkoutSession?.state else {
+            return .notPresent
+        }
+        switch hkState {
+        case .notStarted:
+            return .running
+        case .running:
+            return .running
+        case .ended:
+            return .finished
+        case .paused:
+            return .paused
+        case .prepared:
+            return .running
+        case .stopped:
+            return .finished
+        @unknown default:
+            return .running
+        }
+    }
 
     private let workoutSummaryPublisher: CurrentValueSubject<WorkoutSummaryData?, Never> =
         CurrentValueSubject(nil)
@@ -79,6 +103,15 @@ class Workout: NSObject, IWorkout, HKLiveWorkoutBuilderDelegate, HKWorkoutSessio
 
     private var state: State = .notInitialized
 
+    convenience init(healthKit: HKHealthStore, session: HKWorkoutSession, locationManager: WorkoutLocationFetcher,
+                     settingsService: ISettingsService) {
+        self.init(healthKit: healthKit,
+                  type: WorkoutType.configurationToType(configuration: session.workoutConfiguration),
+                  locationManager: locationManager,
+                  settingsService: settingsService)
+        activeWorkoutSession = session
+    }
+
     init(
         healthKit: HKHealthStore, type: WorkoutType, locationManager: WorkoutLocationFetcher,
         settingsService: ISettingsService
@@ -95,14 +128,16 @@ class Workout: NSObject, IWorkout, HKLiveWorkoutBuilderDelegate, HKWorkoutSessio
         )
 
         super.init()
-
-        initializeWorkout()
     }
 
-    private func initializeWorkout() {
-        activeWorkoutSession = try? HKWorkoutSession(
-            healthStore: healthKit, configuration: configuration
-        )
+    func startWorkout() {
+        var workoutExisted = true
+        if activeWorkoutSession == nil {
+            activeWorkoutSession = try? HKWorkoutSession(
+                healthStore: healthKit, configuration: configuration
+            )
+            workoutExisted = false
+        }
         let builder = activeWorkoutSession?.associatedWorkoutBuilder()
         builder?.dataSource = HKLiveWorkoutDataSource(
             healthStore: healthKit, workoutConfiguration: configuration
@@ -110,8 +145,10 @@ class Workout: NSObject, IWorkout, HKLiveWorkoutBuilderDelegate, HKWorkoutSessio
         builder?.delegate = self
         activeWorkoutSession?.delegate = self
 
-        activeWorkoutSession?.startActivity(with: Date())
-        builder?.beginCollection(withStart: Date()) { _, _ in }
+        if !workoutExisted {
+            activeWorkoutSession?.startActivity(with: Date())
+            builder?.beginCollection(withStart: Date()) { _, _ in }
+        }
 
         setLocationHarvesting()
 
@@ -137,10 +174,28 @@ class Workout: NSObject, IWorkout, HKLiveWorkoutBuilderDelegate, HKWorkoutSessio
 
     func pause() {
         activeWorkoutSession?.pause()
+        activeWorkoutSession?
+            .associatedWorkoutBuilder()
+            .addWorkoutEvents([
+                HKWorkoutEvent(type: .pause, dateInterval: DateInterval(start: Date(), duration: 0), metadata: [:])
+            ]) { _, error in
+                if error != nil {
+                    print(error!)
+                }
+            }
     }
 
     func resume() {
         activeWorkoutSession?.resume()
+        activeWorkoutSession?
+            .associatedWorkoutBuilder()
+            .addWorkoutEvents([
+                HKWorkoutEvent(type: .resume, dateInterval: DateInterval(start: Date(), duration: 0), metadata: [:])
+            ]) { _, error in
+                if error != nil {
+                    print(error!)
+                }
+            }
     }
 
     func stop() {
@@ -355,4 +410,4 @@ class Workout: NSObject, IWorkout, HKLiveWorkoutBuilderDelegate, HKWorkoutSessio
     }
 
     internal func workoutBuilderDidCollectEvent(_: HKLiveWorkoutBuilder) {}
-}
+} // swiftlint:disable:this file_length

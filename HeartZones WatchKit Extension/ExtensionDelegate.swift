@@ -171,11 +171,13 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
     }
 
     let appStateChangePublisher = CurrentValueSubject<AppState, Never>(.foreground)
+    var workoutRecoveryCancellable: AnyCancellable?
 
     func applicationDidFinishLaunching() {
         // Perform any final initialization of your application.
         let authorizationManager = container.resolve(AuthorizationManager.self)!
         authorizationManager.startAuthorizationChain()
+        handleWorkoutRecovery()
     }
 
     func applicationDidBecomeActive() {
@@ -190,6 +192,21 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
         // This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message)
         // or when the user quits the application and it begins the transition to the background state.
         // Use this method to pause ongoing tasks, disable timers, etc.
+    }
+
+    func handleWorkoutRecovery() {
+        let hkService = DIContainer.shared.resolve(HealthKitService.self)!
+        workoutRecoveryCancellable = hkService
+            .recoverWorkout()
+            .receive(on: DispatchQueue.main)
+            .sink(receiveCompletion: { [weak self] _ in
+                self?.workoutRecoveryCancellable = nil
+            }, receiveValue: { workout in
+                DIContainer.shared.resolve(WorkoutService.self)!.setRecoveredWorkout(session: workout)
+                HostingControllerWorkoutSelection.presentRunningWorkoutController(
+                    workoutType: WorkoutType.configurationToType(configuration: workout.workoutConfiguration)
+                )
+            })
     }
 
     func handle(_ backgroundTasks: Set<WKRefreshBackgroundTask>) {

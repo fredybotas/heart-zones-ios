@@ -54,6 +54,12 @@ class HeartZoneServiceTests: XCTestCase {
         XCTAssertNotNil(sut.activeHeartZoneSetting)
     }
 
+    func testSetActiveHeartZoneSettingWhenPaused() {
+        workoutServiceFake.changeState(state: .paused)
+
+        XCTAssertNotNil(sut.activeHeartZoneSetting)
+    }
+
     func testZoneChange() {
         workoutServiceFake.changeState(state: .running)
 

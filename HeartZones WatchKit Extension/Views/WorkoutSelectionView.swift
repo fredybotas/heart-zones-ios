@@ -9,7 +9,6 @@ import HealthKit
 import SwiftUI
 
 struct WorkoutSelectionView: View {
-    weak var controller: HostingControllerWorkoutSelection?
     @ObservedObject var workoutSelectionViewModel: WorkoutSelectionViewModel
 
     var body: some View {
@@ -18,7 +17,7 @@ struct WorkoutSelectionView: View {
                 Button(
                     workoutType.name,
                     action: {
-                        controller?.presentRunningWorkoutController(workoutType: workoutType)
+                        HostingControllerWorkoutSelection.presentRunningWorkoutController(workoutType: workoutType)
                     }
                 )
                 .font(Font.system(size: 14, weight: .regular, design: .default))
