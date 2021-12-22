@@ -253,13 +253,17 @@ class WorkoutViewModel: ObservableObject {
     }
 
     private func startTimer(slow: Bool) {
-        timer = Timer.publish(every: slow ? 0.5 : 0.05, on: .main, in: .common)
+        timer = Timer.publish(every: slow ? 1 : 0.05, on: .main, in: .common)
             .autoconnect()
             .sink { [weak self] _ in
                 guard let newTimeInterval = self?.workoutService.getActiveWorkoutElapsedTime() else {
                     return
                 }
-                self?.time = newTimeInterval.stringFromTimeInterval()
+                if slow {
+                    self?.time = newTimeInterval.stringFromTimeInterval(onlySeconds: true)
+                } else {
+                    self?.time = newTimeInterval.stringFromTimeInterval()
+                }
             }
     }
 
@@ -292,7 +296,7 @@ class WorkoutViewModel: ObservableObject {
 }
 
 extension TimeInterval {
-    func stringFromTimeInterval() -> String {
+    func stringFromTimeInterval(onlySeconds: Bool = false) -> String {
         let time = NSInteger(self)
 
         let ms = Int(truncatingRemainder(dividingBy: 1) * 1000)
@@ -300,9 +304,9 @@ extension TimeInterval {
         let minutes = (time / 60) % 60
 
         if minutes >= 100 {
-            return String(format: "%0.3d:%0.2d,%0.1d", minutes, seconds, ms / 100)
+            return String(format: "%0.3d:%0.2d,%0.1d", minutes, seconds, onlySeconds ? 0 : ms / 100)
         } else {
-            return String(format: "%0.2d:%0.2d,%0.2d", minutes, seconds, ms / 10)
+            return String(format: "%0.2d:%0.2d,%0.2d", minutes, seconds, onlySeconds ? 0 : ms / 10)
         }
     }
 }
