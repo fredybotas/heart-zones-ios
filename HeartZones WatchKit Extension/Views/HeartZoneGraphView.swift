@@ -55,6 +55,7 @@ struct HeartZoneGraphView: View {
                     bpm.color.toColor(), style: StrokeStyle(lineWidth: 2.0, lineCap: .round, lineJoin: .round)
                 )
             }
+            .id(UUID())
             Rectangle()
                 .frame(width: geo.size.width, height: 1, alignment: .center)
                 .background(Color.gray)
