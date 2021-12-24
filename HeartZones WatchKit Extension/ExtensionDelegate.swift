@@ -159,7 +159,8 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
             HeartZoneGraphViewModel.self,
             factory: { _ in
                 let healthKitService = container.resolve(HealthKitService.self)!
-                return HeartZoneGraphViewModel(healthKitService: healthKitService)
+                let settingsSevice = container.resolve(SettingsService.self)!
+                return HeartZoneGraphViewModel(healthKitService: healthKitService, settingsService: settingsSevice)
             }
         )
 

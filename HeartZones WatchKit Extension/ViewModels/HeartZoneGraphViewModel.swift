@@ -11,11 +11,30 @@ import SwiftUI
 
 struct BpmSegment: Hashable {
     let color: HeartZone.Color
-    let bpms: [BpmEntry]
+    var bpms: [BpmEntry]
+
+    mutating func prependBpmEntry(entry: BpmEntry) {
+        bpms.insert(entry, at: 0)
+    }
+
+    mutating func appendBpmEntry(entry: BpmEntry) {
+        bpms.append(entry)
+    }
+}
+
+struct ZoneMargin: Hashable {
+    let name: String
+    let bpm: Int
 }
 
 class HeartZoneGraphViewModel: ObservableObject {
     var bpmTimeInterval: TimeInterval = 0
+    var bpmMinTimestamp: TimeInterval = 0
+    var bpmMaxTimestamp: TimeInterval = 0
+    var bpmMin: Int = 0
+    var bpmMax: Int = 0
+    let zoneMargins: [ZoneMargin]
+
     @Published var bpms: [BpmSegment] = []
     @Published var bpmTimeDuration: String = "--"
     @Published var end: CGFloat = .zero
@@ -23,25 +42,39 @@ class HeartZoneGraphViewModel: ObservableObject {
     private var refreshTimer: AnyCancellable?
     private let healthKit: IHealthKitService
     private var bpmCancellable: AnyCancellable?
+    private let segmentProcessor: BpmSegmentProcessor
 
-    init(healthKitService: IHealthKitService) {
+    init(healthKitService: IHealthKitService, settingsService: ISettingsService) {
         healthKit = healthKitService
+        segmentProcessor = BpmSegmentProcessor(settingsService: settingsService)
+        zoneMargins = settingsService
+            .selectedHeartZoneSetting
+            .zones
+            .map { ZoneMargin(name: $0.name, bpm: $0.getZoneMaxBpm(maxBpm: settingsService.maximumBpm)) }
         refreshTimer = Timer.publish(every: 5, on: .main, in: .common)
             .autoconnect()
             .sink { [weak self] _ in
-                self?.bpmCancellable = self?
-                    .healthKit
-                    .getBpmData(startDate: Date(timeIntervalSinceNow: -5 * 60) as NSDate)
-                    .receive(on: DispatchQueue.main)
-                    .sink(receiveValue: { val in
-                        self?.processBpmValues(bpmEntries: val)
-                    })
+                self?.getBpmData()
             }
+        getBpmData()
+    }
+
+    private func getBpmData() {
+        bpmCancellable = healthKit
+            .getBpmData(startDate: Date(timeIntervalSinceNow: -3 * 60) as NSDate)
+            .receive(on: DispatchQueue.main)
+            .sink(receiveValue: { [weak self] val in
+                self?.processBpmValues(bpmEntries: val)
+            })
     }
 
     private func processBpmValues(bpmEntries: [BpmEntry]) {
         bpmTimeInterval = (bpmEntries.last?.timestamp ?? 0) - (bpmEntries.first?.timestamp ?? 0)
-        bpms = [BpmSegment(color: HeartZone.Color(red: 120, green: 0, blue: 0), bpms: bpmEntries)]
+        bpmMinTimestamp = bpmEntries.first?.timestamp ?? 0
+        bpmMaxTimestamp = bpmEntries.last?.timestamp ?? 0
+        bpmMin = bpmEntries.min(by: { $0.value < $1.value })?.value ?? 0
+        bpmMax = bpmEntries.max(by: { $0.value < $1.value })?.value ?? 0
+        bpms = segmentProcessor.processBpmEntries(bpmEntries: bpmEntries)
 
         var min: TimeInterval = Double.infinity
         var max: TimeInterval = -Double.infinity

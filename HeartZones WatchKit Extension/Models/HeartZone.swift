@@ -43,12 +43,25 @@ struct HeartZonesSetting: Codable, Hashable {
         }
     }
 
+    func getZoneForBpm(bpm: Int, maxBpm: Int) -> HeartZone {
+        let zone = zones.filter { $0.isBpmInZone(bpm: bpm, maxBpm: maxBpm) }
+        if !zone.isEmpty {
+            return zone[0]
+        }
+        // bpm has to be higher, return last zone
+        return zones.last!
+    }
+
     var zonesCount: Int {
         zones.count
     }
 
     static func getMaximumBpm(age: Int) -> Int {
         return 220 - age
+    }
+
+    func getZoneById(id: Int) -> HeartZone? {
+        return zones.filter { $0.id == id }.first
     }
 
     static func getPossibleZoneCounts() -> [Int] {
@@ -105,8 +118,8 @@ struct HeartZone: Equatable, Hashable, Identifiable, Codable {
     var target: Bool
 
     func getBpmRatio(bpm: Int, maxBpm: Int) -> Double? {
-        let first = Int((Double(bpmRangePercentage.lowerBound) / 100.0) * Double(maxBpm))
-        let last = Int((Double(bpmRangePercentage.upperBound) / 100.0) * Double(maxBpm))
+        let first = getZoneMinBpm(maxBpm: maxBpm)
+        let last = getZoneMaxBpm(maxBpm: maxBpm)
 
         let result = Double(bpm - first) / Double(last - first)
         if result < 0 {
@@ -116,6 +129,20 @@ struct HeartZone: Equatable, Hashable, Identifiable, Codable {
             return 1.0
         }
         return result
+    }
+
+    func getZoneMaxBpm(maxBpm: Int) -> Int {
+        return Int((Double(bpmRangePercentage.upperBound) / 100.0) * Double(maxBpm))
+    }
+
+    func getZoneMinBpm(maxBpm: Int) -> Int {
+        return Int((Double(bpmRangePercentage.lowerBound) / 100.0) * Double(maxBpm))
+    }
+
+    func isBpmInZone(bpm: Int, maxBpm: Int) -> Bool {
+        let first = getZoneMinBpm(maxBpm: maxBpm)
+        let last = getZoneMaxBpm(maxBpm: maxBpm)
+        return bpm <= last && bpm >= first
     }
 
     func getBpmRange(maxBpm: Int) -> ClosedRange<Int> {

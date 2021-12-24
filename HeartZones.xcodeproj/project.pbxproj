@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3F4C11AB27749A5D008D8E8B /* BpmSegmentProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F4C11AA27749A5D008D8E8B /* BpmSegmentProcessor.swift */; };
+		3F4C11AD27749B04008D8E8B /* BpmSegmentProcessorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F4C11AC27749B04008D8E8B /* BpmSegmentProcessorTests.swift */; };
 		B6046DF526B19E1900BD43C1 /* HeartZoneState.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6046DF426B19E1900BD43C1 /* HeartZoneState.swift */; };
 		B6046DF726B1B26100BD43C1 /* SameElementsContainerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6046DF626B1B26100BD43C1 /* SameElementsContainerTests.swift */; };
 		B607E15B268E1EA90069FEA4 /* BpmContainerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B607E15A268E1EA90069FEA4 /* BpmContainerTests.swift */; };
@@ -125,6 +127,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		3F4C11AA27749A5D008D8E8B /* BpmSegmentProcessor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BpmSegmentProcessor.swift; sourceTree = "<group>"; };
+		3F4C11AC27749B04008D8E8B /* BpmSegmentProcessorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BpmSegmentProcessorTests.swift; sourceTree = "<group>"; };
 		B6046DF426B19E1900BD43C1 /* HeartZoneState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeartZoneState.swift; sourceTree = "<group>"; };
 		B6046DF626B1B26100BD43C1 /* SameElementsContainerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SameElementsContainerTests.swift; sourceTree = "<group>"; };
 		B607E15A268E1EA90069FEA4 /* BpmContainerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BpmContainerTests.swift; sourceTree = "<group>"; };
@@ -296,6 +300,7 @@
 				B62DDBE226AC2F06001D3D26 /* AuthorizationManagerTests.swift */,
 				B6046DF626B1B26100BD43C1 /* SameElementsContainerTests.swift */,
 				B64E5CEE26B1EFBF0087F246 /* HeartZoneStateTests.swift */,
+				3F4C11AC27749B04008D8E8B /* BpmSegmentProcessorTests.swift */,
 			);
 			path = HeartZonesTests;
 			sourceTree = "<group>";
@@ -316,6 +321,7 @@
 				B637F8D926BFC8A400D81AA6 /* DistanceShowingStrategy.swift */,
 				B60BE83227385DA600A28A26 /* ShowingStrategyFacade.swift */,
 				B6F6E118273D7E49009C5E6A /* SummaryDataProcessingStrategy.swift */,
+				3F4C11AA27749A5D008D8E8B /* BpmSegmentProcessor.swift */,
 			);
 			path = Strategies;
 			sourceTree = "<group>";
@@ -713,6 +719,7 @@
 				B661A3F426B5625700E78D8E /* SettingsViewModel.swift in Sources */,
 				B6F6E119273D7E49009C5E6A /* SummaryDataProcessingStrategy.swift in Sources */,
 				B636EF1B272B235E0038BD85 /* WorkoutSummaryViewModel.swift in Sources */,
+				3F4C11AB27749A5D008D8E8B /* BpmSegmentProcessor.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -730,6 +737,7 @@
 				B63AB83F26983C99007E07E9 /* HeartZoneServiceTests.swift in Sources */,
 				B63AB84526983FE2007E07E9 /* DeviceBeeperMock.swift in Sources */,
 				B661A3F826B572D200E78D8E /* SettingsRepositoryFake.swift in Sources */,
+				3F4C11AD27749B04008D8E8B /* BpmSegmentProcessorTests.swift in Sources */,
 				B6AFC1AD26A5A33400616311 /* HeartZoneSettingsTests.swift in Sources */,
 				B607E15B268E1EA90069FEA4 /* BpmContainerTests.swift in Sources */,
 				B6AFC1AB26A5A03E00616311 /* BeepingServiceTests.swift in Sources */,
