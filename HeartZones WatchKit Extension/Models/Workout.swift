@@ -36,7 +36,7 @@ struct WorkoutDataChangePublishers {
     let bpmPublisher = PassthroughSubject<Int, Never>()
     let distancePublisher = PassthroughSubject<DistanceData, Never>()
     let energyPublisher = PassthroughSubject<Measurement<UnitEnergy>, Never>()
-    let elevationPublisher = PassthroughSubject<Measurement<UnitLength>, Never>()
+    let currentElevationPublisher = PassthroughSubject<Measurement<UnitLength>, Never>()
 }
 
 protocol IWorkout {
@@ -159,16 +159,23 @@ class Workout: NSObject, IWorkout, HKLiveWorkoutBuilderDelegate, HKWorkoutSessio
             locationManager.startWorkoutLocationUpdates()
             routeBuilder = HKWorkoutRouteBuilder(healthStore: healthKit, device: nil)
             locationDataPublisher = locationManager.getWorkoutLocationUpdatesPublisher().sink { [weak self] location in
-                self?.elevationContainer.insertLocation(loc: location)
-                self?.routeBuilder?.insertRouteData(
-                    [location],
-                    completion: { result, _ in
-                        guard result == true else { return }
-                        // TODO: Handle error
-                    }
-                )
+                self?.handleLocationData(location: location)
             }
         }
+    }
+
+    private func handleLocationData(location: CLLocation) {
+        elevationContainer.insertLocation(loc: location)
+        routeBuilder?.insertRouteData(
+            [location],
+            completion: { result, _ in
+                guard result == true else { return }
+                // TODO: Handle error
+            }
+        )
+        dataPublishers
+            .currentElevationPublisher
+            .send(Measurement(value: location.altitude, unit: UnitLength.meters))
     }
 
     func pause() {
@@ -329,7 +336,7 @@ class Workout: NSObject, IWorkout, HKLiveWorkoutBuilderDelegate, HKWorkoutSessio
         dataPublishers.bpmPublisher.send(completion: .finished)
         dataPublishers.distancePublisher.send(completion: .finished)
         dataPublishers.energyPublisher.send(completion: .finished)
-        dataPublishers.elevationPublisher.send(completion: .finished)
+        dataPublishers.currentElevationPublisher.send(completion: .finished)
     }
 
     internal func workoutSession(_: HKWorkoutSession, didFailWithError _: Error) {

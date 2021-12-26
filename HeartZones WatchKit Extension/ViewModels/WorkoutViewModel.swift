@@ -125,7 +125,7 @@ class WorkoutViewModel: ObservableObject {
         workoutElevationDataSubscriber =
             workoutService
                 .getActiveWorkoutDataPublisher()?
-                .elevationPublisher
+                .currentElevationPublisher
                 .receive(on: DispatchQueue.main)
                 .sink(
                     receiveCompletion: { [weak self] _ in
