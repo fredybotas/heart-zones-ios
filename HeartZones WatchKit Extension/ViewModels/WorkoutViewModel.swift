@@ -301,7 +301,7 @@ extension TimeInterval {
 
         let ms = Int(truncatingRemainder(dividingBy: 1) * 1000)
         let seconds = time % 60
-        let minutes = (time / 60) % 60
+        let minutes = (time / 60)
 
         if minutes >= 100 {
             return String(format: "%0.3d:%0.2d,%0.1d", minutes, seconds, onlySeconds ? 0 : ms / 100)
