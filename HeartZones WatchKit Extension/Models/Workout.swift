@@ -29,7 +29,6 @@ struct WorkoutSummaryData {
     let averagePace: Measurement<UnitSpeed>?
     let elevationMin: Measurement<UnitLength>?
     let elevationMax: Measurement<UnitLength>?
-    let elevationGain: Measurement<UnitLength>?
     let activeEnergy: Measurement<UnitEnergy>?
 }
 
@@ -254,7 +253,7 @@ class Workout: NSObject, IWorkout, HKLiveWorkoutBuilderDelegate, HKWorkoutSessio
             timeInTargetColor: getTimeInTargetColor(), distance: getRunningDistance(),
             averagePace: getAverageSpeed(), elevationMin: elevationContainer.getMinElevation(),
             elevationMax: elevationContainer.getMaxElevation(),
-            elevationGain: elevationContainer.getElevationGain(), activeEnergy: getActiveEnergy()
+            activeEnergy: getActiveEnergy()
         )
         workoutSummaryPublisher.send(summaryData)
     }
@@ -367,10 +366,6 @@ class Workout: NSObject, IWorkout, HKLiveWorkoutBuilderDelegate, HKWorkoutSessio
                 dataPublishers.energyPublisher.send(
                     Measurement(value: energy, unit: UnitEnergy.kilocalories))
             }
-        }
-
-        if let elevationGain = elevationContainer.getElevationGain() {
-            dataPublishers.elevationPublisher.send(elevationGain)
         }
     }
 

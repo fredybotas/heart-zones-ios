@@ -107,10 +107,6 @@ struct SameElementsContainer<T: Equatable> {
 }
 
 struct ElevationContainer {
-    private var lastElement: Double?
-    private var currentElement: Double?
-    private var elevationGained: Double = 0.0
-
     private var minElevation: Double = .infinity
     private var maxElevation: Double = -Double.infinity
 
@@ -121,15 +117,6 @@ struct ElevationContainer {
         }
         if elevation > maxElevation {
             maxElevation = elevation
-        }
-
-        lastElement = currentElement
-        currentElement = elevation
-
-        if let lastElement = lastElement, let currentElement = currentElement {
-            if currentElement > lastElement {
-                elevationGained += currentElement - lastElement
-            }
         }
     }
 
@@ -145,12 +132,5 @@ struct ElevationContainer {
             return nil
         }
         return Measurement(value: maxElevation, unit: UnitLength.meters)
-    }
-
-    func getElevationGain() -> Measurement<UnitLength>? {
-        if elevationGained == 0 {
-            return nil
-        }
-        return Measurement(value: elevationGained, unit: UnitLength.meters)
     }
 }

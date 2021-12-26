@@ -33,7 +33,6 @@ class SummaryDataProcessingStrategy: ISummaryDataProcessingStrategy {
         summaryUnits.append(getFirstRow(workoutSummaryData: workoutSummaryData))
         summaryUnits.append(getSecondRow(workoutSummaryData: workoutSummaryData))
         summaryUnits.append(getThirdRow(workoutSummaryData: workoutSummaryData))
-        summaryUnits.append(getFourthRow(workoutSummaryData: workoutSummaryData))
         return summaryUnits
     }
 
@@ -93,23 +92,23 @@ class SummaryDataProcessingStrategy: ISummaryDataProcessingStrategy {
     }
 
     private func getThirdRow(workoutSummaryData: WorkoutSummaryData) -> SummaryRow {
-        var elevationGainUnit: SummaryUnit!
-        if let elevationGain = workoutSummaryData.elevationGain {
-            if let tuple = showingStrategyFacade.distanceShowingStrategy.getDistanceValueAndUnit(
-                elevationGain) {
-                elevationGainUnit = SummaryUnit(
-                    name: kElevationGain, values: [tuple.0], unit: tuple.1, color: nil
+        var activeEnergyUnit: SummaryUnit!
+        if let energy = workoutSummaryData.activeEnergy {
+            if let energyValue = showingStrategyFacade.energyShowingStrategy.getEnergyValue(energy) {
+                activeEnergyUnit = SummaryUnit(
+                    name: kEnergyString, values: [energyValue],
+                    unit: showingStrategyFacade.energyShowingStrategy.getEnergyMetric(energy), color: nil
                 )
             } else {
-                elevationGainUnit = SummaryUnit(
-                    name: kElevationGain, values: ["--"],
-                    unit: showingStrategyFacade.distanceShowingStrategy.defaultDistanceUnit, color: nil
+                activeEnergyUnit = SummaryUnit(
+                    name: kEnergyString, values: ["--"],
+                    unit: showingStrategyFacade.energyShowingStrategy.defaultEnergyUnit, color: nil
                 )
             }
         } else {
-            elevationGainUnit = SummaryUnit(
-                name: kElevationGain, values: ["--"],
-                unit: showingStrategyFacade.distanceShowingStrategy.defaultDistanceUnit, color: nil
+            activeEnergyUnit = SummaryUnit(
+                name: kEnergyString, values: ["--"],
+                unit: showingStrategyFacade.energyShowingStrategy.defaultEnergyUnit, color: nil
             )
         }
 
@@ -137,30 +136,7 @@ class SummaryDataProcessingStrategy: ISummaryDataProcessingStrategy {
             )
         }
 
-        return SummaryRow(left: elevationGainUnit, right: minMaxElevationUnit)
-    }
-
-    private func getFourthRow(workoutSummaryData: WorkoutSummaryData) -> SummaryRow {
-        var activeEnergyUnit: SummaryUnit!
-        if let energy = workoutSummaryData.activeEnergy {
-            if let energyValue = showingStrategyFacade.energyShowingStrategy.getEnergyValue(energy) {
-                activeEnergyUnit = SummaryUnit(
-                    name: kEnergyString, values: [energyValue],
-                    unit: showingStrategyFacade.energyShowingStrategy.getEnergyMetric(energy), color: nil
-                )
-            } else {
-                activeEnergyUnit = SummaryUnit(
-                    name: kEnergyString, values: ["--"],
-                    unit: showingStrategyFacade.energyShowingStrategy.defaultEnergyUnit, color: nil
-                )
-            }
-        } else {
-            activeEnergyUnit = SummaryUnit(
-                name: kEnergyString, values: ["--"],
-                unit: showingStrategyFacade.energyShowingStrategy.defaultEnergyUnit, color: nil
-            )
-        }
-        return SummaryRow(left: activeEnergyUnit, right: nil)
+        return SummaryRow(left: activeEnergyUnit, right: minMaxElevationUnit)
     }
 
     func getDefault() -> [SummaryRow] {
@@ -181,20 +157,13 @@ class SummaryDataProcessingStrategy: ISummaryDataProcessingStrategy {
             ),
             SummaryRow(
                 left: SummaryUnit(
-                    name: kElevationGain, values: ["--"],
-                    unit: showingStrategyFacade.distanceShowingStrategy.defaultDistanceUnit, color: nil
+                    name: kEnergyString, values: ["--"],
+                    unit: showingStrategyFacade.energyShowingStrategy.defaultEnergyUnit, color: nil
                 ),
                 right: SummaryUnit(
                     name: kMinMaxElevation, values: ["--", "--"],
                     unit: showingStrategyFacade.distanceShowingStrategy.defaultDistanceUnit, color: nil
                 )
-            ),
-            SummaryRow(
-                left: SummaryUnit(
-                    name: kEnergyString, values: ["--"],
-                    unit: showingStrategyFacade.energyShowingStrategy.defaultEnergyUnit, color: nil
-                ),
-                right: nil
             )
         ]
     }
