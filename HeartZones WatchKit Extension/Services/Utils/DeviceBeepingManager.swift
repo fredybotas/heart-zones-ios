@@ -22,7 +22,7 @@ protocol BeepingManager {
     func runOnceLowRateAlert()
 }
 
-private let kZoneAlertInterval: TimeInterval = 5.0
+private let kZoneAlertInterval: TimeInterval = 7.0
 
 class DeviceBeepingManager: BeepingManager {
     var isLowRateAlertRunning: Bool {

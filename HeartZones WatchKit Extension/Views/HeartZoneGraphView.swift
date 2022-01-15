@@ -8,7 +8,8 @@
 import SwiftUI
 
 private let xOffset: Double = 20
-private let bpmOffset = 40
+private let bpmOffset = 30
+
 struct HeartZoneGraphView: View {
     @ObservedObject var heartZoneGraphViewModel: HeartZoneGraphViewModel
 
@@ -16,9 +17,17 @@ struct HeartZoneGraphView: View {
         if minBpm == maxBpm {
             return 0
         }
+        let bpmAdjusted: Int!
+        if bpm > maxBpm {
+            bpmAdjusted = maxBpm
+        } else if bpm < minBpm {
+            bpmAdjusted = minBpm
+        } else {
+            bpmAdjusted = bpm
+        }
         return CGFloat(bpmOffset) +
             CGFloat(height - bpmOffset) -
-            ((CGFloat(bpm) - CGFloat(minBpm)) * CGFloat(height - bpmOffset) / CGFloat(maxBpm - minBpm))
+            ((CGFloat(bpmAdjusted) - CGFloat(minBpm)) * CGFloat(height - bpmOffset) / CGFloat(maxBpm - minBpm))
     }
 
     func bpmsToPath(
@@ -27,7 +36,7 @@ struct HeartZoneGraphView: View {
         if bpms.isEmpty {
             return
         }
-        let offsetCoef = Double(width) /
+        let offsetCoef = Double(width - Int(xOffset)) /
             Double(heartZoneGraphViewModel.bpmMaxTimestamp - heartZoneGraphViewModel.bpmMinTimestamp)
         path.move(
             to: CGPoint(
@@ -58,9 +67,11 @@ struct HeartZoneGraphView: View {
     var body: some View {
         GeometryReader { geo in
             Text(self.heartZoneGraphViewModel.bpmTimeDuration)
+                .frame(width: geo.size.width, alignment: .trailing)
                 .font(.footnote)
                 .foregroundColor(.gray)
-            ForEach(heartZoneGraphViewModel.zoneMargins, id: \.self) { margin in
+
+            ForEach(heartZoneGraphViewModel.zoneMargins ?? [], id: \.self) { margin in
                 let yOffset = interpolateBpm(
                     height: Int(geo.size.height),
                     bpm: margin.bpm,
@@ -93,10 +104,26 @@ struct HeartZoneGraphView: View {
                     )
                 }
                 .stroke(
-                    bpm.color.toColor(), style: StrokeStyle(lineWidth: 1.2, lineCap: .butt, lineJoin: .round)
+                    bpm.color.toColor(), style: StrokeStyle(lineWidth: 2.0, lineCap: .butt, lineJoin: .round)
                 )
             }
             .id(UUID())
+//            RoundedRectangle(cornerRadius: 2.0)
+//                .frame(width: geo.size.width - 20, height: 6, alignment: .center)
+//                .offset(x: 10, y: geo.size.height - 4)
+//                .foregroundColor(.red)
+//            RoundedRectangle(cornerRadius: 2.0)
+//                .frame(width: geo.size.width - 60, height: 6, alignment: .center)
+//                .offset(x: 10, y: geo.size.height + 4)
+//                .foregroundColor(.blue)
+//            RoundedRectangle(cornerRadius: 2.0)
+//                .frame(width: geo.size.width - 40, height: 6, alignment: .center)
+//                .offset(x: 10, y: geo.size.height + 12)
+//                .foregroundColor(.yellow)
+//            RoundedRectangle(cornerRadius: 2)
+//                .frame(width: geo.size.width - 100, height: 6, alignment: .center)
+//                .offset(x: 10, y: geo.size.height + 20)
+//                .foregroundColor(.green)
         }
     }
 }
