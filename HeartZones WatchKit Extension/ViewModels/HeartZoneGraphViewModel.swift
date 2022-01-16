@@ -44,10 +44,12 @@ class HeartZoneGraphViewModel: ObservableObject {
     private let settingsService: ISettingsService
     private var bpmCancellable: AnyCancellable?
     private let segmentProcessor: BpmSegmentProcessor
+    private let workoutService: IWorkoutService
 
-    init(healthKitService: IHealthKitService, settingsService: ISettingsService) {
+    init(healthKitService: IHealthKitService, workoutService: IWorkoutService, settingsService: ISettingsService) {
         healthKit = healthKitService
         self.settingsService = settingsService
+        self.workoutService = workoutService
         segmentProcessor = BpmSegmentProcessor(settingsService: settingsService)
         refreshTimer = Timer.publish(every: 5, on: .main, in: .common)
             .autoconnect()
@@ -58,8 +60,11 @@ class HeartZoneGraphViewModel: ObservableObject {
     }
 
     private func getBpmData() {
+        guard let elapsedTime = workoutService.getActiveWorkoutElapsedTime() else {
+            return
+        }
         bpmCancellable = healthKit
-            .getBpmData(startDate: Date(timeIntervalSinceNow: -3 * 60) as NSDate)
+            .getBpmData(startDate: Date(timeIntervalSinceNow: -elapsedTime) as NSDate)
             .receive(on: DispatchQueue.main)
             .sink(receiveValue: { [weak self] val in
                 self?.processBpmValues(bpmEntries: val)
@@ -103,15 +108,27 @@ class HeartZoneGraphViewModel: ObservableObject {
         }
     }
 
+    private func setBpmDurationInterval() {
+        guard let interval = workoutService.getActiveWorkoutElapsedTime() else {
+            bpmTimeDuration = "--"
+            return
+        }
+        if interval >= 60 {
+            bpmTimeDuration = String(Int((interval / 60).rounded())) + "m"
+        } else {
+            bpmTimeDuration = String(Int(interval)) + "s"
+        }
+    }
+
     private func processBpmValues(bpmEntries: [BpmEntry]) {
         bpmTimeInterval = (bpmEntries.last?.timestamp ?? 0) - (bpmEntries.first?.timestamp ?? 0)
         bpmMinTimestamp = bpmEntries.first?.timestamp ?? 0
         bpmMaxTimestamp = bpmEntries.last?.timestamp ?? 0
         bpmMin = bpmEntries.min(by: { $0.value < $1.value })?.value ?? 0
         bpmMax = bpmEntries.max(by: { $0.value < $1.value })?.value ?? 0
-        if bpmMax - bpmMin < 20 {
+        if bpmMax - bpmMin < 40 {
             let diff = bpmMax - bpmMin
-            let toAdd = (40 - diff) / 2
+            let toAdd = (60 - diff) / 2
             bpmMin -= toAdd
             bpmMax += toAdd
         }
@@ -119,6 +136,6 @@ class HeartZoneGraphViewModel: ObservableObject {
 
         bpms = segmentProcessor.processBpmEntries(bpmEntries: bpmEntries)
 
-        setBpmDurationInterval(bpmEntries: bpmEntries)
+        setBpmDurationInterval()
     }
 }
