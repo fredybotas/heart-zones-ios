@@ -65,56 +65,61 @@ struct HeartZoneGraphView: View {
     }
 
     var body: some View {
-        GeometryReader { geo in
-            Text(self.heartZoneGraphViewModel.bpmTimeDuration)
-                .frame(width: geo.size.width, alignment: .trailing)
-                .font(.footnote)
+        if heartZoneGraphViewModel.showLoadingScreen {
+            Text("Waiting for more data")
                 .foregroundColor(.gray)
+        } else {
+            GeometryReader { geo in
+                Text(self.heartZoneGraphViewModel.bpmTimeDuration)
+                    .frame(width: geo.size.width, alignment: .trailing)
+                    .font(.footnote)
+                    .foregroundColor(.gray)
 
-            ForEach(heartZoneGraphViewModel.zoneMargins ?? [], id: \.self) { margin in
-                let yOffset = interpolateBpm(
-                    height: Int(geo.size.height),
-                    bpm: margin.bpm,
-                    minBpm: heartZoneGraphViewModel.bpmMin,
-                    maxBpm: heartZoneGraphViewModel.bpmMax
-                )
-                Rectangle()
-                    .frame(width: geo.size.width, height: 0.6, alignment: .center)
-                    .foregroundColor(.gray)
-                    .opacity(0.5)
-                    .offset(
-                        x: 0,
-                        y: yOffset - 0.5
+                ForEach(heartZoneGraphViewModel.zoneMargins ?? [], id: \.self) { margin in
+                    let yOffset = interpolateBpm(
+                        height: Int(geo.size.height),
+                        bpm: margin.bpm,
+                        minBpm: heartZoneGraphViewModel.bpmMin,
+                        maxBpm: heartZoneGraphViewModel.bpmMax
                     )
-                Text(margin.name)
-                    .font(Font.system(size: 9, weight: .medium, design: .default))
-                    .foregroundColor(.gray)
-                    .opacity(0.6)
-                    .offset(x: 0, y: yOffset + 1)
-                Text(String(margin.bpm))
-                    .font(Font.system(size: 9, weight: .medium, design: .default))
-                    .foregroundColor(.gray)
-                    .opacity(0.6)
-                    .offset(x: 0, y: yOffset - 12)
-            }
-            ForEach(heartZoneGraphViewModel.bpms, id: \.self) { bpm in
-                Path { path in
-                    self.bpmsToPath(
-                        height: Int(geo.size.height), width: Int(geo.size.width), bpms: bpm.bpms, path: &path
+                    Rectangle()
+                        .frame(width: geo.size.width, height: 0.6, alignment: .center)
+                        .foregroundColor(.gray)
+                        .opacity(0.5)
+                        .offset(
+                            x: 0,
+                            y: yOffset - 0.5
+                        )
+                    Text(margin.name)
+                        .font(Font.system(size: 9, weight: .medium, design: .default))
+                        .foregroundColor(.gray)
+                        .opacity(0.6)
+                        .offset(x: 0, y: yOffset + 1)
+                    Text(String(margin.bpm))
+                        .font(Font.system(size: 9, weight: .medium, design: .default))
+                        .foregroundColor(.gray)
+                        .opacity(0.6)
+                        .offset(x: 0, y: yOffset - 12)
+                }
+                ForEach(heartZoneGraphViewModel.bpms, id: \.self) { bpm in
+                    Path { path in
+                        self.bpmsToPath(
+                            height: Int(geo.size.height), width: Int(geo.size.width), bpms: bpm.bpms, path: &path
+                        )
+                    }
+                    .stroke(
+                        bpm.color.toColor(), style: StrokeStyle(lineWidth: 2.0, lineCap: .butt, lineJoin: .round)
                     )
                 }
-                .stroke(
-                    bpm.color.toColor(), style: StrokeStyle(lineWidth: 2.0, lineCap: .butt, lineJoin: .round)
-                )
+                .id(UUID())
             }
-            .id(UUID())
+            .focusable(true)
+            .digitalCrownRotation(
+                $heartZoneGraphViewModel.crown, from: kMinimumCrownValue,
+                through: kMaximumCrownValue, by: 0.1, sensitivity: .medium,
+                isContinuous: false, isHapticFeedbackEnabled: false
+            )
         }
-        .focusable(true)
-        .digitalCrownRotation(
-            $heartZoneGraphViewModel.crown, from: kMinimumCrownValue,
-            through: kMaximumCrownValue, by: 0.1, sensitivity: .medium,
-            isContinuous: false, isHapticFeedbackEnabled: false
-        )
     }
 }
 

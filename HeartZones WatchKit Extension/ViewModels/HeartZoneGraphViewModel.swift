@@ -43,6 +43,7 @@ class HeartZoneGraphViewModel: ObservableObject {
     @Published var bpmTimeDuration: String = "--"
     @Published var end: CGFloat = .zero
     @Published var crown: Double = 0
+    @Published var showLoadingScreen = true
 
     var cancellables = Set<AnyCancellable>()
 
@@ -147,6 +148,10 @@ class HeartZoneGraphViewModel: ObservableObject {
             bpmMax += toAdd
         }
         setZoneMargins(bpmEntries: bpmEntries)
+
+        if bpmEntries.count > 10 {
+            showLoadingScreen = false
+        }
 
         bpms = segmentProcessor.processBpmEntries(bpmEntries: bpmEntries)
 
