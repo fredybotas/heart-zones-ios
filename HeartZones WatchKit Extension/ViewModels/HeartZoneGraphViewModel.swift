@@ -27,6 +27,10 @@ struct ZoneMargin: Hashable {
     let bpm: Int
 }
 
+let kMinimumCrownValue = 0.0
+let kMaximumCrownValue = 1.0
+let kMinimumGraphInterval = 180.0 // 3min
+
 class HeartZoneGraphViewModel: ObservableObject {
     private(set) var bpmTimeInterval: TimeInterval = 0
     private(set) var bpmMinTimestamp: TimeInterval = 0
@@ -38,6 +42,9 @@ class HeartZoneGraphViewModel: ObservableObject {
     @Published var bpms: [BpmSegment] = []
     @Published var bpmTimeDuration: String = "--"
     @Published var end: CGFloat = .zero
+    @Published var crown: Double = 0
+
+    var cancellables = Set<AnyCancellable>()
 
     private var refreshTimer: AnyCancellable?
     private let healthKit: IHealthKitService
@@ -57,17 +64,28 @@ class HeartZoneGraphViewModel: ObservableObject {
                 self?.getBpmData()
             }
         getBpmData()
+
+        $crown
+            .debounce(for: .seconds(0.2), scheduler: RunLoop.main, options: nil)
+            .sink { [weak self] _ in
+                self?.getBpmData()
+            }
+            .store(in: &cancellables)
     }
 
     private func getBpmData() {
         guard let elapsedTime = workoutService.getActiveWorkoutElapsedTime() else {
             return
         }
+        var timeToShow: TimeInterval = elapsedTime
+        if elapsedTime > kMinimumGraphInterval {
+            timeToShow = ((elapsedTime - kMinimumGraphInterval) * crown) + kMinimumGraphInterval
+        }
         bpmCancellable = healthKit
-            .getBpmData(startDate: Date(timeIntervalSinceNow: -elapsedTime) as NSDate)
+            .getBpmData(startDate: Date(timeIntervalSinceNow: -timeToShow) as NSDate)
             .receive(on: DispatchQueue.main)
-            .sink(receiveValue: { [weak self] val in
-                self?.processBpmValues(bpmEntries: val)
+            .sink(receiveValue: { [weak self, timeToShow] val in
+                self?.processBpmValues(bpmEntries: val, duration: timeToShow)
             })
     }
 
@@ -108,19 +126,15 @@ class HeartZoneGraphViewModel: ObservableObject {
         }
     }
 
-    private func setBpmDurationInterval() {
-        guard let interval = workoutService.getActiveWorkoutElapsedTime() else {
-            bpmTimeDuration = "--"
-            return
-        }
-        if interval >= 60 {
-            bpmTimeDuration = String(Int((interval / 60).rounded())) + "m"
+    private func setBpmDurationInterval(duration: TimeInterval) {
+        if duration >= 60 {
+            bpmTimeDuration = String(Int((duration / 60).rounded())) + "m"
         } else {
-            bpmTimeDuration = String(Int(interval)) + "s"
+            bpmTimeDuration = String(Int(duration)) + "s"
         }
     }
 
-    private func processBpmValues(bpmEntries: [BpmEntry]) {
+    private func processBpmValues(bpmEntries: [BpmEntry], duration: TimeInterval) {
         bpmTimeInterval = (bpmEntries.last?.timestamp ?? 0) - (bpmEntries.first?.timestamp ?? 0)
         bpmMinTimestamp = bpmEntries.first?.timestamp ?? 0
         bpmMaxTimestamp = bpmEntries.last?.timestamp ?? 0
@@ -136,6 +150,6 @@ class HeartZoneGraphViewModel: ObservableObject {
 
         bpms = segmentProcessor.processBpmEntries(bpmEntries: bpmEntries)
 
-        setBpmDurationInterval()
+        setBpmDurationInterval(duration: duration)
     }
 }

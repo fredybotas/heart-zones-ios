@@ -108,23 +108,13 @@ struct HeartZoneGraphView: View {
                 )
             }
             .id(UUID())
-//            RoundedRectangle(cornerRadius: 2.0)
-//                .frame(width: geo.size.width - 20, height: 6, alignment: .center)
-//                .offset(x: 10, y: geo.size.height - 4)
-//                .foregroundColor(.red)
-//            RoundedRectangle(cornerRadius: 2.0)
-//                .frame(width: geo.size.width - 60, height: 6, alignment: .center)
-//                .offset(x: 10, y: geo.size.height + 4)
-//                .foregroundColor(.blue)
-//            RoundedRectangle(cornerRadius: 2.0)
-//                .frame(width: geo.size.width - 40, height: 6, alignment: .center)
-//                .offset(x: 10, y: geo.size.height + 12)
-//                .foregroundColor(.yellow)
-//            RoundedRectangle(cornerRadius: 2)
-//                .frame(width: geo.size.width - 100, height: 6, alignment: .center)
-//                .offset(x: 10, y: geo.size.height + 20)
-//                .foregroundColor(.green)
         }
+        .focusable(true)
+        .digitalCrownRotation(
+            $heartZoneGraphViewModel.crown, from: kMinimumCrownValue,
+            through: kMaximumCrownValue, by: 0.1, sensitivity: .medium,
+            isContinuous: false, isHapticFeedbackEnabled: false
+        )
     }
 }
 
