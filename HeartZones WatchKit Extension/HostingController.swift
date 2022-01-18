@@ -35,7 +35,8 @@ class HostingControllerWorkoutSelection: WKHostingController<WorkoutSelectionVie
             withNames: [
                 HostingControllerWorkoutControls.identifier,
                 HostingControllerRunningWorkout.identifier,
-                HostingControllerWorkoutGraph.identifier
+                HostingControllerWorkoutGraph.identifier,
+                HostingControllerWorkoutBars.identifier
             ], contexts: contexts as [Any], orientation: WKPageOrientation.horizontal, pageIndex: 1
         )
     }
@@ -106,5 +107,14 @@ class HostingControllerWorkoutGraph: WKHostingController<HeartZoneGraphView> {
     override var body: HeartZoneGraphView {
         return HeartZoneGraphView(
             heartZoneGraphViewModel: DIContainer.shared.resolve(HeartZoneGraphViewModel.self)!)
+    }
+}
+
+class HostingControllerWorkoutBars: WKHostingController<HeartZoneBarsView> {
+    static let identifier = "HostingControllerWorkoutBars"
+
+    override var body: HeartZoneBarsView {
+        return HeartZoneBarsView(
+            heartZoneBarsViewModel: DIContainer.shared.resolve(HeartZoneBarsViewModel.self)!)
     }
 }

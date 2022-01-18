@@ -31,23 +31,24 @@ class WorkoutService: IWorkoutService {
     private let healthKitService: IHealthKitService
     private let locationManager: WorkoutLocationFetcher
     private let settingsService: ISettingsService
-
+    private let zoneStatisticsCalculator: IZoneStaticticsCalculator
     private var activeWorkout: IWorkout?
     @Published private var workoutState: WorkoutState = .notPresent
 
     init(
-        locationManager: LocationManager, healthKitService: HealthKitService,
-        settingsService: ISettingsService
+        locationManager: LocationManager, healthKitService: IHealthKitService,
+        settingsService: ISettingsService, zoneStatisticsCalculator: IZoneStaticticsCalculator
     ) {
         self.locationManager = locationManager
         self.healthKitService = healthKitService
         self.settingsService = settingsService
+        self.zoneStatisticsCalculator = zoneStatisticsCalculator
     }
 
     func setRecoveredWorkout(session: HKWorkoutSession) {
-        activeWorkout = Workout(healthKit: healthKitService.healthStore,
+        activeWorkout = Workout(healthKitService: healthKitService,
                                 session: session, locationManager: locationManager,
-                                settingsService: settingsService)
+                                settingsService: settingsService, zoneStatisticsCalculator: zoneStatisticsCalculator)
         activeWorkout?.startWorkout()
         workoutState = activeWorkout!.workoutState
     }
@@ -59,8 +60,8 @@ class WorkoutService: IWorkoutService {
         }
 
         activeWorkout = Workout(
-            healthKit: healthKitService.healthStore, type: workoutType, locationManager: locationManager,
-            settingsService: settingsService
+            healthKitService: healthKitService, type: workoutType, locationManager: locationManager,
+            settingsService: settingsService, zoneStatisticsCalculator: zoneStatisticsCalculator
         )
         activeWorkout?.startWorkout()
         workoutState = activeWorkout!.workoutState

@@ -133,7 +133,11 @@ struct HeartZoneGraphView_Previews: PreviewProvider {
                                                settingsService: SettingsService(
                                                    settingsRepository: SettingsRepository(),
                                                    healthKitService: HealthKitService()
-                                               )),
+                                               ), zoneStatisticsCalculator:
+                                               ZoneStatisticsCalculator(
+                                                   settingsService:
+                                                   SettingsService(settingsRepository:
+                                                       SettingsRepository(), healthKitService: HealthKitService()))),
                 settingsService: SettingsService(
                     settingsRepository: SettingsRepository(),
                     healthKitService: HealthKitService()

@@ -83,7 +83,7 @@ class HeartZoneGraphViewModel: ObservableObject {
             timeToShow = ((elapsedTime - kMinimumGraphInterval) * crown) + kMinimumGraphInterval
         }
         bpmCancellable = healthKit
-            .getBpmData(startDate: Date(timeIntervalSinceNow: -timeToShow) as NSDate)
+            .getBpmData(startDate: Date(timeIntervalSinceNow: -timeToShow) as NSDate, endDate: NSDate())
             .receive(on: DispatchQueue.main)
             .sink(receiveValue: { [weak self, timeToShow] val in
                 self?.processBpmValues(bpmEntries: val, duration: timeToShow)

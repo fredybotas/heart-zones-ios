@@ -12,7 +12,13 @@ import HealthKit
 @testable import HeartZones_WatchKit_Extension
 
 class HealthKitServiceMock: IHealthKitService {
-    func getBpmData(startDate _: NSDate) -> Future<[BpmEntry], Never> {
+    func getBpmData(startDate _: NSDate, endDate _: NSDate) -> Future<[BpmEntry], Never> {
+        return Future { promise in
+            promise(.success([]))
+        }
+    }
+
+    func getBpmDataForWorkout(workout _: HKWorkout) -> Future<[BpmEntry], Never> {
         return Future { promise in
             promise(.success([]))
         }

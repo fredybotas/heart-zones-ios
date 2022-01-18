@@ -54,9 +54,10 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
                 let locationManager = resolver.resolve(LocationManager.self)!
                 let healthKitService = resolver.resolve(HealthKitService.self)!
                 let settingsService = resolver.resolve(SettingsService.self)!
+                let zoneStatisticsCalculator = resolver.resolve(ZoneStatisticsCalculator.self)!
                 return WorkoutService(
                     locationManager: locationManager, healthKitService: healthKitService,
-                    settingsService: settingsService
+                    settingsService: settingsService, zoneStatisticsCalculator: zoneStatisticsCalculator
                 )
             }
         ).inObjectScope(.container)
@@ -93,12 +94,22 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
         ).inObjectScope(.container)
         container.register(
             SettingsService.self,
-            factory: { _ in
-                let healthKitService = container.resolve(HealthKitService.self)!
-                let settingsRepository = container.resolve(SettingsRepositoryCached.self)!
+            factory: { resolver in
+                let healthKitService = resolver.resolve(HealthKitService.self)!
+                let settingsRepository = resolver.resolve(SettingsRepositoryCached.self)!
 
                 return SettingsService(
                     settingsRepository: settingsRepository, healthKitService: healthKitService
+                )
+            }
+        ).inObjectScope(.container)
+        container.register(
+            ZoneStatisticsCalculator.self,
+            factory: { resolver in
+                let settingsService = resolver.resolve(SettingsService.self)!
+
+                return ZoneStatisticsCalculator(
+                    settingsService: settingsService
                 )
             }
         ).inObjectScope(.container)
@@ -157,13 +168,20 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
         )
         container.register(
             HeartZoneGraphViewModel.self,
-            factory: { _ in
-                let healthKitService = container.resolve(HealthKitService.self)!
-                let settingsService = container.resolve(SettingsService.self)!
-                let workoutService = container.resolve(WorkoutService.self)!
+            factory: { resolver in
+                let healthKitService = resolver.resolve(HealthKitService.self)!
+                let settingsService = resolver.resolve(SettingsService.self)!
+                let workoutService = resolver.resolve(WorkoutService.self)!
                 return HeartZoneGraphViewModel(healthKitService: healthKitService,
                                                workoutService: workoutService,
                                                settingsService: settingsService)
+            }
+        )
+        container.register(
+            HeartZoneBarsViewModel.self,
+            factory: { resolver in
+                let settingsService = resolver.resolve(SettingsService.self)!
+                return HeartZoneBarsViewModel(settingsService: settingsService)
             }
         )
 

@@ -139,7 +139,11 @@ struct WorkoutSummaryView_Previews: PreviewProvider {
                         locationManager: LocationManager(), healthKitService: HealthKitService(),
                         settingsService: SettingsService(
                             settingsRepository: SettingsRepository(), healthKitService: HealthKitService()
-                        )
+                        ), zoneStatisticsCalculator:
+                        ZoneStatisticsCalculator(
+                            settingsService: SettingsService(
+                                settingsRepository: SettingsRepository(), healthKitService: HealthKitService()
+                            ))
                     ),
                     settingsService: SettingsService(
                         settingsRepository: SettingsRepository(), healthKitService: HealthKitService()
@@ -154,7 +158,11 @@ struct WorkoutSummaryView_Previews: PreviewProvider {
                         locationManager: LocationManager(), healthKitService: HealthKitService(),
                         settingsService: SettingsService(
                             settingsRepository: SettingsRepository(), healthKitService: HealthKitService()
-                        )
+                        ), zoneStatisticsCalculator:
+                        ZoneStatisticsCalculator(
+                            settingsService: SettingsService(
+                                settingsRepository: SettingsRepository(), healthKitService: HealthKitService()
+                            ))
                     ),
                     settingsService: SettingsService(
                         settingsRepository: SettingsRepository(), healthKitService: HealthKitService()
@@ -169,7 +177,11 @@ struct WorkoutSummaryView_Previews: PreviewProvider {
                         locationManager: LocationManager(), healthKitService: HealthKitService(),
                         settingsService: SettingsService(
                             settingsRepository: SettingsRepository(), healthKitService: HealthKitService()
-                        )
+                        ), zoneStatisticsCalculator:
+                        ZoneStatisticsCalculator(
+                            settingsService: SettingsService(
+                                settingsRepository: SettingsRepository(), healthKitService: HealthKitService()
+                            ))
                     ),
                     settingsService: SettingsService(
                         settingsRepository: SettingsRepository(), healthKitService: HealthKitService()
@@ -184,7 +196,11 @@ struct WorkoutSummaryView_Previews: PreviewProvider {
                         locationManager: LocationManager(), healthKitService: HealthKitService(),
                         settingsService: SettingsService(
                             settingsRepository: SettingsRepository(), healthKitService: HealthKitService()
-                        )
+                        ), zoneStatisticsCalculator:
+                        ZoneStatisticsCalculator(
+                            settingsService: SettingsService(
+                                settingsRepository: SettingsRepository(), healthKitService: HealthKitService()
+                            ))
                     ),
                     settingsService: SettingsService(
                         settingsRepository: SettingsRepository(), healthKitService: HealthKitService()
@@ -199,7 +215,11 @@ struct WorkoutSummaryView_Previews: PreviewProvider {
                         locationManager: LocationManager(), healthKitService: HealthKitService(),
                         settingsService: SettingsService(
                             settingsRepository: SettingsRepository(), healthKitService: HealthKitService()
-                        )
+                        ), zoneStatisticsCalculator:
+                        ZoneStatisticsCalculator(
+                            settingsService: SettingsService(
+                                settingsRepository: SettingsRepository(), healthKitService: HealthKitService()
+                            ))
                     ),
                     settingsService: SettingsService(
                         settingsRepository: SettingsRepository(), healthKitService: HealthKitService()
@@ -214,7 +234,11 @@ struct WorkoutSummaryView_Previews: PreviewProvider {
                         locationManager: LocationManager(), healthKitService: HealthKitService(),
                         settingsService: SettingsService(
                             settingsRepository: SettingsRepository(), healthKitService: HealthKitService()
-                        )
+                        ), zoneStatisticsCalculator:
+                        ZoneStatisticsCalculator(
+                            settingsService: SettingsService(
+                                settingsRepository: SettingsRepository(), healthKitService: HealthKitService()
+                            ))
                     ),
                     settingsService: SettingsService(
                         settingsRepository: SettingsRepository(), healthKitService: HealthKitService()

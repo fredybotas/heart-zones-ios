@@ -89,42 +89,40 @@ class Workout: NSObject, IWorkout, HKLiveWorkoutBuilderDelegate, HKWorkoutSessio
     private let locationManager: WorkoutLocationFetcher
     private let configuration: HKWorkoutConfiguration
     private let settingsService: ISettingsService
+    private let zoneStatisticsCalculator: IZoneStaticticsCalculator
 
-    private let healthKit: HKHealthStore
+    private let healthKitService: IHealthKitService
     private var activeWorkoutSession: HKWorkoutSession?
 
     private var locationDataPublisher: AnyCancellable?
     private var routeBuilder: HKWorkoutRouteBuilder?
 
-    private var bpm: BpmContainer
     private var distances = DistanceContainer(size: 3)
     private var elevationContainer = ElevationContainer()
 
     private var state: State = .notInitialized
 
-    convenience init(healthKit: HKHealthStore, session: HKWorkoutSession, locationManager: WorkoutLocationFetcher,
-                     settingsService: ISettingsService) {
-        self.init(healthKit: healthKit,
+    convenience init(
+        healthKitService: IHealthKitService, session: HKWorkoutSession, locationManager: WorkoutLocationFetcher,
+        settingsService: ISettingsService, zoneStatisticsCalculator: IZoneStaticticsCalculator
+    ) {
+        self.init(healthKitService: healthKitService,
                   type: WorkoutType.configurationToType(configuration: session.workoutConfiguration),
                   locationManager: locationManager,
-                  settingsService: settingsService)
+                  settingsService: settingsService, zoneStatisticsCalculator: zoneStatisticsCalculator)
         activeWorkoutSession = session
     }
 
     init(
-        healthKit: HKHealthStore, type: WorkoutType, locationManager: WorkoutLocationFetcher,
-        settingsService: ISettingsService
+        healthKitService: IHealthKitService, type: WorkoutType, locationManager: WorkoutLocationFetcher,
+        settingsService: ISettingsService, zoneStatisticsCalculator: IZoneStaticticsCalculator
     ) {
-        self.healthKit = healthKit
+        self.healthKitService = healthKitService
         workoutType = type
         self.locationManager = locationManager
         configuration = workoutType.getConfiguration()
         self.settingsService = settingsService
-        bpm = BpmContainer(
-            size: 1,
-            targetHeartZone: settingsService.selectedHeartZoneSetting.zones[settingsService.targetZoneId],
-            maxBpm: settingsService.maximumBpm
-        )
+        self.zoneStatisticsCalculator = zoneStatisticsCalculator
 
         super.init()
     }
@@ -133,17 +131,16 @@ class Workout: NSObject, IWorkout, HKLiveWorkoutBuilderDelegate, HKWorkoutSessio
         var workoutExisted = true
         if activeWorkoutSession == nil {
             activeWorkoutSession = try? HKWorkoutSession(
-                healthStore: healthKit, configuration: configuration
+                healthStore: healthKitService.healthStore, configuration: configuration
             )
             workoutExisted = false
         }
         let builder = activeWorkoutSession?.associatedWorkoutBuilder()
         builder?.dataSource = HKLiveWorkoutDataSource(
-            healthStore: healthKit, workoutConfiguration: configuration
+            healthStore: healthKitService.healthStore, workoutConfiguration: configuration
         )
         builder?.delegate = self
         activeWorkoutSession?.delegate = self
-
         if !workoutExisted {
             activeWorkoutSession?.startActivity(with: Date())
             builder?.beginCollection(withStart: Date()) { _, _ in }
@@ -154,10 +151,32 @@ class Workout: NSObject, IWorkout, HKLiveWorkoutBuilderDelegate, HKWorkoutSessio
         state = .active
     }
 
+    private func getWorkoutEvents() -> [HKWorkoutEvent] {
+        guard let events = activeWorkoutSession?.associatedWorkoutBuilder().workoutEvents else {
+            return []
+        }
+        return events
+    }
+
+    private func getWorkoutTimeSegments() -> [(Date, Date)] {
+        guard let startTime = activeWorkoutSession?.associatedWorkoutBuilder().startDate else {
+            return []
+        }
+        let pauseAndResumeEvents = getWorkoutEvents()
+            .filter { $0.type == HKWorkoutEventType.pause || $0.type == HKWorkoutEventType.resume }
+        var result = [(Date, Date)]()
+        var prevDate = startTime
+        for event in pauseAndResumeEvents {
+            result.append((prevDate, event.dateInterval.start))
+            prevDate = event.dateInterval.start
+        }
+        return result
+    }
+
     private func setLocationHarvesting() {
         if configuration.locationType == .outdoor {
             locationManager.startWorkoutLocationUpdates()
-            routeBuilder = HKWorkoutRouteBuilder(healthStore: healthKit, device: nil)
+            routeBuilder = HKWorkoutRouteBuilder(healthStore: healthKitService.healthStore, device: nil)
             locationDataPublisher = locationManager.getWorkoutLocationUpdatesPublisher().sink { [weak self] location in
                 self?.handleLocationData(location: location)
             }
@@ -256,13 +275,20 @@ class Workout: NSObject, IWorkout, HKLiveWorkoutBuilderDelegate, HKWorkoutSessio
         let summaryData = WorkoutSummaryData(
             workoutType: workoutType, elapsedTime: getElapsedTime(), avgBpm: avgBpm,
             bpmColor: getBpmColor(avgBpm: avgBpm),
-            timeInTargetZonePercentage: bpm.timeInTargetZonePercentage(),
+            timeInTargetZonePercentage: zoneStatisticsCalculator
+                .calculatePercentageInTargetZone(entries: getBpmEntries()),
             timeInTargetColor: getTimeInTargetColor(), distance: getRunningDistance(),
             averagePace: getAverageSpeed(), elevationMin: elevationContainer.getMinElevation(),
             elevationMax: elevationContainer.getMaxElevation(),
             activeEnergy: getActiveEnergy()
         )
         workoutSummaryPublisher.send(summaryData)
+    }
+
+    private func getBpmEntries() -> [BpmEntry] {
+//        healthKitService.getBpmData(
+        // TODO:
+        return []
     }
 
     private func getBpmColor(avgBpm: Int?) -> HeartZone.Color? {
@@ -380,8 +406,7 @@ class Workout: NSObject, IWorkout, HKLiveWorkoutBuilderDelegate, HKWorkoutSessio
         guard let beats = statistics.mostRecentQuantity()?.doubleValue(for: HKUnit.hertz()) else {
             return
         }
-        bpm.insert(bpm: Int(beats * 60))
-        guard let bpmToSend = bpm.getActualBpm() else { return }
+        let bpmToSend = Int(beats * 60)
         dataPublishers.bpmPublisher.send(bpmToSend)
     }
 

@@ -7,8 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3F4AC7292795D92D000D556E /* HeartZoneBarsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F4AC7282795D92D000D556E /* HeartZoneBarsView.swift */; };
+		3F4AC72B2795D944000D556E /* HeartZoneBarsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F4AC72A2795D944000D556E /* HeartZoneBarsViewModel.swift */; };
 		3F4C11AB27749A5D008D8E8B /* BpmSegmentProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F4C11AA27749A5D008D8E8B /* BpmSegmentProcessor.swift */; };
 		3F4C11AD27749B04008D8E8B /* BpmSegmentProcessorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F4C11AC27749B04008D8E8B /* BpmSegmentProcessorTests.swift */; };
+		3FBAB1CB27975E7B00CC1E33 /* WorkoutActiveTimeProcessorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FBAB1CA27975E7B00CC1E33 /* WorkoutActiveTimeProcessorTests.swift */; };
+		3FBAB1CD27975E9700CC1E33 /* WorkoutActiveTimeProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FBAB1CC27975E9700CC1E33 /* WorkoutActiveTimeProcessor.swift */; };
+		3FE82C542795F74F0006CB93 /* BpmEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FE82C532795F74F0006CB93 /* BpmEntry.swift */; };
+		3FE82C562795F77F0006CB93 /* ZoneStatistics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FE82C552795F77F0006CB93 /* ZoneStatistics.swift */; };
 		B6046DF526B19E1900BD43C1 /* HeartZoneState.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6046DF426B19E1900BD43C1 /* HeartZoneState.swift */; };
 		B6046DF726B1B26100BD43C1 /* SameElementsContainerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6046DF626B1B26100BD43C1 /* SameElementsContainerTests.swift */; };
 		B607E15B268E1EA90069FEA4 /* BpmContainerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B607E15A268E1EA90069FEA4 /* BpmContainerTests.swift */; };
@@ -127,8 +133,14 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		3F4AC7282795D92D000D556E /* HeartZoneBarsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeartZoneBarsView.swift; sourceTree = "<group>"; };
+		3F4AC72A2795D944000D556E /* HeartZoneBarsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeartZoneBarsViewModel.swift; sourceTree = "<group>"; };
 		3F4C11AA27749A5D008D8E8B /* BpmSegmentProcessor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BpmSegmentProcessor.swift; sourceTree = "<group>"; };
 		3F4C11AC27749B04008D8E8B /* BpmSegmentProcessorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BpmSegmentProcessorTests.swift; sourceTree = "<group>"; };
+		3FBAB1CA27975E7B00CC1E33 /* WorkoutActiveTimeProcessorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutActiveTimeProcessorTests.swift; sourceTree = "<group>"; };
+		3FBAB1CC27975E9700CC1E33 /* WorkoutActiveTimeProcessor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutActiveTimeProcessor.swift; sourceTree = "<group>"; };
+		3FE82C532795F74F0006CB93 /* BpmEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BpmEntry.swift; sourceTree = "<group>"; };
+		3FE82C552795F77F0006CB93 /* ZoneStatistics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZoneStatistics.swift; sourceTree = "<group>"; };
 		B6046DF426B19E1900BD43C1 /* HeartZoneState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeartZoneState.swift; sourceTree = "<group>"; };
 		B6046DF626B1B26100BD43C1 /* SameElementsContainerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SameElementsContainerTests.swift; sourceTree = "<group>"; };
 		B607E15A268E1EA90069FEA4 /* BpmContainerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BpmContainerTests.swift; sourceTree = "<group>"; };
@@ -301,6 +313,7 @@
 				B6046DF626B1B26100BD43C1 /* SameElementsContainerTests.swift */,
 				B64E5CEE26B1EFBF0087F246 /* HeartZoneStateTests.swift */,
 				3F4C11AC27749B04008D8E8B /* BpmSegmentProcessorTests.swift */,
+				3FBAB1CA27975E7B00CC1E33 /* WorkoutActiveTimeProcessorTests.swift */,
 			);
 			path = HeartZonesTests;
 			sourceTree = "<group>";
@@ -371,6 +384,7 @@
 				B6DD62E72702085500E639B0 /* HeartZoneSettingsViewModel.swift */,
 				B636EF1A272B235E0038BD85 /* WorkoutSummaryViewModel.swift */,
 				B68E17AD2752922400EFB06F /* HeartZoneGraphViewModel.swift */,
+				3F4AC72A2795D944000D556E /* HeartZoneBarsViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -378,13 +392,19 @@
 		B650A960268799B40042B33D /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				B63AB83C269780FA007E07E9 /* DeviceBeepingManager.swift */,
+				B63AB8462698DB56007E07E9 /* LocationManager.swift */,
+				B62DDBDC26ABFC0D001D3D26 /* HealthKitService.swift */,
+				B62DDBE026AC22A5001D3D26 /* AuthorizationManager.swift */,
+				B6D1397E26B3105200396285 /* DeviceBeeper.swift */,
 				B67A7BA32709FB3B00D70C37 /* Persistence */,
-				B6AFC1A626A5917B00616311 /* Utils */,
 				B650A961268799C60042B33D /* WorkoutService.swift */,
 				B650A970268895800042B33D /* HeartZoneService.swift */,
 				B6046DF426B19E1900BD43C1 /* HeartZoneState.swift */,
 				B62EF907269E1FE40067E894 /* SunService.swift */,
 				B6AFC1A426A5917100616311 /* BeepingService.swift */,
+				3FE82C552795F77F0006CB93 /* ZoneStatistics.swift */,
+				3FBAB1CC27975E9700CC1E33 /* WorkoutActiveTimeProcessor.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -403,6 +423,7 @@
 				B650A9682688853A0042B33D /* WorkoutType.swift */,
 				B650A96C26888AD10042B33D /* Workout.swift */,
 				B6B14A7226B6D08E003CAF97 /* Metrics.swift */,
+				3FE82C532795F74F0006CB93 /* BpmEntry.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -432,18 +453,6 @@
 			path = Utils;
 			sourceTree = "<group>";
 		};
-		B6AFC1A626A5917B00616311 /* Utils */ = {
-			isa = PBXGroup;
-			children = (
-				B63AB83C269780FA007E07E9 /* DeviceBeepingManager.swift */,
-				B63AB8462698DB56007E07E9 /* LocationManager.swift */,
-				B62DDBDC26ABFC0D001D3D26 /* HealthKitService.swift */,
-				B62DDBE026AC22A5001D3D26 /* AuthorizationManager.swift */,
-				B6D1397E26B3105200396285 /* DeviceBeeper.swift */,
-			);
-			path = Utils;
-			sourceTree = "<group>";
-		};
 		B6B6EC98268E464B00170E39 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
@@ -463,6 +472,7 @@
 				B6CD785926FF291E00C195BD /* HeartZonesSettingsView.swift */,
 				B636EF18272B234B0038BD85 /* WorkoutSummaryView.swift */,
 				B68E17AB275234F700EFB06F /* HeartZoneGraphView.swift */,
+				3F4AC7282795D92D000D556E /* HeartZoneBarsView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -687,6 +697,7 @@
 				B62EF908269E1FE40067E894 /* SunService.swift in Sources */,
 				B60BE83327385DA600A28A26 /* ShowingStrategyFacade.swift in Sources */,
 				B6E30C4126851996007CCA38 /* WorkoutControlsView.swift in Sources */,
+				3FE82C542795F74F0006CB93 /* BpmEntry.swift in Sources */,
 				B650A9692688853A0042B33D /* WorkoutType.swift in Sources */,
 				B6628A71268A538300901D17 /* HostingController.swift in Sources */,
 				B63AB83D269780FA007E07E9 /* DeviceBeepingManager.swift in Sources */,
@@ -694,6 +705,7 @@
 				B6628A72268A538300901D17 /* ExtensionDelegate.swift in Sources */,
 				B63AB8472698DB57007E07E9 /* LocationManager.swift in Sources */,
 				B650A96F2688955F0042B33D /* HeartZone.swift in Sources */,
+				3F4AC7292795D92D000D556E /* HeartZoneBarsView.swift in Sources */,
 				B6E30C3C26850F73007CCA38 /* WorkoutSelectionView.swift in Sources */,
 				B6DD62E82702085500E639B0 /* HeartZoneSettingsViewModel.swift in Sources */,
 				B637F8DA26BFC8A400D81AA6 /* DistanceShowingStrategy.swift in Sources */,
@@ -702,11 +714,14 @@
 				B6046DF526B19E1900BD43C1 /* HeartZoneState.swift in Sources */,
 				B661A3F226B5622000E78D8E /* SettingsRepository.swift in Sources */,
 				B637F8D826BFC12A00D81AA6 /* EnergyShowingStrategy.swift in Sources */,
+				3F4AC72B2795D944000D556E /* HeartZoneBarsViewModel.swift in Sources */,
 				B62DDBDD26ABFC0D001D3D26 /* HealthKitService.swift in Sources */,
 				B68999132709FD1500F92061 /* UserDefaultsManager.swift in Sources */,
+				3FE82C562795F77F0006CB93 /* ZoneStatistics.swift in Sources */,
 				B610ABA726923FCC00DA3FA8 /* SunView.swift in Sources */,
 				B64D61EB26A342DC003E0737 /* SunViewWithMinutes.swift in Sources */,
 				B650A962268799C60042B33D /* WorkoutService.swift in Sources */,
+				3FBAB1CD27975E9700CC1E33 /* WorkoutActiveTimeProcessor.swift in Sources */,
 				B697B500268BBD6E003558C8 /* WorkoutControlsViewModel.swift in Sources */,
 				B650A971268895800042B33D /* HeartZoneService.swift in Sources */,
 				B68E17AC275234F700EFB06F /* HeartZoneGraphView.swift in Sources */,
@@ -731,6 +746,7 @@
 				B63AB84326983FB2007E07E9 /* WorkoutServiceFake.swift in Sources */,
 				B62DDBDF26AC0DEA001D3D26 /* HealthKitServiceMock.swift in Sources */,
 				B6607B2726AC4CB700C0C0EE /* AuthorizableFake.swift in Sources */,
+				3FBAB1CB27975E7B00CC1E33 /* WorkoutActiveTimeProcessorTests.swift in Sources */,
 				B6046DF726B1B26100BD43C1 /* SameElementsContainerTests.swift in Sources */,
 				B64E5CF126B1F0C20087F246 /* ZoneStateManagerMock.swift in Sources */,
 				B64E5CEF26B1EFBF0087F246 /* HeartZoneStateTests.swift in Sources */,

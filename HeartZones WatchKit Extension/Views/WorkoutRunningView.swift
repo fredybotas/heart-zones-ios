@@ -187,14 +187,22 @@ struct WorkoutRunningView_Previews: PreviewProvider {
             locationManager: LocationManager(), healthKitService: HealthKitService(),
             settingsService: SettingsService(
                 settingsRepository: SettingsRepository(), healthKitService: HealthKitService()
-            )
+            ), zoneStatisticsCalculator:
+            ZoneStatisticsCalculator(
+                settingsService: SettingsService(
+                    settingsRepository: SettingsRepository(), healthKitService: HealthKitService()
+                ))
         ),
         heartZoneService: HeartZoneService(
             workoutService: WorkoutService(
                 locationManager: LocationManager(), healthKitService: HealthKitService(),
                 settingsService: SettingsService(
                     settingsRepository: SettingsRepository(), healthKitService: HealthKitService()
-                )
+                ), zoneStatisticsCalculator:
+                ZoneStatisticsCalculator(
+                    settingsService: SettingsService(
+                        settingsRepository: SettingsRepository(), healthKitService: HealthKitService()
+                    ))
             ),
             beepingService: BeepingService(
                 beeper: DeviceBeepingManager(beeper: DeviceBeeper()),

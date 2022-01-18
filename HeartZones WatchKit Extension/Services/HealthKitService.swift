@@ -13,12 +13,8 @@ protocol IHealthKitService {
     var healthStore: HKHealthStore { get }
     var age: Int? { get }
 
-    func getBpmData(startDate: NSDate) -> Future<[BpmEntry], Never>
-}
-
-struct BpmEntry: Equatable, Hashable {
-    let value: Int
-    let timestamp: TimeInterval
+    func getBpmData(startDate: NSDate, endDate: NSDate) -> Future<[BpmEntry], Never>
+    func getBpmDataForWorkout(workout: HKWorkout) -> Future<[BpmEntry], Never>
 }
 
 struct WorkoutNotSpecifiedError: Error {}
@@ -94,12 +90,19 @@ class HealthKitService: IHealthKitService, Authorizable {
         return future
     }
 
-    func getBpmData(startDate: NSDate) -> Future<[BpmEntry], Never> {
-        let endDate = NSDate()
+    func getBpmData(startDate: NSDate, endDate: NSDate) -> Future<[BpmEntry], Never> {
         let predicate = HKQuery.predicateForSamples(
             withStart: startDate as Date, end: endDate as Date?, options: []
         )
+        return getBpmData(for: predicate)
+    }
 
+    func getBpmDataForWorkout(workout: HKWorkout) -> Future<[BpmEntry], Never> {
+        let predicate = HKQuery.predicateForObjects(from: workout)
+        return getBpmData(for: predicate)
+    }
+
+    private func getBpmData(for predicate: NSPredicate) -> Future<[BpmEntry], Never> {
         let sortDescriptors = [NSSortDescriptor(key: HKSampleSortIdentifierEndDate, ascending: true)]
         let future = Future<[BpmEntry], Never>({ [weak self] promise in
             let heartRateQuery = HKSampleQuery(

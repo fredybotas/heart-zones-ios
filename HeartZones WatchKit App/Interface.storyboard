@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder.WatchKit.Storyboard" version="3.0" toolsVersion="19455" targetRuntime="watchKit" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="NBu-mt-KyX">
+<document type="com.apple.InterfaceBuilder.WatchKit.Storyboard" version="3.0" toolsVersion="19529" targetRuntime="watchKit" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="NBu-mt-KyX">
     <device id="watch38"/>
     <dependencies>
         <deployment identifier="watchOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19454"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBWatchKitPlugin" version="19454"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBWatchKitPlugin" version="19514"/>
     </dependencies>
     <scenes>
         <!--HostingControllerWorkoutSelection-->
@@ -52,6 +52,13 @@
                 <hostingController identifier="HostingControllerWorkoutGraph" id="Pga-KD-5D7" customClass="HostingControllerWorkoutGraph" customModule="HeartZones_WatchKit_Extension"/>
             </objects>
             <point key="canvasLocation" x="401" y="228"/>
+        </scene>
+        <!--HostingControllerWorkoutBars-->
+        <scene sceneID="2pg-1t-QHt">
+            <objects>
+                <hostingController identifier="HostingControllerWorkoutBars" id="ZhU-WP-qxU" customClass="HostingControllerWorkoutBars" customModule="HeartZones_WatchKit_Extension"/>
+            </objects>
+            <point key="canvasLocation" x="403" y="521"/>
         </scene>
     </scenes>
 </document>
