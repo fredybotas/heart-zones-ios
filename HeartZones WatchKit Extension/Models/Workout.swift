@@ -23,7 +23,7 @@ struct WorkoutSummaryData {
     let elapsedTime: TimeInterval
     let avgBpm: Int?
     let bpmColor: HeartZone.Color?
-    let timeInTargetZonePercentage: Int
+    let timeInTargetZonePercentage: UInt
     let timeInTargetColor: HeartZone.Color?
     let distance: Measurement<UnitLength>?
     let averagePace: Measurement<UnitSpeed>?
@@ -276,7 +276,7 @@ class Workout: NSObject, IWorkout, HKLiveWorkoutBuilderDelegate, HKWorkoutSessio
             workoutType: workoutType, elapsedTime: getElapsedTime(), avgBpm: avgBpm,
             bpmColor: getBpmColor(avgBpm: avgBpm),
             timeInTargetZonePercentage: zoneStatisticsCalculator
-                .calculatePercentageInTargetZone(entries: getBpmEntries()),
+                .calculatePercentageInTargetZone(segments: getBpmEntries()),
             timeInTargetColor: getTimeInTargetColor(), distance: getRunningDistance(),
             averagePace: getAverageSpeed(), elevationMin: elevationContainer.getMinElevation(),
             elevationMax: elevationContainer.getMaxElevation(),
@@ -285,7 +285,7 @@ class Workout: NSObject, IWorkout, HKLiveWorkoutBuilderDelegate, HKWorkoutSessio
         workoutSummaryPublisher.send(summaryData)
     }
 
-    private func getBpmEntries() -> [BpmEntry] {
+    private func getBpmEntries() -> [BpmEntrySegment] {
 //        healthKitService.getBpmData(
         // TODO:
         return []

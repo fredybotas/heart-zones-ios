@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3F40AEA7279D6EE9004832E7 /* ZoneStatisticsCalculatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F40AEA6279D6EE9004832E7 /* ZoneStatisticsCalculatorTests.swift */; };
 		3F4AC7292795D92D000D556E /* HeartZoneBarsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F4AC7282795D92D000D556E /* HeartZoneBarsView.swift */; };
 		3F4AC72B2795D944000D556E /* HeartZoneBarsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F4AC72A2795D944000D556E /* HeartZoneBarsViewModel.swift */; };
 		3F4C11AB27749A5D008D8E8B /* BpmSegmentProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F4C11AA27749A5D008D8E8B /* BpmSegmentProcessor.swift */; };
@@ -133,6 +134,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		3F40AEA6279D6EE9004832E7 /* ZoneStatisticsCalculatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZoneStatisticsCalculatorTests.swift; sourceTree = "<group>"; };
 		3F4AC7282795D92D000D556E /* HeartZoneBarsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeartZoneBarsView.swift; sourceTree = "<group>"; };
 		3F4AC72A2795D944000D556E /* HeartZoneBarsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeartZoneBarsViewModel.swift; sourceTree = "<group>"; };
 		3F4C11AA27749A5D008D8E8B /* BpmSegmentProcessor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BpmSegmentProcessor.swift; sourceTree = "<group>"; };
@@ -314,6 +316,7 @@
 				B64E5CEE26B1EFBF0087F246 /* HeartZoneStateTests.swift */,
 				3F4C11AC27749B04008D8E8B /* BpmSegmentProcessorTests.swift */,
 				3FBAB1CA27975E7B00CC1E33 /* WorkoutActiveTimeProcessorTests.swift */,
+				3F40AEA6279D6EE9004832E7 /* ZoneStatisticsCalculatorTests.swift */,
 			);
 			path = HeartZonesTests;
 			sourceTree = "<group>";
@@ -753,6 +756,7 @@
 				B63AB83F26983C99007E07E9 /* HeartZoneServiceTests.swift in Sources */,
 				B63AB84526983FE2007E07E9 /* DeviceBeeperMock.swift in Sources */,
 				B661A3F826B572D200E78D8E /* SettingsRepositoryFake.swift in Sources */,
+				3F40AEA7279D6EE9004832E7 /* ZoneStatisticsCalculatorTests.swift in Sources */,
 				3F4C11AD27749B04008D8E8B /* BpmSegmentProcessorTests.swift in Sources */,
 				B6AFC1AD26A5A33400616311 /* HeartZoneSettingsTests.swift in Sources */,
 				B607E15B268E1EA90069FEA4 /* BpmContainerTests.swift in Sources */,

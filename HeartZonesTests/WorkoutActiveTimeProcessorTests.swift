@@ -25,8 +25,8 @@ class WorkoutActiveTimeProcessorTests: XCTestCase {
             endDate: endDate, workoutEvents: []
         )
         XCTAssertEqual(result.count, 1)
-        XCTAssertEqual(result[0].0, startDate)
-        XCTAssertEqual(result[0].1, endDate)
+        XCTAssertEqual(result[0].startDate, startDate)
+        XCTAssertEqual(result[0].endDate, endDate)
     }
 
     func testGetActiveTimeForWorkoutWithOnePauseAndStart() {
@@ -43,10 +43,10 @@ class WorkoutActiveTimeProcessorTests: XCTestCase {
         )
 
         XCTAssertEqual(result.count, 2)
-        XCTAssertEqual(result[0].0, startDate)
-        XCTAssertEqual(result[0].1, referenceDate.addingTimeInterval(-6))
-        XCTAssertEqual(result[1].0, referenceDate.addingTimeInterval(-4))
-        XCTAssertEqual(result[1].1, endDate)
+        XCTAssertEqual(result[0].startDate, startDate)
+        XCTAssertEqual(result[0].endDate, referenceDate.addingTimeInterval(-6))
+        XCTAssertEqual(result[1].startDate, referenceDate.addingTimeInterval(-4))
+        XCTAssertEqual(result[1].endDate, endDate)
     }
 
     func testGetActiveTimeForWorkoutWithoutEnd() {
@@ -59,8 +59,8 @@ class WorkoutActiveTimeProcessorTests: XCTestCase {
         )
 
         XCTAssertEqual(result.count, 1)
-        XCTAssertEqual(result[0].0, startDate)
-        XCTAssertEqual(result[0].1.timeIntervalSince1970, endDate.timeIntervalSince1970, accuracy: 2)
+        XCTAssertEqual(result[0].startDate, startDate)
+        XCTAssertEqual(result[0].endDate.timeIntervalSince1970, endDate.timeIntervalSince1970, accuracy: 2)
     }
 
     func testGetActiveTimeForWorkoutWithOnePause() {
@@ -70,14 +70,13 @@ class WorkoutActiveTimeProcessorTests: XCTestCase {
         let result = sut.getActiveTimeSegmentsForWorkout(
             startDate: Date().addingTimeInterval(-10),
             endDate: Date(), workoutEvents: [
-                WorkoutEvent(type: .pauseWorkout, date: referenceDate.addingTimeInterval(-6)),
+                WorkoutEvent(type: .pauseWorkout, date: referenceDate.addingTimeInterval(-6))
             ]
         )
 
         XCTAssertEqual(result.count, 1)
-        XCTAssertEqual(result[0].0, startDate)
-        XCTAssertEqual(result[0].1, referenceDate.addingTimeInterval(-6))
-
+        XCTAssertEqual(result[0].startDate, startDate)
+        XCTAssertEqual(result[0].endDate, referenceDate.addingTimeInterval(-6))
     }
 
     func testGetActiveTimeForWorkoutWithMultiplePauseAndStart() {
@@ -96,11 +95,53 @@ class WorkoutActiveTimeProcessorTests: XCTestCase {
         )
 
         XCTAssertEqual(result.count, 3)
-        XCTAssertEqual(result[0].0, startDate)
-        XCTAssertEqual(result[0].1, referenceDate.addingTimeInterval(-8))
-        XCTAssertEqual(result[1].0, referenceDate.addingTimeInterval(-6))
-        XCTAssertEqual(result[1].1, referenceDate.addingTimeInterval(-4))
-        XCTAssertEqual(result[2].0, referenceDate.addingTimeInterval(-2))
-        XCTAssertEqual(result[2].1, endDate)
+        XCTAssertEqual(result[0].startDate, startDate)
+        XCTAssertEqual(result[0].endDate, referenceDate.addingTimeInterval(-8))
+        XCTAssertEqual(result[1].startDate, referenceDate.addingTimeInterval(-6))
+        XCTAssertEqual(result[1].endDate, referenceDate.addingTimeInterval(-4))
+        XCTAssertEqual(result[2].startDate, referenceDate.addingTimeInterval(-2))
+        XCTAssertEqual(result[2].endDate, endDate)
+    }
+
+    func testGetActiveTimeForWorkoutWithMultipleResumes() {
+        let referenceDate = Date()
+        let startDate = referenceDate.addingTimeInterval(-10)
+
+        let result = sut.getActiveTimeSegmentsForWorkout(
+            startDate: startDate,
+            endDate: Date(), workoutEvents: [
+                WorkoutEvent(type: .pauseWorkout, date: referenceDate.addingTimeInterval(-8)),
+                WorkoutEvent(type: .resumeWorkout, date: referenceDate.addingTimeInterval(-6)),
+                WorkoutEvent(type: .resumeWorkout, date: referenceDate.addingTimeInterval(-4)),
+                WorkoutEvent(type: .pauseWorkout, date: referenceDate.addingTimeInterval(-2))
+            ]
+        )
+
+        XCTAssertEqual(result.count, 2)
+        XCTAssertEqual(result[0].startDate, startDate)
+        XCTAssertEqual(result[0].endDate, referenceDate.addingTimeInterval(-8))
+        XCTAssertEqual(result[1].startDate, referenceDate.addingTimeInterval(-4))
+        XCTAssertEqual(result[1].endDate, referenceDate.addingTimeInterval(-2))
+    }
+
+    func testGetActiveTimeForWorkoutWithMultiplePauses() {
+        let referenceDate = Date()
+        let startDate = referenceDate.addingTimeInterval(-10)
+        let endDate = referenceDate
+
+        let result = sut.getActiveTimeSegmentsForWorkout(
+            startDate: startDate,
+            endDate: Date(), workoutEvents: [
+                WorkoutEvent(type: .pauseWorkout, date: referenceDate.addingTimeInterval(-8)),
+                WorkoutEvent(type: .pauseWorkout, date: referenceDate.addingTimeInterval(-6)),
+                WorkoutEvent(type: .resumeWorkout, date: referenceDate.addingTimeInterval(-4))
+            ]
+        )
+
+        XCTAssertEqual(result.count, 2)
+        XCTAssertEqual(result[0].startDate, startDate)
+        XCTAssertEqual(result[0].endDate, referenceDate.addingTimeInterval(-8))
+        XCTAssertEqual(result[1].startDate, referenceDate.addingTimeInterval(-4))
+        XCTAssertEqual(result[1].endDate, endDate)
     }
 }

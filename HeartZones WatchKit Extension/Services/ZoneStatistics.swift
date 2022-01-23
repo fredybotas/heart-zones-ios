@@ -8,27 +8,82 @@
 import Foundation
 
 struct ZoneStatistics {
-    let timeInZones: [Int: TimeInterval]
-    let percentagesInZones: [Int: Double]
+    let timeInZones: [HeartZoneID: TimeInterval]
+    let percentagesInZones: [HeartZoneID: UInt]
 }
 
 protocol IZoneStaticticsCalculator {
-    func calculateStatisticsFor(entries: [BpmEntry]) -> ZoneStatistics
-    func calculatePercentageInTargetZone(entries: [BpmEntry]) -> Int
+    func calculateStatisticsFor(segments: [BpmEntrySegment]) -> ZoneStatistics
+    func calculatePercentageInTargetZone(segments: [BpmEntrySegment]) -> UInt
 }
 
 class ZoneStatisticsCalculator: IZoneStaticticsCalculator {
-    let settingsService: ISettingsService
+    private let settingsService: ISettingsService
 
     init(settingsService: ISettingsService) {
         self.settingsService = settingsService
     }
 
-    func calculateStatisticsFor(entries _: [BpmEntry]) -> ZoneStatistics {
-        return ZoneStatistics(timeInZones: [:], percentagesInZones: [:])
+    func calculateStatisticsFor(segments: [BpmEntrySegment]) -> ZoneStatistics {
+        let timeInZones = settingsService
+            .selectedHeartZoneSetting
+            .zones
+            .map { ($0.id, getTimeInZone(segments: segments, zone: $0)) }
+        let percentageInZones = settingsService
+            .selectedHeartZoneSetting
+            .zones
+            .map { ($0.id, getPercentageInZone(segments: segments, zone: $0)) }
+
+        var timeInZonesDict = [HeartZoneID: TimeInterval]()
+        timeInZones.forEach { timeInZonesDict[$0.0] = $0.1 }
+
+        var percentageInZonesDict = [HeartZoneID: UInt]()
+        percentageInZones.forEach { percentageInZonesDict[$0.0] = $0.1 }
+        return ZoneStatistics(timeInZones: timeInZonesDict, percentagesInZones: percentageInZonesDict)
     }
 
-    func calculatePercentageInTargetZone(entries _: [BpmEntry]) -> Int {
-        return 0
+    func calculatePercentageInTargetZone(segments: [BpmEntrySegment]) -> UInt {
+        guard let targetZone = settingsService
+            .selectedHeartZoneSetting
+            .getZoneById(id: settingsService.targetZoneId)
+        else {
+            return 0
+        }
+        return getPercentageInZone(segments: segments, zone: targetZone)
+    }
+
+    private func getPercentageInZone(segments: [BpmEntrySegment], zone: HeartZone) -> UInt {
+        let totalTime = getTotalTime(segments: segments)
+        if totalTime.isZero || totalTime.isNaN || totalTime.isInfinite {
+            return 0
+        }
+        return UInt(getTimeInZone(segments: segments, zone: zone) * 100 / getTotalTime(segments: segments))
+    }
+
+    private func getTimeInZone(segments: [BpmEntrySegment], zone: HeartZone) -> TimeInterval {
+        // TODO: Implement
+        let bpmRange = zone.getBpmRange(maxBpm: settingsService.maximumBpm)
+        var totalTimeInZone = 0.0
+        for segment in segments {
+            var prevTimestamp = segment.startDate.timeIntervalSince1970
+            for entry in segment.entries {
+                if bpmRange.contains(entry.value) {
+                    totalTimeInZone += (entry.timestamp - prevTimestamp)
+                }
+                prevTimestamp = entry.timestamp
+            }
+            if let last = segment.entries.last {
+                if bpmRange.contains(last.value) {
+                    totalTimeInZone += (segment.endDate.timeIntervalSince1970 - prevTimestamp)
+                }
+            }
+        }
+        return totalTimeInZone
+    }
+
+    private func getTotalTime(segments: [BpmEntrySegment]) -> TimeInterval {
+        return segments
+            .map { $0.endDate.timeIntervalSince1970 - $0.startDate.timeIntervalSince1970 }
+            .reduce(0) { $0 + $1 }
     }
 }

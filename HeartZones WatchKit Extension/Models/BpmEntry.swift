@@ -11,3 +11,15 @@ struct BpmEntry: Equatable, Hashable {
     let value: Int
     let timestamp: TimeInterval
 }
+
+class BpmEntrySegment {
+    let startDate: Date
+    let endDate: Date
+    let entries: [BpmEntry]
+
+    init(startDate: Date, endDate: Date, entries: [BpmEntry]) {
+        self.startDate = startDate
+        self.endDate = endDate
+        self.entries = entries
+    }
+}

@@ -60,7 +60,7 @@ struct HeartZonesSetting: Codable, Hashable {
         return 220 - age
     }
 
-    func getZoneById(id: Int) -> HeartZone? {
+    func getZoneById(id: HeartZoneID) -> HeartZone? {
         return zones.filter { $0.id == id }.first
     }
 
@@ -90,7 +90,7 @@ struct HeartZonesSetting: Codable, Hashable {
         ])
     }
 
-    mutating func setTargetZone(targetZoneId: Int) {
+    mutating func setTargetZone(targetZoneId: HeartZoneID) {
         for i in 0 ..< zones.count {
             zones[i].target = false
             if zones[i].id == targetZoneId {
@@ -99,6 +99,8 @@ struct HeartZonesSetting: Codable, Hashable {
         }
     }
 }
+
+typealias HeartZoneID = Int
 
 struct HeartZone: Equatable, Hashable, Identifiable, Codable {
     struct Color: Equatable, Hashable, Codable {
@@ -111,7 +113,7 @@ struct HeartZone: Equatable, Hashable, Identifiable, Codable {
         }
     }
 
-    let id: Int
+    let id: HeartZoneID
     let name: String
     let bpmRangePercentage: ClosedRange<Int>
     let color: Color
@@ -143,6 +145,10 @@ struct HeartZone: Equatable, Hashable, Identifiable, Codable {
         let first = getZoneMinBpm(maxBpm: maxBpm)
         let last = getZoneMaxBpm(maxBpm: maxBpm)
         return bpm <= last && bpm >= first
+    }
+
+    func sampleBpm(maximumBpm: Int) -> Int {
+        return Int.random(in: getBpmRange(maxBpm: maximumBpm))
     }
 
     func getBpmRange(maxBpm: Int) -> ClosedRange<Int> {
