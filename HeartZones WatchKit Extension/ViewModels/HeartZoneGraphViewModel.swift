@@ -59,7 +59,7 @@ class HeartZoneGraphViewModel: ObservableObject {
         self.settingsService = settingsService
         self.workoutService = workoutService
         segmentProcessor = BpmSegmentProcessor(settingsService: settingsService)
-        refreshTimer = Timer.publish(every: 5, on: .main, in: .common)
+        refreshTimer = Timer.publish(every: 10, on: .main, in: .common)
             .autoconnect()
             .sink { [weak self] _ in
                 self?.getBpmData()
@@ -75,16 +75,17 @@ class HeartZoneGraphViewModel: ObservableObject {
     }
 
     private func getBpmData() {
-        guard let elapsedTime = workoutService.getActiveWorkoutElapsedTime() else {
+        guard let startDate = workoutService.getActiveWorkoutStartDate() else {
             return
         }
+        let elapsedTime = -startDate.timeIntervalSinceNow
         var timeToShow: TimeInterval = elapsedTime
         if elapsedTime > kMinimumGraphInterval {
             timeToShow = ((elapsedTime - kMinimumGraphInterval) * crown) + kMinimumGraphInterval
         }
         bpmCancellable = healthKit
             .getBpmData(startDate: Date(timeIntervalSinceNow: -timeToShow) as NSDate, endDate: NSDate())
-            .receive(on: DispatchQueue.main)
+            .receive(on: DispatchQueue.global(qos: .userInteractive))
             .sink(receiveValue: { [weak self, timeToShow] val in
                 self?.processBpmValues(bpmEntries: val, duration: timeToShow)
             })
@@ -136,25 +137,32 @@ class HeartZoneGraphViewModel: ObservableObject {
     }
 
     private func processBpmValues(bpmEntries: [BpmEntry], duration: TimeInterval) {
-        bpmTimeInterval = (bpmEntries.last?.timestamp ?? 0) - (bpmEntries.first?.timestamp ?? 0)
-        bpmMinTimestamp = bpmEntries.first?.timestamp ?? 0
-        bpmMaxTimestamp = bpmEntries.last?.timestamp ?? 0
-        bpmMin = bpmEntries.min(by: { $0.value < $1.value })?.value ?? 0
-        bpmMax = bpmEntries.max(by: { $0.value < $1.value })?.value ?? 0
-        if bpmMax - bpmMin < 40 {
-            let diff = bpmMax - bpmMin
-            let toAdd = (60 - diff) / 2
-            bpmMin -= toAdd
-            bpmMax += toAdd
+        let min = bpmEntries.min(by: { $0.value < $1.value })?.value ?? 0
+        let max = bpmEntries.max(by: { $0.value < $1.value })?.value ?? 0
+        let processedBpms = segmentProcessor.processBpmEntries(bpmEntries: bpmEntries)
+        // TODO: Refactor, move to method
+        DispatchQueue.main.async { [weak self] in
+            guard let strongSelf = self else { return }
+            strongSelf.bpmTimeInterval = (bpmEntries.last?.timestamp ?? 0) - (bpmEntries.first?.timestamp ?? 0)
+            strongSelf.bpmMinTimestamp = bpmEntries.first?.timestamp ?? 0
+            strongSelf.bpmMaxTimestamp = bpmEntries.last?.timestamp ?? 0
+            strongSelf.bpmMin = min
+            strongSelf.bpmMax = max
+            if strongSelf.bpmMax - strongSelf.bpmMin < 40 {
+                let diff = strongSelf.bpmMax - strongSelf.bpmMin
+                let toAdd = (60 - diff) / 2
+                strongSelf.bpmMin -= toAdd
+                strongSelf.bpmMax += toAdd
+            }
+            strongSelf.setZoneMargins(bpmEntries: bpmEntries)
+
+            if bpmEntries.count > 10 {
+                strongSelf.showLoadingScreen = false
+            }
+
+            strongSelf.bpms = processedBpms
+
+            strongSelf.setBpmDurationInterval(duration: duration)
         }
-        setZoneMargins(bpmEntries: bpmEntries)
-
-        if bpmEntries.count > 10 {
-            showLoadingScreen = false
-        }
-
-        bpms = segmentProcessor.processBpmEntries(bpmEntries: bpmEntries)
-
-        setBpmDurationInterval(duration: duration)
     }
 }

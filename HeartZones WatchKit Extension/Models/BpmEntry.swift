@@ -5,6 +5,7 @@
 //  Created by Michal Manak - personal on 17/01/2022.
 //
 
+import Combine
 import Foundation
 
 struct BpmEntry: Equatable, Hashable {
@@ -15,11 +16,31 @@ struct BpmEntry: Equatable, Hashable {
 class BpmEntrySegment {
     let startDate: Date
     let endDate: Date
-    let entries: [BpmEntry]
+    var entries: [BpmEntry]?
+    var entriesPromise: AnyCancellable?
 
-    init(startDate: Date, endDate: Date, entries: [BpmEntry]) {
+    convenience init(startDate: Date, endDate: Date, entries: [BpmEntry]) {
+        self.init(startDate: startDate, endDate: endDate)
+        self.entries = entries
+    }
+
+    init(startDate: Date, endDate: Date) {
         self.startDate = startDate
         self.endDate = endDate
-        self.entries = entries
+    }
+
+    func fillEntries(healthKitService: IHealthKitService) {
+        let group = DispatchGroup()
+        group.enter()
+        entriesPromise = healthKitService.getBpmData(
+            startDate: startDate as NSDate,
+            endDate: endDate as NSDate
+        )
+        .sink(
+            receiveValue: { [weak self, group] val in
+                self?.entries = val
+                group.leave()
+            })
+        group.wait()
     }
 }

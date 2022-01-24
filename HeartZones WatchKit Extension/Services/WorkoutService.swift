@@ -18,9 +18,11 @@ protocol IWorkoutService {
     func pauseActiveWorkout()
     func resumeActiveWorkout()
     func getActiveWorkoutElapsedTime() -> TimeInterval?
+    func getActiveWorkoutStartDate() -> Date?
     func getActiveWorkoutDataPublisher() -> WorkoutDataChangePublishers?
     func getActiveWorkoutSummaryPublisher() -> AnyPublisher<WorkoutSummaryData?, Never>?
     func getWorkoutStatePublisher() -> AnyPublisher<WorkoutState, Never>
+    func getActiveWorkoutZoneStatistics() -> ZoneStatistics?
 }
 
 enum WorkoutState {
@@ -110,6 +112,24 @@ class WorkoutService: IWorkoutService {
         }
 
         return activeWorkout.getElapsedTime()
+    }
+
+    func getActiveWorkoutStartDate() -> Date? {
+        guard let activeWorkout = activeWorkout else {
+            print("There is not active workout while fetching start date")
+            return nil
+        }
+
+        return activeWorkout.getStartTime()
+    }
+
+    func getActiveWorkoutZoneStatistics() -> ZoneStatistics? {
+        guard let activeWorkout = activeWorkout else {
+            print("There is not active workout while fetching workout statistics")
+            return nil
+        }
+
+        return activeWorkout.getWorkoutZoneStatistics()
     }
 
     func getActiveWorkoutDataPublisher() -> WorkoutDataChangePublishers? {

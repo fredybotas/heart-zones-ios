@@ -68,8 +68,8 @@ class WorkoutActiveTimeProcessorTests: XCTestCase {
         let startDate = referenceDate.addingTimeInterval(-10)
 
         let result = sut.getActiveTimeSegmentsForWorkout(
-            startDate: Date().addingTimeInterval(-10),
-            endDate: Date(), workoutEvents: [
+            startDate: startDate,
+            endDate: referenceDate, workoutEvents: [
                 WorkoutEvent(type: .pauseWorkout, date: referenceDate.addingTimeInterval(-6))
             ]
         )

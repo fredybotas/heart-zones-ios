@@ -52,6 +52,8 @@ protocol IWorkout {
     func saveWorkout() throws
     func discardWorkout() throws
     func getElapsedTime() -> TimeInterval
+    func getStartTime() -> Date?
+    func getWorkoutZoneStatistics() -> ZoneStatistics
 }
 
 // swiftlint:disable:next type_body_length
@@ -92,6 +94,8 @@ class Workout: NSObject, IWorkout, HKLiveWorkoutBuilderDelegate, HKWorkoutSessio
     private let zoneStatisticsCalculator: IZoneStaticticsCalculator
 
     private let healthKitService: IHealthKitService
+    private let workoutActiveTimeProcessor: WorkoutActiveTimeProcessor
+
     private var activeWorkoutSession: HKWorkoutSession?
 
     private var locationDataPublisher: AnyCancellable?
@@ -123,7 +127,7 @@ class Workout: NSObject, IWorkout, HKLiveWorkoutBuilderDelegate, HKWorkoutSessio
         configuration = workoutType.getConfiguration()
         self.settingsService = settingsService
         self.zoneStatisticsCalculator = zoneStatisticsCalculator
-
+        workoutActiveTimeProcessor = WorkoutActiveTimeProcessor()
         super.init()
     }
 
@@ -156,21 +160,6 @@ class Workout: NSObject, IWorkout, HKLiveWorkoutBuilderDelegate, HKWorkoutSessio
             return []
         }
         return events
-    }
-
-    private func getWorkoutTimeSegments() -> [(Date, Date)] {
-        guard let startTime = activeWorkoutSession?.associatedWorkoutBuilder().startDate else {
-            return []
-        }
-        let pauseAndResumeEvents = getWorkoutEvents()
-            .filter { $0.type == HKWorkoutEventType.pause || $0.type == HKWorkoutEventType.resume }
-        var result = [(Date, Date)]()
-        var prevDate = startTime
-        for event in pauseAndResumeEvents {
-            result.append((prevDate, event.dateInterval.start))
-            prevDate = event.dateInterval.start
-        }
-        return result
     }
 
     private func setLocationHarvesting() {
@@ -259,9 +248,11 @@ class Workout: NSObject, IWorkout, HKLiveWorkoutBuilderDelegate, HKWorkoutSessio
         activeWorkoutSession?.end()
         activeWorkoutSession?.associatedWorkoutBuilder().endCollection(withEnd: currentDate) { [weak self] success, _ in
             self?.state = .stopped
-            self?.prepareWorkoutSummary()
             guard success else {
                 return
+            }
+            DispatchQueue.global(qos: .userInteractive).async { [weak self] in
+                self?.prepareWorkoutSummary()
             }
         }
     }
@@ -285,10 +276,28 @@ class Workout: NSObject, IWorkout, HKLiveWorkoutBuilderDelegate, HKWorkoutSessio
         workoutSummaryPublisher.send(summaryData)
     }
 
+    func getWorkoutZoneStatistics() -> ZoneStatistics {
+        return zoneStatisticsCalculator.calculateStatisticsFor(segments: getBpmEntries())
+    }
+
     private func getBpmEntries() -> [BpmEntrySegment] {
-//        healthKitService.getBpmData(
-        // TODO:
-        return []
+        guard let startTime = activeWorkoutSession?.associatedWorkoutBuilder().startDate else {
+            return []
+        }
+        let endTime = activeWorkoutSession?.associatedWorkoutBuilder().endDate
+        let pauseAndResumeEvents = getWorkoutEvents()
+            .filter { $0.type == HKWorkoutEventType.pause || $0.type == HKWorkoutEventType.resume }
+        let segments = workoutActiveTimeProcessor
+            .getActiveTimeSegmentsForWorkout(
+                startDate: startTime,
+                endDate: endTime,
+                workoutEvents: pauseAndResumeEvents.map {
+                    WorkoutEvent(type: $0.type == HKWorkoutEventType.pause ? .pauseWorkout : .resumeWorkout,
+                                 date: $0.dateInterval.end)
+                }
+            )
+        segments.forEach { $0.fillEntries(healthKitService: healthKitService) }
+        return segments
     }
 
     private func getBpmColor(avgBpm: Int?) -> HeartZone.Color? {
@@ -347,6 +356,10 @@ class Workout: NSObject, IWorkout, HKLiveWorkoutBuilderDelegate, HKWorkoutSessio
             return 0.0
         }
         return activeWorkoutSession.associatedWorkoutBuilder().elapsedTime
+    }
+
+    func getStartTime() -> Date? {
+        return activeWorkoutSession?.associatedWorkoutBuilder().startDate
     }
 
     private func shouldSaveWorkout() -> Bool {

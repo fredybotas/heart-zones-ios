@@ -16,24 +16,19 @@ struct WorkoutEvent {
     let date: Date
 }
 
-struct WorkoutActiveTimeSegment {
-    let startDate: Date
-    let endDate: Date
-}
-
 class WorkoutActiveTimeProcessor {
     func getActiveTimeSegmentsForWorkout(
         startDate: Date,
         endDate: Date?,
         workoutEvents: [WorkoutEvent]
-    ) -> [WorkoutActiveTimeSegment] {
+    ) -> [BpmEntrySegment] {
         let endDate: Date = endDate != nil ? endDate! : Date()
-        var result = [WorkoutActiveTimeSegment]()
+        var result = [BpmEntrySegment]()
         var prevStart: Date? = startDate
         for event in workoutEvents {
             if event.type == .pauseWorkout {
                 if let prevStartUnwrapped = prevStart {
-                    let segment = WorkoutActiveTimeSegment(startDate: prevStartUnwrapped, endDate: event.date)
+                    let segment = BpmEntrySegment(startDate: prevStartUnwrapped, endDate: event.date)
                     result.append(segment)
                     prevStart = nil
                 }
@@ -42,7 +37,7 @@ class WorkoutActiveTimeProcessor {
             }
         }
         if let prevStart = prevStart {
-            result.append(WorkoutActiveTimeSegment(startDate: prevStart, endDate: endDate))
+            result.append(BpmEntrySegment(startDate: prevStart, endDate: endDate))
         }
         return result
     }

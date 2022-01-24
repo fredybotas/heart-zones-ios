@@ -64,6 +64,20 @@ class SettingsServiceFake: ISettingsService {
 struct HeartZoneBarsView_Previews: PreviewProvider {
     static var previews: some View {
         HeartZoneBarsView(heartZoneBarsViewModel: HeartZoneBarsViewModel(
-            settingsService: SettingsServiceFake()))
+            settingsService:
+            SettingsServiceFake(),
+            workoutService: WorkoutService(
+                locationManager: LocationManager(),
+                healthKitService: HealthKitService(),
+                settingsService: SettingsService(
+                    settingsRepository: SettingsRepository(),
+                    healthKitService: HealthKitService()
+                ),
+                zoneStatisticsCalculator: ZoneStatisticsCalculator(
+                    settingsService:
+                    SettingsService(settingsRepository: SettingsRepository(),
+                                    healthKitService: HealthKitService()))
+            )
+        ))
     }
 }

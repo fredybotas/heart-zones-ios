@@ -21,6 +21,14 @@ class WorkoutServiceFake: IWorkoutService {
     func resumeActiveWorkout() {}
     func getActiveWorkoutElapsedTime() -> TimeInterval? { return nil }
 
+    func getActiveWorkoutStartDate() -> Date? {
+        return Date()
+    }
+
+    func getActiveWorkoutZoneStatistics() -> ZoneStatistics? {
+        return ZoneStatistics(timeInZones: [:], percentagesInZones: [:], totalTime: 0)
+    }
+
     func sendBpmChange(bpm: Int) {
         dataPublishers.bpmPublisher.send(bpm)
     }

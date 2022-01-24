@@ -181,7 +181,8 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
             HeartZoneBarsViewModel.self,
             factory: { resolver in
                 let settingsService = resolver.resolve(SettingsService.self)!
-                return HeartZoneBarsViewModel(settingsService: settingsService)
+                let workoutService = resolver.resolve(WorkoutService.self)!
+                return HeartZoneBarsViewModel(settingsService: settingsService, workoutService: workoutService)
             }
         )
 

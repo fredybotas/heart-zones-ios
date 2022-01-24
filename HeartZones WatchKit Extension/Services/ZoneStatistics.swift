@@ -10,6 +10,7 @@ import Foundation
 struct ZoneStatistics {
     let timeInZones: [HeartZoneID: TimeInterval]
     let percentagesInZones: [HeartZoneID: UInt]
+    let totalTime: TimeInterval
 }
 
 protocol IZoneStaticticsCalculator {
@@ -39,7 +40,11 @@ class ZoneStatisticsCalculator: IZoneStaticticsCalculator {
 
         var percentageInZonesDict = [HeartZoneID: UInt]()
         percentageInZones.forEach { percentageInZonesDict[$0.0] = $0.1 }
-        return ZoneStatistics(timeInZones: timeInZonesDict, percentagesInZones: percentageInZonesDict)
+        return ZoneStatistics(
+            timeInZones: timeInZonesDict,
+            percentagesInZones: percentageInZonesDict,
+            totalTime: getTotalTime(segments: segments)
+        )
     }
 
     func calculatePercentageInTargetZone(segments: [BpmEntrySegment]) -> UInt {
@@ -57,22 +62,22 @@ class ZoneStatisticsCalculator: IZoneStaticticsCalculator {
         if totalTime.isZero || totalTime.isNaN || totalTime.isInfinite {
             return 0
         }
-        return UInt(getTimeInZone(segments: segments, zone: zone) * 100 / getTotalTime(segments: segments))
+        return UInt(getTimeInZone(segments: segments, zone: zone) * 100 / totalTime)
     }
 
     private func getTimeInZone(segments: [BpmEntrySegment], zone: HeartZone) -> TimeInterval {
-        // TODO: Implement
         let bpmRange = zone.getBpmRange(maxBpm: settingsService.maximumBpm)
         var totalTimeInZone = 0.0
         for segment in segments {
             var prevTimestamp = segment.startDate.timeIntervalSince1970
-            for entry in segment.entries {
+            guard let segmentEntries = segment.entries else { continue }
+            for entry in segmentEntries {
                 if bpmRange.contains(entry.value) {
                     totalTimeInZone += (entry.timestamp - prevTimestamp)
                 }
                 prevTimestamp = entry.timestamp
             }
-            if let last = segment.entries.last {
+            if let last = segmentEntries.last {
                 if bpmRange.contains(last.value) {
                     totalTimeInZone += (segment.endDate.timeIntervalSince1970 - prevTimestamp)
                 }
