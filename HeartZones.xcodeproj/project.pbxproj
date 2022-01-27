@@ -50,6 +50,7 @@
 		B650A96D26888AD10042B33D /* Workout.swift in Sources */ = {isa = PBXBuildFile; fileRef = B650A96C26888AD10042B33D /* Workout.swift */; };
 		B650A96F2688955F0042B33D /* HeartZone.swift in Sources */ = {isa = PBXBuildFile; fileRef = B650A96E2688955F0042B33D /* HeartZone.swift */; };
 		B650A971268895800042B33D /* HeartZoneService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B650A970268895800042B33D /* HeartZoneService.swift */; };
+		B658B0F927A168F00009965E /* ZoneStatisticsTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = B658B0F827A168F00009965E /* ZoneStatisticsTest.swift */; };
 		B6607B2526AC40C400C0C0EE /* AuthorizationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B62DDBE026AC22A5001D3D26 /* AuthorizationManager.swift */; };
 		B6607B2726AC4CB700C0C0EE /* AuthorizableFake.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6607B2626AC4CB700C0C0EE /* AuthorizableFake.swift */; };
 		B661A3EF26B536D200E78D8E /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B661A3EE26B536D200E78D8E /* SettingsView.swift */; };
@@ -186,6 +187,7 @@
 		B650A96C26888AD10042B33D /* Workout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Workout.swift; sourceTree = "<group>"; };
 		B650A96E2688955F0042B33D /* HeartZone.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeartZone.swift; sourceTree = "<group>"; };
 		B650A970268895800042B33D /* HeartZoneService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeartZoneService.swift; sourceTree = "<group>"; };
+		B658B0F827A168F00009965E /* ZoneStatisticsTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZoneStatisticsTest.swift; sourceTree = "<group>"; };
 		B6607B2626AC4CB700C0C0EE /* AuthorizableFake.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizableFake.swift; sourceTree = "<group>"; };
 		B661A3EE26B536D200E78D8E /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		B661A3F126B5622000E78D8E /* SettingsRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsRepository.swift; sourceTree = "<group>"; };
@@ -317,6 +319,7 @@
 				3F4C11AC27749B04008D8E8B /* BpmSegmentProcessorTests.swift */,
 				3FBAB1CA27975E7B00CC1E33 /* WorkoutActiveTimeProcessorTests.swift */,
 				3F40AEA6279D6EE9004832E7 /* ZoneStatisticsCalculatorTests.swift */,
+				B658B0F827A168F00009965E /* ZoneStatisticsTest.swift */,
 			);
 			path = HeartZonesTests;
 			sourceTree = "<group>";
@@ -759,6 +762,7 @@
 				3F40AEA7279D6EE9004832E7 /* ZoneStatisticsCalculatorTests.swift in Sources */,
 				3F4C11AD27749B04008D8E8B /* BpmSegmentProcessorTests.swift in Sources */,
 				B6AFC1AD26A5A33400616311 /* HeartZoneSettingsTests.swift in Sources */,
+				B658B0F927A168F00009965E /* ZoneStatisticsTest.swift in Sources */,
 				B607E15B268E1EA90069FEA4 /* BpmContainerTests.swift in Sources */,
 				B6AFC1AB26A5A03E00616311 /* BeepingServiceTests.swift in Sources */,
 				B6B14A7126B68B65003CAF97 /* SettingsServiceFake.swift in Sources */,

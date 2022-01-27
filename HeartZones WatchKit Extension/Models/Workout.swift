@@ -23,7 +23,7 @@ struct WorkoutSummaryData {
     let elapsedTime: TimeInterval
     let avgBpm: Int?
     let bpmColor: HeartZone.Color?
-    let timeInTargetZonePercentage: UInt
+    let timeInTargetZonePercentage: Double
     let timeInTargetColor: HeartZone.Color?
     let distance: Measurement<UnitLength>?
     let averagePace: Measurement<UnitSpeed>?

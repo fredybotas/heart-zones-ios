@@ -15,7 +15,8 @@ struct HeartZoneBarViewModel: Hashable {
 
     init(color: Color, percentage: UInt) {
         self.color = color
-        self.percentage = Double(percentage) / 100.0
+        let percentageDouble = Double(percentage) / 100.0
+        self.percentage = percentageDouble <= 0.15 ? 0.15 : percentageDouble
         percentageString = String(percentage) + "%"
     }
 }
@@ -48,7 +49,7 @@ class HeartZoneBarsViewModel: ObservableObject {
 
     private func refreshBars() {
         guard let statistics = workoutService.getActiveWorkoutZoneStatistics() else { return }
-
+        let smoothedPercentages = statistics.getSmoothedPercentagesInZones()
         DispatchQueue.main.async { [weak self, settingsService] in
             self?.bars = settingsService
                 .selectedHeartZoneSetting
@@ -56,7 +57,7 @@ class HeartZoneBarsViewModel: ObservableObject {
                 .map {
                     HeartZoneBarViewModel(
                         color: $0.color.toColor(),
-                        percentage: statistics.percentagesInZones[$0.id] ?? 0
+                        percentage: smoothedPercentages[$0.id] ?? 0
                     )
                 }
         }

@@ -148,7 +148,8 @@ struct HeartZone: Equatable, Hashable, Identifiable, Codable {
     }
 
     func sampleBpm(maximumBpm: Int) -> Int {
-        return Int.random(in: getBpmRange(maxBpm: maximumBpm))
+        let range = getBpmRange(maxBpm: maximumBpm)
+        return Int.random(in: range.lowerBound ..< range.upperBound)
     }
 
     func getBpmRange(maxBpm: Int) -> ClosedRange<Int> {

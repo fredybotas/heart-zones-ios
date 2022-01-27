@@ -34,7 +34,7 @@ class ZoneStatisticsCalculatorTests: XCTestCase {
         ])
 
         XCTAssertEqual(result.timeInZones[zone.id], endDate.timeIntervalSince1970 - startDate.timeIntervalSince1970)
-        XCTAssertEqual(result.percentagesInZones[zone.id], 100)
+        XCTAssertEqual(result.percentagesInZones[zone.id], 1)
     }
 
     func testGetStatisticsForOneSegmentInDifferentZones() {
@@ -53,8 +53,8 @@ class ZoneStatisticsCalculatorTests: XCTestCase {
         ])
         XCTAssertEqual(result.timeInZones[zone1.id], 2)
         XCTAssertEqual(result.timeInZones[zone2.id], 8)
-        XCTAssertEqual(result.percentagesInZones[zone1.id], 20)
-        XCTAssertEqual(result.percentagesInZones[zone2.id], 80)
+        XCTAssertEqual(result.percentagesInZones[zone1.id], 0.2)
+        XCTAssertEqual(result.percentagesInZones[zone2.id], 0.8)
     }
 
     func testGetStatisticsForTwoSegmentInSameZone() {
@@ -81,7 +81,7 @@ class ZoneStatisticsCalculatorTests: XCTestCase {
         XCTAssertEqual(result.timeInZones[zone.id],
                        (endDateSegment1.timeIntervalSince1970 - startDateSegment1.timeIntervalSince1970) +
                            (endDateSegment2.timeIntervalSince1970 - startDateSegment2.timeIntervalSince1970))
-        XCTAssertEqual(result.percentagesInZones[zone.id], 100)
+        XCTAssertEqual(result.percentagesInZones[zone.id], 1)
     }
 
     func testGetStatisticsForTwoSegmentInDifferentZones() {
@@ -112,7 +112,7 @@ class ZoneStatisticsCalculatorTests: XCTestCase {
         XCTAssertEqual(result.timeInZones[zone2.id],
                        endDateSegment2.timeIntervalSince1970 - startDateSegment2.timeIntervalSince1970)
 
-        XCTAssertEqual(result.percentagesInZones[zone1.id], 50)
-        XCTAssertEqual(result.percentagesInZones[zone2.id], 50)
+        XCTAssertEqual(result.percentagesInZones[zone1.id], 0.5)
+        XCTAssertEqual(result.percentagesInZones[zone2.id], 0.5)
     }
 }

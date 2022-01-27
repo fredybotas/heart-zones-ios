@@ -11,15 +11,16 @@ struct HeartZoneBarView: View {
     let color: Color
     let leftText: String
     var body: some View {
-        ZStack {
+        ZStack(alignment: .leading) {
             RoundedRectangle(cornerRadius: 8)
                 .foregroundColor(color)
             HStack(spacing: 0) {
                 Text(leftText)
                     .font(.footnote)
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.75)
                     .frame(alignment: .leading)
-                    .padding([.leading], -4)
-                Spacer()
+                    .padding(-4)
             }
             .padding([.leading, .trailing], 8)
         }

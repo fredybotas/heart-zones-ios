@@ -48,7 +48,7 @@ class SummaryDataProcessingStrategy: ISummaryDataProcessingStrategy {
         }
         let percentageSummaryUnit = SummaryUnit(
             name: kTimeInTargetZoneString,
-            values: [String(workoutSummaryData.timeInTargetZonePercentage)], unit: "%",
+            values: [String(UInt(workoutSummaryData.timeInTargetZonePercentage * 100))], unit: "%",
             color: workoutSummaryData.timeInTargetColor?.toColor()
         )
         return SummaryRow(left: bpmUnit, right: percentageSummaryUnit)
