@@ -18,7 +18,7 @@ struct HeartZoneBarView: View {
                 Text(leftText)
                     .font(.footnote)
                     .lineLimit(1)
-                    .minimumScaleFactor(0.75)
+                    .minimumScaleFactor(0.5)
                     .frame(alignment: .leading)
                     .padding(-4)
             }
@@ -35,11 +35,14 @@ struct HeartZoneBarsView: View {
             VStack(alignment: .leading, spacing: 8) {
                 ForEach(heartZoneBarsViewModel.bars, id: \.self) { bar in
                     HeartZoneBarView(color: bar.color, leftText: bar.percentageString)
-                        .frame(width: bar.percentage * (geo.size.width - 10), height: 30)
+                        .frame(width: bar.percentage * (geo.size.width - 10),
+                               height: (geo.size.height - 35) / CGFloat(heartZoneBarsViewModel.bars.count))
                 }
             }
             .padding(5)
         }
+        .onAppear(perform: { self.heartZoneBarsViewModel.isScreenVisible = true })
+        .onDisappear(perform: { self.heartZoneBarsViewModel.isScreenVisible = false })
     }
 }
 

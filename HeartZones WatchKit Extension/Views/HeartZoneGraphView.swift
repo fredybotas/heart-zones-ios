@@ -68,6 +68,10 @@ struct HeartZoneGraphView: View {
         if heartZoneGraphViewModel.showLoadingScreen {
             Text("Waiting for more data")
                 .foregroundColor(.gray)
+                .lineLimit(1)
+                .minimumScaleFactor(0.5)
+                .onAppear(perform: { self.heartZoneGraphViewModel.isScreenVisible = true })
+                .onDisappear(perform: { self.heartZoneGraphViewModel.isScreenVisible = false })
         } else {
             GeometryReader { geo in
                 Text(self.heartZoneGraphViewModel.bpmTimeDuration)
@@ -108,7 +112,7 @@ struct HeartZoneGraphView: View {
                         )
                     }
                     .stroke(
-                        bpm.color.toColor(), style: StrokeStyle(lineWidth: 2.0, lineCap: .butt, lineJoin: .round)
+                        bpm.color.toColor(), style: StrokeStyle(lineWidth: 2.5, lineCap: .butt, lineJoin: .round)
                     )
                 }
                 .id(UUID())
@@ -116,9 +120,11 @@ struct HeartZoneGraphView: View {
             .focusable(true)
             .digitalCrownRotation(
                 $heartZoneGraphViewModel.crown, from: kMinimumCrownValue,
-                through: kMaximumCrownValue, by: 0.1, sensitivity: .medium,
+                through: kMaximumCrownValue, by: 0.1, sensitivity: .low,
                 isContinuous: false, isHapticFeedbackEnabled: false
             )
+            .onAppear(perform: { self.heartZoneGraphViewModel.isScreenVisible = true })
+            .onDisappear(perform: { self.heartZoneGraphViewModel.isScreenVisible = false })
         }
     }
 }

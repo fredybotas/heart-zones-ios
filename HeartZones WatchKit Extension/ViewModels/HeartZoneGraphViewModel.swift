@@ -45,6 +45,8 @@ class HeartZoneGraphViewModel: ObservableObject {
     @Published var crown: Double = 0
     @Published var showLoadingScreen = true
 
+    @Published var isScreenVisible = false
+
     var cancellables = Set<AnyCancellable>()
 
     private var refreshTimer: AnyCancellable?
@@ -59,12 +61,6 @@ class HeartZoneGraphViewModel: ObservableObject {
         self.settingsService = settingsService
         self.workoutService = workoutService
         segmentProcessor = BpmSegmentProcessor(settingsService: settingsService)
-        refreshTimer = Timer.publish(every: 10, on: .main, in: .common)
-            .autoconnect()
-            .sink { [weak self] _ in
-                self?.getBpmData()
-            }
-        getBpmData()
 
         $crown
             .debounce(for: .seconds(0.2), scheduler: RunLoop.main, options: nil)
@@ -72,6 +68,29 @@ class HeartZoneGraphViewModel: ObservableObject {
                 self?.getBpmData()
             }
             .store(in: &cancellables)
+
+        $isScreenVisible
+            .sink { [weak self] visible in
+                if visible {
+                    self?.startTimer()
+                } else {
+                    self?.stopTimer()
+                }
+            }
+            .store(in: &cancellables)
+    }
+
+    private func startTimer() {
+        refreshTimer = Timer.publish(every: 10, on: .main, in: .common)
+            .autoconnect()
+            .sink { [weak self] _ in
+                self?.getBpmData()
+            }
+        getBpmData()
+    }
+
+    private func stopTimer() {
+        refreshTimer = nil
     }
 
     private func getBpmData() {

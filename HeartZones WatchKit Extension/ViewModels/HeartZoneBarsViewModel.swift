@@ -23,10 +23,13 @@ struct HeartZoneBarViewModel: Hashable {
 
 class HeartZoneBarsViewModel: ObservableObject {
     @Published var bars: [HeartZoneBarViewModel]
+    @Published var isScreenVisible = false
 
     let settingsService: ISettingsService
     let workoutService: IWorkoutService
     var timer: AnyCancellable?
+
+    var cancellables = Set<AnyCancellable>()
 
     init(settingsService: ISettingsService, workoutService: IWorkoutService) {
         self.settingsService = settingsService
@@ -37,6 +40,19 @@ class HeartZoneBarsViewModel: ObservableObject {
             .map {
                 HeartZoneBarViewModel(color: $0.color.toColor(), percentage: 0)
             }
+
+        $isScreenVisible
+            .sink { [weak self] visible in
+                if visible {
+                    self?.startTimer()
+                } else {
+                    self?.stopTimer()
+                }
+            }
+            .store(in: &cancellables)
+    }
+
+    private func startTimer() {
         timer = Timer
             .publish(every: 10, on: RunLoop.main, in: .common)
             .autoconnect()
@@ -45,6 +61,13 @@ class HeartZoneBarsViewModel: ObservableObject {
                     self?.refreshBars()
                 }
             })
+        DispatchQueue.global(qos: .userInteractive).async { [weak self] in
+            self?.refreshBars()
+        }
+    }
+
+    private func stopTimer() {
+        timer = nil
     }
 
     private func refreshBars() {

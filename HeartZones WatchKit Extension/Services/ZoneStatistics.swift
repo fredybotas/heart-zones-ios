@@ -42,6 +42,9 @@ class ZoneStatisticsCalculator: IZoneStaticticsCalculator {
     }
 
     func calculateStatisticsFor(segments: [BpmEntrySegment]) -> ZoneStatistics {
+        if segments.first?.entries?.isEmpty ?? true {
+            return ZoneStatistics(timeInZones: [:], percentagesInZones: [:], totalTime: 0)
+        }
         let timeInZones = settingsService
             .selectedHeartZoneSetting
             .zones
