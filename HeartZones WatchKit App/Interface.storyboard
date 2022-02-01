@@ -14,6 +14,13 @@
             </objects>
             <point key="canvasLocation" x="106" y="-126"/>
         </scene>
+        <!--HostingControllerReadOnlyWorkoutControlls-->
+        <scene sceneID="KvQ-oD-ic1">
+            <objects>
+                <hostingController identifier="HostingControllerReadOnlyWorkoutControlls" id="tB0-2b-RUp" customClass="HostingControllerReadOnlyWorkoutControlls" customModule="HeartZones_WatchKit_Extension"/>
+            </objects>
+            <point key="canvasLocation" x="104" y="-509"/>
+        </scene>
         <!--HostingControllerWorkoutControls-->
         <scene sceneID="Hzx-pJ-R5N">
             <objects>

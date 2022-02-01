@@ -46,10 +46,15 @@ class HostingControllerWorkoutSelection: WKHostingController<WorkoutSelectionVie
     }
 
     static func presentReadOnlyMode() {
-        let contexts: [Any?] = [WorkoutMode.readOnly, WorkoutMode.readOnly]
+        let contexts: [Any?] = [nil, WorkoutMode.readOnly, WorkoutMode.readOnly]
+
+        // TODO: Move to viewmodel
+        let readOnlyWorkoutService = DIContainer.shared.resolve(WorkoutReadOnlyService.self)!
+        readOnlyWorkoutService.setWorkoutStarted()
 
         WKInterfaceController.reloadRootPageControllers(
             withNames: [
+                HostingControllerReadOnlyWorkoutControlls.identifier,
                 HostingControllerWorkoutGraph.identifier,
                 HostingControllerWorkoutBars.identifier
             ], contexts: contexts as [Any], orientation: WKPageOrientation.horizontal, pageIndex: 1
@@ -92,6 +97,21 @@ class HostingControllerWorkoutControls: WKHostingController<WorkoutControlsView>
             workoutControlsViewModel: DIContainer.shared.resolve(WorkoutControlsViewModel.self)!,
             controller: self
         )
+    }
+}
+
+// swiftlint:disable:next type_name
+class HostingControllerReadOnlyWorkoutControlls: WKHostingController<WorkoutReadOnlyControlsView> {
+    static let identifier = "HostingControllerReadOnlyWorkoutControlls"
+
+    func endReadOnlyMode() {
+        WKInterfaceController.reloadRootControllers(withNamesAndContexts: [
+            (HostingControllerWorkoutSelection.identifier, self)
+        ])
+    }
+
+    override var body: WorkoutReadOnlyControlsView {
+        return WorkoutReadOnlyControlsView(controller: self)
     }
 }
 

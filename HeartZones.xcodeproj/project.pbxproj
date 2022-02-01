@@ -84,6 +84,7 @@
 		B6E8796227499D6100E8E303 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B6E8796127499D6100E8E303 /* Assets.xcassets */; };
 		B6F6E119273D7E49009C5E6A /* SummaryDataProcessingStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6F6E118273D7E49009C5E6A /* SummaryDataProcessingStrategy.swift */; };
 		B6FC5DEE27A99A2E00E7763F /* WorkoutReadOnlyService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6FC5DED27A99A2E00E7763F /* WorkoutReadOnlyService.swift */; };
+		B6FC5DF027A9A5FB00E7763F /* WorkoutReadOnlyControlsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6FC5DEF27A9A5FB00E7763F /* WorkoutReadOnlyControlsView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -221,6 +222,7 @@
 		B6E8796127499D6100E8E303 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B6F6E118273D7E49009C5E6A /* SummaryDataProcessingStrategy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SummaryDataProcessingStrategy.swift; sourceTree = "<group>"; };
 		B6FC5DED27A99A2E00E7763F /* WorkoutReadOnlyService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutReadOnlyService.swift; sourceTree = "<group>"; };
+		B6FC5DEF27A9A5FB00E7763F /* WorkoutReadOnlyControlsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutReadOnlyControlsView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -482,6 +484,7 @@
 				B636EF18272B234B0038BD85 /* WorkoutSummaryView.swift */,
 				B68E17AB275234F700EFB06F /* HeartZoneGraphView.swift */,
 				3F4AC7282795D92D000D556E /* HeartZoneBarsView.swift */,
+				B6FC5DEF27A9A5FB00E7763F /* WorkoutReadOnlyControlsView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -738,6 +741,7 @@
 				B650A95B26878DAD0042B33D /* PieSegmentView.swift in Sources */,
 				B650A96B2688857E0042B33D /* WorkoutSelectionViewModel.swift in Sources */,
 				B650A96D26888AD10042B33D /* Workout.swift in Sources */,
+				B6FC5DF027A9A5FB00E7763F /* WorkoutReadOnlyControlsView.swift in Sources */,
 				B6FC5DEE27A99A2E00E7763F /* WorkoutReadOnlyService.swift in Sources */,
 				B6D1397F26B3105200396285 /* DeviceBeeper.swift in Sources */,
 				B661A3EF26B536D200E78D8E /* SettingsView.swift in Sources */,
