@@ -61,7 +61,17 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
                 )
             }
         ).inObjectScope(.container)
-
+        container.register(
+            WorkoutReadOnlyService.self,
+            factory: { resolver in
+                let healthKitService = resolver.resolve(HealthKitService.self)!
+                let zoneStatisticsCalculator = resolver.resolve(ZoneStatisticsCalculator.self)!
+                return WorkoutReadOnlyService(
+                    healthKitService: healthKitService,
+                    zoneStatisticsCalculator: zoneStatisticsCalculator
+                )
+            }
+        ).inObjectScope(.container)
         container.register(
             HeartZoneService.self,
             factory: { resolver in
@@ -173,8 +183,7 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
                 let settingsService = resolver.resolve(SettingsService.self)!
                 var workoutService: WorkoutControlsProtocol!
                 if workoutMode == .readOnly {
-                    // TODO:
-                    workoutService = resolver.resolve(WorkoutService.self)!
+                    workoutService = resolver.resolve(WorkoutReadOnlyService.self)!
                 } else if workoutMode == .activeWorkout {
                     workoutService = resolver.resolve(WorkoutService.self)!
                 }
@@ -189,8 +198,7 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
                 let settingsService = resolver.resolve(SettingsService.self)!
                 var workoutService: WorkoutControlsProtocol!
                 if workoutMode == .readOnly {
-                    // TODO:
-                    workoutService = resolver.resolve(WorkoutService.self)!
+                    workoutService = resolver.resolve(WorkoutReadOnlyService.self)!
                 } else if workoutMode == .activeWorkout {
                     workoutService = resolver.resolve(WorkoutService.self)!
                 }

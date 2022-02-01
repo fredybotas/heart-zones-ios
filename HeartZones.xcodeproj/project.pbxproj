@@ -83,6 +83,7 @@
 		B6E30C43268519B8007CCA38 /* WorkoutRunningView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6E30C42268519B8007CCA38 /* WorkoutRunningView.swift */; };
 		B6E8796227499D6100E8E303 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B6E8796127499D6100E8E303 /* Assets.xcassets */; };
 		B6F6E119273D7E49009C5E6A /* SummaryDataProcessingStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6F6E118273D7E49009C5E6A /* SummaryDataProcessingStrategy.swift */; };
+		B6FC5DEE27A99A2E00E7763F /* WorkoutReadOnlyService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6FC5DED27A99A2E00E7763F /* WorkoutReadOnlyService.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -219,6 +220,7 @@
 		B6E30C42268519B8007CCA38 /* WorkoutRunningView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutRunningView.swift; sourceTree = "<group>"; };
 		B6E8796127499D6100E8E303 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B6F6E118273D7E49009C5E6A /* SummaryDataProcessingStrategy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SummaryDataProcessingStrategy.swift; sourceTree = "<group>"; };
+		B6FC5DED27A99A2E00E7763F /* WorkoutReadOnlyService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutReadOnlyService.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -411,6 +413,7 @@
 				B6AFC1A426A5917100616311 /* BeepingService.swift */,
 				3FE82C552795F77F0006CB93 /* ZoneStatistics.swift */,
 				3FBAB1CC27975E9700CC1E33 /* WorkoutActiveTimeProcessor.swift */,
+				B6FC5DED27A99A2E00E7763F /* WorkoutReadOnlyService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -735,6 +738,7 @@
 				B650A95B26878DAD0042B33D /* PieSegmentView.swift in Sources */,
 				B650A96B2688857E0042B33D /* WorkoutSelectionViewModel.swift in Sources */,
 				B650A96D26888AD10042B33D /* Workout.swift in Sources */,
+				B6FC5DEE27A99A2E00E7763F /* WorkoutReadOnlyService.swift in Sources */,
 				B6D1397F26B3105200396285 /* DeviceBeeper.swift in Sources */,
 				B661A3EF26B536D200E78D8E /* SettingsView.swift in Sources */,
 				B661A3F426B5625700E78D8E /* SettingsViewModel.swift in Sources */,
