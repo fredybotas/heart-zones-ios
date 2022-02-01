@@ -10,6 +10,11 @@ import CoreLocation
 import Foundation
 import HealthKit
 
+protocol WorkoutControlsProtocol {
+    func getActiveWorkoutStartDate() -> Date?
+    func getActiveWorkoutZoneStatistics() -> ZoneStatistics?
+}
+
 protocol IWorkoutService {
     func startWorkout(workoutType: WorkoutType)
     func stopActiveWorkout()
@@ -18,18 +23,16 @@ protocol IWorkoutService {
     func pauseActiveWorkout()
     func resumeActiveWorkout()
     func getActiveWorkoutElapsedTime() -> TimeInterval?
-    func getActiveWorkoutStartDate() -> Date?
     func getActiveWorkoutDataPublisher() -> WorkoutDataChangePublishers?
     func getActiveWorkoutSummaryPublisher() -> AnyPublisher<WorkoutSummaryData?, Never>?
     func getWorkoutStatePublisher() -> AnyPublisher<WorkoutState, Never>
-    func getActiveWorkoutZoneStatistics() -> ZoneStatistics?
 }
 
 enum WorkoutState {
     case notPresent, running, paused, finished
 }
 
-class WorkoutService: IWorkoutService {
+class WorkoutService: IWorkoutService, WorkoutControlsProtocol {
     private let healthKitService: IHealthKitService
     private let locationManager: WorkoutLocationFetcher
     private let settingsService: ISettingsService

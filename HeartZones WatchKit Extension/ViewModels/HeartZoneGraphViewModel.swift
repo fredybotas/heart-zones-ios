@@ -54,9 +54,11 @@ class HeartZoneGraphViewModel: ObservableObject {
     private let settingsService: ISettingsService
     private var bpmCancellable: AnyCancellable?
     private let segmentProcessor: BpmSegmentProcessor
-    private let workoutService: IWorkoutService
+    private let workoutService: WorkoutControlsProtocol
 
-    init(healthKitService: IHealthKitService, workoutService: IWorkoutService, settingsService: ISettingsService) {
+    init(healthKitService: IHealthKitService,
+         workoutService: WorkoutControlsProtocol,
+         settingsService: ISettingsService) {
         healthKit = healthKitService
         self.settingsService = settingsService
         self.workoutService = workoutService

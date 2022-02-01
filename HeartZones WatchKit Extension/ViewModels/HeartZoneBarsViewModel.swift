@@ -26,12 +26,12 @@ class HeartZoneBarsViewModel: ObservableObject {
     @Published var isScreenVisible = false
 
     let settingsService: ISettingsService
-    let workoutService: IWorkoutService
+    let workoutService: WorkoutControlsProtocol
     var timer: AnyCancellable?
 
     var cancellables = Set<AnyCancellable>()
 
-    init(settingsService: ISettingsService, workoutService: IWorkoutService) {
+    init(settingsService: ISettingsService, workoutService: WorkoutControlsProtocol) {
         self.settingsService = settingsService
         self.workoutService = workoutService
         bars = settingsService
