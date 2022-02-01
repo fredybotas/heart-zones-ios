@@ -168,10 +168,16 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
         )
         container.register(
             HeartZoneGraphViewModel.self,
-            factory: { resolver in
+            factory: { (resolver, workoutMode: WorkoutMode!) in
                 let healthKitService = resolver.resolve(HealthKitService.self)!
                 let settingsService = resolver.resolve(SettingsService.self)!
-                let workoutService = resolver.resolve(WorkoutService.self)!
+                var workoutService: WorkoutControlsProtocol!
+                if workoutMode == .readOnly {
+                    // TODO:
+                    workoutService = resolver.resolve(WorkoutService.self)!
+                } else if workoutMode == .activeWorkout {
+                    workoutService = resolver.resolve(WorkoutService.self)!
+                }
                 return HeartZoneGraphViewModel(healthKitService: healthKitService,
                                                workoutService: workoutService,
                                                settingsService: settingsService)
@@ -179,9 +185,15 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
         )
         container.register(
             HeartZoneBarsViewModel.self,
-            factory: { resolver in
+            factory: { (resolver, workoutMode: WorkoutMode!) in
                 let settingsService = resolver.resolve(SettingsService.self)!
-                let workoutService = resolver.resolve(WorkoutService.self)!
+                var workoutService: WorkoutControlsProtocol!
+                if workoutMode == .readOnly {
+                    // TODO:
+                    workoutService = resolver.resolve(WorkoutService.self)!
+                } else if workoutMode == .activeWorkout {
+                    workoutService = resolver.resolve(WorkoutService.self)!
+                }
                 return HeartZoneBarsViewModel(settingsService: settingsService, workoutService: workoutService)
             }
         )

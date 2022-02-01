@@ -18,6 +18,10 @@ class DIContainer {
     }()
 }
 
+enum WorkoutMode {
+    case readOnly, activeWorkout
+}
+
 // class DIHostingController<Type>: WKHostingController<Type> where Type: View {
 //    let container: Container = {
 //        let delegate = WKExtension.shared().delegate as! ExtensionDelegate
@@ -29,12 +33,23 @@ class HostingControllerWorkoutSelection: WKHostingController<WorkoutSelectionVie
     static let identifier = "HostingControllerWorkoutSelection"
 
     static func presentRunningWorkoutController(workoutType: WorkoutType) {
-        let contexts: [Any?] = [nil, workoutType, nil]
+        let contexts: [Any?] = [nil, workoutType, WorkoutMode.activeWorkout, WorkoutMode.activeWorkout]
 
         WKInterfaceController.reloadRootPageControllers(
             withNames: [
                 HostingControllerWorkoutControls.identifier,
                 HostingControllerRunningWorkout.identifier,
+                HostingControllerWorkoutGraph.identifier,
+                HostingControllerWorkoutBars.identifier
+            ], contexts: contexts as [Any], orientation: WKPageOrientation.horizontal, pageIndex: 1
+        )
+    }
+
+    static func presentReadOnlyMode() {
+        let contexts: [Any?] = [WorkoutMode.readOnly, WorkoutMode.readOnly]
+
+        WKInterfaceController.reloadRootPageControllers(
+            withNames: [
                 HostingControllerWorkoutGraph.identifier,
                 HostingControllerWorkoutBars.identifier
             ], contexts: contexts as [Any], orientation: WKPageOrientation.horizontal, pageIndex: 1
@@ -103,18 +118,30 @@ class HostingControllerWorkoutSummary: WKHostingController<WorkoutSummaryView> {
 
 class HostingControllerWorkoutGraph: WKHostingController<HeartZoneGraphView> {
     static let identifier = "HostingControllerWorkoutGraph"
+    var workoutMode: WorkoutMode!
+
+    override func awake(withContext context: Any?) {
+        super.awake(withContext: context)
+        workoutMode = context as? WorkoutMode
+    }
 
     override var body: HeartZoneGraphView {
         return HeartZoneGraphView(
-            heartZoneGraphViewModel: DIContainer.shared.resolve(HeartZoneGraphViewModel.self)!)
+            heartZoneGraphViewModel: DIContainer.shared.resolve(HeartZoneGraphViewModel.self, argument: workoutMode)!)
     }
 }
 
 class HostingControllerWorkoutBars: WKHostingController<HeartZoneBarsView> {
     static let identifier = "HostingControllerWorkoutBars"
+    var workoutMode: WorkoutMode!
+
+    override func awake(withContext context: Any?) {
+        super.awake(withContext: context)
+        workoutMode = context as? WorkoutMode
+    }
 
     override var body: HeartZoneBarsView {
         return HeartZoneBarsView(
-            heartZoneBarsViewModel: DIContainer.shared.resolve(HeartZoneBarsViewModel.self)!)
+            heartZoneBarsViewModel: DIContainer.shared.resolve(HeartZoneBarsViewModel.self, argument: workoutMode)!)
     }
 }

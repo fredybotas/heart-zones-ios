@@ -23,6 +23,10 @@ struct WorkoutSelectionView: View {
                 .font(Font.system(size: 14, weight: .regular, design: .default))
                 .padding(EdgeInsets(top: 10, leading: 3, bottom: 10, trailing: 3))
             }
+            Button("Read only mode",
+                   action: {
+                       HostingControllerWorkoutSelection.presentReadOnlyMode()
+                   })
             Divider()
                 .frame(maxHeight: 2)
                 .listRowPlatterColor(.clear)
