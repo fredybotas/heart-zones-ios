@@ -23,16 +23,18 @@ struct WorkoutSelectionView: View {
                 .font(Font.system(size: 14, weight: .regular, design: .default))
                 .padding(EdgeInsets(top: 10, leading: 3, bottom: 10, trailing: 3))
             }
-            Divider()
-                .frame(maxHeight: 2)
-                .listRowPlatterColor(.clear)
+//            Divider()
+//                .frame(maxHeight: 2)
+//                .listRowPlatterColor(.clear)
             Button("Read-only mode",
                    action: {
                        HostingControllerWorkoutSelection.presentReadOnlyMode()
                    })
                    .font(Font.system(size: 14, weight: .regular, design: .default))
-                   .listRowPlatterColor(Color(red: 36 / 255, green: 123 / 255, blue: 160 / 255))
-
+                   .listRowPlatterColor(Color(red: 110 / 255, green: 110 / 255, blue: 110 / 255))
+            Divider()
+                .frame(maxHeight: 2)
+                .listRowPlatterColor(.clear)
             NavigationLink(
                 destination: LazyView(
                     SettingsView(settingsViewModel: DIContainer.shared.resolve(SettingsViewModel.self)!))
