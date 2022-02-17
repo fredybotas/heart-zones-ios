@@ -401,6 +401,10 @@ class Workout: NSObject, IWorkout, HKLiveWorkoutBuilderDelegate, HKWorkoutSessio
                 handleDistanceData(statistics: statistics)
             }
             if quantityType.isEqual(
+                HKQuantityType.quantityType(forIdentifier: HKQuantityTypeIdentifier.distanceCycling)) {
+                handleDistanceData(statistics: statistics)
+            }
+            if quantityType.isEqual(
                 HKQuantityType.quantityType(forIdentifier: HKQuantityTypeIdentifier.heartRate)) {
                 handleBpmData(statistics: statistics)
             }

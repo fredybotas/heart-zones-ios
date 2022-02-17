@@ -11,13 +11,15 @@ import HealthKit
 let typeToString: [WorkoutType.TypeValues: String] = [
     .outdoorRunning: "Outdoor Run",
     .indoorRunning: "Indoor Run",
+    .outdoorCycling: "Outdoor Cycling",
+    .indoorCycling: "Indoor Cycling",
     .walking: "Walking",
     .hiit: "HIIT"
 ]
 
 struct WorkoutType: Identifiable {
     enum TypeValues: Int {
-        case outdoorRunning, indoorRunning, walking, hiit
+        case outdoorRunning, indoorRunning, outdoorCycling, indoorCycling, walking, hiit
     }
 
     var type: TypeValues
@@ -45,6 +47,12 @@ struct WorkoutType: Identifiable {
         case .hiit:
             configuration.activityType = .highIntensityIntervalTraining
             configuration.locationType = .unknown
+        case .outdoorCycling:
+            configuration.activityType = .cycling
+            configuration.locationType = .outdoor
+        case .indoorCycling:
+            configuration.activityType = .cycling
+            configuration.locationType = .indoor
         }
 
         return configuration
