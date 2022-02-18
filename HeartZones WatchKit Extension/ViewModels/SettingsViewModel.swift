@@ -9,7 +9,7 @@ import Combine
 import Foundation
 import SwiftUI
 
-struct BpmViewModel: Identifiable, Hashable, CustomStringConvertible {
+struct CustomNumberOption: Identifiable, Hashable, CustomStringConvertible {
     var id: Int
     var value: Int
     var description: String { String(value) }
@@ -46,10 +46,10 @@ class SettingsViewModel: ObservableObject {
     let distanceMetricOptions = DistanceMetric.getPossibleMetrics()
     let energyMetricOptions = EnergyMetric.getPossibleMetrics()
     let speedMetricOptions = SpeedMetric.getPossibleMetrics()
-    let zonesCountOptions = HeartZonesSetting.getPossibleZoneCounts()
+    let zonesCountOptions = HeartZonesSetting.getPossibleZoneCounts().map { CustomNumberOption(id: $0, value: $0) }
     let metricInFieldOneOptions = WorkoutMetric.getPossibleMetrics()
     let metricInFieldTwoOptions = WorkoutMetric.getPossibleMetrics()
-    let maxBpmOptions = Array(kMinimumBpm ..< kMaximumBpm).map { BpmViewModel(id: $0, value: $0) }
+    let maxBpmOptions = Array(kMinimumBpm ..< kMaximumBpm).map { CustomNumberOption(id: $0, value: $0) }
 
     private var settingsService: ISettingsService
     private var cancellables = Set<AnyCancellable>()
@@ -59,6 +59,7 @@ class SettingsViewModel: ObservableObject {
     @Published var heartZonesAlertEnabled: Bool
     @Published var targetHeartZoneAlertEnabled: Bool
     @Published var maxBpm: Int
+    @Published var zonesCount: Int
     @Published var targetZone: Int
     @Published var zones: [Zone]
 
@@ -73,6 +74,7 @@ class SettingsViewModel: ObservableObject {
         self.settingsService = settingsService
 
         maxBpm = settingsService.maximumBpm
+        zonesCount = settingsService.zonesCount
         targetZone = settingsService.targetZoneId
         zones = settingsService.selectedHeartZoneSetting.zones.map {
             Zone(id: $0.id, name: $0.name, target: $0.target)
@@ -120,6 +122,17 @@ class SettingsViewModel: ObservableObject {
             }
             .store(in: &cancellables)
 
+        $zonesCount
+            .dropFirst()
+            .sink { [weak self, settingsService] value in
+                self?.settingsService.zonesCount = value
+                self?.targetZone = settingsService.targetZoneId
+                self?.zones = settingsService.selectedHeartZoneSetting.zones.map {
+                    Zone(id: $0.id, name: $0.name, target: $0.target)
+                }
+            }
+            .store(in: &cancellables)
+
         $selectedDistanceMetric
             .dropFirst()
             .sink { [weak self] value in
@@ -162,6 +175,7 @@ class SettingsViewModel: ObservableObject {
         cancellables.removeAll()
 
         maxBpm = settingsService.maximumBpm
+        zonesCount = settingsService.zonesCount
         targetZone = settingsService.targetZoneId
         zones = settingsService.selectedHeartZoneSetting.zones.map {
             Zone(id: $0.id, name: $0.name, target: $0.target)

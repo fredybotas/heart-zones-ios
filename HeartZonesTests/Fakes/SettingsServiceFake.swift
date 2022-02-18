@@ -10,6 +10,8 @@ import Foundation
 @testable import HeartZones_WatchKit_Extension
 
 class SettingsServiceFake: ISettingsService {
+    var zonesCount: Int = 4
+
     func resetHeartZoneSettings() {
         selectedHeartZoneSetting = HeartZonesSetting.getDefaultHeartZonesSetting()
         maximumBpm = 195

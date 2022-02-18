@@ -11,6 +11,7 @@ protocol ISettingsService {
     var heartZonesAlertEnabled: Bool { get set }
     var targetHeartZoneAlertEnabled: Bool { get set }
     var maximumBpm: Int { get set }
+    var zonesCount: Int { get set }
     var selectedDistanceMetric: DistanceMetric { get set }
     var selectedEnergyMetric: EnergyMetric { get set }
     var selectedSpeedMetric: SpeedMetric { get set }
@@ -88,14 +89,22 @@ class SettingsService: ISettingsService {
         }
     }
 
+    var zonesCount: Int {
+        get { settingsRepository.zonesCount ?? HeartZonesSetting.getPossibleZoneCounts()[0] }
+        set {
+            settingsRepository.zonesCount = newValue
+            settingsRepository.selectedHeartZoneSetting = nil
+        }
+    }
+
     var selectedHeartZoneSetting: HeartZonesSetting {
         get {
             settingsRepository.selectedHeartZoneSetting
-                ?? HeartZonesSetting.getDefaultHeartZonesSetting()
+                ?? HeartZonesSetting.getDefaultHeartZonesSetting(count: zonesCount)
         }
         set {
             settingsRepository.selectedHeartZoneSetting = newValue
-            print(newValue)
+            settingsRepository.zonesCount = newValue.zones.count
         }
     }
 
@@ -110,6 +119,7 @@ class SettingsService: ISettingsService {
     func resetHeartZoneSettings() {
         settingsRepository.selectedHeartZoneSetting = nil
         settingsRepository.maximumBpm = nil
+        settingsRepository.zonesCount = nil
     }
 
     static func userPrefersMetric() -> Bool {

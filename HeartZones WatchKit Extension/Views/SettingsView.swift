@@ -41,6 +41,7 @@ struct PickerView<T: Hashable & Identifiable & CustomStringConvertible>: View {
 struct SettingsView: View {
     @ObservedObject var settingsViewModel: SettingsViewModel
     @State var selectionShownMaxBpm = false
+    @State var selectionShownZonesCount = false
     @State var selectionShownTargetZone = false
     @State var selectionShownDistanceMetricOptions = false
     @State var selectionShownEnergyMetricOptions = false
@@ -62,8 +63,8 @@ struct SettingsView: View {
             Section(header: Text("Heart Zones")) {
                 if #available(watchOSApplicationExtension 7.0, *) {
                     Picker("Max BPM", selection: $settingsViewModel.maxBpm) {
-                        ForEach(SettingsViewModel.kMinimumBpm ..< SettingsViewModel.kMaximumBpm + 1) { bpm in
-                            Text(String(bpm)).tag(bpm)
+                        ForEach(settingsViewModel.maxBpmOptions) { bpm in
+                            Text(String(bpm.value)).tag(bpm.id)
                         }
                     }
                     .frame(height: 25)
@@ -84,6 +85,31 @@ struct SettingsView: View {
                         }
                     }
                 }
+                if #available(watchOSApplicationExtension 7.0, *) {
+                    Picker("Zone count", selection: $settingsViewModel.zonesCount) {
+                        ForEach(settingsViewModel.zonesCountOptions) { count in
+                            Text(String(count.value)).tag(count.id)
+                        }
+                    }
+                    .frame(height: 25)
+                } else {
+                    NavigationLink(
+                        destination: LazyView(
+                            PickerView(
+                                possibleValues: settingsViewModel.zonesCountOptions,
+                                selectionId: $settingsViewModel.zonesCount,
+                                showView: $selectionShownZonesCount
+                            )), isActive: $selectionShownZonesCount
+                    ) {
+                        VStack(alignment: .leading) {
+                            Text("Zone count")
+                            Text(String(settingsViewModel.zonesCount))
+                                .font(Font.footnote)
+                                .foregroundColor(.gray)
+                        }
+                    }
+                }
+
                 NavigationLink(
                     destination: LazyView(
                         HeartZoneCircularPickerView(

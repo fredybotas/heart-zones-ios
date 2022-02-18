@@ -10,6 +10,8 @@ import Foundation
 @testable import HeartZones_WatchKit_Extension
 
 class SettingsRepositoryFake: ISettingsRepository {
+    var zonesCount: Int? = HeartZonesSetting.getDefaultHeartZonesSetting().zones.count
+
     var selectedHeartZoneSetting: HeartZonesSetting? = HeartZonesSetting.getDefaultHeartZonesSetting()
     var maximumBpm: Int? = 195
     var heartZonesAlertEnabled: Bool? = true

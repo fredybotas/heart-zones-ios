@@ -11,6 +11,7 @@ protocol ISettingsRepository {
     var heartZonesAlertEnabled: Bool? { get set }
     var targetHeartZoneAlertEnabled: Bool? { get set }
     var maximumBpm: Int? { get set }
+    var zonesCount: Int? { get set }
     var selectedDistanceMetric: DistanceMetric? { get set }
     var selectedEnergyMetric: EnergyMetric? { get set }
     var selectedSpeedMetric: SpeedMetric? { get set }
@@ -22,6 +23,7 @@ protocol ISettingsRepository {
 private let kHeartZonesAlertEnabledKey = "kHeartZonesAlertEnabledKey"
 private let kTargetHeartZoneAlertEnabledKey = "kTargetHeartZoneAlertEnabledKey"
 private let kMaximumBpm = "kMaximumBpm"
+private let kZonesCount = "kZonesCount"
 private let kSelectedDistanceMetric = "kSelectedDistanceMetric"
 private let kSelectedEnergyMetric = "kSelectedEnergyMetric"
 private let kSelectedSpeedMetric = "kSelectedSpeedMetric"
@@ -45,6 +47,11 @@ class SettingsRepository: ISettingsRepository {
     var maximumBpm: Int? {
         get { manager.get(key: kMaximumBpm) }
         set { manager.save(newValue, key: kMaximumBpm) }
+    }
+
+    var zonesCount: Int? {
+        get { manager.get(key: kZonesCount) }
+        set { manager.save(newValue, key: kZonesCount) }
     }
 
     var selectedDistanceMetric: DistanceMetric? {
@@ -84,6 +91,7 @@ class SettingsRepositoryCached: ISettingsRepository {
     private var heartZonesAlertEnabledInternal: Bool?
     private var targetHeartZoneAlertEnabledInternal: Bool?
     private var maximumBpmInternal: Int?
+    private var zonesCountInternal: Int?
     private var selectedDistanceMetricInternal: DistanceMetric?
     private var selectedEnergyMetricInternal: EnergyMetric?
     private var selectedSpeedMetricInternal: SpeedMetric?
@@ -95,6 +103,7 @@ class SettingsRepositoryCached: ISettingsRepository {
         heartZonesAlertEnabledInternal = settingsRepository.heartZonesAlertEnabled
         targetHeartZoneAlertEnabledInternal = settingsRepository.targetHeartZoneAlertEnabled
         maximumBpmInternal = settingsRepository.maximumBpm
+        zonesCountInternal = settingsRepository.zonesCount
         selectedDistanceMetricInternal = settingsRepository.selectedDistanceMetric
         selectedEnergyMetricInternal = settingsRepository.selectedEnergyMetric
         selectedSpeedMetricInternal = settingsRepository.selectedSpeedMetric
@@ -133,6 +142,17 @@ class SettingsRepositoryCached: ISettingsRepository {
         set {
             settingsRepository.maximumBpm = newValue
             maximumBpmInternal = newValue
+        }
+    }
+
+    var zonesCount: Int? {
+        get {
+            return zonesCountInternal
+        }
+
+        set {
+            settingsRepository.zonesCount = newValue
+            zonesCountInternal = newValue
         }
     }
 

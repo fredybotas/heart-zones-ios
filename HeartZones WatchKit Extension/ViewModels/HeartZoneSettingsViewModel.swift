@@ -106,7 +106,7 @@ class HeartZoneSettingsViewModel: ObservableObject {
         zoneSetting = settingsService.selectedHeartZoneSetting
         zones = zoneSetting.zones
             .enumerated()
-            .map { [zoneCount = zoneSetting.zonesCount] index, zone in
+            .map { [zoneCount = zoneSetting.zones.count] index, zone in
                 HeartZoneViewModel(zone: zone, isLast: index == zoneCount - 1)
             }
 

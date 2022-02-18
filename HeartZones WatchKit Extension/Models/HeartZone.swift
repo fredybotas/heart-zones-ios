@@ -52,10 +52,6 @@ struct HeartZonesSetting: Codable, Hashable {
         return zones.last!
     }
 
-    var zonesCount: Int {
-        zones.count
-    }
-
     static func getMaximumBpm(age: Int) -> Int {
         return 220 - age
     }
@@ -65,27 +61,60 @@ struct HeartZonesSetting: Codable, Hashable {
     }
 
     static func getPossibleZoneCounts() -> [Int] {
-        return [4]
+        return [4, 5]
     }
 
-    static func getDefaultHeartZonesSetting() -> HeartZonesSetting {
+    static func getDefaultHeartZonesSetting(count: Int = 4) -> HeartZonesSetting {
+        if count == 4 {
+            return getDefaultFourZoneHeartZonesSetting()
+        } else if count == 5 {
+            return getDefaultFiveZoneHeartZonesSetting()
+        }
+        return getDefaultFourZoneHeartZonesSetting()
+    }
+
+    private static func getDefaultFourZoneHeartZonesSetting() -> HeartZonesSetting {
         return HeartZonesSetting(zones: [
             HeartZone(
                 id: 0, name: "Zone 1", bpmRangePercentage: 0 ... 60,
-                color: HeartZone.Color(red: 36 / 255, green: 123 / 255, blue: 160 / 255), target: false
+                color: HeartZone.Color(red: 0 / 255, green: 137 / 255, blue: 209 / 255), target: false
             ),
             HeartZone(
                 id: 1, name: "Zone 2", bpmRangePercentage: 60 ... 75,
-                color: HeartZone.Color(red: 140 / 255, green: 179 / 255, blue: 105 / 255),
-                target: false
+                color: HeartZone.Color(red: 12 / 255, green: 177 / 255, blue: 75 / 255), target: false
             ),
             HeartZone(
                 id: 2, name: "Zone 3", bpmRangePercentage: 75 ... 85,
-                color: HeartZone.Color(red: 250 / 255, green: 159 / 255, blue: 66 / 255), target: true
+                color: HeartZone.Color(red: 243 / 255, green: 112 / 255, blue: 32 / 255), target: true
             ),
             HeartZone(
                 id: 3, name: "Zone 4", bpmRangePercentage: 85 ... 100,
-                color: HeartZone.Color(red: 221 / 255, green: 4 / 255, blue: 38 / 255), target: false
+                color: HeartZone.Color(red: 206 / 255, green: 1 / 255, blue: 78 / 255), target: false
+            )
+        ])
+    }
+
+    private static func getDefaultFiveZoneHeartZonesSetting() -> HeartZonesSetting {
+        return HeartZonesSetting(zones: [
+            HeartZone(
+                id: 0, name: "Zone 1", bpmRangePercentage: 0 ... 50,
+                color: HeartZone.Color(red: 0 / 255, green: 137 / 255, blue: 209 / 255), target: false
+            ),
+            HeartZone(
+                id: 1, name: "Zone 2", bpmRangePercentage: 50 ... 60,
+                color: HeartZone.Color(red: 12 / 255, green: 177 / 255, blue: 75 / 255), target: false
+            ),
+            HeartZone(
+                id: 2, name: "Zone 3", bpmRangePercentage: 60 ... 75,
+                color: HeartZone.Color(red: 253 / 255, green: 184 / 255, blue: 18 / 255), target: true
+            ),
+            HeartZone(
+                id: 3, name: "Zone 4", bpmRangePercentage: 75 ... 85,
+                color: HeartZone.Color(red: 243 / 255, green: 112 / 255, blue: 32 / 255), target: false
+            ),
+            HeartZone(
+                id: 4, name: "Zone 5", bpmRangePercentage: 85 ... 100,
+                color: HeartZone.Color(red: 206 / 255, green: 1 / 255, blue: 78 / 255), target: false
             )
         ])
     }

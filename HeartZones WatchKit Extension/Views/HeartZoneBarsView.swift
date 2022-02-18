@@ -16,9 +16,11 @@ struct HeartZoneBarView: View {
                 .foregroundColor(color)
             HStack(spacing: 0) {
                 Text(leftText)
-                    .font(.footnote)
+                    .font(
+                        Font.system(size: 16, weight: .semibold, design: .default)
+                    )
                     .lineLimit(1)
-                    .minimumScaleFactor(0.5)
+                    .minimumScaleFactor(0.4)
                     .frame(alignment: .leading)
                     .padding(-4)
             }
@@ -29,24 +31,39 @@ struct HeartZoneBarView: View {
 
 struct HeartZoneBarsView: View {
     @ObservedObject var heartZoneBarsViewModel: HeartZoneBarsViewModel
+    private let spacingGap: CGFloat = 4
+
+    private func getHeightOffset(_ geo: GeometryProxy) -> CGFloat {
+        print(geo.size)
+        if geo.size.height < 150 {
+            return 10
+        }
+        return -20
+    }
 
     var body: some View {
         GeometryReader { geo in
-            VStack(alignment: .leading, spacing: 8) {
+            VStack(alignment: .leading, spacing: spacingGap) {
                 ForEach(heartZoneBarsViewModel.bars, id: \.self) { bar in
                     HeartZoneBarView(color: bar.color, leftText: bar.percentageString)
                         .frame(width: bar.percentage * (geo.size.width - 10),
-                               height: (geo.size.height - 35) / CGFloat(heartZoneBarsViewModel.bars.count))
+                               height: (geo.size.height -
+                                   24 -
+                                   (CGFloat(heartZoneBarsViewModel.bars.count - 1) * spacingGap)) /
+                                   CGFloat(heartZoneBarsViewModel.bars.count))
                 }
             }
             .padding(5)
         }
+        .edgesIgnoringSafeArea([.bottom])
         .onAppear(perform: { self.heartZoneBarsViewModel.isScreenVisible = true })
         .onDisappear(perform: { self.heartZoneBarsViewModel.isScreenVisible = false })
     }
 }
 
 class SettingsServiceFake: ISettingsService {
+    var zonesCount: Int = 4
+
     func resetHeartZoneSettings() {
         selectedHeartZoneSetting = HeartZonesSetting.getDefaultHeartZonesSetting()
         maximumBpm = 195
