@@ -82,6 +82,7 @@
 		B6E30C4126851996007CCA38 /* WorkoutControlsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6E30C4026851996007CCA38 /* WorkoutControlsView.swift */; };
 		B6E30C43268519B8007CCA38 /* WorkoutRunningView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6E30C42268519B8007CCA38 /* WorkoutRunningView.swift */; };
 		B6E8796227499D6100E8E303 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B6E8796127499D6100E8E303 /* Assets.xcassets */; };
+		B6F35ED727BFC8FA008C8142 /* ReadOnlyBpmView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6F35ED627BFC8FA008C8142 /* ReadOnlyBpmView.swift */; };
 		B6F6E119273D7E49009C5E6A /* SummaryDataProcessingStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6F6E118273D7E49009C5E6A /* SummaryDataProcessingStrategy.swift */; };
 		B6FC5DEE27A99A2E00E7763F /* WorkoutReadOnlyService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6FC5DED27A99A2E00E7763F /* WorkoutReadOnlyService.swift */; };
 		B6FC5DF027A9A5FB00E7763F /* WorkoutReadOnlyControlsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6FC5DEF27A9A5FB00E7763F /* WorkoutReadOnlyControlsView.swift */; };
@@ -220,6 +221,7 @@
 		B6E30C4026851996007CCA38 /* WorkoutControlsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutControlsView.swift; sourceTree = "<group>"; };
 		B6E30C42268519B8007CCA38 /* WorkoutRunningView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutRunningView.swift; sourceTree = "<group>"; };
 		B6E8796127499D6100E8E303 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		B6F35ED627BFC8FA008C8142 /* ReadOnlyBpmView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadOnlyBpmView.swift; sourceTree = "<group>"; };
 		B6F6E118273D7E49009C5E6A /* SummaryDataProcessingStrategy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SummaryDataProcessingStrategy.swift; sourceTree = "<group>"; };
 		B6FC5DED27A99A2E00E7763F /* WorkoutReadOnlyService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutReadOnlyService.swift; sourceTree = "<group>"; };
 		B6FC5DEF27A9A5FB00E7763F /* WorkoutReadOnlyControlsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutReadOnlyControlsView.swift; sourceTree = "<group>"; };
@@ -485,6 +487,7 @@
 				B68E17AB275234F700EFB06F /* HeartZoneGraphView.swift */,
 				3F4AC7282795D92D000D556E /* HeartZoneBarsView.swift */,
 				B6FC5DEF27A9A5FB00E7763F /* WorkoutReadOnlyControlsView.swift */,
+				B6F35ED627BFC8FA008C8142 /* ReadOnlyBpmView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -658,7 +661,7 @@
 /* Begin PBXShellScriptBuildPhase section */
 		3FA6CFE62771CAC7002E633F /* swift-format */ = {
 			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
+			buildActionMask = 8;
 			files = (
 			);
 			inputFileListPaths = (
@@ -670,13 +673,13 @@
 			);
 			outputPaths = (
 			);
-			runOnlyForDeploymentPostprocessing = 0;
+			runOnlyForDeploymentPostprocessing = 1;
 			shellPath = /bin/sh;
 			shellScript = "if which swiftformat >/dev/null; then\n    swiftformat .\nelse\n    echo \"warning: swiftformat not installed\"\nfi\n";
 		};
 		3FEB727F2771BFA800DF7887 /* SwiftLint */ = {
 			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
+			buildActionMask = 8;
 			files = (
 			);
 			inputFileListPaths = (
@@ -688,7 +691,7 @@
 			);
 			outputPaths = (
 			);
-			runOnlyForDeploymentPostprocessing = 0;
+			runOnlyForDeploymentPostprocessing = 1;
 			shellPath = /bin/zsh;
 			shellScript = "if which swiftlint >/dev/null; then\n  swiftlint --fix && swiftlint\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
 		};
@@ -704,6 +707,7 @@
 				B6607B2526AC40C400C0C0EE /* AuthorizationManager.swift in Sources */,
 				B636EF19272B234B0038BD85 /* WorkoutSummaryView.swift in Sources */,
 				B650A95F26878E1F0042B33D /* WorkoutViewModel.swift in Sources */,
+				B6F35ED727BFC8FA008C8142 /* ReadOnlyBpmView.swift in Sources */,
 				B6E30C43268519B8007CCA38 /* WorkoutRunningView.swift in Sources */,
 				B68E17AE2752922400EFB06F /* HeartZoneGraphViewModel.swift in Sources */,
 				B62EF908269E1FE40067E894 /* SunService.swift in Sources */,
