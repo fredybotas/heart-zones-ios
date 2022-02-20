@@ -14,7 +14,7 @@ protocol ISunService {
     func getSunset() -> Future<Date, Never>
 }
 
-private let kSunsetShift: TimeInterval = -600 // Make sunset 10min earlier as it seems to be more reasonable
+private let kSunsetShift: TimeInterval = -300 // Make sunset 5min earlier as it seems to be more reasonable
 
 class SunService: ISunService {
     private let locationManager: OnDemandLocationFetcher
