@@ -12,16 +12,22 @@ import HealthKit
 protocol IHealthKitService {
     var healthStore: HKHealthStore { get }
     var age: Int? { get }
-
+    var bpmDataPublisher: AnyPublisher<BpmEntry, Never>? { get }
+    
     func getBpmData(startDate: NSDate, endDate: NSDate) -> Future<[BpmEntry], Never>
     func getBpmDataForWorkout(workout: HKWorkout) -> Future<[BpmEntry], Never>
+    
+    func startBpmPublishing()
+    func stopBpmPublishing()
 }
 
 struct WorkoutNotSpecifiedError: Error {}
 
 class HealthKitService: IHealthKitService, Authorizable {
     let healthStore = HKHealthStore()
-
+    var bpmDataPublisher: AnyPublisher<BpmEntry, Never>?
+    private var bpmQuery: HKQuery?
+    
     lazy var age: Int? = {
         var date: DateComponents?
         do {
@@ -89,7 +95,40 @@ class HealthKitService: IHealthKitService, Authorizable {
         })
         return future
     }
+    
+    func startBpmPublishing() {
+        guard let sampleType = HKObjectType.quantityType(forIdentifier: .heartRate) else { return }
+        let publisher = PassthroughSubject<BpmEntry, Never>()
+        let bpmQuery = HKAnchoredObjectQuery.init(type: sampleType, predicate: HKQuery.predicateForSamples(
+            withStart: Date(), end: nil, options: []
+        ), anchor: nil, limit: HKObjectQueryNoLimit) { _, _, _, _, _ in }
+        bpmQuery.updateHandler = { q, s, d, a, error in
+            guard error == nil else { return }
+            guard let sample = s else { return }
+            guard sample.count != 0 else { return }
+            guard let bpm = sample[0] as? HKQuantitySample else { return }
+            publisher.send(
+                BpmEntry(
+                    value: Int(bpm.quantity.doubleValue(for: HKUnit(from: "count/min"))),
+                    timestamp: bpm.endDate.timeIntervalSince1970
+                )
+            )
+        }
+        
+        self.healthStore.execute(bpmQuery)
+        self.bpmQuery = bpmQuery
+        bpmDataPublisher = publisher.eraseToAnyPublisher()
+    }
+    
+    func stopBpmPublishing() {
+        guard let bpmQuery = bpmQuery else {
+            return
+        }
 
+        self.healthStore.stop(bpmQuery)
+        self.bpmQuery = nil
+    }
+    
     func getBpmData(startDate: NSDate, endDate: NSDate) -> Future<[BpmEntry], Never> {
         let predicate = HKQuery.predicateForSamples(
             withStart: startDate as Date, end: endDate as Date?, options: []
