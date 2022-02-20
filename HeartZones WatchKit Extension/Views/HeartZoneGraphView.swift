@@ -7,8 +7,9 @@
 
 import SwiftUI
 
-private let xOffset: Double = 20
+private let xOffset: CGFloat = 20
 private let bpmOffset = 30
+private let kCurveMarginPart: CGFloat = 0.8
 
 struct HeartZoneGraphView: View {
     @ObservedObject var heartZoneGraphViewModel: HeartZoneGraphViewModel
@@ -30,6 +31,7 @@ struct HeartZoneGraphView: View {
             ((CGFloat(bpmAdjusted) - CGFloat(minBpm)) * CGFloat(height - bpmOffset) / CGFloat(maxBpm - minBpm))
     }
 
+    // swiftlint:disable:next function_body_length
     func bpmsToPath(
         height: Int, width: Int, bpms: [BpmEntry], path: inout Path
     ) {
@@ -38,29 +40,54 @@ struct HeartZoneGraphView: View {
         }
         let offsetCoef = Double(width - Int(xOffset)) /
             Double(heartZoneGraphViewModel.bpmMaxTimestamp - heartZoneGraphViewModel.bpmMinTimestamp)
-        path.move(
-            to: CGPoint(
-                x: xOffset + (bpms.first!.timestamp - heartZoneGraphViewModel.bpmMinTimestamp) * offsetCoef,
-                y: interpolateBpm(
-                    height: height,
-                    bpm: bpms[0].value,
-                    minBpm: heartZoneGraphViewModel.bpmMin,
-                    maxBpm: heartZoneGraphViewModel.bpmMax
-                )
-            ))
-        for point in bpms.dropFirst() {
-            let moveTo = (point.timestamp - heartZoneGraphViewModel.bpmMinTimestamp) * offsetCoef
-            path.addLine(
-                to: CGPoint(
-                    x: xOffset + moveTo,
-                    y: interpolateBpm(
-                        height: height,
-                        bpm: point.value,
-                        minBpm: heartZoneGraphViewModel.bpmMin,
-                        maxBpm: heartZoneGraphViewModel.bpmMax
+        let startPoint = CGPoint(
+            x: xOffset + (bpms.first!.timestamp - heartZoneGraphViewModel.bpmMinTimestamp) * offsetCoef,
+            y: interpolateBpm(
+                height: height,
+                bpm: bpms[0].value,
+                minBpm: heartZoneGraphViewModel.bpmMin,
+                maxBpm: heartZoneGraphViewModel.bpmMax
+            )
+        )
+        path.move(to: startPoint)
+        var curveControlPoint: (CGFloat, CGFloat)?
+        var prevPoint = startPoint
+        for i in 1 ..< bpms.count {
+            let originMoveToX = CGFloat(
+                xOffset +
+                    ((bpms[i].timestamp - heartZoneGraphViewModel.bpmMinTimestamp) * offsetCoef)
+            )
+            let originMoveToY = interpolateBpm(
+                height: height,
+                bpm: bpms[i].value,
+                minBpm: heartZoneGraphViewModel.bpmMin,
+                maxBpm: heartZoneGraphViewModel.bpmMax
+            )
+            let startX = prevPoint.x + ((originMoveToX - prevPoint.x) * (1.0 - kCurveMarginPart))
+            let startY = prevPoint.y + ((originMoveToY - prevPoint.y) * (1.0 - kCurveMarginPart))
+            let moveToX = prevPoint.x + ((originMoveToX - prevPoint.x) * kCurveMarginPart)
+            let moveToY = prevPoint.y + ((originMoveToY - prevPoint.y) * kCurveMarginPart)
+            if let curveControlPoint = curveControlPoint {
+                path.addQuadCurve(to: CGPoint(x: startX, y: startY),
+                                  control: CGPoint(x: curveControlPoint.0, y: curveControlPoint.1))
+            }
+            if i == bpms.count - 1 {
+                path.addLine(
+                    to: CGPoint(
+                        x: originMoveToX,
+                        y: originMoveToY
                     )
                 )
-            )
+            } else {
+                path.addLine(
+                    to: CGPoint(
+                        x: moveToX,
+                        y: moveToY
+                    )
+                )
+            }
+            prevPoint = CGPoint(x: originMoveToX, y: originMoveToY)
+            curveControlPoint = (originMoveToX, originMoveToY)
         }
     }
 
@@ -112,7 +139,7 @@ struct HeartZoneGraphView: View {
                         )
                     }
                     .stroke(
-                        bpm.color.toColor(), style: StrokeStyle(lineWidth: 2.5, lineCap: .butt, lineJoin: .round)
+                        bpm.color.toColor(), style: StrokeStyle(lineWidth: 2.25, lineCap: .butt, lineJoin: .round)
                     )
                 }
                 .id(UUID())
