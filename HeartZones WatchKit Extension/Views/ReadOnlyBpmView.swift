@@ -11,7 +11,7 @@ struct ReadOnlyBpmView: View {
     struct IndicatorView: View {
         let zones: [ReadOnlyBpmViewModel.Zone]
         let percentage: CGFloat
-        
+
         private let kHeight: CGFloat = 20
         private let kRadius: CGFloat = 8
         private let kSpacing: CGFloat = 1
@@ -26,7 +26,9 @@ struct ReadOnlyBpmView: View {
                     HStack(spacing: kSpacing) {
                         ForEach(zones, id: \.self) { zone in
                             RoundedRectangle(cornerRadius: kRadius)
-                                .frame(width: getRectangleBaseWidth(geo, zonesCount: zones.count) * (zone.upperPercentage - zone.lowerPercentage), height: kHeight)
+                                .frame(width: getRectangleBaseWidth(geo, zonesCount: zones.count) *
+                                    (zone.upperPercentage - zone.lowerPercentage),
+                                    height: kHeight)
                                 .foregroundColor(zone.color)
                         }
                     }
@@ -43,20 +45,19 @@ struct ReadOnlyBpmView: View {
     struct BpmView: View {
         let bpm: String
         let color: Color
-        
+
         var body: some View {
-                Text(bpm)
-                    .minimumScaleFactor(0.6)
-                    .lineLimit(1)
-                    .foregroundColor(color)
-                    .font(
-                        Font.system(size: 62, weight: .light, design: .default)
-                    )
-                    .frame(width: 100, alignment: .center)
-            
+            Text(bpm)
+                .minimumScaleFactor(0.6)
+                .lineLimit(1)
+                .foregroundColor(color)
+                .font(
+                    Font.system(size: 62, weight: .light, design: .default)
+                )
+                .frame(width: 100, alignment: .center)
         }
     }
-    
+
     @ObservedObject var readOnlyBpmViewModel: ReadOnlyBpmViewModel
 
     var body: some View {
@@ -69,6 +70,11 @@ struct ReadOnlyBpmView: View {
 
 struct ReadOnlyBpmView_Previews: PreviewProvider {
     static var previews: some View {
-        ReadOnlyBpmView(readOnlyBpmViewModel: ReadOnlyBpmViewModel(healthKitService: HealthKitService(), settingsService: SettingsService(settingsRepository: SettingsRepository(), healthKitService: HealthKitService())))
+        ReadOnlyBpmView(readOnlyBpmViewModel:
+            ReadOnlyBpmViewModel(healthKitService: HealthKitService(),
+                                 settingsService: SettingsService(
+                                     settingsRepository: SettingsRepository(),
+                                     healthKitService: HealthKitService()
+                                 )))
     }
 }
