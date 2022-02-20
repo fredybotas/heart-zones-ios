@@ -82,6 +82,7 @@
 		B6E30C4126851996007CCA38 /* WorkoutControlsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6E30C4026851996007CCA38 /* WorkoutControlsView.swift */; };
 		B6E30C43268519B8007CCA38 /* WorkoutRunningView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6E30C42268519B8007CCA38 /* WorkoutRunningView.swift */; };
 		B6E8796227499D6100E8E303 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B6E8796127499D6100E8E303 /* Assets.xcassets */; };
+		B6EF693627C261F900DE1516 /* ReadOnlyBpmViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6EF693527C261F900DE1516 /* ReadOnlyBpmViewModel.swift */; };
 		B6F35ED727BFC8FA008C8142 /* ReadOnlyBpmView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6F35ED627BFC8FA008C8142 /* ReadOnlyBpmView.swift */; };
 		B6F6E119273D7E49009C5E6A /* SummaryDataProcessingStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6F6E118273D7E49009C5E6A /* SummaryDataProcessingStrategy.swift */; };
 		B6FC5DEE27A99A2E00E7763F /* WorkoutReadOnlyService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6FC5DED27A99A2E00E7763F /* WorkoutReadOnlyService.swift */; };
@@ -221,6 +222,7 @@
 		B6E30C4026851996007CCA38 /* WorkoutControlsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutControlsView.swift; sourceTree = "<group>"; };
 		B6E30C42268519B8007CCA38 /* WorkoutRunningView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutRunningView.swift; sourceTree = "<group>"; };
 		B6E8796127499D6100E8E303 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		B6EF693527C261F900DE1516 /* ReadOnlyBpmViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadOnlyBpmViewModel.swift; sourceTree = "<group>"; };
 		B6F35ED627BFC8FA008C8142 /* ReadOnlyBpmView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadOnlyBpmView.swift; sourceTree = "<group>"; };
 		B6F6E118273D7E49009C5E6A /* SummaryDataProcessingStrategy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SummaryDataProcessingStrategy.swift; sourceTree = "<group>"; };
 		B6FC5DED27A99A2E00E7763F /* WorkoutReadOnlyService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutReadOnlyService.swift; sourceTree = "<group>"; };
@@ -397,6 +399,7 @@
 				B636EF1A272B235E0038BD85 /* WorkoutSummaryViewModel.swift */,
 				B68E17AD2752922400EFB06F /* HeartZoneGraphViewModel.swift */,
 				3F4AC72A2795D944000D556E /* HeartZoneBarsViewModel.swift */,
+				B6EF693527C261F900DE1516 /* ReadOnlyBpmViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -708,6 +711,7 @@
 				B636EF19272B234B0038BD85 /* WorkoutSummaryView.swift in Sources */,
 				B650A95F26878E1F0042B33D /* WorkoutViewModel.swift in Sources */,
 				B6F35ED727BFC8FA008C8142 /* ReadOnlyBpmView.swift in Sources */,
+				B6EF693627C261F900DE1516 /* ReadOnlyBpmViewModel.swift in Sources */,
 				B6E30C43268519B8007CCA38 /* WorkoutRunningView.swift in Sources */,
 				B68E17AE2752922400EFB06F /* HeartZoneGraphViewModel.swift in Sources */,
 				B62EF908269E1FE40067E894 /* SunService.swift in Sources */,

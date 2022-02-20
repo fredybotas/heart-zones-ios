@@ -67,5 +67,12 @@
             </objects>
             <point key="canvasLocation" x="403" y="521"/>
         </scene>
+        <!--HostingControllerReadOnlyBpm-->
+        <scene sceneID="0eS-Qj-iPV">
+            <objects>
+                <hostingController identifier="HostingControllerReadOnlyBpm" id="5mU-P7-82u" customClass="HostingControllerReadOnlyBpm" customModule="HeartZones_WatchKit_Extension"/>
+            </objects>
+            <point key="canvasLocation" x="714" y="228"/>
+        </scene>
     </scenes>
 </document>

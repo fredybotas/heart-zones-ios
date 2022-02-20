@@ -49,6 +49,7 @@ struct HeartZonesSetting: Codable, Hashable {
             return zone[0]
         }
         // bpm has to be higher, return last zone
+        // Precondition is that zones is always not empty
         return zones.last!
     }
 

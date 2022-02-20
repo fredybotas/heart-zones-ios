@@ -46,7 +46,7 @@ class HostingControllerWorkoutSelection: WKHostingController<WorkoutSelectionVie
     }
 
     static func presentReadOnlyMode() {
-        let contexts: [Any?] = [nil, WorkoutMode.readOnly, WorkoutMode.readOnly]
+        let contexts: [Any?] = [nil, nil, WorkoutMode.readOnly, WorkoutMode.readOnly]
 
         // TODO: Move to viewmodel
         let readOnlyWorkoutService = DIContainer.shared.resolve(WorkoutReadOnlyService.self)!
@@ -55,6 +55,7 @@ class HostingControllerWorkoutSelection: WKHostingController<WorkoutSelectionVie
         WKInterfaceController.reloadRootPageControllers(
             withNames: [
                 HostingControllerReadOnlyWorkoutControlls.identifier,
+                HostingControllerReadOnlyBpm.identifier,
                 HostingControllerWorkoutGraph.identifier,
                 HostingControllerWorkoutBars.identifier
             ], contexts: contexts as [Any], orientation: WKPageOrientation.horizontal, pageIndex: 1
@@ -163,5 +164,13 @@ class HostingControllerWorkoutBars: WKHostingController<HeartZoneBarsView> {
     override var body: HeartZoneBarsView {
         return HeartZoneBarsView(
             heartZoneBarsViewModel: DIContainer.shared.resolve(HeartZoneBarsViewModel.self, argument: workoutMode)!)
+    }
+}
+
+class HostingControllerReadOnlyBpm: WKHostingController<ReadOnlyBpmView> {
+    static let identifier = "HostingControllerReadOnlyBpm"
+
+    override var body: ReadOnlyBpmView {
+        return ReadOnlyBpmView(readOnlyBpmViewModel: DIContainer.shared.resolve(ReadOnlyBpmViewModel.self)!)
     }
 }

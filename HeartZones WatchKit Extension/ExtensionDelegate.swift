@@ -205,6 +205,14 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
                 return HeartZoneBarsViewModel(settingsService: settingsService, workoutService: workoutService)
             }
         )
+        container.register(
+            ReadOnlyBpmViewModel.self,
+            factory: { resolver in
+                let healthKitService = resolver.resolve(HealthKitService.self)!
+                let settingsService = resolver.resolve(SettingsService.self)!
+                return ReadOnlyBpmViewModel(healthKitService: healthKitService, settingsService: settingsService)
+            }
+        )
 
         return container
     }()
