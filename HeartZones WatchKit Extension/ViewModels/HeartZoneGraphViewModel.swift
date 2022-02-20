@@ -65,6 +65,7 @@ class HeartZoneGraphViewModel: ObservableObject {
         segmentProcessor = BpmSegmentProcessor(settingsService: settingsService)
 
         $crown
+            .dropFirst()
             .debounce(for: .seconds(0.2), scheduler: RunLoop.main, options: nil)
             .sink { [weak self] _ in
                 self?.getBpmData()
@@ -72,6 +73,7 @@ class HeartZoneGraphViewModel: ObservableObject {
             .store(in: &cancellables)
 
         $isScreenVisible
+            .dropFirst()
             .sink { [weak self] visible in
                 if visible {
                     self?.startTimer()

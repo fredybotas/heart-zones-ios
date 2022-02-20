@@ -92,15 +92,14 @@ struct HeartZoneGraphView: View {
     }
 
     var body: some View {
-        if heartZoneGraphViewModel.showLoadingScreen {
-            Text("Waiting for more data")
-                .foregroundColor(.gray)
-                .lineLimit(1)
-                .minimumScaleFactor(0.5)
-                .onAppear(perform: { self.heartZoneGraphViewModel.isScreenVisible = true })
-                .onDisappear(perform: { self.heartZoneGraphViewModel.isScreenVisible = false })
-        } else {
-            GeometryReader { geo in
+        GeometryReader { geo in
+            if heartZoneGraphViewModel.showLoadingScreen {
+                Text("Waiting for more data")
+                    .foregroundColor(.gray)
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.5)
+                    .position(x: geo.size.width / 2, y: geo.size.height / 2)
+            } else {
                 Text(self.heartZoneGraphViewModel.bpmTimeDuration)
                     .frame(width: geo.size.width, alignment: .trailing)
                     .font(.footnote)
@@ -144,15 +143,15 @@ struct HeartZoneGraphView: View {
                 }
                 .id(UUID())
             }
-            .focusable(true)
-            .digitalCrownRotation(
-                $heartZoneGraphViewModel.crown, from: kMinimumCrownValue,
-                through: kMaximumCrownValue, by: 0.1, sensitivity: .low,
-                isContinuous: false, isHapticFeedbackEnabled: false
-            )
-            .onAppear(perform: { self.heartZoneGraphViewModel.isScreenVisible = true })
-            .onDisappear(perform: { self.heartZoneGraphViewModel.isScreenVisible = false })
         }
+        .focusable(true)
+        .digitalCrownRotation(
+            $heartZoneGraphViewModel.crown, from: kMinimumCrownValue,
+            through: kMaximumCrownValue, by: 0.1, sensitivity: .low,
+            isContinuous: false, isHapticFeedbackEnabled: false
+        )
+        .onAppear(perform: { self.heartZoneGraphViewModel.isScreenVisible = true })
+        .onDisappear(perform: { self.heartZoneGraphViewModel.isScreenVisible = false })
     }
 }
 
