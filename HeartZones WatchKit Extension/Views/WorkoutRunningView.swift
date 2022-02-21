@@ -130,7 +130,7 @@ struct WorkoutRunningView: View {
                                 )
                                 //                            .padding(2.5 * getDeviceSizeMultiplier())
                                 // Hack with new sdk causing, zstack to not center elements correctly
-                                .offset(x: 0.11, y: 0)
+                                .offset(x: 0.055, y: 0)
                             Text(String(workoutViewModel.bpmPercentage))
                                 .foregroundColor(workoutViewModel.bpmCircleColor)
                                 .frame(
