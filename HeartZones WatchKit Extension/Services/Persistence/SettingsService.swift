@@ -65,12 +65,12 @@ class SettingsService: ISettingsService {
     }
 
     var heartZonesAlertEnabled: Bool {
-        get { settingsRepository.heartZonesAlertEnabled ?? true }
+        get { settingsRepository.heartZonesAlertEnabled ?? false }
         set { settingsRepository.heartZonesAlertEnabled = newValue }
     }
 
     var targetHeartZoneAlertEnabled: Bool {
-        get { settingsRepository.targetHeartZoneAlertEnabled ?? true }
+        get { settingsRepository.targetHeartZoneAlertEnabled ?? false }
         set { settingsRepository.targetHeartZoneAlertEnabled = newValue }
     }
 
