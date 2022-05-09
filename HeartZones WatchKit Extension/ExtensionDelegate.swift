@@ -127,8 +127,9 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
         // Get new viewModel every time when requested
         container.register(
             WorkoutSelectionViewModel.self,
-            factory: { _ in
-                WorkoutSelectionViewModel()
+            factory: { resolver in
+                let service = resolver.resolve(SettingsService.self)!
+                return WorkoutSelectionViewModel(settingsService: service)
             }
         )
         container.register(

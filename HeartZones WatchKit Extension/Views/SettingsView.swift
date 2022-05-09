@@ -288,6 +288,12 @@ struct SettingsView: View {
                     Text("Reset Heart Zone Settings")
                 })
                 .accentColor(.red)
+                Button(action: {
+                    settingsViewModel.resetWorkoutsOrder()
+                }, label: {
+                    Text("Reset Workouts Order")
+                })
+                .accentColor(.red)
             }
         }
         .listStyle(DefaultListStyle())

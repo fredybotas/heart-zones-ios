@@ -62,6 +62,10 @@ struct HeartZoneBarsView: View {
 }
 
 class SettingsServiceFake: ISettingsService {
+    var workoutsOrder: [WorkoutType] = WorkoutType.getDefaultWorkouts()
+    
+    func resetWorkoutsOrder() {}
+    
     var zonesCount: Int = 4
 
     func resetHeartZoneSettings() {

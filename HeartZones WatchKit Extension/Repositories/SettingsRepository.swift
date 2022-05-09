@@ -18,6 +18,7 @@ protocol ISettingsRepository {
     var selectedMetricInFieldOne: WorkoutMetric? { get set }
     var selectedMetricInFieldTwo: WorkoutMetric? { get set }
     var selectedHeartZoneSetting: HeartZonesSetting? { get set }
+    var workoutsOrder: [WorkoutType]? { get set }
 }
 
 private let kHeartZonesAlertEnabledKey = "kHeartZonesAlertEnabledKey"
@@ -30,6 +31,7 @@ private let kSelectedSpeedMetric = "kSelectedSpeedMetric"
 private let kDefaultHeartZoneSetting = "kDefaultHeartZoneSetting"
 private let kSelectedMetricInFieldOne = "kSelectedMetricInFieldOne"
 private let kSelectedMetricInFieldTwo = "kSelectedMetricInFieldTwo"
+private let kWorkoutsOrder = "kWorkoutsOrder"
 
 class SettingsRepository: ISettingsRepository {
     let manager = UserDefaultsManager()
@@ -83,6 +85,11 @@ class SettingsRepository: ISettingsRepository {
         get { manager.get(key: kDefaultHeartZoneSetting) }
         set { manager.save(newValue, key: kDefaultHeartZoneSetting) }
     }
+    
+    var workoutsOrder: [WorkoutType]? {
+        get { manager.get(key: kWorkoutsOrder) }
+        set { manager.save(newValue, key: kWorkoutsOrder) }
+    }
 }
 
 class SettingsRepositoryCached: ISettingsRepository {
@@ -98,7 +105,8 @@ class SettingsRepositoryCached: ISettingsRepository {
     private var selectedWorkoutUnitOneInternal: WorkoutMetric?
     private var selectedWorkoutUnitTwoInternal: WorkoutMetric?
     private var selectedHeartZoneSettingInternal: HeartZonesSetting?
-
+    private var workoutsOrderInternal: [WorkoutType]?
+    
     init() {
         heartZonesAlertEnabledInternal = settingsRepository.heartZonesAlertEnabled
         targetHeartZoneAlertEnabledInternal = settingsRepository.targetHeartZoneAlertEnabled
@@ -110,6 +118,7 @@ class SettingsRepositoryCached: ISettingsRepository {
         selectedHeartZoneSettingInternal = settingsRepository.selectedHeartZoneSetting
         selectedMetricInFieldOne = settingsRepository.selectedMetricInFieldOne
         selectedMetricInFieldTwo = settingsRepository.selectedMetricInFieldTwo
+        workoutsOrderInternal = settingsRepository.workoutsOrder
     }
 
     var heartZonesAlertEnabled: Bool? {
@@ -219,6 +228,17 @@ class SettingsRepositoryCached: ISettingsRepository {
         set {
             selectedHeartZoneSettingInternal = newValue
             settingsRepository.selectedHeartZoneSetting = newValue
+        }
+    }
+    
+    var workoutsOrder: [WorkoutType]? {
+        get {
+            return workoutsOrderInternal
+        }
+        
+        set {
+            workoutsOrderInternal = newValue
+            settingsRepository.workoutsOrder = newValue
         }
     }
 }

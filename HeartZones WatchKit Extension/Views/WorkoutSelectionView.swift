@@ -23,9 +23,9 @@ struct WorkoutSelectionView: View {
                 .font(Font.system(size: 14, weight: .regular, design: .default))
                 .padding(EdgeInsets(top: 10, leading: 3, bottom: 10, trailing: 3))
             }
-//            Divider()
-//                .frame(maxHeight: 2)
-//                .listRowPlatterColor(.clear)
+            .onMove { index, i in
+                workoutSelectionViewModel.workoutTypes.move(fromOffsets: index, toOffset: i)
+            }
             Button("Read-only mode",
                    action: {
                        HostingControllerWorkoutSelection.presentReadOnlyMode()
@@ -47,11 +47,14 @@ struct WorkoutSelectionView: View {
         }
         .listStyle(CarouselListStyle())
         .navigationBarTitle("Workouts")
+        .onAppear {
+            workoutSelectionViewModel.refreshWorkouts()
+        }
     }
 }
 
 struct WorkoutSelectionView_Previews: PreviewProvider {
     static var previews: some View {
-        WorkoutSelectionView(workoutSelectionViewModel: WorkoutSelectionViewModel())
+        WorkoutSelectionView(workoutSelectionViewModel: WorkoutSelectionViewModel(settingsService: SettingsService(settingsRepository: SettingsRepository(), healthKitService: HealthKitService())))
     }
 }

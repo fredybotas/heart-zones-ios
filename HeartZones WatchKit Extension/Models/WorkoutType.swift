@@ -17,8 +17,8 @@ let typeToString: [WorkoutType.TypeValues: String] = [
     .hiit: "HIIT"
 ]
 
-struct WorkoutType: Identifiable {
-    enum TypeValues: Int {
+struct WorkoutType: Identifiable, Codable {
+    enum TypeValues: Int, Codable {
         case outdoorRunning, indoorRunning, outdoorCycling, indoorCycling, walking, hiit
     }
 
@@ -74,5 +74,27 @@ struct WorkoutType: Identifiable {
             return WorkoutType(type: .hiit)
         }
         return WorkoutType(type: .outdoorRunning)
+    }
+    
+    static func getDefaultWorkouts() -> [WorkoutType] {
+        return [
+            WorkoutType(type: .outdoorRunning),
+            WorkoutType(type: .indoorRunning),
+            WorkoutType(type: .walking),
+            WorkoutType(type: .outdoorCycling),
+            WorkoutType(type: .indoorCycling),
+            WorkoutType(type: .hiit)
+        ]
+    }
+    
+    static func getDiffToDefault(workouts: [WorkoutType]) -> [WorkoutType] {
+        var result = [WorkoutType]()
+        let defaultWorkouts = getDefaultWorkouts()
+        for workout in defaultWorkouts {
+            if !workouts.contains(where: { $0.id == workout.id }) {
+                result.append(workout)
+            }
+        }
+        return result
     }
 }

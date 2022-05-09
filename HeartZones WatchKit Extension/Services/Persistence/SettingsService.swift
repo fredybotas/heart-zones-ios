@@ -19,8 +19,10 @@ protocol ISettingsService {
     var selectedMetricInFieldTwo: WorkoutMetric { get set }
     var selectedHeartZoneSetting: HeartZonesSetting { get set }
     var targetZoneId: Int { get set }
-
+    var workoutsOrder: [WorkoutType] { get set }
+    
     func resetHeartZoneSettings()
+    func resetWorkoutsOrder()
 }
 
 let kDefaultAge = 25
@@ -107,6 +109,23 @@ class SettingsService: ISettingsService {
             settingsRepository.zonesCount = newValue.zones.count
         }
     }
+    
+    var workoutsOrder: [WorkoutType] {
+        get {
+            let defaultWorkoutOrders = WorkoutType.getDefaultWorkouts()
+            if let savedWorkoutsOrder = settingsRepository.workoutsOrder {
+                if savedWorkoutsOrder.count == defaultWorkoutOrders.count {
+                    return savedWorkoutsOrder
+                } else {
+                    return savedWorkoutsOrder + WorkoutType.getDiffToDefault(workouts: savedWorkoutsOrder)
+                }
+            }
+            return defaultWorkoutOrders
+        }
+        set {
+            settingsRepository.workoutsOrder = newValue
+        }
+    }
 
     private var settingsRepository: ISettingsRepository
     private var healthKitService: IHealthKitService
@@ -120,6 +139,10 @@ class SettingsService: ISettingsService {
         settingsRepository.selectedHeartZoneSetting = nil
         settingsRepository.maximumBpm = nil
         settingsRepository.zonesCount = nil
+    }
+    
+    func resetWorkoutsOrder() {
+        settingsRepository.workoutsOrder = nil
     }
 
     static func userPrefersMetric() -> Bool {

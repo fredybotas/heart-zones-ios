@@ -183,4 +183,8 @@ class SettingsViewModel: ObservableObject {
 
         initBindings()
     }
+    
+    func resetWorkoutsOrder() {
+        settingsService.resetWorkoutsOrder()
+    }
 }

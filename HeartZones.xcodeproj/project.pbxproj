@@ -29,6 +29,7 @@
 		B62DDBDF26AC0DEA001D3D26 /* HealthKitServiceMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = B62DDBDE26AC0DEA001D3D26 /* HealthKitServiceMock.swift */; };
 		B62DDBE326AC2F06001D3D26 /* AuthorizationManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B62DDBE226AC2F06001D3D26 /* AuthorizationManagerTests.swift */; };
 		B62EF908269E1FE40067E894 /* SunService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B62EF907269E1FE40067E894 /* SunService.swift */; };
+		B631F841282989D100E2EE67 /* WorkoutsRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = B631F840282989D100E2EE67 /* WorkoutsRepository.swift */; };
 		B636EF19272B234B0038BD85 /* WorkoutSummaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B636EF18272B234B0038BD85 /* WorkoutSummaryView.swift */; };
 		B636EF1B272B235E0038BD85 /* WorkoutSummaryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B636EF1A272B235E0038BD85 /* WorkoutSummaryViewModel.swift */; };
 		B637F8D826BFC12A00D81AA6 /* EnergyShowingStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = B637F8D726BFC12A00D81AA6 /* EnergyShowingStrategy.swift */; };
@@ -169,6 +170,7 @@
 		B62DDBE026AC22A5001D3D26 /* AuthorizationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizationManager.swift; sourceTree = "<group>"; };
 		B62DDBE226AC2F06001D3D26 /* AuthorizationManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizationManagerTests.swift; sourceTree = "<group>"; };
 		B62EF907269E1FE40067E894 /* SunService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SunService.swift; sourceTree = "<group>"; };
+		B631F840282989D100E2EE67 /* WorkoutsRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutsRepository.swift; sourceTree = "<group>"; };
 		B634FC5626AF4A860082AE4E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B636EF18272B234B0038BD85 /* WorkoutSummaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutSummaryView.swift; sourceTree = "<group>"; };
 		B636EF1A272B235E0038BD85 /* WorkoutSummaryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutSummaryViewModel.swift; sourceTree = "<group>"; };
@@ -449,6 +451,7 @@
 			children = (
 				B68999142709FF0B00F92061 /* Utils */,
 				B661A3F126B5622000E78D8E /* SettingsRepository.swift */,
+				B631F840282989D100E2EE67 /* WorkoutsRepository.swift */,
 			);
 			path = Repositories;
 			sourceTree = "<group>";
@@ -719,6 +722,7 @@
 				B6E30C4126851996007CCA38 /* WorkoutControlsView.swift in Sources */,
 				3FE82C542795F74F0006CB93 /* BpmEntry.swift in Sources */,
 				B650A9692688853A0042B33D /* WorkoutType.swift in Sources */,
+				B631F841282989D100E2EE67 /* WorkoutsRepository.swift in Sources */,
 				B6628A71268A538300901D17 /* HostingController.swift in Sources */,
 				B63AB83D269780FA007E07E9 /* DeviceBeepingManager.swift in Sources */,
 				B6B6EC9A268E465800170E39 /* Containers.swift in Sources */,
