@@ -116,8 +116,8 @@ class SettingsRepositoryCached: ISettingsRepository {
         selectedEnergyMetricInternal = settingsRepository.selectedEnergyMetric
         selectedSpeedMetricInternal = settingsRepository.selectedSpeedMetric
         selectedHeartZoneSettingInternal = settingsRepository.selectedHeartZoneSetting
-        selectedMetricInFieldOne = settingsRepository.selectedMetricInFieldOne
-        selectedMetricInFieldTwo = settingsRepository.selectedMetricInFieldTwo
+        selectedWorkoutUnitOneInternal = settingsRepository.selectedMetricInFieldOne
+        selectedWorkoutUnitTwoInternal = settingsRepository.selectedMetricInFieldTwo
         workoutsOrderInternal = settingsRepository.workoutsOrder
     }
 
