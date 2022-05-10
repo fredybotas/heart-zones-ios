@@ -26,6 +26,23 @@ struct WorkoutType: Identifiable, Codable {
     var name: String {
         return typeToString[type]!
     }
+    
+    var imageName: String {
+        switch (type) {
+        case .outdoorRunning:
+            return "running"
+        case .indoorRunning:
+            return "running"
+        case .outdoorCycling:
+            return "cycling"
+        case .indoorCycling:
+            return "cycling"
+        case .walking:
+            return "walking"
+        case .hiit:
+            return "hiit"
+        }
+    }
 
     var id: Int {
         return type.rawValue
