@@ -97,12 +97,14 @@ class HeartZoneSettingsViewModel: ObservableObject {
     var settingsService: ISettingsService
 
     @Published var zones: [HeartZoneViewModel]
+    @Published var showCrownHelper: Bool
 
     var cancellables = Set<AnyCancellable>()
     let zoneSetting: HeartZonesSetting
 
     init(settingsService: ISettingsService) {
         self.settingsService = settingsService
+        showCrownHelper = false
         zoneSetting = settingsService.selectedHeartZoneSetting
         zones = zoneSetting.zones
             .enumerated()
@@ -136,6 +138,14 @@ class HeartZoneSettingsViewModel: ObservableObject {
                 self?.saveZone()
             }
             .store(in: &cancellables)
+    }
+    
+    func knobDragStarted() {
+        showCrownHelper = true
+    }
+    
+    func knobDragEnded() {
+        showCrownHelper = false
     }
 
     private func saveZone() {

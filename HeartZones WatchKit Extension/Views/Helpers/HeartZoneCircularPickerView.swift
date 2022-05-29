@@ -139,6 +139,7 @@ struct MiddleTextView: View {
 struct HeartZoneCircularPickerView: View {
     @ObservedObject var heartZoneSettingsViewModel: HeartZoneSettingsViewModel
     @State var focusedIndex: Int = 0
+    private let kKnobHelperSize: CGFloat = 25
 
     func getMinDimension(geo: GeometryProxy) -> CGFloat {
         let width = geo.size.width
@@ -160,6 +161,16 @@ struct HeartZoneCircularPickerView: View {
     func getKnobRadius(geo: GeometryProxy) -> CGFloat {
         return getMinDimension(geo: geo) / 19
     }
+    
+    var knobDrag: some Gesture {
+        DragGesture()
+            .onChanged { _ in
+                heartZoneSettingsViewModel.knobDragStarted()
+            }
+            .onEnded { _ in
+                heartZoneSettingsViewModel.knobDragEnded()
+            }
+    }
 
     var body: some View {
         GeometryReader { geo in
@@ -177,6 +188,15 @@ struct HeartZoneCircularPickerView: View {
                         index: i, isLast: heartZoneSettingsViewModel.zones[i].isLast,
                         radius: getRadius(geo: geo), knobRadius: getKnobRadius(geo: geo)
                     )
+                    .gesture(knobDrag)
+                }
+                
+                if heartZoneSettingsViewModel.showCrownHelper {
+                    Image(systemName: "digitalcrown.arrow.counterclockwise")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: kKnobHelperSize, alignment: .center)
+                        .position(x: geo.size.width - kKnobHelperSize / 2, y: kKnobHelperSize / 2)
                 }
 
                 MiddleTextView(
