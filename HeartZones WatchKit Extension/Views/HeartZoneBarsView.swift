@@ -93,7 +93,7 @@ struct HeartZoneBarsView_Previews: PreviewProvider {
             SettingsServiceFake(),
             workoutService: WorkoutService(
                 locationManager: LocationManager(),
-                healthKitService: HealthKitService(),
+                healthKitService: HealthKitService(), bpmDataFetcher: HealthKitService(),
                 settingsService: SettingsService(
                     settingsRepository: SettingsRepository(),
                     healthKitService: HealthKitService()

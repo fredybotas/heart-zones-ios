@@ -9,10 +9,10 @@ import Foundation
 
 class WorkoutReadOnlyService: WorkoutControlsProtocol {
     private var workoutStartedAt: Date?
-    private let healthKitService: IHealthKitService
+    private let healthKitService: FetchBpmDataProtocol
     private let zoneStatisticsCalculator: IZoneStaticticsCalculator
 
-    init(healthKitService: IHealthKitService, zoneStatisticsCalculator: IZoneStaticticsCalculator) {
+    init(healthKitService: FetchBpmDataProtocol, zoneStatisticsCalculator: IZoneStaticticsCalculator) {
         self.healthKitService = healthKitService
         self.zoneStatisticsCalculator = zoneStatisticsCalculator
         workoutStartedAt = Date()

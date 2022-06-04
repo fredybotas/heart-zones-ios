@@ -29,7 +29,7 @@ class BpmEntrySegment {
         self.endDate = endDate
     }
 
-    func fillEntries(healthKitService: IHealthKitService) {
+    func fillEntries(healthKitService: FetchBpmDataProtocol) {
         let group = DispatchGroup()
         group.enter()
         entriesPromise = healthKitService.getBpmData(

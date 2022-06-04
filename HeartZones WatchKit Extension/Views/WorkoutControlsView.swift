@@ -54,7 +54,7 @@ struct WorkoutControlsView_Previews: PreviewProvider {
         WorkoutControlsView(
             workoutControlsViewModel: WorkoutControlsViewModel(
                 workoutService: WorkoutService(
-                    locationManager: LocationManager(), healthKitService: HealthKitService(),
+                    locationManager: LocationManager(), healthKitService: HealthKitService(), bpmDataFetcher: HealthKitService(),
                     settingsService: SettingsService(
                         settingsRepository: SettingsRepository(), healthKitService: HealthKitService()
                     ), zoneStatisticsCalculator:

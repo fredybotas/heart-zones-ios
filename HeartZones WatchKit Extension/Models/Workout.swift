@@ -94,6 +94,7 @@ class Workout: NSObject, IWorkout, HKLiveWorkoutBuilderDelegate, HKWorkoutSessio
     private let zoneStatisticsCalculator: IZoneStaticticsCalculator
 
     private let healthKitService: IHealthKitService
+    private let bpmDatafetcher: FetchBpmDataProtocol
     private let workoutActiveTimeProcessor: WorkoutActiveTimeProcessor
 
     private var activeWorkoutSession: HKWorkoutSession?
@@ -107,10 +108,11 @@ class Workout: NSObject, IWorkout, HKLiveWorkoutBuilderDelegate, HKWorkoutSessio
     private var state: State = .notInitialized
 
     convenience init(
-        healthKitService: IHealthKitService, session: HKWorkoutSession, locationManager: WorkoutLocationFetcher,
+        healthKitService: IHealthKitService, bpmDataFetcher: FetchBpmDataProtocol, session: HKWorkoutSession, locationManager: WorkoutLocationFetcher,
         settingsService: ISettingsService, zoneStatisticsCalculator: IZoneStaticticsCalculator
     ) {
         self.init(healthKitService: healthKitService,
+                  bpmDataFetcher: bpmDataFetcher,
                   type: WorkoutType.configurationToType(configuration: session.workoutConfiguration),
                   locationManager: locationManager,
                   settingsService: settingsService, zoneStatisticsCalculator: zoneStatisticsCalculator)
@@ -118,10 +120,11 @@ class Workout: NSObject, IWorkout, HKLiveWorkoutBuilderDelegate, HKWorkoutSessio
     }
 
     init(
-        healthKitService: IHealthKitService, type: WorkoutType, locationManager: WorkoutLocationFetcher,
+        healthKitService: IHealthKitService, bpmDataFetcher: FetchBpmDataProtocol, type: WorkoutType, locationManager: WorkoutLocationFetcher,
         settingsService: ISettingsService, zoneStatisticsCalculator: IZoneStaticticsCalculator
     ) {
         self.healthKitService = healthKitService
+        self.bpmDatafetcher = bpmDataFetcher
         workoutType = type
         self.locationManager = locationManager
         configuration = workoutType.getConfiguration()
@@ -296,7 +299,7 @@ class Workout: NSObject, IWorkout, HKLiveWorkoutBuilderDelegate, HKWorkoutSessio
                                  date: $0.dateInterval.end)
                 }
             )
-        segments.forEach { $0.fillEntries(healthKitService: healthKitService) }
+        segments.forEach { $0.fillEntries(healthKitService: bpmDatafetcher) }
         return segments
     }
 

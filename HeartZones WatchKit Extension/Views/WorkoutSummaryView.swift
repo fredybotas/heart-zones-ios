@@ -136,7 +136,7 @@ struct WorkoutSummaryView_Previews: PreviewProvider {
             WorkoutSummaryView(
                 workoutSummaryViewModel: WorkoutSummaryViewModel(
                     workoutService: WorkoutService(
-                        locationManager: LocationManager(), healthKitService: HealthKitService(),
+                        locationManager: LocationManager(), healthKitService: HealthKitService(), bpmDataFetcher: HealthKitService(),
                         settingsService: SettingsService(
                             settingsRepository: SettingsRepository(), healthKitService: HealthKitService()
                         ), zoneStatisticsCalculator:
@@ -155,7 +155,7 @@ struct WorkoutSummaryView_Previews: PreviewProvider {
             WorkoutSummaryView(
                 workoutSummaryViewModel: WorkoutSummaryViewModel(
                     workoutService: WorkoutService(
-                        locationManager: LocationManager(), healthKitService: HealthKitService(),
+                        locationManager: LocationManager(), healthKitService: HealthKitService(), bpmDataFetcher: HealthKitService(),
                         settingsService: SettingsService(
                             settingsRepository: SettingsRepository(), healthKitService: HealthKitService()
                         ), zoneStatisticsCalculator:
@@ -174,7 +174,7 @@ struct WorkoutSummaryView_Previews: PreviewProvider {
             WorkoutSummaryView(
                 workoutSummaryViewModel: WorkoutSummaryViewModel(
                     workoutService: WorkoutService(
-                        locationManager: LocationManager(), healthKitService: HealthKitService(),
+                        locationManager: LocationManager(), healthKitService: HealthKitService(), bpmDataFetcher: HealthKitService(),
                         settingsService: SettingsService(
                             settingsRepository: SettingsRepository(), healthKitService: HealthKitService()
                         ), zoneStatisticsCalculator:
@@ -193,7 +193,7 @@ struct WorkoutSummaryView_Previews: PreviewProvider {
             WorkoutSummaryView(
                 workoutSummaryViewModel: WorkoutSummaryViewModel(
                     workoutService: WorkoutService(
-                        locationManager: LocationManager(), healthKitService: HealthKitService(),
+                        locationManager: LocationManager(), healthKitService: HealthKitService(), bpmDataFetcher: HealthKitService(),
                         settingsService: SettingsService(
                             settingsRepository: SettingsRepository(), healthKitService: HealthKitService()
                         ), zoneStatisticsCalculator:
@@ -212,7 +212,7 @@ struct WorkoutSummaryView_Previews: PreviewProvider {
             WorkoutSummaryView(
                 workoutSummaryViewModel: WorkoutSummaryViewModel(
                     workoutService: WorkoutService(
-                        locationManager: LocationManager(), healthKitService: HealthKitService(),
+                        locationManager: LocationManager(), healthKitService: HealthKitService(), bpmDataFetcher: HealthKitService(),
                         settingsService: SettingsService(
                             settingsRepository: SettingsRepository(), healthKitService: HealthKitService()
                         ), zoneStatisticsCalculator:
@@ -231,7 +231,7 @@ struct WorkoutSummaryView_Previews: PreviewProvider {
             WorkoutSummaryView(
                 workoutSummaryViewModel: WorkoutSummaryViewModel(
                     workoutService: WorkoutService(
-                        locationManager: LocationManager(), healthKitService: HealthKitService(),
+                        locationManager: LocationManager(), healthKitService: HealthKitService(), bpmDataFetcher: HealthKitService(),
                         settingsService: SettingsService(
                             settingsRepository: SettingsRepository(), healthKitService: HealthKitService()
                         ), zoneStatisticsCalculator:

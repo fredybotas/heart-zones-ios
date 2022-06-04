@@ -14,16 +14,13 @@ protocol IHealthKitService {
     var age: Int? { get }
     var bpmDataPublisher: AnyPublisher<BpmEntry, Never>? { get }
 
-    func getBpmData(startDate: NSDate, endDate: NSDate) -> Future<[BpmEntry], Never>
-    func getBpmDataForWorkout(workout: HKWorkout) -> Future<[BpmEntry], Never>
-
     func startBpmPublishing()
     func stopBpmPublishing()
 }
 
 struct WorkoutNotSpecifiedError: Error {}
 
-class HealthKitService: IHealthKitService, Authorizable {
+class HealthKitService: IHealthKitService, Authorizable, FetchBpmDataProtocol {
     let healthStore = HKHealthStore()
     var bpmDataPublisher: AnyPublisher<BpmEntry, Never>?
     private var bpmQuery: HKQuery?

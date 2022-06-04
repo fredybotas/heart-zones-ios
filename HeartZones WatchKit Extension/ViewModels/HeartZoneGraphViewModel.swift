@@ -50,13 +50,13 @@ class HeartZoneGraphViewModel: ObservableObject {
     var cancellables = Set<AnyCancellable>()
 
     private var refreshTimer: AnyCancellable?
-    private let healthKit: IHealthKitService
+    private let healthKit: FetchBpmDataProtocol
     private let settingsService: ISettingsService
     private var bpmCancellable: AnyCancellable?
     private let segmentProcessor: BpmSegmentProcessor
     private let workoutService: WorkoutControlsProtocol
 
-    init(healthKitService: IHealthKitService,
+    init(healthKitService: FetchBpmDataProtocol,
          workoutService: WorkoutControlsProtocol,
          settingsService: ISettingsService) {
         healthKit = healthKitService
@@ -106,6 +106,7 @@ class HeartZoneGraphViewModel: ObservableObject {
         if elapsedTime > kMinimumGraphInterval {
             timeToShow = ((elapsedTime - kMinimumGraphInterval) * crown) + kMinimumGraphInterval
         }
+        // TODO: Check if one var for future is enough (if query lasts for more than 10s it may not be received)
         bpmCancellable = healthKit
             .getBpmData(startDate: Date(timeIntervalSinceNow: -timeToShow) as NSDate, endDate: NSDate())
             .receive(on: DispatchQueue.global(qos: .userInteractive))

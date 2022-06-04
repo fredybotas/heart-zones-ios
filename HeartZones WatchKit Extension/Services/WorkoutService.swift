@@ -34,6 +34,7 @@ enum WorkoutState {
 
 class WorkoutService: IWorkoutService, WorkoutControlsProtocol {
     private let healthKitService: IHealthKitService
+    private let bpmDataFetcher: FetchBpmDataProtocol
     private let locationManager: WorkoutLocationFetcher
     private let settingsService: ISettingsService
     private let zoneStatisticsCalculator: IZoneStaticticsCalculator
@@ -41,17 +42,19 @@ class WorkoutService: IWorkoutService, WorkoutControlsProtocol {
     @Published private var workoutState: WorkoutState = .notPresent
 
     init(
-        locationManager: LocationManager, healthKitService: IHealthKitService,
+        locationManager: LocationManager, healthKitService: IHealthKitService, bpmDataFetcher: FetchBpmDataProtocol,
         settingsService: ISettingsService, zoneStatisticsCalculator: IZoneStaticticsCalculator
     ) {
         self.locationManager = locationManager
         self.healthKitService = healthKitService
+        self.bpmDataFetcher = bpmDataFetcher
         self.settingsService = settingsService
         self.zoneStatisticsCalculator = zoneStatisticsCalculator
     }
 
     func setRecoveredWorkout(session: HKWorkoutSession) {
         activeWorkout = Workout(healthKitService: healthKitService,
+                                bpmDataFetcher: bpmDataFetcher,
                                 session: session, locationManager: locationManager,
                                 settingsService: settingsService, zoneStatisticsCalculator: zoneStatisticsCalculator)
         activeWorkout?.startWorkout()
@@ -65,7 +68,7 @@ class WorkoutService: IWorkoutService, WorkoutControlsProtocol {
         }
 
         activeWorkout = Workout(
-            healthKitService: healthKitService, type: workoutType, locationManager: locationManager,
+            healthKitService: healthKitService, bpmDataFetcher: bpmDataFetcher, type: workoutType, locationManager: locationManager,
             settingsService: settingsService, zoneStatisticsCalculator: zoneStatisticsCalculator
         )
         activeWorkout?.startWorkout()

@@ -184,7 +184,7 @@ struct WorkoutRunningView_Previews: PreviewProvider {
     static var viewModel = WorkoutViewModel(
         workoutType: WorkoutType(type: .outdoorRunning),
         workoutService: WorkoutService(
-            locationManager: LocationManager(), healthKitService: HealthKitService(),
+            locationManager: LocationManager(), healthKitService: HealthKitService(), bpmDataFetcher: HealthKitService(),
             settingsService: SettingsService(
                 settingsRepository: SettingsRepository(), healthKitService: HealthKitService()
             ), zoneStatisticsCalculator:
@@ -195,7 +195,7 @@ struct WorkoutRunningView_Previews: PreviewProvider {
         ),
         heartZoneService: HeartZoneService(
             workoutService: WorkoutService(
-                locationManager: LocationManager(), healthKitService: HealthKitService(),
+                locationManager: LocationManager(), healthKitService: HealthKitService(), bpmDataFetcher: HealthKitService(),
                 settingsService: SettingsService(
                     settingsRepository: SettingsRepository(), healthKitService: HealthKitService()
                 ), zoneStatisticsCalculator:
