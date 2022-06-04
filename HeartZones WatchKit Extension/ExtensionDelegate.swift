@@ -56,7 +56,7 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
                 let settingsService = resolver.resolve(SettingsService.self)!
                 let zoneStatisticsCalculator = resolver.resolve(ZoneStatisticsCalculator.self)!
                 return WorkoutService(
-                    locationManager: locationManager, healthKitService: healthKitService,
+                    locationManager: locationManager, healthKitService: healthKitService, bpmDataFetcher: healthKitService,
                     settingsService: settingsService, zoneStatisticsCalculator: zoneStatisticsCalculator
                 )
             }
@@ -95,7 +95,12 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
                 return AuthorizationManager(authorizables: [healthKit, locationManager])
             }
         ).inObjectScope(.container)
-
+        container.register(
+            PurchasesService.self,
+            factory: { _ in
+                return PurchasesService()
+            }
+        ).inObjectScope(.container)
         container.register(
             SettingsRepositoryCached.self,
             factory: { _ in

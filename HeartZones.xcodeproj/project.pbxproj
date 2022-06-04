@@ -39,6 +39,7 @@
 		B63AB84326983FB2007E07E9 /* WorkoutServiceFake.swift in Sources */ = {isa = PBXBuildFile; fileRef = B63AB84226983FB2007E07E9 /* WorkoutServiceFake.swift */; };
 		B63AB84526983FE2007E07E9 /* DeviceBeeperMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = B63AB84426983FE2007E07E9 /* DeviceBeeperMock.swift */; };
 		B63AB8472698DB57007E07E9 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B63AB8462698DB56007E07E9 /* LocationManager.swift */; };
+		B63B9375284A65CD002668B5 /* PurchasesService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B63B9374284A65CD002668B5 /* PurchasesService.swift */; };
 		B63E638A268B5962006593AA /* Interface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B6628A75268A56CB00901D17 /* Interface.storyboard */; };
 		B64D61EB26A342DC003E0737 /* SunViewWithMinutes.swift in Sources */ = {isa = PBXBuildFile; fileRef = B64D61EA26A342DC003E0737 /* SunViewWithMinutes.swift */; };
 		B64E5CEF26B1EFBF0087F246 /* HeartZoneStateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B64E5CEE26B1EFBF0087F246 /* HeartZoneStateTests.swift */; };
@@ -181,6 +182,7 @@
 		B63AB84226983FB2007E07E9 /* WorkoutServiceFake.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutServiceFake.swift; sourceTree = "<group>"; };
 		B63AB84426983FE2007E07E9 /* DeviceBeeperMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceBeeperMock.swift; sourceTree = "<group>"; };
 		B63AB8462698DB56007E07E9 /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
+		B63B9374284A65CD002668B5 /* PurchasesService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PurchasesService.swift; sourceTree = "<group>"; };
 		B64D61EA26A342DC003E0737 /* SunViewWithMinutes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SunViewWithMinutes.swift; sourceTree = "<group>"; };
 		B64E5CEE26B1EFBF0087F246 /* HeartZoneStateTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeartZoneStateTests.swift; sourceTree = "<group>"; };
 		B64E5CF026B1F0C20087F246 /* ZoneStateManagerMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZoneStateManagerMock.swift; sourceTree = "<group>"; };
@@ -423,6 +425,7 @@
 				3FE82C552795F77F0006CB93 /* ZoneStatistics.swift */,
 				3FBAB1CC27975E9700CC1E33 /* WorkoutActiveTimeProcessor.swift */,
 				B6FC5DED27A99A2E00E7763F /* WorkoutReadOnlyService.swift */,
+				B63B9374284A65CD002668B5 /* PurchasesService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -750,6 +753,7 @@
 				B650A971268895800042B33D /* HeartZoneService.swift in Sources */,
 				B68E17AC275234F700EFB06F /* HeartZoneGraphView.swift in Sources */,
 				B6AFC1A526A5917100616311 /* BeepingService.swift in Sources */,
+				B63B9375284A65CD002668B5 /* PurchasesService.swift in Sources */,
 				B650A95B26878DAD0042B33D /* PieSegmentView.swift in Sources */,
 				B650A96B2688857E0042B33D /* WorkoutSelectionViewModel.swift in Sources */,
 				B650A96D26888AD10042B33D /* Workout.swift in Sources */,
