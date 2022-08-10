@@ -1,12 +1,10 @@
 # Heart Zones Workout
 Workout watchOS app optimized for runners/walkers and heart rate zones tracking. Build in Swift, using SwiftUI. App supports watchOS 6.0+ and it is available at [App Store](https://apps.apple.com/us/app/heart-zones-workout/id1578321963).
 
+![](icon.png)
+
 ## EOL 
 Project has reached its EOL, since Apple introduced heart rate zones tracking in watchOS 9 and it makes no more sense to maintain the app. Yet, it is still available at the App Store.
-
-![](icon.png)
-### Screenshots
-![](mocks.png)
 
 ## Features:
 
@@ -33,6 +31,9 @@ Project has reached its EOL, since Apple introduced heart rate zones tracking in
 - Customizable list of workouts
 - Always-on display support
 - Recover workout after app fail
+
+### Screenshots
+![](mocks.png)
 
 ## TODO:
 - Improve elevation gain algorithm calculation
